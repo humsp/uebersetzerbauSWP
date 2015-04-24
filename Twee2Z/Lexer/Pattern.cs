@@ -14,7 +14,7 @@ namespace Twee2Z.Lexer
         private const string IMAGE = @"\[([<]?)(>?)img\[(?:([^\|\]]+)\|)?([^\[\]\|]+)\](?:\[([^\]]*)\]?)?(\])";
         private const string HTML_BLOCK = @"<html>((?:.|\n)*?)</html>";
         private const string HTML = @"<(?:\/?([\w\-]+)(?:(\s+[\w\-]+(?:\s*=\s*(?:\"".*?\""|'.*?'|[^'\"">\s]+))?)+\s*|\s*)\/?)>";
-        private const string INLINE = "@@";
+        private const string INLINE_STYLE = "@@";
         private const string INLINE_STYLE_PROP = @"((?:([^\(@]+)\(([^\)]+)(?:\):))|(?:([^:@]+):([^;@]+);)|(?:(\.[^\.;@]+);))+";
         private const string MONO = @"^\{\{\{\n(?:(?:^[^\n]*\n)+?)(?:^\}\}\}$\n?)|\{\{\{((?:.|\n)*?)\}\}\}";
         private const string COMMENT = @"/%((?:.|\n)*?)%/";
@@ -59,7 +59,7 @@ namespace Twee2Z.Lexer
 
         public static string InlineStyle
         {
-            get { return INLINE; }
+            get { return INLINE_STYLE; }
         }
 
         public static string InlineStyleProp

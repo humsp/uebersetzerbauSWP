@@ -1,0 +1,25 @@
+﻿:: start
+Your story will display this passage first Edit it by double clicking it
+
+
+[[myPassage]]
+
+
+:: StoryTitle
+Untitled Story
+[[aaa]]
+
+:: StoryTitle
+Untitled Story
+
+:: myPassage 
+you are done
+
+:: myPassage 
+you are done
+[[start]]
+
+
+
+:: StoryAuthor
+Anonymous x

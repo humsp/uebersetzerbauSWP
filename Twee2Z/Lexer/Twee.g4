@@ -10,11 +10,7 @@ compileUnit
 
 
 start
-	: .* firstPassage (passage)*
-	;
-
-firstPassage
-	: PASSAGE_SYM 'start' passageContent
+	: passage+
 	;
 
 passage

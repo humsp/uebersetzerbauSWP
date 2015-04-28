@@ -17,9 +17,9 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
-            FileStream fs = File.Open(passgaeOnly, FileMode.Open, FileAccess.Read, FileShare.None);
+            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.None);
             StreamReader inputStream = new StreamReader(fs);
-            Lexer.Lex.LexStream(inputStream);
+            Lexer.Analyser.LexStream(inputStream);
 
 
             System.Console.Read();

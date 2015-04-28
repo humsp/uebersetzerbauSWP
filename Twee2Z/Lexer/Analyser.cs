@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Twee2Z.Lexer
 {
-    public class Lex
+    public class Analyser
     {
         public static void LexStream(StreamReader streamReader)
         {

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree
 {
-    class Root
+    public class Root
     {
+        Passage startPassage;
+        Dictionary<String, Passage> passages;
     }
 }

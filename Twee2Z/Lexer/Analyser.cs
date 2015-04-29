@@ -7,6 +7,7 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using System.IO;
+using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Lexer
 {
@@ -21,6 +22,11 @@ namespace Twee2Z.Lexer
             TweeParser.StartContext sc = parser.start();
             Console.WriteLine(sc.GetText());
 
+            TweeVisitor visit = new TweeVisitor();
+            //visit.Visit(sc);
+
         }
+
+        
     }
 }

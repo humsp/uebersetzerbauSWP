@@ -8,5 +8,6 @@ namespace Twee2Z.ObjectTree
 {
     class PassageNode
     {
+        
     }
 }

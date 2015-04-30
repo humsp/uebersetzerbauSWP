@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Analyser.cs" />
     <Compile Include="Class.cs" />
-    <Compile Include="Pattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeBuilder.cs" />
     <Compile Include="Twee.g4.lexer.cs">

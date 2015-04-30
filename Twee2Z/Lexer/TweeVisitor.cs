@@ -9,36 +9,56 @@ namespace Twee2Z.Lexer
     class TweeVisitor :TweeBaseVisitor<object>
     {
 
-        int i = 0;
-
-     
-
         public override object VisitLink(TweeParser.LinkContext context)
         {
-            Console.WriteLine(i + "_" + context.GetText());
-            i++;
+            Console.WriteLine("Link: " + context.GetChild(1).GetText());
             return base.VisitLink(context);
         }
 
         public override object VisitPassage(TweeParser.PassageContext context)
         {
-            Console.WriteLine(i + "_" + context.GetText());
-            i++;
             return base.VisitPassage(context);
+        }
+
+        public override object VisitPassageName(TweeParser.PassageNameContext context)
+        {
+            Console.WriteLine("Passage name:" + context.GetText());
+            return base.VisitPassageName(context);
         }
 
         public override object VisitPassageContent(TweeParser.PassageContentContext context)
         {
-            Console.WriteLine(i + "_" + context.GetText());
-            i++;
+            if (context.GetChild(0) is TweeParser.TextContext)
+            {
+                Console.WriteLine("Text:" + context.GetChild(0).GetText());
+            }
+            else
+            {
+             //   Console.WriteLine(context.GetChild(0).GetText());
+            }
             return base.VisitPassageContent(context);
         }
 
         public override object VisitStart(TweeParser.StartContext context)
         {
 
-            Console.WriteLine(context.GetType());
+            //Console.WriteLine("Start:____");
+            //Console.WriteLine(context.GetText());
             return base.VisitStart(context);
+        }
+
+        public override object VisitTxt(TweeParser.TxtContext context)
+        {
+            //Console.WriteLine("Start:____");
+            //Console.WriteLine(context.GetText());
+            return base.VisitTxt(context);
+        }
+
+        public override object VisitText(TweeParser.TextContext context)
+        {
+           // Console.WriteLine("Start:____");
+            //Console.WriteLine(context.GetText());
+            return base.VisitText(context);
         }
 
 

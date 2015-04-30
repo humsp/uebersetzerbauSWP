@@ -20,10 +20,10 @@ namespace Twee2Z.Lexer
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             TweeParser parser = new TweeParser(tokens);
             TweeParser.StartContext sc = parser.start();
-            Console.WriteLine(sc.GetText());
+            //Console.WriteLine(sc.GetText());
 
             TweeVisitor visit = new TweeVisitor();
-            //visit.Visit(sc);
+            visit.Visit(sc);
 
         }
 

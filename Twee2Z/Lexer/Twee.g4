@@ -14,12 +14,15 @@ start
 	;
 
 passage
-	: PASSAGE_SYM WS WORD WS passageContent
+	: PASSAGE_SYM WS? passageName WS passageContent
+	;
+
+passageName
+	: WORD
 	;
 
 passageContent
-	: text passageContent
-	| link passageContent
+	: (text|link) passageContent
 	|
 	;
 

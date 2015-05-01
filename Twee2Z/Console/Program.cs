@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using Twee2Z.Lexer;
 using System.IO;
+using Twee2Z.Analyzer;
 
 namespace Twee2Z.Console
 {
@@ -24,7 +24,7 @@ namespace Twee2Z.Console
         {
             FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.None);
             StreamReader inputStream = new StreamReader(fs);
-            Lexer.Analyser.LexStream(inputStream);
+            TweeAnalyzer.Run(inputStream);
 
             //ZCodeInterpreter.Interpreter.Run(zHelloWorld);
             System.Console.Read();

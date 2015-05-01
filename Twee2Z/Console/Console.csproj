@@ -85,6 +85,10 @@
       <Project>{4c7f786a-f86e-42ff-b46c-3db93bfd2a84}</Project>
       <Name>Parser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZCodeInterpreter\ZCodeInterpreter.csproj">
+      <Project>{d40225e3-5b97-4029-876a-db14e60cc714}</Project>
+      <Name>ZCodeInterpreter</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

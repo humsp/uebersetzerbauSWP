@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using Twee2Z.Lexer;
 using System.IO;
+using Twee2Z.Analyzer;
 
 namespace Twee2Z.Console
 {
@@ -22,9 +22,9 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
-            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.None);
+            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader inputStream = new StreamReader(fs);
-            Lexer.Analyser.LexStream(inputStream);
+            TweeAnalyzer.Run(inputStream);
 
             // Z-Code funktioniert noch nicht
             //CodeGen.CodeGen.generate(null, zCode + "out.z8");

@@ -11,7 +11,7 @@ namespace Twee2Z.Console
 {
     class Program
     {
-        static string rootFolder = "..\\..\\..\\tweeFiles\\";
+        static string rootFolder = "..\\..\\..\\Test Files\\twee\\";
         static string passgaeOnly = rootFolder + "passageOnly.tw";
         static string passgae = rootFolder + "passage.tw";
 

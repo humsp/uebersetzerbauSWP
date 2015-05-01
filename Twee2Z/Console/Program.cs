@@ -26,8 +26,11 @@ namespace Twee2Z.Console
             StreamReader inputStream = new StreamReader(fs);
             Lexer.Analyser.LexStream(inputStream);
 
+            // Z-Code funktioniert noch nicht
+            //CodeGen.CodeGen.generate(null, zCode + "out.z8");
+
             //ZCodeInterpreter.Interpreter.Run(zHelloWorld);
-            System.Console.Read();
+           System.Console.Read();
         }
     }
 }

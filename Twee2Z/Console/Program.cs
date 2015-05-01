@@ -11,9 +11,14 @@ namespace Twee2Z.Console
 {
     class Program
     {
-        static string rootFolder = "..\\..\\..\\tweeFiles\\";
-        static string passgaeOnly = rootFolder + "passageOnly.tw";
-        static string passgae = rootFolder + "passage.tw";
+        static string rootFolder = "..\\..\\..\\TestFiles\\";
+        static string twee = rootFolder  + "twee\\";
+        static string zCode = rootFolder + "zcode\\";
+
+        static string passgaeOnly = twee + "passageOnly.tw";
+        static string passgae = twee + "passage.tw";
+
+        static string zHelloWorld = zCode + "hw.z8"; // Datei funktioniert noch nicht
 
         static void Main(string[] args)
         {
@@ -21,7 +26,7 @@ namespace Twee2Z.Console
             StreamReader inputStream = new StreamReader(fs);
             Lexer.Analyser.LexStream(inputStream);
 
-
+            //ZCodeInterpreter.Interpreter.Run(zHelloWorld);
             System.Console.Read();
         }
     }

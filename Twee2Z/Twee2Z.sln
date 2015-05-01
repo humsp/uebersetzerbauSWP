@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{C6484B12-88BB-44F9-B567-025CB58B06B1}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectTree", "ObjectTree\ObjectTree.csproj", "{C62B4606-623D-49A3-AD14-C3047CF59A6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{4C7F786A-F86E-42FF-B46C-3DB93BFD2A84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZCodeInterpreter", "ZCodeInterpreter\ZCodeInterpreter.csproj", "{D40225E3-5B97-4029-876A-DB14E60CC714}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4C7F786A-F86E-42FF-B46C-3DB93BFD2A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C7F786A-F86E-42FF-B46C-3DB93BFD2A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C7F786A-F86E-42FF-B46C-3DB93BFD2A84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40225E3-5B97-4029-876A-DB14E60CC714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40225E3-5B97-4029-876A-DB14E60CC714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40225E3-5B97-4029-876A-DB14E60CC714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40225E3-5B97-4029-876A-DB14E60CC714}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

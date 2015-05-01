@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
 
 namespace ZCodeInterpreter
 {
@@ -12,6 +13,9 @@ namespace ZCodeInterpreter
         static string zaxJar = "..\\..\\..\\ZaxInterpreter\\zax-master.jar";
 
         public static void Run(String zCodePath){
+            FileInfo f = new FileInfo(zCodePath);
+            zCodePath = f.FullName;
+            Console.WriteLine(zCodePath);
 
             ProcessStartInfo processInfo = new ProcessStartInfo("java.exe", "-jar " + zaxJar + " " + zCodePath);
 

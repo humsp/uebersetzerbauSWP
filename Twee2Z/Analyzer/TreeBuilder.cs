@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.ObjectTree;
 
-namespace Twee2Z.Lexer
+namespace Twee2Z.Analyzer
 {
     class TreeBuilder
     {

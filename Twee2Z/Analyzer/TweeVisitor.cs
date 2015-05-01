@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
-namespace Twee2Z.Lexer
+namespace Twee2Z.Analyzer
 {
-    class TweeVisitor :TweeBaseVisitor<object>
+    class TweeVisitor : TweeBaseVisitor<object>
     {
-
         public override object VisitLink(TweeParser.LinkContext context)
         {
             Console.WriteLine("Link: " + context.GetChild(1).GetText());
@@ -22,7 +22,7 @@ namespace Twee2Z.Lexer
 
         public override object VisitPassageName(TweeParser.PassageNameContext context)
         {
-            Console.WriteLine("Passage name:" + context.GetText());
+            Console.WriteLine("Passage name: " + context.GetText());
             return base.VisitPassageName(context);
         }
 
@@ -39,18 +39,15 @@ namespace Twee2Z.Lexer
         {
             return base.VisitStart(context);
         }
-
-        public override object VisitTxt(TweeParser.TxtContext context)
+        
+        public override object VisitPassageTags(TweeParser.PassageTagsContext context)
         {
-            return base.VisitTxt(context);
+            return base.VisitPassageTags(context);
         }
 
         public override object VisitText(TweeParser.TextContext context)
         {
             return base.VisitText(context);
         }
-
-
-        
     }
 }

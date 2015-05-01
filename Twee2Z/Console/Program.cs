@@ -22,7 +22,7 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
-            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.None);
+            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader inputStream = new StreamReader(fs);
             TweeAnalyzer.Run(inputStream);
 

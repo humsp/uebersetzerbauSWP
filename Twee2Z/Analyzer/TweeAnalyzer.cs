@@ -19,7 +19,6 @@ namespace Twee2Z.Analyzer
 
         public static CommonTokenStream Lex(StreamReader input)
         {
-            System.Console.WriteLine("Start Twee lexing ...");
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
             return new CommonTokenStream(new TweeLexer(antlrStream));
         }

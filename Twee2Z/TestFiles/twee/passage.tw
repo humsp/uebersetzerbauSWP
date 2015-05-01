@@ -1,13 +1,6 @@
-﻿:: start
-Your story will display this passage first Edit it by double clicking it
-
-
-[[myPassage]]
-
-
-:: StoryTitle
-Untitled Story
-[[aaa]]
+﻿:: start  [tag1 tag2 tag3] 
+Your story wil::l di[s]]play this passage first Edit it by double clicking it
+[[HIERTEXT|myPassage]]
 
 :: StoryTitle
 Untitled Story
@@ -18,8 +11,6 @@ you are done
 :: myPassage 
 you are done
 [[start]]
-
-
 
 :: StoryAuthor
 Anonymous x

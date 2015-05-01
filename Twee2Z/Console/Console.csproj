@@ -65,25 +65,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Analyzer\Analyzer.csproj">
+      <Project>{4d8484a9-737e-421e-b86d-ca451dbc13d1}</Project>
+      <Name>Analyzer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeGen\CodeGen.csproj">
       <Project>{979805f6-b622-4af8-99c4-39116f75b43c}</Project>
       <Name>CodeGen</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{07142c48-cff8-488d-a2c5-c92c805c8f73}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lexer\Lexer.csproj">
-      <Project>{33b51750-7ab9-42a9-8680-885116e0a814}</Project>
-      <Name>Lexer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
       <Project>{c62b4606-623d-49a3-ad14-c3047cf59a6b}</Project>
       <Name>ObjectTree</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Parser\Parser.csproj">
-      <Project>{4c7f786a-f86e-42ff-b46c-3db93bfd2a84}</Project>
-      <Name>Parser</Name>
     </ProjectReference>
     <ProjectReference Include="..\ZCodeInterpreter\ZCodeInterpreter.csproj">
       <Project>{d40225e3-5b97-4029-876a-db14e60cc714}</Project>

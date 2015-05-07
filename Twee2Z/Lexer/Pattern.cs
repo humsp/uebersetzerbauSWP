@@ -29,6 +29,9 @@ namespace Twee2Z.Lexer
         private const string HTML_IMAGE = @"src\s*=" + EXTERNAL_IMAGE_URL;
         private const string CSS_IMAGE = @"url\s*\(" + EXTERNAL_IMAGE_URL + @"\)";
 
+        private const string VARIABLE = @"\$[a-zA-Z_][a-zA-Z0-9_]*$";
+        private const string FUNCTION = @"\b[^()]+\((.*)\)$";        
+
         public static string Unquoted
         {
             get { return UNQUOTED; }
@@ -126,6 +129,16 @@ namespace Twee2Z.Lexer
         public static string CssImage
         {
             get { return CSS_IMAGE; }
+        }
+
+        public static string Variable
+        {
+            get { return VARIABLE; }
+        }
+
+        public static string Function
+        {
+            get { return FUNCTION; }
         }
     }
 }

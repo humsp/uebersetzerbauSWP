@@ -36,6 +36,10 @@ namespace Twee2Z.Console
                     System.Console.WriteLine("Mono\n");
                 else if (Regex.IsMatch(input, Pattern.Comment))
                     System.Console.WriteLine("Comment\n");
+                else if (Regex.IsMatch(input, Pattern.Variable))
+                    System.Console.WriteLine("Variable\n");
+                else if (Regex.IsMatch(input, Pattern.Function))
+                    System.Console.WriteLine("Function\n");
                 else
                     System.Console.WriteLine("Unknown token\n");
             }

@@ -20,21 +20,21 @@ namespace Twee2Z.Console
                 System.Console.Write("Please enter a token: ");
                 string input = System.Console.ReadLine();
 
-                if (Regex.IsMatch(input, Pattern.Link))
+                if (Pattern.Link.IsMatch(input))
                     System.Console.WriteLine("Link\n");
-                else if (Regex.IsMatch(input, Pattern.Macro))
+                else if (Pattern.Macro.IsMatch(input))
                     System.Console.WriteLine("Macro\n");
-                else if (Regex.IsMatch(input, Pattern.Image))
+                else if (Pattern.Image.IsMatch(input))
                     System.Console.WriteLine("Image\n");
-                else if (Regex.IsMatch(input, Pattern.HtmlBlock))
+                else if (Pattern.HtmlBlock.IsMatch(input))
                     System.Console.WriteLine("HtmlBlock\n");
-                else if (Regex.IsMatch(input, Pattern.Html))
+                else if (Pattern.Html.IsMatch(input))
                     System.Console.WriteLine("Html\n");
-                else if (Regex.IsMatch(input, Pattern.InlineStyle))
+                else if (Pattern.InlineStyle.IsMatch(input))
                     System.Console.WriteLine("InlineStyle\n");
-                else if (Regex.IsMatch(input, Pattern.Mono))
+                else if (Pattern.Mono.IsMatch(input))
                     System.Console.WriteLine("Mono\n");
-                else if (Regex.IsMatch(input, Pattern.Comment))
+                else if (Pattern.Comment.IsMatch(input))
                     System.Console.WriteLine("Comment\n");
                 else
                     System.Console.WriteLine("Unknown token\n");

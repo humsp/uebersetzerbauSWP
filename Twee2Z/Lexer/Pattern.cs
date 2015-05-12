@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Twee2Z.Lexer
 {
@@ -29,37 +30,46 @@ namespace Twee2Z.Lexer
         private const string HTML_IMAGE = @"src\s*=" + EXTERNAL_IMAGE_URL;
         private const string CSS_IMAGE = @"url\s*\(" + EXTERNAL_IMAGE_URL + @"\)";
 
+        private static Regex _linkRegex = new Regex(LINK);
+        private static Regex _macroRegex = new Regex(MACRO);
+        private static Regex _imageRegex = new Regex(IMAGE);
+        private static Regex _htmlBlockRegex = new Regex(HTML_BLOCK);
+        private static Regex _htmlRegex = new Regex(HTML);
+        private static Regex _inlineStyleRegex = new Regex(INLINE_STYLE);
+        private static Regex _monoRegex = new Regex(MONO);
+        private static Regex _commentRegex = new Regex(COMMENT);
+
         public static string Unquoted
         {
             get { return UNQUOTED; }
         }
-        public static string Link
+        public static Regex Link
         {
-            get { return LINK; }
+            get { return _linkRegex; }
         }
-        public static string Macro
+        public static Regex Macro
         {
-            get { return MACRO; }
-        }
-
-        public static string Image
-        {
-            get { return IMAGE; }
+            get { return _macroRegex; }
         }
 
-        public static string HtmlBlock
+        public static Regex Image
         {
-            get { return HTML_BLOCK; }
+            get { return _imageRegex; }
         }
 
-        public static string Html
+        public static Regex HtmlBlock
         {
-            get { return HTML; }
+            get { return _htmlBlockRegex; }
         }
 
-        public static string InlineStyle
+        public static Regex Html
         {
-            get { return INLINE_STYLE; }
+            get { return _htmlRegex; }
+        }
+
+        public static Regex InlineStyle
+        {
+            get { return _inlineStyleRegex; }
         }
 
         public static string InlineStyleProp
@@ -67,21 +77,21 @@ namespace Twee2Z.Lexer
             get { return INLINE_STYLE_PROP; }
         }
 
-        public static string Mono
+        public static Regex Mono
         {
-            get { return MONO; }
+            get { return _monoRegex; }
         }
 
-        public static string Comment
+        public static Regex Comment
         {
-            get { return COMMENT; }
+            get { return _commentRegex; }
         }
 
         public static string Combined
         {
             get
             {
-                return "(" + String.Join(")|(.", new string[]{Link, Macro, Image, HtmlBlock, Html, InlineStyle, Mono, Comment, @"''|\/\/|__|\^\^|~~|=="}) + ")";
+                return "(" + String.Join(")|(.", new string[] { LINK, MACRO, IMAGE, HTML_BLOCK, HTML, INLINE_STYLE, MONO, COMMENT, @"''|\/\/|__|\^\^|~~|==" }) + ")";
             }
         }
 

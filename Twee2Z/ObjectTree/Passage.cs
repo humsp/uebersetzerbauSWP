@@ -8,7 +8,6 @@ namespace Twee2Z.ObjectTree
 {
     public class Passage
     {
-        public List<Passage> passlist = new List<Passage>();
         public string name;
         public string text;
         //public Macro[] macro;
@@ -16,7 +15,7 @@ namespace Twee2Z.ObjectTree
         public List<Link> links = new List<Link>();
         public Passage()
         {
-            passlist.Add(this);
+            Tree.MainTree.passlist.Add(this);
         }
     
     }

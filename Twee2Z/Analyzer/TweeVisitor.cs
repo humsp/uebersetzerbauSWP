@@ -13,6 +13,7 @@ namespace Twee2Z.Analyzer
         public Passage aktuelle;
         public override object VisitStart(TweeParser.StartContext context)
         {
+            new Tree();
             Console.WriteLine("[Start]");
             return base.VisitStart(context);
         }

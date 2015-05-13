@@ -10,13 +10,12 @@ namespace Twee2Z.ObjectTree
     {
         public int value;
         public string name;
-        public List <Variable> VarList = new List<Variable>();
-
+        
         public Variable(String n)
         {
             name = n;
             value = 0;
-            VarList.Add(this);
+            Tree.MainTree.VarList.Add(this);
         }
     }
 }

@@ -11,26 +11,17 @@ namespace Twee2Z.Console
 {
     class Program
     {
-        static string rootFolder = "..\\..\\..\\TestFiles\\";
-        static string twee = rootFolder  + "twee\\";
-        static string zCode = rootFolder + "zcode\\";
-
-        static string passgaeOnly = twee + "passageOnly.tw";
-        static string passgae = twee + "passage.tw";
-
-        static string zHelloWorld = zCode + "hw.z8"; // Datei funktioniert noch nicht
-
         static void Main(string[] args)
         {
-            FileStream fs = File.Open(passgae, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            StreamReader inputStream = new StreamReader(fs);
-            TweeAnalyzer.Run(inputStream);
-
-            // Z-Code funktioniert noch nicht
-            //CodeGen.CodeGen.generate(null, zCode + "out.z8");
-
-            //ZCodeInterpreter.Interpreter.Run(zHelloWorld);
-           System.Console.Read();
+            System.Console.WriteLine("Create helloWorld story file ...");
+            CodeGen.Memory.ZMemory helloWorld = new CodeGen.Memory.ZMemory();
+            System.Console.WriteLine("Save story file as helloworld.z8 ...");
+            File.WriteAllBytes("helloworld.z8", helloWorld.ToBytes());
+            System.Console.WriteLine("The story file has been saved at:");
+            System.Console.WriteLine(System.IO.Path.GetFullPath("helloworld.z8"));
+            System.Console.WriteLine("");
+            System.Console.WriteLine("NOTE: Zax cannot run helloworld.z8. Use Frotz instead for now.");
+            System.Console.ReadKey(true);
         }
     }
 }

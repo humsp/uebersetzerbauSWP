@@ -11,12 +11,12 @@ namespace Twee2Z.CodeGen
     {
         public static void generate(ObjectTree.Root tree, string zFile)
         {
-            ZMemory p = new ZMemory();
+            /*ZMemoryOld p = new ZMemoryOld();
 
             File.Delete(zFile);
             System.IO.StreamWriter fileWriter = new System.IO.StreamWriter(zFile);
             fileWriter.Write(p.export());
-            fileWriter.Close();
+            fileWriter.Close();*/
         }
     }
 }

@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tags.cs" />
+    <Compile Include="Variable.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Passage.cs" />
     <Compile Include="PassageNode.cs" />

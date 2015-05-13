@@ -5,12 +5,21 @@ Your story wil::l di[s]]play this passage first Edit it by double clicking it
 :: StoryTitle
 Untitled Story
 
-:: myPassage 
+:: myPassage
 you are done
 
 :: myPassage 
 you are done
+$X
 [[start]]
 
 :: StoryAuthor
 Anonymous x
+
+$ha 6
+func()
+func(f1)
+func(f2,f)
+
+<<print>>
+<<sgfk>>

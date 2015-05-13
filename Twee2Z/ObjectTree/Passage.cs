@@ -6,10 +6,18 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree
 {
-    class Passage
+    public class Passage
     {
+        public List<Passage> passlist = new List<Passage>();
         public string name;
-        public string[] tags;
-        public PassageNode[] nodes;
+        public string text;
+        //public Macro[] macro;
+        public Tags tags;
+        public List<Link> links = new List<Link>();
+        public Passage()
+        {
+            passlist.Add(this);
+        }
+    
     }
 }

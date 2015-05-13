@@ -13,10 +13,12 @@ namespace Twee2Z.Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Create helloWorld story file ...");
-            CodeGen.Memory.ZMemory helloWorld = new CodeGen.Memory.ZMemory();
+            System.Console.WriteLine("Create helloworld story file ...");
+            CodeGen.ZStoryFile helloWorldStoryFile = new CodeGen.ZStoryFile();
+            System.Console.WriteLine("Add instructions to story file ...");
+            helloWorldStoryFile.SetupHelloWorldDemo();
             System.Console.WriteLine("Save story file as helloworld.z8 ...");
-            File.WriteAllBytes("helloworld.z8", helloWorld.ToBytes());
+            File.WriteAllBytes("helloworld.z8", helloWorldStoryFile.ToBytes());
             System.Console.WriteLine("The story file has been saved at:");
             System.Console.WriteLine(System.IO.Path.GetFullPath("helloworld.z8"));
             System.Console.WriteLine("");

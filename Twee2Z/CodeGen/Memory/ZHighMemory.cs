@@ -8,24 +8,41 @@ using Twee2Z.CodeGen.Instructions.Templates;
 
 namespace Twee2Z.CodeGen.Memory
 {
-    public class ZHighMemory
+    /// <summary>
+    /// Topmost memory containing routines and text. Goes from 0xFFFF to 0x80000.
+    /// See also "1.1 Regions of memory" on page 12 for reference.
+    /// </summary>
+    class ZHighMemory
     {
-        //hard coded hello world for testing
-        private ZRoutine _helloWorldRoutine;
+        internal const ushort HighMemoryBase = 0xFFFF;
+
+        private List<ZRoutine> _routines = new List<ZRoutine>();
 
         public ZHighMemory()
         {
-            List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
-            _helloWorldInstructions.Add(new Print("Hallo Welt!" + System.Environment.NewLine + "Dies ist eine neue Zeile." + System.Environment.NewLine));
-            _helloWorldInstructions.Add(new Quit());
-
-            _helloWorldRoutine = new ZRoutine(_helloWorldInstructions);
+            ZRoutine main = new ZRoutine("main", new ZInstruction[] {new Quit()});
+            _routines.Add(main);
         }
+
+        public ZHighMemory(IEnumerable<ZRoutine> routines)
+        {
+            _routines.AddRange(routines);
+        }
+
+        public List<ZRoutine> Routines { get { return _routines; } }
 
         public Byte[] ToBytes()
         {
             Byte[] byteArray = new Byte[0x70000];
-            _helloWorldRoutine.ToBytes().CopyTo(byteArray, 0x0000);
+            List<Byte> routineByteList = new List<byte>();
+
+            foreach (ZRoutine routine in _routines)
+            {
+                routineByteList.AddRange(routine.ToBytes());
+            }
+
+            routineByteList.ToArray().CopyTo(byteArray, 0);
+
             return byteArray;
         }
     }

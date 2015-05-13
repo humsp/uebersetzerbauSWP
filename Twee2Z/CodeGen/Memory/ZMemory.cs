@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.CodeGen.Instructions;
 
 namespace Twee2Z.CodeGen.Memory
 {
-    public class ZMemory
+    /// <summary>
+    /// The entire memory within a story file. It is split into dynamic, static and high memory.
+    /// See also "1.1 Regions of memory" on page 12 for reference.
+    /// </summary>
+    class ZMemory
     {
+        internal const int MaxMemorySize = 0x80000;
+
         private ZDynamicMemory _dynamicMem;
         private ZStaticMemory _staticMem;
         private ZHighMemory _highMem;
@@ -19,9 +26,15 @@ namespace Twee2Z.CodeGen.Memory
             _highMem = new ZHighMemory();
         }
 
+        public void SetRoutines(IEnumerable<ZRoutine> routines)
+        {
+            _highMem.Routines.Clear();
+            _highMem.Routines.AddRange(routines);
+        }
+
         public Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[0x80000];
+            Byte[] byteArray = new Byte[MaxMemorySize];
             _dynamicMem.ToBytes().CopyTo(byteArray, 0x0);
             _staticMem.ToBytes().CopyTo(byteArray, 0x4000);
             _highMem.ToBytes().CopyTo(byteArray, 0x10000);

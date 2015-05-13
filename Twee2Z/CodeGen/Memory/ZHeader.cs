@@ -8,119 +8,194 @@ using System.IO;
 namespace Twee2Z.CodeGen.Memory
 {
     /// <summary>
-    /// See "11. The format of the header" on page 61 from "The Z-Machine Standards Document (Version 1.0)".
+    /// Represents the first 64K of a story file.
+    /// See also "11. The format of the header" on page 61 for reference.
     /// </summary>
-    public class ZHeader
+    class ZHeader : IZComponent
     {
-        private Byte _versionNumber;
-        private AvailabilityFlags _flags1;
-        private UInt16 _releaseNumber;
-        private UInt16 _highMemoryAddr;
-        private UInt16 _initProgramCounterAddr;
-        private UInt16 _dictionaryAddr;
-        private UInt16 _objectTableAddr;
-        private UInt16 _globalVariablesTableAddr;
-        private UInt16 _staticMemoryAddr;
-        private RuntimeFlags _flags2;
-        private Byte[] _serialNumber;
-        private UInt16 _abbreviationsTableAddr;
-        private UInt16 _lengthOfStoryFile;
-        private UInt16 _checksumOfStoryFile;
-        private Byte _interpreterNumber;
-        private Byte _interpreterVersion;
-        private Byte _screenHeightInLines;
-        private Byte _screenWidthInChars;
-        private UInt16 _screenWidthInUnits;
-        private UInt16 _screenHeightInUnits;
-        private Byte _fontHeightInUnits;
-        private Byte _fontWidthInUnits;
-        private UInt16 _routinesOffset;
-        private UInt16 _staticStringsOffset;
-        private Byte _defaultBackgroundColor;
-        private Byte _defaultForegroundColor;
-        private UInt16 _terminatingCharsTableAddr;
-        private UInt16 _textWidthForOutputStream3;
-        private UInt16 _standardRevisionNumber;
-        private UInt16 _alphabetTableAddr;
-        private UInt16 _headerExtensionTableAddr;
+        private byte _versionNumber;
+        private InterpreterFlags _interpreterFlags;
+        private ushort _releaseNumber;
+        private ushort _highMemoryAddr;
+        private ushort _initProgramCounterAddr;
+        private ushort _dictionaryAddr;
+        private ushort _objectTableAddr;
+        private ushort _globalVariablesTableAddr;
+        private ushort _staticMemoryAddr;
+        private GameFlags _gameFlags;
+        private byte[] _serialNumber;
+        private ushort _abbreviationsTableAddr;
+        private ushort _lengthOfStoryFile;
+        private ushort _checksumOfStoryFile;
+        private byte _interpreterNumber;
+        private byte _interpreterVersion;
+        private byte _screenHeightInLines;
+        private byte _screenWidthInChars;
+        private ushort _screenWidthInUnits;
+        private ushort _screenHeightInUnits;
+        private byte _fontHeightInUnits;
+        private byte _fontWidthInUnits;
+        private ushort _routinesOffset;
+        private ushort _staticStringsOffset;
+        private byte _defaultBackgroundColor;
+        private byte _defaultForegroundColor;
+        private ushort _terminatingCharsTableAddr;
+        private ushort _textWidthForOutputStream3;
+        private ushort _standardRevisionNumber;
+        private ushort _alphabetTableAddr;
+        private ushort _headerExtensionTableAddr;
 
-        public ZHeader()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="staticMemoryAddr">Base of static memory.</param>
+        /// <param name="highMemoryAddr">Base of high memory.</param>
+        /// <param name="initProgramCounterAddr">Initial address of the program counter.</param>
+        /// <param name="dictionaryAddr">Address of the dictionary table.</param>
+        /// <param name="objectTableAddr">Address of the object table.</param>
+        /// <param name="globalVariablesTableAddr">Address of the global variables table.</param>
+        /// <param name="headerExtensionTableAddr">Address of the header extension table.</param>
+        public ZHeader(ushort staticMemoryAddr, ushort highMemoryAddr, ushort initProgramCounterAddr, ushort dictionaryAddr, ushort objectTableAddr, ushort globalVariablesTableAddr, ushort headerExtensionTableAddr)
+            : this(staticMemoryAddr, highMemoryAddr, initProgramCounterAddr, dictionaryAddr, objectTableAddr, globalVariablesTableAddr, headerExtensionTableAddr, 0x0000)
         {
-            _versionNumber = 0x08;
-            _flags1 = AvailabilityFlags.None;
-            _releaseNumber = 0x0000;
-            _highMemoryAddr = 0xFFFF;
-            _initProgramCounterAddr = 0x2000;
-            _dictionaryAddr = 0x4000;
-            _objectTableAddr = 0x0048;
-            _globalVariablesTableAddr = 0x0048;
-            _staticMemoryAddr = 0x4000;
-            _flags2 = RuntimeFlags.None;
-            _serialNumber = new Byte[6];
-            _abbreviationsTableAddr = 0x0000;
-            _lengthOfStoryFile = 0x0000;
-            _checksumOfStoryFile = 0x0000;
-            _interpreterNumber = 0x00;
-            _interpreterVersion = 0x00;
-            _screenHeightInLines = 0x00;
-            _screenWidthInChars = 0x00;
-            _screenWidthInUnits = 0x0000;
-            _screenHeightInUnits = 0x0000;
-            _fontHeightInUnits = 0x00;
-            _fontWidthInUnits = 0x00;
-            _routinesOffset = 0x0000;
-            _staticStringsOffset = 0x0000;
-            _defaultBackgroundColor = 0x00;
-            _defaultForegroundColor = 0x00;
-            _terminatingCharsTableAddr = 0x0000;
-            _textWidthForOutputStream3 = 0x0000;
-            _standardRevisionNumber = 0x0000;
-            _alphabetTableAddr = 0x0000;
-            _headerExtensionTableAddr = 0x0040;
         }
 
-        public Byte[] ToBytes()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="staticMemoryAddr">Base of static memory.</param>
+        /// <param name="highMemoryAddr">Base of high memory.</param>
+        /// <param name="initProgramCounterAddr">Initial address of the program counter.</param>
+        /// <param name="dictionaryAddr">Address of the dictionary table.</param>
+        /// <param name="objectTableAddr">Address of the object table.</param>
+        /// <param name="globalVariablesTableAddr">Address of the global variables table.</param>
+        /// <param name="headerExtensionTableAddr">Address of the header extension table.</param>
+        /// <param name="releaseNumber">Release number given to this story file.</param>
+        public ZHeader(ushort staticMemoryAddr, ushort highMemoryAddr, ushort initProgramCounterAddr, ushort dictionaryAddr, ushort objectTableAddr, ushort globalVariablesTableAddr, ushort headerExtensionTableAddr, ushort releaseNumber)
         {
-            Byte[] byteArray = new Byte[64];
+            _versionNumber = 0x08;                                  // CodeGen supports version 8 only.
+            _interpreterFlags = InterpreterFlags.None;              // Flags set by the interpreter. Let it be zero for a new story file.
+            _releaseNumber = releaseNumber;                         // Release Number of this story file.
+            _highMemoryAddr = highMemoryAddr;                       // Base of high memory. 0xFFFF
+            _initProgramCounterAddr = initProgramCounterAddr;       // Initial value of program counter. 0x2000
+            _dictionaryAddr = dictionaryAddr;                       // Points to the Dictionary Table. 0x4000
+            _objectTableAddr = objectTableAddr;                     // Points to the Object Table. 0x0048
+            _globalVariablesTableAddr = globalVariablesTableAddr;   // Points to the Global Variables Table. 0x0048
+            _staticMemoryAddr = staticMemoryAddr;                   // Base of static memory. 0x4000
+            _gameFlags = GameFlags.None;                            // Flags set by the game. Zero at start.
+            _serialNumber = new byte[6];                            // Let's ignore the serial number for now.
+            _abbreviationsTableAddr = 0x0000;                       // Not supported yet.
+            _lengthOfStoryFile = 0x0000;                            // Not supported yet.
+            _checksumOfStoryFile = 0x0000;                          // Not supported yet.
+            _interpreterNumber = 0x00;                              // Set by interpreter.
+            _interpreterVersion = 0x00;                             // Set by interpreter.
+            _screenHeightInLines = 0x00;                            // Set by interpreter.
+            _screenWidthInChars = 0x00;                             // Set by interpreter.
+            _screenWidthInUnits = 0x0000;                           // Set by interpreter.
+            _screenHeightInUnits = 0x0000;                          // Set by interpreter.
+            _fontHeightInUnits = 0x00;                              // Set by interpreter.
+            _fontWidthInUnits = 0x00;                               // Set by interpreter.
+            _routinesOffset = 0x0000;                               // Is this version 6 only?
+            _staticStringsOffset = 0x0000;                          // Is this version 6 only?
+            _defaultBackgroundColor = 0x00;                         // Set by interpreter.
+            _defaultForegroundColor = 0x00;                         // Set by interpreter.
+            _terminatingCharsTableAddr = 0x0000;                    // Not supported yet.
+            _textWidthForOutputStream3 = 0x0000;                    // Is this version 6 only?
+            _standardRevisionNumber = 0x0000;                       // Set by interpreter.
+            _alphabetTableAddr = 0x0000;                            // Not supported yet.
+            _headerExtensionTableAddr = headerExtensionTableAddr;   // Points to Header Extension Table. 0x0040
+        }
+
+        /// <summary>
+        /// Used version for this story file.
+        /// </summary>
+        public byte Version { get { return _versionNumber; } }
+
+        /// <summary>
+        /// Release number given to this story file.
+        /// </summary>
+        public ushort ReleaseNumber { get { return _releaseNumber; } }
+
+        /// <summary>
+        /// Base of static memory.
+        /// </summary>
+        public ushort StaticMemoryBase { get { return _staticMemoryAddr; } }
+
+        /// <summary>
+        /// Base of high memory.
+        /// </summary>
+        public ushort HighMemoryBase { get { return _highMemoryAddr; } }
+
+        /// <summary>
+        /// Initial address of the program counter.
+        /// </summary>
+        public ushort InitProgramCounterAddr { get { return _initProgramCounterAddr; } }
+
+        /// <summary>
+        /// Address of the dictionary table.
+        /// </summary>
+        public ushort DictionaryAddr { get { return _dictionaryAddr; } }
+
+        /// <summary>
+        /// Address of the object table.
+        /// </summary>
+        public ushort ObjectTableAddr { get { return _objectTableAddr; } }
+
+        /// <summary>
+        /// Address of the global variables table.
+        /// </summary>
+        public ushort GlobalVariablesTableAddr { get { return _globalVariablesTableAddr; } }
+
+        /// <summary>
+        /// Address of the header extension table.
+        /// </summary>
+        public ushort HeaderExtensionTableAddr { get { return _headerExtensionTableAddr; } }
+            
+        public byte[] ToBytes()
+        {
+            byte[] byteArray = new byte[64];
 
             byteArray[0x00] = _versionNumber;
 
-            byteArray[0x01] = (Byte)_flags1;
+            byteArray[0x01] = (byte)_interpreterFlags;
 
-            byteArray[0x02] = (Byte)(_releaseNumber >> 8);
-            byteArray[0x03] = (Byte)_releaseNumber;
+            byteArray[0x02] = (byte)(_releaseNumber >> 8);
+            byteArray[0x03] = (byte)_releaseNumber;
 
-            byteArray[0x04] = (Byte)(_highMemoryAddr >> 8);
-            byteArray[0x05] = (Byte)_highMemoryAddr;
+            byteArray[0x04] = (byte)(_highMemoryAddr >> 8);
+            byteArray[0x05] = (byte)_highMemoryAddr;
 
-            byteArray[0x06] = (Byte)(_initProgramCounterAddr >> 8);
-            byteArray[0x07] = (Byte)_initProgramCounterAddr;
+            byteArray[0x06] = (byte)(_initProgramCounterAddr >> 8);
+            byteArray[0x07] = (byte)_initProgramCounterAddr;
 
-            byteArray[0x08] = (Byte)(_dictionaryAddr >> 8);
-            byteArray[0x09] = (Byte)_dictionaryAddr;
+            byteArray[0x08] = (byte)(_dictionaryAddr >> 8);
+            byteArray[0x09] = (byte)_dictionaryAddr;
 
-            byteArray[0x0A] = (Byte)(_objectTableAddr >> 8);
-            byteArray[0x0B] = (Byte)_objectTableAddr;
+            byteArray[0x0A] = (byte)(_objectTableAddr >> 8);
+            byteArray[0x0B] = (byte)_objectTableAddr;
 
-            byteArray[0x0C] = (Byte)(_globalVariablesTableAddr >> 8);
-            byteArray[0x0D] = (Byte)_globalVariablesTableAddr;
+            byteArray[0x0C] = (byte)(_globalVariablesTableAddr >> 8);
+            byteArray[0x0D] = (byte)_globalVariablesTableAddr;
 
-            byteArray[0x0E] = (Byte)(_staticMemoryAddr >> 8);
-            byteArray[0x0F] = (Byte)_staticMemoryAddr;
+            byteArray[0x0E] = (byte)(_staticMemoryAddr >> 8);
+            byteArray[0x0F] = (byte)_staticMemoryAddr;
 
-            byteArray[0x34] = (Byte)(_alphabetTableAddr >> 8);
-            byteArray[0x35] = (Byte)_alphabetTableAddr;
+            byteArray[0x34] = (byte)(_alphabetTableAddr >> 8);
+            byteArray[0x35] = (byte)_alphabetTableAddr;
 
-            byteArray[0x36] = (Byte)(_headerExtensionTableAddr >> 8);
-            byteArray[0x37] = (Byte)_headerExtensionTableAddr;
+            byteArray[0x36] = (byte)(_headerExtensionTableAddr >> 8);
+            byteArray[0x37] = (byte)_headerExtensionTableAddr;
 
             return byteArray;
         }
 
         public UInt32 Size { get { return 64; } }
 
+        /// <summary>
+        /// Flags set by the interpreter to indicate support for certain features. We do not care about these but we are aware of it.
+        /// </summary>
         [Flags]
-        public enum AvailabilityFlags
+        public enum InterpreterFlags
         {
             None = 0,
             /// <summary>
@@ -153,8 +228,11 @@ namespace Twee2Z.CodeGen.Memory
             TimedKeyboardInput = 128
         }
 
+        /// <summary>
+        /// Flags set by the game at runtime. We do not need them for now.
+        /// </summary>
         [Flags]
-        public enum RuntimeFlags
+        public enum GameFlags
         {
             None = 0,
             /// <summary>

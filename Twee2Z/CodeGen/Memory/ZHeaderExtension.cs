@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Memory
 {
-    public class ZHeaderExtension
+    /// <summary>
+    /// Represents the header extension table writen right after the header.
+    /// See also "11.1.7.3 The format of the header" on page 64 for reference.
+    /// </summary>
+    class ZHeaderExtension : IZComponent
     {
         private UInt16 _wordCount;
         private UInt16 _mouseX;
@@ -39,7 +43,5 @@ namespace Twee2Z.CodeGen.Memory
 
             return byteArray;
         }
-
-        public UInt32 Size { get { return 8; } }
     }
 }

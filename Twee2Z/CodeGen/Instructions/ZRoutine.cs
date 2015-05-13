@@ -6,22 +6,25 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Instructions
 {
-    class ZRoutine
+    class ZRoutine : IZComponent
     {
+        protected string _name; 
         protected byte _localVariableCount;
         protected List<ZInstruction> _instructions = new List<ZInstruction>();
 
-        public ZRoutine()
+        public ZRoutine(string name)
         {
+            _name = name;
             _localVariableCount = 0x00;
         }
 
-        public ZRoutine(IEnumerable<ZInstruction> instructions)
-            : base()
+        public ZRoutine(string name, IEnumerable<ZInstruction> instructions)
+            : this(name)
         {
             _instructions.AddRange(instructions);
         }
 
+        public string Name { get { return _name; } }
         public IEnumerable<ZInstruction> Instructions { get { return _instructions; } }
 
         public virtual Byte[] ToBytes()

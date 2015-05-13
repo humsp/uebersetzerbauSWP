@@ -7,20 +7,31 @@ using Twee2Z.CodeGen.Tables;
 
 namespace Twee2Z.CodeGen.Memory
 {
-    public class ZStaticMemory
+    /// <summary>
+    /// Memory between dynamic and high. Contains static stuff like the dictionary table. Goes from 0x4000 to 0xFFFE.
+    /// See also "1.1 Regions of memory" on page 12 for reference.
+    /// </summary>
+    class ZStaticMemory : IZComponent
     {
+        internal const ushort StaticMemoryBase = 0x4000;
+        internal const ushort DictionaryTableAddr = 0x0048;
+        internal const ushort AbbreviationTableAddr = 0x0048;
+
         private ZDictionaryTable _dictionaryTable;
+        private ZAbbreviationTable _abbreviationTable;
 
         public ZStaticMemory()
         {
             _dictionaryTable = new ZDictionaryTable();
+            _abbreviationTable = new ZAbbreviationTable();
         }
 
         public Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[0xBFFF];
+            Byte[] byteArray = new Byte[ZHighMemory.HighMemoryBase - ZStaticMemory.StaticMemoryBase];
 
-            //_dictionaryTable.ToBytes().CopyTo(byteArray, 0x0000);
+            _dictionaryTable.ToBytes().CopyTo(byteArray, DictionaryTableAddr);
+            _abbreviationTable.ToBytes().CopyTo(byteArray, AbbreviationTableAddr);
 
             return byteArray;
         }

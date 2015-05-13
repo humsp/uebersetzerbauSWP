@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Twee2Z.CodeGen.Instructions
 {
     [DebuggerDisplay("OperandCount = {_operandCount}, Hex = {_hex}", Name = "{_name}")]
-    class ZInstruction
+    class ZInstruction : IZComponent
     {
         protected string _name;
         protected ushort _hex;

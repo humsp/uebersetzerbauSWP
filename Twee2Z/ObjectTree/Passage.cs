@@ -12,8 +12,9 @@ namespace Twee2Z.ObjectTree
         public string text;
         //public Macro[] macro;
         public Tags tags;
+		public List<PassageNode> kids = new List<PassageNode>();
         public List<Link> links = new List<Link>();
-        public Passage()
+		public Passage()
         {
             Tree.MainTree.passlist.Add(this);
         }

@@ -10,7 +10,8 @@ namespace Twee2Z.Analyzer
 {
     class TweeVisitor : TweeBaseVisitor<object>
     {
-        public Passage aktuelle;
+		public Passage aktuelle;
+		public PassageNode content;
         public override object VisitStart(TweeParser.StartContext context)
         {
             new Tree();
@@ -94,5 +95,57 @@ namespace Twee2Z.Analyzer
             Console.WriteLine("Macro: " + context.GetText());
             return base.VisitMacro(context);
         }
+
+		public void createPassageNameNode (){
+			object n = VisitPassageName(TweeParser.PassageNameContext context);
+			PassageNode passagename = new PassageNode (n);
+			aktuelle.kids.Add(passagename);
+
+		}
+
+		public void createPassageTagsNode(){
+			object n = VisitPassageTags(TweeParser.PassageTagsContext context);
+			PassageNode passageTags = new PassageNode (n);
+			aktuelle.kids.Add(passageTags);
+		}
+
+		public void createPassageContentNode(){
+			object n = VisitPassageContent(TweeParser.PassageContentContext context);
+			PassageNode passageContent = new PassageNode (n);
+			aktuelle.kids.Add(passageContent);
+		}
+
+		public void createLinkNode(){
+			object n = VisitLink(TweeParser.LinkContext context);
+			PassageNode link = new PassageNode (n);
+			content.kids.Add(link);
+		
+		}
+
+		public void createTextNode(){
+			object n = VisitText(TweeParser.TextContext context);
+			PassageNode text = new PassageNode (n);
+			content.kids.Add(text);
+		
+		}
+
+		public void createVariable(){
+			object n = VisitVariable(TweeParser.VariableContext context);
+			PassageNode variablen = new PassageNode (n);
+			content.kids.Add(variablen);
+		}
+
+		public void createFunctions () {
+			object n= VisitFunction(TweeParser.FunctionContext context);
+			PassageNode functions = new PassageNode (n);
+			content.kids.Add(functions);
+			
+		}
+		public void createMacrosNode (){
+			object n = VisitMacro(TweeParser.MacroContext context);
+			PassageNode macros = new PassageNode (n);
+			content.kids.Add(macros);
+		}
+
     }
 }

@@ -26,8 +26,8 @@ passageTags
 	;
 
 passageContent
-	: (text|link) passageContent
-	| (text|link)
+	: (text|link|variable|function|macro) passageContent
+	| (text|link|variable|function|macro)
 	;
 
 link
@@ -44,6 +44,18 @@ text
 	| (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE)
 	;
 
+variable
+	: VAR_N
+	;
+	
+function
+	: WORD FUNC_BRACKET_OPEN WORD* FUNC_BRACKET_CLOSE
+	;
+
+macro
+	: MACRO_BRACKET_OPEN WORD+ MACRO_BRACKET_CLOSE
+	;
+
 /*
  * Lexer Rules
  */
@@ -55,8 +67,14 @@ COLON: ':';
 SQ_BRACKET_OPEN: '[';
 SQ_BRACKET_CLOSE: ']';
 PIPE: '|';
- 
-// normal symbols	
+DOLLAR: '$';
+FUNC_BRACKET_OPEN: '(';
+FUNC_BRACKET_CLOSE: ')';
+MACRO_BRACKET_OPEN: '<<';
+MACRO_BRACKET_CLOSE: '>>';
+
+// normal symbols
+VAR_N : DOLLAR (LETTER|LOW_LINE) (LETTER|INT|LOW_LINE)* (NEW_LINE|SPACE);
 WORD: (LETTER|EXCLAMATION_MARK|POINT|COMMA|SEMICOLON|LOW_LINE|INT|MUL|DIV|ADD|SUB)+;
 fragment LETTER: [a-zA-Z];
 fragment EXCLAMATION_MARK:'!';

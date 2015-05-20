@@ -8,7 +8,7 @@ namespace Twee2Z.ObjectTree
 {
     public class Root
     {
-        Passage startPassage;
-        Dictionary<String, Passage> passages;
+        public Passage startPassage;
+        public Dictionary<String, Passage> passages;
     }
 }

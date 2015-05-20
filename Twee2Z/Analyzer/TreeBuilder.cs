@@ -9,6 +9,7 @@ namespace Twee2Z.Analyzer
 {
     class TreeBuilder
     {
+		public List<Passage> liste = Tree.MainTree.passlist;
         private TweeParser.StartContext startNode;
         private ObjectTree.Root root;
 
@@ -30,12 +31,20 @@ namespace Twee2Z.Analyzer
             }
             //Console.WriteLine("-name: " + passage.GetChild(1).GetText());
             //Console.WriteLine("-Text: " + passage.GetChild(2).GetText());
-
+	
             //walkTree(passage.GetChild<TweeParser.PassageContext>(0));
 
         }
 
+		public void BaumDurchlauf(){
+			
+			for (int i = 0; i <= liste.Count; i++) {
 
+				root.passages.Add (liste [i].name, liste [i]);
+			}
+
+		}
+			
 
 
     }

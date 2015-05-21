@@ -7,7 +7,7 @@ using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Analyzer
 {
-    class TreeBuilder
+    public class TreeBuilder
     {
 		public List<Passage> liste = Tree.MainTree.passlist;
         private TweeParser.StartContext startNode;
@@ -17,7 +17,7 @@ namespace Twee2Z.Analyzer
         {
             this.startNode = startNode;
             root = new ObjectTree.Root();
-
+            root.passages = new Dictionary<String, Passage>();
 
 
             walkTree(startNode.GetChild<TweeParser.PassageContext>(0));
@@ -38,7 +38,7 @@ namespace Twee2Z.Analyzer
 
 		public void BaumDurchlauf(){
 			
-			for (int i = 0; i <= liste.Count; i++) {
+			for (int i = 0; i < liste.Count; i++) {
 
 				root.passages.Add (liste [i].name, liste [i]);
 			}

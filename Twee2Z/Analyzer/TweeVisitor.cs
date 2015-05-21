@@ -44,7 +44,8 @@ namespace Twee2Z.Analyzer
         {
             if (context.GetChild(0) is TweeParser.TextContext)
             {
-                aktuelle.text = context.GetChild(0).GetText();
+                if (context.GetChild(0).GetText() != System.Environment.NewLine)
+                    aktuelle.text = context.GetChild(0).GetText();
                 Console.WriteLine(context.GetChild(0).GetText());
             }
             return base.VisitPassageContent(context);
@@ -96,7 +97,7 @@ namespace Twee2Z.Analyzer
             return base.VisitMacro(context);
         }
 
-		public void createPassageNameNode (){
+		/*public void createPassageNameNode (){
 			object n = VisitPassageName(TweeParser.PassageNameContext context);
 			PassageNode passagename = new PassageNode (n);
 			aktuelle.kids.Add(passagename);
@@ -145,7 +146,7 @@ namespace Twee2Z.Analyzer
 			object n = VisitMacro(TweeParser.MacroContext context);
 			PassageNode macros = new PassageNode (n);
 			content.kids.Add(macros);
-		}
+		}*/
 
     }
 }

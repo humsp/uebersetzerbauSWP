@@ -18,11 +18,11 @@ namespace Twee2Z.CodeGen
             _zMemory = new ZMemory();
         }
 
-        public void SetupHelloWorldDemo()
+        public void SetupHelloWorldDemo(string input)
         {
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
 
-            _helloWorldInstructions.Add(new Print("Hallo Welt!" + System.Environment.NewLine + "Dies ist eine neue Zeile. :-)" + System.Environment.NewLine));
+            _helloWorldInstructions.Add(new Print(input));
             _helloWorldInstructions.Add(new Quit());
 
             _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine("main", _helloWorldInstructions) });

@@ -11,18 +11,31 @@ namespace Twee2Z.Console
 {
     class Program
     {
+        const string tweeFile = "passage.tw";
+        const string zStroyFile = "storyfile.z8";
+
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Create helloworld story file ...");
+            System.Console.WriteLine("Open twee file ...");
+            FileStream tweeFileStream = new FileStream(tweeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            System.Console.WriteLine("Start analyzer ...");
+            new ObjectTree.Tree();
+            TreeBuilder treeBuilder = TweeAnalyzer.RunHelloWorldDemo(new StreamReader(tweeFileStream));
+
+            System.Console.WriteLine("Create story file ...");
             CodeGen.ZStoryFile helloWorldStoryFile = new CodeGen.ZStoryFile();
+
             System.Console.WriteLine("Add instructions to story file ...");
-            helloWorldStoryFile.SetupHelloWorldDemo();
-            System.Console.WriteLine("Save story file as helloworld.z8 ...");
-            File.WriteAllBytes("helloworld.z8", helloWorldStoryFile.ToBytes());
+            helloWorldStoryFile.SetupHelloWorldDemo(treeBuilder.liste.First(passage => passage.name == "start").text);
+
+            System.Console.WriteLine("Save story file ...");
+            File.WriteAllBytes(zStroyFile, helloWorldStoryFile.ToBytes());
+
             System.Console.WriteLine("The story file has been saved at:");
-            System.Console.WriteLine(System.IO.Path.GetFullPath("helloworld.z8"));
+            System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
             System.Console.WriteLine("");
-            System.Console.WriteLine("NOTE: Zax cannot run helloworld.z8. Use Frotz instead for now.");
+            System.Console.WriteLine("Done. Have a nice day!");
             System.Console.ReadKey(true);
         }
     }

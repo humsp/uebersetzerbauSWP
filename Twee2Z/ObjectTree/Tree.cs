@@ -8,13 +8,63 @@ namespace Twee2Z.ObjectTree
 {
     public class Tree
     {
-        static public Tree MainTree;
-        public List<Passage> passlist = new List<Passage>();
-        public List<Variable> VarList = new List<Variable>();
+        private const string _startPassageId = "start";
 
-        public Tree()
+        private Dictionary<string, Passage> _passages = new Dictionary<string,Passage>();
+        private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
+
+
+
+        public void AddPassage(Passage passage)
         {
-            MainTree = this;
+            if (_passages.ContainsKey(passage.Name))
+            {
+                _passages[passage.Name] = passage;
+            }
+            else
+            {
+                _passages.Add(passage.Name, passage);
+            }
+        }
+
+        public Passage GetPassage(string name)
+        {
+            if (!_passages.ContainsKey(name))
+            {
+                return null;
+            }
+            return _passages[name];
+        }
+
+        public void AddVariable(Variable variable)
+        {
+            _variables.Add(variable.Id, variable);
+        }
+
+        // getter
+
+        public Passage StartPassage
+        {
+            get
+            {
+                return _passages[_startPassageId];
+            }
+        }
+
+        public Dictionary<string, Passage> Passages
+        {
+            get
+            {
+                return _passages;
+            }
+        }
+
+        public Dictionary<string, Variable> Variables
+        {
+            get
+            {
+                return _variables;
+            }
         }
     }
 }

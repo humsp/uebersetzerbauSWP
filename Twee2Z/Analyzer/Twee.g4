@@ -22,7 +22,12 @@ passageName
 	;
 
 passageTags
-	: SQ_BRACKET_OPEN symbol (SPACE+ symbol)* SQ_BRACKET_CLOSE
+	: SQ_BRACKET_OPEN innerPassageTag SQ_BRACKET_CLOSE
+	;
+
+innerPassageTag
+	: symbol SPACE+ innerPassageTag
+	| 
 	;
 
 passageContent

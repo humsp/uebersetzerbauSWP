@@ -9,7 +9,7 @@ namespace Twee2Z.CodeGen
 {
     public class CodeGen
     {
-        public static void generate(ObjectTree.Root tree, string zFile)
+        public static void generate(ObjectTree.Tree tree, string zFile)
         {
             /*ZMemoryOld p = new ZMemoryOld();
 

@@ -9,13 +9,28 @@ namespace Twee2Z.ObjectTree
     public class Variable
     {
         public int value;
-        public string name;
-        
+        private string _id;
+
+        public Variable(string id)
+        {
+            _id = id;
+        }
+
+
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+        }
+
+        /*
         public Variable(String n)
         {
             name = n;
             value = 0;
             Tree.MainTree.VarList.Add(this);
-        }
+        }*/
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
 using Twee2Z.Analyzer;
+using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Console
 {
@@ -17,17 +18,17 @@ namespace Twee2Z.Console
         static void Main(string[] args)
         {
             System.Console.WriteLine("Open twee file ...");
-            FileStream tweeFileStream = new FileStream(tweeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream tweeFileStream = new FileStream(args[0], FileMode.Open, FileAccess.Read, FileShare.Read);
 
             System.Console.WriteLine("Start analyzer ...");
-            new ObjectTree.Tree();
-            TreeBuilder treeBuilder = TweeAnalyzer.RunHelloWorldDemo(new StreamReader(tweeFileStream));
+            ObjectTree.Tree tree = TweeAnalyzer.Parse(new StreamReader(tweeFileStream));
 
             System.Console.WriteLine("Create story file ...");
             CodeGen.ZStoryFile helloWorldStoryFile = new CodeGen.ZStoryFile();
 
             System.Console.WriteLine("Add instructions to story file ...");
-            helloWorldStoryFile.SetupHelloWorldDemo(treeBuilder.liste.First(passage => passage.name == "start").text);
+            string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
+            helloWorldStoryFile.SetupHelloWorldDemo(text);
 
             System.Console.WriteLine("Save story file ...");
             File.WriteAllBytes(zStroyFile, helloWorldStoryFile.ToBytes());

@@ -9,15 +9,16 @@ namespace Twee2Z.Analyzer
 {
     public class TreeBuilder
     {
+        /*
 		public List<Passage> liste = Tree.MainTree.passlist;
         private TweeParser.StartContext startNode;
-        private ObjectTree.Root root;
+        private ObjectTree.Tree root;
 
         public TreeBuilder(TweeParser.StartContext startNode)
         {
             this.startNode = startNode;
-            root = new ObjectTree.Root();
-            root.passages = new Dictionary<String, Passage>();
+            root = new ObjectTree.Tree();
+            //root.passages = new Dictionary<String, Passage>();
 
 
             walkTree(startNode.GetChild<TweeParser.PassageContext>(0));
@@ -40,10 +41,10 @@ namespace Twee2Z.Analyzer
 			
 			for (int i = 0; i < liste.Count; i++) {
 
-				root.passages.Add (liste [i].name, liste [i]);
+				//root.passages.Add (liste [i].name, liste [i]);
 			}
 
-		}
+		}*/
 			
 
 

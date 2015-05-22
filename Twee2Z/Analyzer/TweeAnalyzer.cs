@@ -12,26 +12,29 @@ namespace Twee2Z.Analyzer
 {
     public static class TweeAnalyzer
     {
-        public static void Run(StreamReader input)
+        public static ObjectTree.Tree Parse(StreamReader input)
         {
-            Parse(Lex(input));
+            return Parse2(Lex(input));
         }
 
-        public static CommonTokenStream Lex(StreamReader input)
+        public static ObjectTree.Tree Parse2(CommonTokenStream input)
         {
-            AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
-            return new CommonTokenStream(new TweeLexer(antlrStream));
-        }
-
-        public static void Parse(CommonTokenStream input)
-        {
-            System.Console.WriteLine("Start Twee parsing ...");
+            System.Console.WriteLine("Parse twee file ...");
             TweeParser.StartContext startContext = new TweeParser(input).start();
 
             TweeVisitor visit = new TweeVisitor();
             visit.Visit(startContext);
+            System.Console.WriteLine("Convert parse tree into object tree ...");
+            return visit.Tree;
         }
 
+        public static CommonTokenStream Lex(StreamReader input)
+        {
+            System.Console.WriteLine("Lex twee file ...");
+            AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
+            return new CommonTokenStream(new TweeLexer(antlrStream));
+        }
+        /*
         public static TreeBuilder RunHelloWorldDemo(StreamReader input)
         {
             System.Console.WriteLine("Lex twee file ...");
@@ -44,6 +47,6 @@ namespace Twee2Z.Analyzer
             TreeBuilder treeBuilder = new TreeBuilder(startContext);
             treeBuilder.BaumDurchlauf();
             return treeBuilder;
-        }
+        }*/
     }
 }

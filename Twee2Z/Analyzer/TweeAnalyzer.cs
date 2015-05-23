@@ -34,19 +34,5 @@ namespace Twee2Z.Analyzer
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
             return new CommonTokenStream(new TweeLexer(antlrStream));
         }
-        /*
-        public static TreeBuilder RunHelloWorldDemo(StreamReader input)
-        {
-            System.Console.WriteLine("Lex twee file ...");
-            CommonTokenStream tokenStream = Lex(input);
-            System.Console.WriteLine("Parse twee file ...");
-            TweeParser.StartContext startContext = new TweeParser(tokenStream).start();
-            TweeVisitor visit = new TweeVisitor();
-            visit.Visit(startContext);
-            System.Console.WriteLine("Convert parse tree into object tree ...");
-            TreeBuilder treeBuilder = new TreeBuilder(startContext);
-            treeBuilder.BaumDurchlauf();
-            return treeBuilder;
-        }*/
     }
 }

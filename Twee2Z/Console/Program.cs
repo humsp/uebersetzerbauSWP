@@ -17,27 +17,54 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Open twee file ...");
-            FileStream tweeFileStream = new FileStream(args[0], FileMode.Open, FileAccess.Read, FileShare.Read);
-
-            System.Console.WriteLine("Start analyzer ...");
-            ObjectTree.Tree tree = TweeAnalyzer.Parse(new StreamReader(tweeFileStream));
-
-            System.Console.WriteLine("Create story file ...");
-            CodeGen.ZStoryFile helloWorldStoryFile = new CodeGen.ZStoryFile();
-
-            System.Console.WriteLine("Add instructions to story file ...");
-            string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
-            helloWorldStoryFile.SetupHelloWorldDemo(text);
-
-            System.Console.WriteLine("Save story file ...");
-            File.WriteAllBytes(zStroyFile, helloWorldStoryFile.ToBytes());
-
-            System.Console.WriteLine("The story file has been saved at:");
-            System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
+            Complie(args[0], zStroyFile);
+            
             System.Console.WriteLine("");
             System.Console.WriteLine("Done. Have a nice day!");
             System.Console.ReadKey(true);
+        }
+
+
+        static void Complie(string from, string output)
+        {
+            System.Console.WriteLine("Open twee file ...");
+            FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
+            Tree tree = AnalyseFile(tweeFileStream);
+            ValidateTree(tree);
+            CodeGen.ZStoryFile storyFile = GenStoryFile(tree);
+            WriteStoryFile(storyFile, output);
+        }
+
+        static Tree AnalyseFile(FileStream stream)
+        {
+            System.Console.WriteLine("Start analyzer ...");
+            return TweeAnalyzer.Parse(new StreamReader(stream));
+        }
+
+        static void ValidateTree(Tree tree)
+        {
+            TreeValidator validator = new TreeValidator(tree);
+            validator.ValidateTree();
+        }
+
+        static CodeGen.ZStoryFile GenStoryFile(Tree tree)
+        {
+            System.Console.WriteLine("Create story file ...");
+            CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();
+
+            System.Console.WriteLine("Add instructions to story file ...");
+            string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
+            storyFile.SetupHelloWorldDemo(text); // TODO austauschen gegen richtige MEthode
+
+            return storyFile;
+        }
+
+        static void WriteStoryFile(CodeGen.ZStoryFile storyFile, string output)
+        {
+            System.Console.WriteLine("Save story file ...");
+            File.WriteAllBytes(output, storyFile.ToBytes());
+            System.Console.WriteLine("The story file has been saved at:");
+            System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
         }
     }
 }

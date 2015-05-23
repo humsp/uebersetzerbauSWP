@@ -10,20 +10,20 @@ namespace Twee2Z.ObjectTree
     {
         private const string _startPassageId = "start";
 
-        private Dictionary<string, Passage> _passages = new Dictionary<string,Passage>();
+        private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
         private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
 
 
         public void AddPassage(Passage passage)
         {
-            if (_passages.ContainsKey(passage.Name))
+            if (!_passages.ContainsKey(passage.Name))
             {
-                _passages[passage.Name] = passage;
+                _passages.Add(passage.Name, passage);
             }
             else
             {
-                _passages.Add(passage.Name, passage);
+                System.Console.WriteLine("ignoring passage with same name: " + passage.Name);
             }
         }
 
@@ -36,9 +36,16 @@ namespace Twee2Z.ObjectTree
             return _passages[name];
         }
 
-        public void AddVariable(Variable variable)
+        public void SetVariable(Variable variable)
         {
-            _variables.Add(variable.Id, variable);
+            if (_variables.ContainsKey(variable.Id))
+            {
+                _variables[variable.Id] = variable;
+            }
+            else
+            {
+                _variables.Add(variable.Id, variable);
+            }
         }
 
         // getter

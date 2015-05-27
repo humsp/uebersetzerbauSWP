@@ -11,8 +11,10 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the first 64K of a story file.
     /// See also "11. The format of the header" on page 61 for reference.
     /// </summary>
-    class ZHeader : IZComponent
+    class ZHeader : ZComponentBase
     {
+        private const int HeaderSize = 64;
+
         private byte _versionNumber;
         private InterpreterFlags _interpreterFlags;
         private ushort _releaseNumber;
@@ -151,9 +153,9 @@ namespace Twee2Z.CodeGen.Memory
         /// </summary>
         public ushort HeaderExtensionTableAddr { get { return _headerExtensionTableAddr; } }
             
-        public byte[] ToBytes()
+        public override byte[] ToBytes()
         {
-            byte[] byteArray = new byte[64];
+            byte[] byteArray = new byte[HeaderSize];
 
             byteArray[0x00] = _versionNumber;
 
@@ -189,7 +191,7 @@ namespace Twee2Z.CodeGen.Memory
             return byteArray;
         }
 
-        public UInt32 Size { get { return 64; } }
+        public override int Size { get { return HeaderSize; } }
 
         /// <summary>
         /// Flags set by the interpreter to indicate support for certain features. We do not care about these but we are aware of it.

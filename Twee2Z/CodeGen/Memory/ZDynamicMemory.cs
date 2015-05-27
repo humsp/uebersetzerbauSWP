@@ -11,8 +11,10 @@ namespace Twee2Z.CodeGen.Memory
     /// Bottommost part of the memory which contains dynamic stuff like the global variables. Goes from 0x0000 to 0xDFFF.
     /// See also "1.1 Regions of memory" on page 12 for reference.
     /// </summary>
-    class ZDynamicMemory : IZComponent
+    class ZDynamicMemory : ZComponentBase
     {
+        private const int DynamicMemorySize = ZStaticMemory.StaticMemoryBase;
+
         internal const ushort InitProgramCounterAddr = 0x2000;
         internal const ushort HeaderExtensionTableAddr = 0x0040;
         internal const ushort ObjectTableAddr = 0x0048;
@@ -37,9 +39,9 @@ namespace Twee2Z.CodeGen.Memory
             _globalVariablesTable = new ZGlobalVariablesTable();
         }
 
-        public Byte[] ToBytes()
+        public override Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[ZStaticMemory.StaticMemoryBase];
+            Byte[] byteArray = new Byte[DynamicMemorySize];
 
             _header.ToBytes().CopyTo(byteArray, 0x0000);
             _headerExtension.ToBytes().CopyTo(byteArray, 0x0040);
@@ -55,5 +57,7 @@ namespace Twee2Z.CodeGen.Memory
 
             return byteArray;
         }
+
+        public override int Size { get { return DynamicMemorySize; } }
     }
 }

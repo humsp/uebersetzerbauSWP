@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Instructions
 {
-    class ZRoutine : IZComponent
+    class ZRoutine : ZComponentBase
     {
         protected string _name; 
         protected byte _localVariableCount;
@@ -27,7 +27,7 @@ namespace Twee2Z.CodeGen.Instructions
         public string Name { get { return _name; } }
         public IEnumerable<ZInstruction> Instructions { get { return _instructions; } }
 
-        public virtual Byte[] ToBytes()
+        public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();
 

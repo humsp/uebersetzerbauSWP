@@ -45,6 +45,7 @@
     <Compile Include="Instructions\OperandTypeKind.cs" />
     <Compile Include="Instructions\Templates\Quit.cs" />
     <Compile Include="Instructions\ZInstruction.cs" />
+    <Compile Include="Instructions\ZOpcode.cs" />
     <Compile Include="IZComponent.cs" />
     <Compile Include="Memory\ZDynamicMemory.cs" />
     <Compile Include="Memory\ZHighMemory.cs" />

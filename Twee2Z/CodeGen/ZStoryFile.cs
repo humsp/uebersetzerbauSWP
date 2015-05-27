@@ -36,5 +36,13 @@ namespace Twee2Z.CodeGen
 
             return byteArray;
         }
+
+        public int Size
+        {
+            get
+            {
+                return _zMemory.Size;
+            }
+        }
     }
 }

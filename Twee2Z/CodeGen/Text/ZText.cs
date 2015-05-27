@@ -3,11 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Text
 {
-    public static class ZText
+    [DebuggerDisplay("Text = {_text}")]
+    class ZText : ZComponentBase
     {
+        private string _text;
+        
+        public ZText(string text)
+        {
+            _text = text;
+        }
+
+        public string Text { get { return _text; } }
+
+        public override byte[] ToBytes()
+        {
+            List<Byte> byteList = new List<byte>();
+
+            foreach (UInt16 chars in Convert(_text))
+            {
+                byteList.Add((Byte)(chars >> 8));
+                byteList.Add((Byte)chars);
+            }
+
+            return byteList.ToArray();
+        }
+
+        public override int Size
+        {
+            get
+            {
+                return Measure(_text);
+            }
+        }
+
+        #region stuff for static
         private const byte ZCharSpaceNumber = 0;
         private const byte ZCharShiftUpperCaseNumber = 4;
         private const byte ZCharShiftPunctuationNumber = 5;
@@ -42,7 +75,7 @@ namespace Twee2Z.CodeGen.Text
         private static IDictionary<char, ZChar> charDictionary = new Dictionary<char, ZChar>();
 
         private static IDictionary<ZControlCharKind, ZControlChar> controlCharDictionary = new Dictionary<ZControlCharKind, ZControlChar>();
-
+                
         static ZText()
         {
             byte counter = 0x06;
@@ -68,6 +101,39 @@ namespace Twee2Z.CodeGen.Text
 
             controlCharDictionary.Add(ZControlCharKind.NewLine, new ZControlChar() { kind = ZControlCharKind.NewLine, number = 7, table = 2 });
             controlCharDictionary.Add(ZControlCharKind.TenBitZCharacter, new ZControlChar() { kind = ZControlCharKind.TenBitZCharacter, number = 6, table = 2 });
+        }
+
+        public static int Measure(String input)
+        {
+            int zCharCounter = 0;
+            int i = 0;
+
+            while (i < input.Length)
+            {
+                if (input[i] == ' ')
+                {
+                    zCharCounter++;
+                }
+                else if (i + 1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
+                {
+                    zCharCounter += 2;
+                    i++;
+                }
+                else
+                {
+                    if (tableA0.Contains(input[i]))
+                        zCharCounter++;
+                    else if (tableA1.Contains(input[i]) || tableA2.Contains(input[i]))
+                        zCharCounter += 2;
+                    else
+                        throw new Exception("The given char is not a valid ZChar!");
+                }
+
+                i++;
+            }
+
+            // Three chars fit into two bytes. Two Bytes are used for only one or two chars as well.
+            return 2 * ((int)Math.Ceiling(zCharCounter / 3.0));
         }
 
         public static UInt16[] Convert(String input)
@@ -207,5 +273,6 @@ namespace Twee2Z.CodeGen.Text
             NewLine,
             TenBitZCharacter
         }
+        #endregion
     }
 }

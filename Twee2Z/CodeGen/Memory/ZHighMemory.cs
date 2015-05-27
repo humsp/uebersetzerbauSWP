@@ -24,11 +24,13 @@ namespace Twee2Z.CodeGen.Memory
         {
             ZRoutine main = new ZRoutine("main", new ZInstruction[] {new Quit()});
             _routines.Add(main);
+            _subComponents.AddRange(_routines);
         }
 
         public ZHighMemory(IEnumerable<ZRoutine> routines)
         {
             _routines.AddRange(routines);
+            _subComponents.AddRange(_routines);
         }
 
         public List<ZRoutine> Routines { get { return _routines; } }

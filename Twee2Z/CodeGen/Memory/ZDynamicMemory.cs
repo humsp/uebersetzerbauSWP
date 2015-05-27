@@ -37,6 +37,11 @@ namespace Twee2Z.CodeGen.Memory
             _headerExtension = new ZHeaderExtension();
             _objectTable = new ZObjectTable();
             _globalVariablesTable = new ZGlobalVariablesTable();
+
+            _subComponents.Add(_header);
+            _subComponents.Add(_headerExtension);
+            _subComponents.Add(_objectTable);
+            _subComponents.Add(_globalVariablesTable);
         }
 
         public override Byte[] ToBytes()
@@ -45,8 +50,7 @@ namespace Twee2Z.CodeGen.Memory
 
             _header.ToBytes().CopyTo(byteArray, 0x0000);
             _headerExtension.ToBytes().CopyTo(byteArray, 0x0040);
-
-
+            
             _objectTable.ToBytes().CopyTo(byteArray, ObjectTableAddr);
             _globalVariablesTable.ToBytes().CopyTo(byteArray, GlobalVariablesTableAddr);
 

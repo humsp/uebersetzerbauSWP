@@ -7,43 +7,30 @@ using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instructions
 {
-    [DebuggerDisplay("OperandCount = {_operandCount}, Hex = {_hex}", Name = "{_name}")]
+    [DebuggerDisplay("OperandCount = {OperandCount}", Name = "{Name}")]
     class ZInstruction : ZComponentBase
     {
-        protected string _name;
-        protected ushort _hex;
+        protected ZOpcode _opcode;
         protected InstructionFormKind _instructionForm;
-        protected OperandCountKind _operandCount;
 
-        public ZInstruction(string name, ushort hex, InstructionFormKind instructionForm, OperandCountKind operandCount)
+        public ZInstruction(string name, ushort hex, OperandCountKind operandCount, InstructionFormKind instructionForm)
         {
-            _name = name;
-            _hex = hex;
+            _opcode = new ZOpcode(name, hex, operandCount);
+            _subComponents.Add(_opcode);
+
             _instructionForm = instructionForm;
-            _operandCount = operandCount;
         }
 
-        public string Name { get { return _name; } }
-        public ushort Hex { get { return _hex; } }
+        public string Name { get { return _opcode.Name; } }
+        public OperandCountKind OperandCount { get { return _opcode.OperandCount; } }
         public InstructionFormKind InstructionForm { get { return _instructionForm; } }
-        public OperandCountKind OperandCount { get { return _operandCount; } }
 
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();
 
-            ushort opcode = OpcodeHelper.ToOpcode(_hex, _operandCount);
+            byteList.AddRange(_opcode.ToBytes());
             
-            if (opcode > 0xFF)
-            {
-                byteList.Add((Byte)(opcode >> 8));
-                byteList.Add((Byte)opcode);
-            }
-            else
-            {
-                byteList.Add((byte)opcode);
-            }
-
             //TODO: Implement generic support of operands
 
             return byteList.ToArray();

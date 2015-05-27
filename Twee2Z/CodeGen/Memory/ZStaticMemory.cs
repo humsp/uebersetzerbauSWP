@@ -26,6 +26,9 @@ namespace Twee2Z.CodeGen.Memory
         {
             _dictionaryTable = new ZDictionaryTable();
             _abbreviationTable = new ZAbbreviationTable();
+
+            _subComponents.Add(_dictionaryTable);
+            _subComponents.Add(_abbreviationTable);
         }
 
         public override Byte[] ToBytes()

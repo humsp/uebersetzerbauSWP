@@ -24,5 +24,13 @@ namespace Twee2Z.CodeGen.Instructions
                     throw new ArgumentException(String.Format("Unknown OperandCountKind '{0}'", operandCount.ToString()), "operandCount");
             }
         }
+
+        public static int MeasureOpcodeSize(ushort hex)
+        {
+            if (hex > 0xFF)
+                return 2;
+            else
+                return 1;
+        }
     }
 }

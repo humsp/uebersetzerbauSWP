@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instructions
 {
+    [DebuggerDisplay("LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_name}")]
     class ZRoutine : ZComponentBase
     {
         protected string _name; 
         protected byte _localVariableCount;
-        protected List<ZInstruction> _instructions = new List<ZInstruction>();
 
         public ZRoutine(string name)
         {
@@ -21,11 +22,10 @@ namespace Twee2Z.CodeGen.Instructions
         public ZRoutine(string name, IEnumerable<ZInstruction> instructions)
             : this(name)
         {
-            _instructions.AddRange(instructions);
+            _subComponents.AddRange(instructions);
         }
 
         public string Name { get { return _name; } }
-        public IEnumerable<ZInstruction> Instructions { get { return _instructions; } }
 
         public override Byte[] ToBytes()
         {
@@ -33,12 +33,21 @@ namespace Twee2Z.CodeGen.Instructions
 
             byteList.Add(_localVariableCount);
 
-            foreach (ZInstruction instruction in Instructions)
+            foreach (ZInstruction instruction in _subComponents)
             {
                 byteList.AddRange(instruction.ToBytes());
             }
 
             return byteList.ToArray();
+        }
+
+        public override int Size
+        {
+            get
+            {
+                // One byte for the local variable count + all instructions
+                return 1 + _subComponents.Sum(component => component.Size);
+            }
         }
     }
 }

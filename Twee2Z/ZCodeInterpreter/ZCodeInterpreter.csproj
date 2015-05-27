@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{979805F6-B622-4AF8-99C4-39116F75B43C}</ProjectGuid>
+    <ProjectGuid>{D40225E3-5B97-4029-876A-DB14E60CC714}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Twee2Z.CodeGen</RootNamespace>
-    <AssemblyName>CodeGen</AssemblyName>
+    <RootNamespace>ZCodeInterpreter</RootNamespace>
+    <AssemblyName>ZCodeInterpreter</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,39 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGen.cs" />
-    <Compile Include="Instructions\InstructionFormKind.cs" />
-    <Compile Include="Instructions\OpcodeHelper.cs" />
-    <Compile Include="Instructions\OperandTypeKind.cs" />
-    <Compile Include="Instructions\Templates\Quit.cs" />
-    <Compile Include="Instructions\ZInstruction.cs" />
-    <Compile Include="IZComponent.cs" />
-    <Compile Include="Memory\ZDynamicMemory.cs" />
-    <Compile Include="Memory\ZHighMemory.cs" />
-    <Compile Include="Memory\ZStaticMemory.cs" />
-    <Compile Include="Instructions\OperandCountKind.cs" />
-    <Compile Include="Instructions\Templates\Print.cs" />
+    <Compile Include="Interpreter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tables\ZGlobalVariablesTable.cs" />
-    <Compile Include="ZComponentBase.cs" />
-    <Compile Include="ZStoryFile.cs" />
-    <Compile Include="Memory\ZHeader.cs" />
-    <Compile Include="Memory\ZHeaderExtension.cs" />
-    <Compile Include="Memory\ZMemory.cs" />
-    <Compile Include="Tables\ZAbbreviationTable.cs" />
-    <Compile Include="Tables\ZDictionaryTable.cs" />
-    <Compile Include="Tables\ZObjectTable.cs" />
-    <Compile Include="Instructions\ZRoutine.cs" />
-    <Compile Include="Text\ZSCII.cs" />
-    <Compile Include="Text\ZText.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
-      <Project>{c62b4606-623d-49a3-ad14-c3047cf59a6b}</Project>
-      <Name>ObjectTree</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

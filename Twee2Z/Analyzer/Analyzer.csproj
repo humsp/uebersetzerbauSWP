@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.props" Condition="Exists('..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{979805F6-B622-4AF8-99C4-39116F75B43C}</ProjectGuid>
+    <ProjectGuid>{4D8484A9-737E-421E-B86D-CA451DBC13D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Twee2Z.CodeGen</RootNamespace>
-    <AssemblyName>CodeGen</AssemblyName>
+    <RootNamespace>Twee2Z.Analyzer</RootNamespace>
+    <AssemblyName>Analyzer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>7032261b</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr4.Runtime, Version=4.4.0.0, Culture=neutral, PublicKeyToken=edc21c04cf562012, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr4.Runtime.4.4.1-alpha001\lib\net45\Antlr4.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,31 +45,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGen.cs" />
-    <Compile Include="Instructions\InstructionFormKind.cs" />
-    <Compile Include="Instructions\OpcodeHelper.cs" />
-    <Compile Include="Instructions\OperandTypeKind.cs" />
-    <Compile Include="Instructions\Templates\Quit.cs" />
-    <Compile Include="Instructions\ZInstruction.cs" />
-    <Compile Include="IZComponent.cs" />
-    <Compile Include="Memory\ZDynamicMemory.cs" />
-    <Compile Include="Memory\ZHighMemory.cs" />
-    <Compile Include="Memory\ZStaticMemory.cs" />
-    <Compile Include="Instructions\OperandCountKind.cs" />
-    <Compile Include="Instructions\Templates\Print.cs" />
+    <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tables\ZGlobalVariablesTable.cs" />
-    <Compile Include="ZComponentBase.cs" />
-    <Compile Include="ZStoryFile.cs" />
-    <Compile Include="Memory\ZHeader.cs" />
-    <Compile Include="Memory\ZHeaderExtension.cs" />
-    <Compile Include="Memory\ZMemory.cs" />
-    <Compile Include="Tables\ZAbbreviationTable.cs" />
-    <Compile Include="Tables\ZDictionaryTable.cs" />
-    <Compile Include="Tables\ZObjectTable.cs" />
-    <Compile Include="Instructions\ZRoutine.cs" />
-    <Compile Include="Text\ZSCII.cs" />
-    <Compile Include="Text\ZText.cs" />
+    <Compile Include="TreeBuilder.cs" />
+    <Compile Include="Twee.g4.lexer.cs">
+      <DependentUpon>Twee.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Twee.g4.parser.cs">
+      <DependentUpon>Twee.g4</DependentUpon>
+    </Compile>
+    <Compile Include="TweeVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Antlr4 Include="Twee.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
+    </Antlr4>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
@@ -71,8 +69,15 @@
       <Name>ObjectTree</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.props'))" />
+    <Error Condition="!Exists('..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.targets'))" />
+  </Target>
+  <Import Project="..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.targets" Condition="Exists('..\packages\Antlr4.4.4.1-alpha001\build\Antlr4.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

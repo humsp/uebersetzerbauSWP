@@ -4,41 +4,67 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-using Twee2Z.Lexer;
+using System.IO;
+using Twee2Z.Analyzer;
+using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Console
 {
     class Program
     {
+        const string tweeFile = "passage.tw";
+        const string zStroyFile = "storyfile.z8";
+
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Welcome to Twee2Z");
-            System.Console.WriteLine("Try tokens like '<<display Page>>', '[[Place]]' or '<html><br></html>'");
+            Complie(args[0], zStroyFile);
+            
             System.Console.WriteLine("");
-            while (true)
-            {
-                System.Console.Write("Please enter a token: ");
-                string input = System.Console.ReadLine();
+            System.Console.WriteLine("Done. Have a nice day!");
+            System.Console.ReadKey(true);
+        }
 
-                if (Pattern.Link.IsMatch(input))
-                    System.Console.WriteLine("Link\n");
-                else if (Pattern.Macro.IsMatch(input))
-                    System.Console.WriteLine("Macro\n");
-                else if (Pattern.Image.IsMatch(input))
-                    System.Console.WriteLine("Image\n");
-                else if (Pattern.HtmlBlock.IsMatch(input))
-                    System.Console.WriteLine("HtmlBlock\n");
-                else if (Pattern.Html.IsMatch(input))
-                    System.Console.WriteLine("Html\n");
-                else if (Pattern.InlineStyle.IsMatch(input))
-                    System.Console.WriteLine("InlineStyle\n");
-                else if (Pattern.Mono.IsMatch(input))
-                    System.Console.WriteLine("Mono\n");
-                else if (Pattern.Comment.IsMatch(input))
-                    System.Console.WriteLine("Comment\n");
-                else
-                    System.Console.WriteLine("Unknown token\n");
-            }
+
+        static void Complie(string from, string output)
+        {
+            System.Console.WriteLine("Open twee file ...");
+            FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
+            Tree tree = AnalyseFile(tweeFileStream);
+            ValidateTree(tree);
+            CodeGen.ZStoryFile storyFile = GenStoryFile(tree);
+            WriteStoryFile(storyFile, output);
+        }
+
+        static Tree AnalyseFile(FileStream stream)
+        {
+            System.Console.WriteLine("Start analyzer ...");
+            return TweeAnalyzer.Parse(new StreamReader(stream));
+        }
+
+        static void ValidateTree(Tree tree)
+        {
+            TreeValidator validator = new TreeValidator(tree);
+            validator.ValidateTree();
+        }
+
+        static CodeGen.ZStoryFile GenStoryFile(Tree tree)
+        {
+            System.Console.WriteLine("Create story file ...");
+            CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();
+
+            System.Console.WriteLine("Add instructions to story file ...");
+            string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
+            storyFile.SetupHelloWorldDemo(text); // TODO austauschen gegen richtige MEthode
+
+            return storyFile;
+        }
+
+        static void WriteStoryFile(CodeGen.ZStoryFile storyFile, string output)
+        {
+            System.Console.WriteLine("Save story file ...");
+            File.WriteAllBytes(output, storyFile.ToBytes());
+            System.Console.WriteLine("The story file has been saved at:");
+            System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
         }
     }
 }

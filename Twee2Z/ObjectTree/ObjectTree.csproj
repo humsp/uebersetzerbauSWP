@@ -39,14 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class.cs" />
+    <Compile Include="Tags.cs" />
+    <Compile Include="TreeValidator.cs" />
+    <Compile Include="Variable.cs" />
+    <Compile Include="PassageLink.cs" />
+    <Compile Include="Passage.cs" />
+    <Compile Include="PassageContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{07142c48-cff8-488d-a2c5-c92c805c8f73}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
+    <Compile Include="Tree.cs" />
+    <Compile Include="PassageText.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

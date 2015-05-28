@@ -106,7 +106,8 @@ namespace Twee2Z.Analyzer
         public override object VisitVariable(TweeParser.VariableContext context)
         {
             Console.WriteLine("Variable: " + context.GetText());
-            _tree.SetVariable(new Variable(context.GetText()));
+            _currentPassage.AddPassageContent(new PassageVariable(context.GetText(), 0));
+            //_tree.SetVariable(new Variable(context.GetText()));
             return base.VisitVariable(context);
         }
         public override object VisitFunction(TweeParser.FunctionContext context)

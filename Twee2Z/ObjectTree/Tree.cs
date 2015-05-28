@@ -11,9 +11,7 @@ namespace Twee2Z.ObjectTree
         private const string _startPassageId = "start";
 
         private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
-        private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
-
-
+        //private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         public void AddPassage(Passage passage)
         {
@@ -36,18 +34,6 @@ namespace Twee2Z.ObjectTree
             return _passages[name];
         }
 
-        public void SetVariable(Variable variable)
-        {
-            if (_variables.ContainsKey(variable.Id))
-            {
-                _variables[variable.Id] = variable;
-            }
-            else
-            {
-                _variables.Add(variable.Id, variable);
-            }
-        }
-
         // getter
 
         public Passage StartPassage
@@ -63,14 +49,6 @@ namespace Twee2Z.ObjectTree
             get
             {
                 return _passages;
-            }
-        }
-
-        public Dictionary<string, Variable> Variables
-        {
-            get
-            {
-                return _variables;
             }
         }
     }

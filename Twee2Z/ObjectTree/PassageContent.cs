@@ -11,12 +11,14 @@ namespace Twee2Z.ObjectTree
         public enum ContentType
         {
             TextContent,
-            LinkContent
+            LinkContent,
+            VariableContent
         };
 
         private ContentType _type;
 
-        public PassageContent(ContentType type){
+        public PassageContent(ContentType type)
+        {
             Type = type;
         }
 
@@ -25,9 +27,9 @@ namespace Twee2Z.ObjectTree
         {
             get
             {
-                if(_type == ContentType.LinkContent)
+                if (_type == ContentType.LinkContent)
                 {
-                    return (PassageLink) this;
+                    return (PassageLink)this;
                 }
                 return null;
             }
@@ -37,9 +39,21 @@ namespace Twee2Z.ObjectTree
         {
             get
             {
-                if(_type == ContentType.TextContent)
+                if (_type == ContentType.TextContent)
                 {
-                    return (PassageText) this;
+                    return (PassageText)this;
+                }
+                return null;
+            }
+        }
+
+        public PassageLink PassageVariable
+        {
+            get
+            {
+                if (_type == ContentType.VariableContent)
+                {
+                    return (PassageLink)this;
                 }
                 return null;
             }

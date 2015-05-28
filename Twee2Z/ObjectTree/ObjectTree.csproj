@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PassageVariable.cs" />
     <Compile Include="Tags.cs" />
     <Compile Include="TreeValidator.cs" />
     <Compile Include="Variable.cs" />

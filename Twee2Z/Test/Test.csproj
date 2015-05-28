@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CodeGen\TextText.cs" />
+    <Compile Include="CodeGen\ZTextTest.cs" />
     <Compile Include="ObjectTree\TreeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

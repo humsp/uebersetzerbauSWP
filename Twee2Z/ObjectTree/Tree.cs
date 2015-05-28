@@ -23,7 +23,7 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                System.Console.WriteLine("ignoring passage with same name: " + passage.Name);
+                System.Console.WriteLine("WARNING: ignoring passage with same name: " + passage.Name);
             }
         }
 

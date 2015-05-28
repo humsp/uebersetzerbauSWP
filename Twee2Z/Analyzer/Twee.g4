@@ -37,7 +37,11 @@ passageContent
 
 link
 	: LINK_OPEN symbol SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
-	| LINK_OPEN text PIPE symbol SQ_BRACKET_CLOSE (SQ_BRACKET_OPEN text)? SQ_BRACKET_CLOSE
+	| LINK_OPEN linkText PIPE symbol SQ_BRACKET_CLOSE (SQ_BRACKET_OPEN linkText)? SQ_BRACKET_CLOSE
+	;
+
+linkText
+	: innerText
 	;
 
 symbol

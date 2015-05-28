@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Tables
 {
-    class ZObjectTable : IZComponent
+    class ZObjectTable : ZComponentBase
     {
-        public Byte[] ToBytes()
-        {
-            Byte[] byteArray = new Byte[0];
-
-            return byteArray;
-        }
     }
 }

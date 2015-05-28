@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Twee2Z.CodeGen.Instructions
 {
     [DebuggerDisplay("OperandCount = {_operandCount}, Hex = {_hex}", Name = "{_name}")]
-    class ZInstruction : IZComponent
+    class ZInstruction : ZComponentBase
     {
         protected string _name;
         protected ushort _hex;
@@ -28,7 +28,7 @@ namespace Twee2Z.CodeGen.Instructions
         public InstructionFormKind InstructionForm { get { return _instructionForm; } }
         public OperandCountKind OperandCount { get { return _operandCount; } }
 
-        public virtual Byte[] ToBytes()
+        public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();
 

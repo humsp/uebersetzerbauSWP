@@ -47,6 +47,7 @@
     <Compile Include="Instructions\ZInstruction.cs" />
     <Compile Include="Instructions\ZOpcode.cs" />
     <Compile Include="IZComponent.cs" />
+    <Compile Include="Memory\ZAddress.cs" />
     <Compile Include="Memory\ZDynamicMemory.cs" />
     <Compile Include="Memory\ZHighMemory.cs" />
     <Compile Include="Memory\ZStaticMemory.cs" />

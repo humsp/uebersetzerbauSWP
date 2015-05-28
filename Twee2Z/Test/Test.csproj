@@ -50,8 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ConsoleTest2.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="CodeGen\TextText.cs" />
+    <Compile Include="ObjectTree\TreeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +76,7 @@
       <Name>ZCodeInterpreter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

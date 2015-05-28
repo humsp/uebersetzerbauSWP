@@ -4,6 +4,8 @@ using System.IO;
 using Twee2Z.Analyzer;
 using Twee2Z.ObjectTree;
 using Twee2Z.Console;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Test.ObjectTree
@@ -71,6 +73,27 @@ namespace Test.ObjectTree
             Assert.AreEqual(1, fourthPassage.PassageContentList.Count);
             Assert.AreEqual("Anonymous x\r\n", fourthPassage.PassageContentList[0].PassageText.Text);
         }
+
+
+        [TestMethod]
+        public void TestTreePassageTag()
+        {
+            Tree tree = createTree(passageLinkPath);
+            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual(4, tree.Passages.Count);
+
+            Assert.AreEqual(3, tree.StartPassage.PassageContentList.Count);
+
+            HashSet<string> tags = tree.StartPassage.Tags;
+
+            Assert.AreEqual(3, tags.Count());
+
+            Assert.IsTrue(tags.Contains("tag1"));
+            Assert.IsTrue(tags.Contains("tag2"));
+            Assert.IsTrue(tags.Contains("tag3"));
+
+        }
+
 
         private Tree createTree(string tweeFile)
         {

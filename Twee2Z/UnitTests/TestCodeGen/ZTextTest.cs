@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Twee2Z.CodeGen.Text;
 
-namespace UnitTests
+namespace UnitTests.TestCodeGen
 {
     [TestClass]
     public class ZTextTest

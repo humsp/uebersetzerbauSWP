@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace UnitTests.ObjectTree
+namespace UnitTests.TestObjectTree
 {
     [TestClass]
     public class TreeTest

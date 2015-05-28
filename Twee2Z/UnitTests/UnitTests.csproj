@@ -50,8 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CodeGen\ZTextTest.cs" />
-    <Compile Include="ObjectTree\TreeTest.cs" />
+    <Compile Include="TestCodeGen\IZComponentTest.cs" />
+    <Compile Include="TestCodeGen\ZTextTest.cs" />
+    <Compile Include="TestObjectTree\TreeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

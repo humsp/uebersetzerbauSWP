@@ -10,7 +10,7 @@ using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Console
 {
-    class Program
+    public class Program
     {
         const string tweeFile = "passage.tw";
         const string zStroyFile = "storyfile.z8";
@@ -40,19 +40,19 @@ namespace Twee2Z.Console
              
         }
 
-        static Tree AnalyseFile(FileStream stream)
+        public static Tree AnalyseFile(FileStream stream)
         {
             System.Console.WriteLine("Start analyzer ...");
             return TweeAnalyzer.Parse(new StreamReader(stream));
         }
 
-        static void ValidateTree(Tree tree)
+        public static void ValidateTree(Tree tree)
         {
             TreeValidator validator = new TreeValidator(tree);
             validator.ValidateTree();
         }
 
-        static CodeGen.ZStoryFile GenStoryFile(Tree tree)
+        public static CodeGen.ZStoryFile GenStoryFile(Tree tree)
         {
             System.Console.WriteLine("Create story file ...");
             CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();

@@ -12,10 +12,12 @@ namespace Twee2Z.CodeGen.Memory
     /// Topmost memory containing routines and text. Goes from 0xFFFF to 0x80000.
     /// See also "1.1 Regions of memory" on page 12 for reference.
     /// </summary>
-    class ZHighMemory
+    class ZHighMemory : ZComponentBase
     {
-        internal const ushort HighMemoryBase = 0xFFFF;
+        private const int HighMemorySize = 0x70000;
 
+        internal const ushort HighMemoryBase = 0xFFFF;
+        
         private List<ZRoutine> _routines = new List<ZRoutine>();
 
         public ZHighMemory()
@@ -31,9 +33,9 @@ namespace Twee2Z.CodeGen.Memory
 
         public List<ZRoutine> Routines { get { return _routines; } }
 
-        public Byte[] ToBytes()
+        public override Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[0x70000];
+            Byte[] byteArray = new Byte[HighMemorySize];
             List<Byte> routineByteList = new List<byte>();
 
             foreach (ZRoutine routine in _routines)
@@ -45,5 +47,7 @@ namespace Twee2Z.CodeGen.Memory
 
             return byteArray;
         }
+
+        public override int Size { get { return HighMemorySize; } }
     }
 }

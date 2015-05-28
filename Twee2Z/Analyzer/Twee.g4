@@ -36,7 +36,8 @@ passageContent
 	;
 
 link
-	: LINK_OPEN (symbol PIPE)? (symbol|FUNC_LINK) SQ_BRACKET_CLOSE (SQ_BRACKET_OPEN expression SQ_BRACKET_CLOSE)? SQ_BRACKET_CLOSE
+	: LINK_OPEN (symbol PIPE)? (symbol|FUNC_LINK) SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
+	| LINK_OPEN (symbol PIPE)? (symbol|FUNC_LINK) SQ_BRACKET_CLOSE_OPEN expression SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
 	;
 
 symbol
@@ -45,7 +46,7 @@ symbol
 	
 text
 	: (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE|STRING) text
-	| (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE|STRING)
+	| (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE|STRING)	
 	;
 
 variable
@@ -53,16 +54,19 @@ variable
 	;
 
 expression
-	: SPACE* (FUNC_BRACKET_OPEN SPACE*)? (NOT|ADD|SUB)? SPACE* (/*function variable|*/function|STRING|WORD) SPACE* ((DIV|MUL|LOG_OP)? expression)* (SPACE* FUNC_BRACKET_CLOSE)?
+	: SPACE* (FUNC_BRACKET_OPEN SPACE*)? (NOT|ADD|SUB)? SPACE* (variable|function|STRING|digit) SPACE* ((DIV|MUL|LOG_OP)? expression)* (SPACE* FUNC_BRACKET_CLOSE)?
 	;
 
 function
-	: (/*WORD|*/FUNC_N) FUNC_BRACKET_OPEN (WORD*|expression) FUNC_BRACKET_CLOSE
+	: (WORD|FUNC_N) FUNC_BRACKET_OPEN ((expression(COMMA expression)*)?) FUNC_BRACKET_CLOSE
+	;
+digit
+	: ('1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'0')+
 	;
 
 macro
-	: MACRO_BRACKET_OPEN ((MACRO_EXPR? SPACE* expression)|('actions' text+)|('choice' SPACE link)) MACRO_BRACKET_CLOSE
-	| MACRO_BRACKET_OPEN 'if' SPACE+ expression MACRO_BRACKET_CLOSE passageContent (MACRO_BRACKET_OPEN 'else if' SPACE+ expression MACRO_BRACKET_CLOSE passageContent)? (MACRO_BRACKET_OPEN 'else' MACRO_BRACKET_CLOSE passageContent)? SPACE+ '<<endif>>'
+	: MACRO_BRACKET_OPEN ((MACRO_EXPR? (NEW_LINE|SPACE)* expression)|('actions' text+)|('choice' SPACE link)) MACRO_BRACKET_CLOSE
+	| MACRO_BRACKET_OPEN 'if' SPACE+ expression MACRO_BRACKET_CLOSE passageContent (MACRO_BRACKET_OPEN 'else if' SPACE+ expression MACRO_BRACKET_CLOSE passageContent)? (MACRO_BRACKET_OPEN 'else' MACRO_BRACKET_CLOSE passageContent)? '<<endif>>'
 	| MACRO_BRACKET_OPEN 'nobr' MACRO_BRACKET_CLOSE passageContent SPACE+ '<<endnobr>>'
 	| MACRO_BRACKET_OPEN 'silently' MACRO_BRACKET_CLOSE passageContent SPACE+ '<<endsilently>>'
 	;
@@ -77,6 +81,7 @@ LINK_OPEN : '[[';
 COLON: ':';
 SQ_BRACKET_OPEN: '[';
 SQ_BRACKET_CLOSE: ']';
+SQ_BRACKET_CLOSE_OPEN: '][';
 PIPE: '|';
 DOLLAR: '$';
 FUNC_BRACKET_OPEN: '(';
@@ -85,7 +90,7 @@ MACRO_BRACKET_OPEN: '<<';
 MACRO_BRACKET_CLOSE: '>>';
 FUNC_N : 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
 NOT: 'not';
-LOG_OP : 'is' | 'eq'|'neq'| 'and'| 'or'| '<'| 'lt'|  '<='| 'lte'| '>'| 'gt'| '>='| 'gte' | '%';
+LOG_OP : 'is' | 'eq'|'neq'| 'and'| 'or'| '<'| 'lt'|  '<='| 'lte'| '>'| 'gt'| '>='| 'gte' | '%'| '=';
 FUNC_LINK : 'previous()' | 'start()' | 'passage()';
 MACRO_EXPR : 'set' | 'display' | 'print';
 STRING : SPACE* '"' (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE)* '"';

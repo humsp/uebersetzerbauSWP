@@ -53,6 +53,7 @@
     <Compile Include="Instructions\Templates\Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\ZGlobalVariablesTable.cs" />
+    <Compile Include="ZComponentBase.cs" />
     <Compile Include="ZStoryFile.cs" />
     <Compile Include="Memory\ZHeader.cs" />
     <Compile Include="Memory\ZHeaderExtension.cs" />

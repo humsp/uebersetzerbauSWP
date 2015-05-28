@@ -1,10 +1,14 @@
 :: start
-<<print 3+1>>
+hallo welt
+<<3>>
 <<display "hallo">>
-<<if expression>> Text <<endif>>
-<<if expression>> Text <<else>> Text <<endif>>
-<<if expression>> Text <<else if expression>> Text <<endif>>
+<<if 5 eq 5>> Text
+<<endif>>
+<<if 5 eq 5>> Text <<else>> Text <<endif>>
+<<if 5 eq 5>> Text <<else if 5 eq 5>> Text <<endif>>
 <<actions "Lift the lid of the white pot" 
-"">>          
-<<nobr>> <<print "hallo">> <<endnobr>>
-<<silently>> <<print "hallo">> <<endsilently>>
+"asldjals" "ohsoa">>
+<<nobr>> <<print 
+"hallo">> <<endnobr>>
+<<silently>> <<print 
+"hallo">> <<endsilently>>

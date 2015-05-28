@@ -43,8 +43,9 @@ namespace Twee2Z.Analyzer
             {
                 int l = context.GetChild(0).GetText().Split(' ').Length;
                 string[] tag = new string[l];
-                tag = context.GetChild(0).GetText().Split(' ');
-                for (int a = 0; a < l; a++) {
+                Console.WriteLine(context.GetChild(0).GetText());
+                tag = context.GetChild(0).GetText().Replace("[","").Replace("]","").Split(' ');
+                for (int a = 0; a < tag.Length; a++) {
                     if (!(tag[a] == "" || tag[a] == "[" || tag[a] == "]" || tag[a] == " "))
                     {
                         Console.WriteLine("Tag: " + tag[a]);
@@ -80,33 +81,37 @@ namespace Twee2Z.Analyzer
         {
             Console.WriteLine("[Link]");
             if (context.ChildCount == 6)
-            {
-                string passageName = context.GetChild(3).GetText();
-                Console.WriteLine("Ziel: " + passageName);
-                Console.WriteLine("Text: " + context.GetChild(1).GetText());
-                if (context.GetChild(1).GetText() == "")
+            {                
+                if (context.GetChild(2).GetText().Equals("|"))
                 {
-                    throw new Exception("passage text empty:" + passageName);
+                    string passageName = context.GetChild(3).GetText();
+                    Console.WriteLine("Ziel: " + passageName);
+                    Console.WriteLine("Text: " + context.GetChild(1).GetText());
+                    if (context.GetChild(1).GetText() == "")
+                    {
+                        throw new Exception("passage text empty:" + passageName);
+                    }
+                    _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText(),false));
                 }
-                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText()));
+                else
+                {
+                    string passageName = context.GetChild(1).GetText();
+                    Console.WriteLine("Ziel: " + passageName);
+                    Console.WriteLine("Expression: " + context.GetChild(3).GetText());
+                    if (context.GetChild(1).GetText() == "")
+                    {
+                        throw new Exception("passage text empty:" + passageName);
+                    }
+                    _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(3).GetText(),true));
+                }
+                
             }
-            else if (context.ChildCount == 7)
-            {
-                string passageName = context.GetChild(1).GetText();
-                Console.WriteLine("Ziel: " + passageName);
-                Console.WriteLine("Expression: " + context.GetChild(4).GetText());
-                if (context.GetChild(1).GetText() == "")
-                {
-                    throw new Exception("passage text empty:" + passageName);
-                }
-                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText()));
-            } 
-            else if (context.ChildCount == 9)
+            else if (context.ChildCount == 8)
             {
                 string passageName = context.GetChild(3).GetText();
                 Console.WriteLine("Ziel: " + passageName);
                 Console.WriteLine("Text: " + context.GetChild(1).GetText());
-                Console.WriteLine("Expression: " + context.GetChild(6).GetText());
+                Console.WriteLine("Expression: " + context.GetChild(5).GetText());
                 if (context.GetChild(1).GetText() == "")
                 {
                     throw new Exception("passage text empty:" + passageName);
@@ -121,24 +126,6 @@ namespace Twee2Z.Analyzer
             return base.VisitLink(context);
         }
 
-        /*
-		Zu viel wird anerkannt: Beispiel 
-		asdads
-		asdasd
-
-		Ausgabe: 
-			Text: asdads
-			asdasd
-
-			Text: 
-			asdasd
-
-			Text: asdasd
-
-
-			Text: 
-
-	 */
         public override object VisitText(TweeParser.TextContext context)
         {
             Console.WriteLine("Text: " + context.GetText());

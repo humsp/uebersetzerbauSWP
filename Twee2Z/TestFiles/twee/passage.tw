@@ -3,7 +3,7 @@ Your story wilplay this passage first Edit it by double clicking it
 [[HIERTEXT|myPassage]]
 
 :: StoryTitle
-Your story wil::l di[s]]play this passage first Edit it by double clicking it
+Your story will di[[s]]play this passage first Edit it by double clicking it
 Untitled Story
 
 :: myPassage
@@ -22,5 +22,5 @@ func()
 func(f1)
 func(f2,f)
 
-<<print>>
+<<print "">>
 <<sgfk>>

@@ -10,8 +10,10 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the header extension table writen right after the header.
     /// See also "11.1.7.3 The format of the header" on page 64 for reference.
     /// </summary>
-    class ZHeaderExtension : IZComponent
+    class ZHeaderExtension : ZComponentBase
     {
+        private const int HeaderExtensionSize = 8;
+
         private UInt16 _wordCount;
         private UInt16 _mouseX;
         private UInt16 _mouseY;
@@ -25,9 +27,9 @@ namespace Twee2Z.CodeGen.Memory
             _unicodeTableAddr = 0x0000;
         }
 
-        public Byte[] ToBytes()
+        public override Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[8];
+            Byte[] byteArray = new Byte[HeaderExtensionSize];
 
             byteArray[0x00] = (Byte)(_wordCount >> 8);
             byteArray[0x01] = (Byte)_wordCount;
@@ -43,5 +45,7 @@ namespace Twee2Z.CodeGen.Memory
 
             return byteArray;
         }
+
+        public override int Size { get { return HeaderExtensionSize; } }
     }
 }

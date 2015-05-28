@@ -29,7 +29,7 @@ namespace Twee2Z.ObjectTree
             {
                 for (int i = 0; i < passage.PassageContentList.Count; i++ )
                 {
-                    PassageContent content = passage.PassageContentList.ElementAt(i);
+                    PassageContent content = passage.PassageContentList[i];
 
                     if (content.Type == PassageContent.ContentType.LinkContent)
                     {
@@ -41,9 +41,16 @@ namespace Twee2Z.ObjectTree
                         }
                         else
                         {
-                            System.Console.WriteLine("Ignore Link to: " + link.Target);
-                            passage.PassageContentList.RemoveAt(i);
-                            i--;
+                            System.Console.WriteLine("WARNING: Ignore Link to: " + link.Target);
+                            if(link.DisplayText != null)
+                            {
+                                passage.PassageContentList[i] = new PassageText(link.DisplayText);
+                            }
+                            else
+                            {
+                                passage.PassageContentList.RemoveAt(i);
+                                i--;
+                            }
                         }
                     }
                 }

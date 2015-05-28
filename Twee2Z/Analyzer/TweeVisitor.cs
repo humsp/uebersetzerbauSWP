@@ -30,15 +30,29 @@ namespace Twee2Z.Analyzer
 
         public override object VisitPassageName(TweeParser.PassageNameContext context)
         {
-            Console.WriteLine("Name: " + context.GetText());
-            _currentPassage = new Passage(context.GetText());
-            _tree.AddPassage(_currentPassage);
-            return base.VisitPassageName(context);
+                Console.WriteLine("Name: " + context.GetText());
+                _currentPassage = new Passage(context.GetText());
+                _tree.AddPassage(_currentPassage);
+                return base.VisitPassageName(context);
         }
 
         public override object VisitPassageTags(TweeParser.PassageTagsContext context)
         {
             Console.WriteLine("[Tags]");
+            if (context.ChildCount != 0)
+            {
+                int l = context.GetChild(0).GetText().Split(' ').Length;
+                string[] tag = new string[l];
+                tag = context.GetChild(0).GetText().Split(' ');
+                for (int a = 0; a < l; a++) {
+                    if (!(tag[a] == "" || tag[a] == "[" || tag[a] == "]" || tag[a] == " "))
+                    {
+                        Console.WriteLine("Tag: " + tag[a]);
+                        _currentPassage.AddTag(tag[a]);
+                    }
+                    
+                }
+            }
             return base.VisitPassageTags(context);
         }
 
@@ -76,6 +90,17 @@ namespace Twee2Z.Analyzer
                 }
                 _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText()));
             }
+            else if (context.ChildCount == 7)
+            {
+                string passageName = context.GetChild(1).GetText();
+                Console.WriteLine("Ziel: " + passageName);
+                Console.WriteLine("Expression: " + context.GetChild(4).GetText());
+                if (context.GetChild(1).GetText() == "")
+                {
+                    throw new Exception("passage text empty:" + passageName);
+                }
+                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText()));
+            } 
             else if (context.ChildCount == 9)
             {
                 string passageName = context.GetChild(3).GetText();
@@ -96,6 +121,24 @@ namespace Twee2Z.Analyzer
             return base.VisitLink(context);
         }
 
+        /*
+		Zu viel wird anerkannt: Beispiel 
+		asdads
+		asdasd
+
+		Ausgabe: 
+			Text: asdads
+			asdasd
+
+			Text: 
+			asdasd
+
+			Text: asdasd
+
+
+			Text: 
+
+	 */
         public override object VisitText(TweeParser.TextContext context)
         {
             Console.WriteLine("Text: " + context.GetText());

@@ -1,0 +1,9 @@
+::start
+"Bold" a
+//Italics// b
+__Underline__  c
+==StrikeThrough== d
+^^Superscript^^ e
+~~Subscript~~ f
+{{{Monospace}}} g
+/%Comments%/ h

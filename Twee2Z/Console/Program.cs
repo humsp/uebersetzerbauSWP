@@ -17,11 +17,12 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
+            
             Complie(args[0], zStroyFile);
             
             System.Console.WriteLine("");
             System.Console.WriteLine("Done. Have a nice day!");
-            System.Console.ReadKey(true);
+            System.Console.ReadKey(true);            
         }
 
 
@@ -29,10 +30,14 @@ namespace Twee2Z.Console
         {
             System.Console.WriteLine("Open twee file ...");
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Tree tree = AnalyseFile(tweeFileStream);
+            
+            Tree tree = AnalyseFile(tweeFileStream);            
+            /*
             ValidateTree(tree);
-            CodeGen.ZStoryFile storyFile = GenStoryFile(tree);
-            WriteStoryFile(storyFile, output);
+            CodeGen.ZStoryFile storyFile = GenStoryFile(tree);             
+            WriteStoryFile(storyFile, output);             
+             */ 
+             
         }
 
         static Tree AnalyseFile(FileStream stream)

@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Twee2Z.CodeGen.Instructions
 {
     [DebuggerDisplay("LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_name}")]
-    class ZRoutine : ZComponentBase
+    class ZRoutine : ZComponent
     {
         protected string _name; 
         protected byte _localVariableCount;

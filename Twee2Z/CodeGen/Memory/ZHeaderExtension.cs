@@ -10,7 +10,7 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the header extension table writen right after the header.
     /// See also "11.1.7.3 The format of the header" on page 64 for reference.
     /// </summary>
-    class ZHeaderExtension : ZComponentBase
+    class ZHeaderExtension : ZComponent
     {
         private const int HeaderExtensionSize = 8;
 

@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Memory
     /// Memory between dynamic and high. Contains static stuff like the dictionary table. Goes from 0x4000 to 0xFFFE.
     /// See also "1.1 Regions of memory" on page 12 for reference.
     /// </summary>
-    class ZStaticMemory : ZComponentBase
+    class ZStaticMemory : ZComponent
     {
         private const int StaticMemorySize = ZHighMemory.HighMemoryBase - ZStaticMemory.StaticMemoryBase;
 

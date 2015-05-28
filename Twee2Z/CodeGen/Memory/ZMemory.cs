@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Memory
     /// The entire memory within a story file. It is split into dynamic, static and high memory.
     /// See also "1.1 Regions of memory" on page 12 for reference.
     /// </summary>
-    class ZMemory : ZComponentBase
+    class ZMemory : ZComponent
     {
         internal const int MaxMemorySize = 0x80000;
 

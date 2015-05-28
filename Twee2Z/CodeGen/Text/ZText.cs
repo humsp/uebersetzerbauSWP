@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Twee2Z.CodeGen.Text
 {
     [DebuggerDisplay("Text = {_text}")]
-    class ZText : ZComponentBase
+    class ZText : ZComponent
     {
         private string _text;
         

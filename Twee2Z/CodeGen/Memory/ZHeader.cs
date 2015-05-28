@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the first 64K of a story file.
     /// See also "11. The format of the header" on page 61 for reference.
     /// </summary>
-    class ZHeader : ZComponentBase
+    class ZHeader : ZComponent
     {
         private const int HeaderSize = 64;
 

@@ -8,6 +8,9 @@ using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instructions.Templates
 {
+    /// <summary>
+    /// Print the quoted (literal) Z-encoded string.
+    /// </summary>
     [DebuggerDisplay("Output = {_text.Text}", Name = "print")]
     class Print : ZInstruction
     {

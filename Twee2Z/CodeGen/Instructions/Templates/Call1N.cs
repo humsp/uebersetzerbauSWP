@@ -9,6 +9,9 @@ using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Instructions.Templates
 {
+    /// <summary>
+    /// Executes routine() and throws away result.
+    /// </summary>
     [DebuggerDisplay("Output = {_text.Text}", Name = "call_1n")]
     class Call1n : ZInstruction
     {

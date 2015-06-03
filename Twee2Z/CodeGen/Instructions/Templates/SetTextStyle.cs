@@ -8,6 +8,11 @@ using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instructions.Templates
 {
+    /// <summary>
+    /// Sets the text style to: Roman (if 0), Reverse Video (if 1), Bold (if 2), Italic (4), Fixed Pitch (8).
+    /// In some interpreters (though this is not required) a combination of styles is possible (such as reverse video and bold).
+    /// In these, changing to Roman should turn off all the other styles currently set.
+    /// </summary>
     [DebuggerDisplay("Style = {_styleFlags}", Name = "set_text_style")]
     class SetTextStyle : ZInstruction
     {

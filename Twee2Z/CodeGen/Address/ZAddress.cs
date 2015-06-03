@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Address
 {
     /// <summary>
     /// Abstraction of a memory address in the Z-machine.
     /// </summary>
-    abstract class ZAddress : ZComponent
+    [DebuggerDisplay("Absolute = {_address}")]
+    class ZAddress
     {
         protected int _address;
 
@@ -22,15 +24,30 @@ namespace Twee2Z.CodeGen.Address
         /// <summary>
         /// Get the absolute memory address.
         /// </summary>
-        public int Address { get { return _address; } }
+        public int Absolute
+        {
+            get
+            {
+                return _address;
+            }
+            set
+            {
+                _address = value;
+            }
+        }
 
-        public override int Size
+        public static int Size
         {
             get
             {
                 // Every ZAddress fits into two bytes.
                 return 2;
             }
+        }
+
+        public virtual byte[] ToBytes()
+        {
+            throw new InvalidOperationException("An absolute address cannot be converted into Z-Code.");
         }
     }
 }

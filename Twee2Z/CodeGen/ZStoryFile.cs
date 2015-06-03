@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Twee2Z.CodeGen.Memory;
 using Twee2Z.CodeGen.Instructions;
 using Twee2Z.CodeGen.Instructions.Templates;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen
 {
@@ -20,7 +21,15 @@ namespace Twee2Z.CodeGen
 
         public void SetupHelloWorldDemo(string input)
         {
+            List<ZInstruction> _mainInstructions = new List<ZInstruction>();
+            _mainInstructions.Add(new Print("main:" + System.Environment.NewLine));
+            _mainInstructions.Add(new Print("Teste neue Speicherverwaltung mit call_1n ..." + System.Environment.NewLine + System.Environment.NewLine));
+            _mainInstructions.Add(new Call1n(new ZRoutineLabel("2ndRoutine")));
+            _mainInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
+            _mainInstructions.Add(new Quit());
+
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
+            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine));
 
             _helloWorldInstructions.Add(new Print(input));
 
@@ -40,16 +49,25 @@ namespace Twee2Z.CodeGen
             _helloWorldInstructions.Add(new Print("Alles zusammen Text" + Environment.NewLine));
             _helloWorldInstructions.Add(new Quit());
 
-            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine("main", _helloWorldInstructions) });
+            List<ZInstruction> _2ndRoutineInstructions = new List<ZInstruction>();
+            _2ndRoutineInstructions.Add(new Print("2ndRoutine:" + System.Environment.NewLine));
+            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt! Rufe nun normale Hello World-Routine auf ..." + System.Environment.NewLine + System.Environment.NewLine));
+            _2ndRoutineInstructions.Add(new Call1n(new ZRoutineLabel("helloworldRoutine")));
+            _2ndRoutineInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
+            _2ndRoutineInstructions.Add(new Quit());
+
+            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine("main", _mainInstructions),
+                new ZRoutine("2ndRoutine", _2ndRoutineInstructions),
+                new ZRoutine("helloworldRoutine", _helloWorldInstructions)});
         }
 
         public Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[ZMemory.MaxMemorySize];
+            List<byte> byteList = new List<byte>();
 
-            _zMemory.ToBytes().CopyTo(byteArray, 0);
+            byteList.AddRange(_zMemory.ToBytes());
 
-            return byteArray;
+            return byteList.ToArray();
         }
 
         public int Size

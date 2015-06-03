@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Address
 {
@@ -10,6 +11,7 @@ namespace Twee2Z.CodeGen.Address
     /// Points to a word in the bottom 128K of memory. Used in the abbreviations table only.
     /// See also "1.2.2 Addresses" on page 13 for reference.
     /// </summary>
+    [DebuggerDisplay("Absolute = {_address}, Byte = {(ushort)(_address / 2)}")]
     class ZWordAddress : ZAddress
     {
         /// <param name="address">Absolute address in memory.</param>

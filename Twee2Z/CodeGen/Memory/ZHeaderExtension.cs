@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -47,5 +48,10 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderExtensionSize; } }
+
+        protected override void SetAddress(int absoluteAddr)
+        {
+            _componentAddress = new ZByteAddress(absoluteAddr);
+        }
     }
 }

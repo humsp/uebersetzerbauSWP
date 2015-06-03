@@ -42,7 +42,6 @@
     <Compile Include="Address\ZByteAddress.cs" />
     <Compile Include="Address\ZPackedAddress.cs" />
     <Compile Include="Address\ZWordAddress.cs" />
-    <Compile Include="CodeGen.cs" />
     <Compile Include="Instructions\InstructionFormKind.cs" />
     <Compile Include="Instructions\OpcodeHelper.cs" />
     <Compile Include="Instructions\OperandTypeKind.cs" />
@@ -53,6 +52,9 @@
     <Compile Include="Instructions\ZOpcode.cs" />
     <Compile Include="IZComponent.cs" />
     <Compile Include="Address\ZAddress.cs" />
+    <Compile Include="Label\ZJumpLabel.cs" />
+    <Compile Include="Label\ZRoutineLabel.cs" />
+    <Compile Include="Label\ZLabel.cs" />
     <Compile Include="Memory\ZDynamicMemory.cs" />
     <Compile Include="Memory\ZHighMemory.cs" />
     <Compile Include="Memory\ZStaticMemory.cs" />

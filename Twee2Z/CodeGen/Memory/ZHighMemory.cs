@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Instructions;
 using Twee2Z.CodeGen.Instructions.Templates;
+using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -14,15 +15,13 @@ namespace Twee2Z.CodeGen.Memory
     /// </summary>
     class ZHighMemory : ZComponent
     {
-        private const int HighMemorySize = 0x70000;
-
         internal const ushort HighMemoryBase = 0xFFFF;
         
         private List<ZRoutine> _routines = new List<ZRoutine>();
 
         public ZHighMemory()
         {
-            ZRoutine main = new ZRoutine("main", new ZInstruction[] {new Quit()});
+            ZRoutine main = new ZRoutine("main", new ZInstruction[] { new Quit() });
             _routines.Add(main);
             _subComponents.AddRange(_routines);
         }
@@ -35,21 +34,29 @@ namespace Twee2Z.CodeGen.Memory
 
         public List<ZRoutine> Routines { get { return _routines; } }
 
+        private void SetupForToBytes()
+        {
+            foreach (ZRoutine routine in Routines)
+            {
+                
+            }
+        }
+
         public override Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[HighMemorySize];
-            List<Byte> routineByteList = new List<byte>();
+            List<Byte> byteList = new List<Byte>();
 
             foreach (ZRoutine routine in _routines)
             {
-                routineByteList.AddRange(routine.ToBytes());
+                byteList.AddRange(routine.ToBytes());
             }
 
-            routineByteList.ToArray().CopyTo(byteArray, 0);
-
-            return byteArray;
+            return byteList.ToArray();
         }
-
-        public override int Size { get { return HighMemorySize; } }
+        
+        protected override void SetAddress(int absoluteAddr)
+        {
+            _componentAddress = new ZPackedAddress(absoluteAddr);
+        }
     }
 }

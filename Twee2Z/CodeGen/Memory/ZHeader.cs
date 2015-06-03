@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -192,6 +193,11 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderSize; } }
+
+        protected override void SetAddress(int absoluteAddr)
+        {
+            _componentAddress = new ZByteAddress(absoluteAddr);
+        }
 
         /// <summary>
         /// Flags set by the interpreter to indicate support for certain features. We do not care about these but we are aware of it.

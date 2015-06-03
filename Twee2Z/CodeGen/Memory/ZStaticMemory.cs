@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Tables;
+using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -13,8 +14,6 @@ namespace Twee2Z.CodeGen.Memory
     /// </summary>
     class ZStaticMemory : ZComponent
     {
-        private const int StaticMemorySize = ZHighMemory.HighMemoryBase - ZStaticMemory.StaticMemoryBase;
-
         internal const ushort StaticMemoryBase = 0x4000;
         internal const ushort DictionaryTableAddr = 0x0048;
         internal const ushort AbbreviationTableAddr = 0x0048;
@@ -24,8 +23,8 @@ namespace Twee2Z.CodeGen.Memory
 
         public ZStaticMemory()
         {
-            _dictionaryTable = new ZDictionaryTable();
-            _abbreviationTable = new ZAbbreviationTable();
+            _dictionaryTable = new ZDictionaryTable() { Address = new ZAddress(DictionaryTableAddr) };
+            _abbreviationTable = new ZAbbreviationTable() { Address = new ZAddress(AbbreviationTableAddr) };
 
             _subComponents.Add(_dictionaryTable);
             _subComponents.Add(_abbreviationTable);
@@ -33,14 +32,25 @@ namespace Twee2Z.CodeGen.Memory
 
         public override Byte[] ToBytes()
         {
-            Byte[] byteArray = new Byte[StaticMemorySize];
+            Byte[] byteArray = new Byte[Size];
 
-            _dictionaryTable.ToBytes().CopyTo(byteArray, DictionaryTableAddr);
-            _abbreviationTable.ToBytes().CopyTo(byteArray, AbbreviationTableAddr);
+            _dictionaryTable.ToBytes().CopyTo(byteArray, _dictionaryTable.Address.Absolute);
+            _abbreviationTable.ToBytes().CopyTo(byteArray, _abbreviationTable.Address.Absolute);
 
             return byteArray;
         }
 
-        public override int Size { get { return StaticMemorySize; } }
+        public override int Size
+        {
+            get
+            {
+                return ZMemory.HighMemoryAddr - Address.Absolute;
+            }
+        }
+
+        protected override void SetAddress(int absoluteAddr)
+        {
+            _componentAddress = new ZByteAddress(absoluteAddr);
+        }
     }
 }

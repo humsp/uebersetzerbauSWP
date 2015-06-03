@@ -126,7 +126,7 @@ namespace Twee2Z.CodeGen.Text
                     else if (tableA1.Contains(input[i]) || tableA2.Contains(input[i]))
                         zCharCounter += 2;
                     else
-                        throw new Exception("The given char is not a valid ZChar!");
+                        throw new Exception(String.Format("The given char is not a valid ZChar: '{0}'", input[i]));
                 }
 
                 i++;

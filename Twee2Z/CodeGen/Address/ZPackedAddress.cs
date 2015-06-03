@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Twee2Z.CodeGen.Memory;
 
 namespace Twee2Z.CodeGen.Address
@@ -11,6 +12,7 @@ namespace Twee2Z.CodeGen.Address
     /// Points to a routine or string in high memory.
     /// See also "1.2.2 Addresses" on page 13 for reference.
     /// </summary>
+    [DebuggerDisplay("Absolute = {_address}, Byte = {(ushort)(_address / 8)}")]
     class ZPackedAddress : ZAddress
     {
         /// <param name="address">Absolute address in memory.</param>

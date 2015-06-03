@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Tables
 {
-    class ZAbbreviationTable : ZComponentBase
+    class ZAbbreviationTable : ZComponent
     {
     }
 }

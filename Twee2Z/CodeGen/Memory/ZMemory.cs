@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Memory
     /// The entire memory within a story file. It is split into dynamic, static and high memory.
     /// See also "1.1 Regions of memory" on page 12 for reference.
     /// </summary>
-    class ZMemory : ZComponentBase
+    class ZMemory : ZComponent
     {
         internal const int MaxMemorySize = 0x80000;
 
@@ -24,6 +24,10 @@ namespace Twee2Z.CodeGen.Memory
             _dynamicMem = new ZDynamicMemory();
             _staticMem = new ZStaticMemory();
             _highMem = new ZHighMemory();
+
+            _subComponents.Add(_dynamicMem);
+            _subComponents.Add(_staticMem);
+            _subComponents.Add(_highMem);
         }
 
         public void SetRoutines(IEnumerable<ZRoutine> routines)
@@ -39,6 +43,14 @@ namespace Twee2Z.CodeGen.Memory
             _staticMem.ToBytes().CopyTo(byteArray, 0x4000);
             _highMem.ToBytes().CopyTo(byteArray, 0x10000);
             return byteArray;
+        }
+
+        public override int Size
+        {
+            get
+            {
+                return MaxMemorySize;
+            }
         }
     }
 }

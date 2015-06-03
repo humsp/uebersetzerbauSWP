@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen
 {
-    internal abstract class ZComponentBase : IZComponent
+    abstract class ZComponent : IZComponent
     {
         protected List<IZComponent> _subComponents = new List<IZComponent>();
 

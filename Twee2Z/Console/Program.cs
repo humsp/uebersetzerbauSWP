@@ -17,48 +17,37 @@ namespace Twee2Z.Konsole
 
         static void Main(string[] args)
         {
-            int fall = 0;
             if (args.Length == 0)
             {
-                help();
+                PrintHelp();
                 Console.WriteLine("");
-                Console.WriteLine("Drücken Sie eine Taste um den Program zu terminieren");
+                Console.WriteLine("Drücken Sie eine beliebige Taste ...");
                 Console.ReadKey();
             }
             else
             {
-
-                if (args[0] == "-tw2Z") fall = 1;
-                if (args[0] == "-runZ") fall = 2;
-                if (args[0] == "-runTw") fall = 3;
-                if (args.Contains("-help")) fall = 4;
-
-                switch (fall)
+                switch (args[0].ToLower())
                 {
-                    case 1:
-                        while (checkPath(args[1]))
-                        {
-                            Compile(args[1], args[2]);
-                        }
+                    case "-tw2z":
+                        Compile(args[1], args[2]);
                         break;
-                    case 2:
+                    case "-runz":
                         Console.WriteLine("Case 2");
                         break;
-                    case 3:
+                    case "-runTw":
                         Console.WriteLine("Case 3");
                         break;
-                    case 4:
-                        help();
+                    case "-help":
+                        PrintHelp();
                         break;
                     default:
                         Console.WriteLine("Ihre Eingabe ist fehlerhaft");
-                        help();
+                        PrintHelp();
                         break;
                 }
             }
         }
-
-
+        
         static void Compile(string from, string output)
         {
             System.Console.WriteLine("Open twee file ...");
@@ -100,9 +89,9 @@ namespace Twee2Z.Konsole
             System.Console.WriteLine("The story file has been saved at:");
             System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
         }
-        public static void help()
-        {
 
+        public static void PrintHelp()
+        {
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("");
@@ -121,13 +110,6 @@ namespace Twee2Z.Konsole
             Console.WriteLine("");
             Console.WriteLine("-help     Beschreibung der Funktionen ");
             Console.WriteLine("Bitte beachten Sie Klein- und Großschreibung");
-        }
-
-        public static bool checkPath(string path)
-        {
-
-            if (Directory.Exists(path)) return true;
-            else Console.WriteLine("Der Path {0} existiert nicht, Prüfen Sie es nochmal", path); return false;
         }
     }
 }

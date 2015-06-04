@@ -16,6 +16,14 @@ namespace Twee2Z.Console
         const string tweeFile = "passage.tw";
         const string zStroyFile = "storyfile.z8";
 
+        enum RunCase
+        {
+            Tw2Z,
+            RunZ,
+            RunTw,
+            Help
+        }
+
         static void Main(string[] args)
         {
             // init logger. modify if needed
@@ -33,11 +41,10 @@ namespace Twee2Z.Console
             // end init logger
 
 
-
-
-
-
             int argCounter = 0;
+            string arg0 = null;
+            string arg1 = null;
+            RunCase runCase = RunCase.Help;
 
 
             if (args.Length == 0)
@@ -54,27 +61,29 @@ namespace Twee2Z.Console
                             if (argCounter + 2 >= args.Length)
                             {
                                 Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
-                                PrintHelp();
+                                runCase = RunCase.Help;
                             }
                             else
                             {
-                                Compile(args[argCounter++], args[argCounter++]);
+                                runCase = RunCase.Tw2Z;
+                                arg0 = args[argCounter++];
+                                arg1 = args[argCounter++];
                             }
                             break;
                         case "-runz":
-                            System.Console.WriteLine("Run ZCode");
+                            runCase = RunCase.RunZ;
                             break;
                         case "-runtw":
-                            System.Console.WriteLine("Run twee-code");
+                            runCase = RunCase.RunTw;
                             break;
                         case "-help":
-                            PrintHelp();
+                            runCase = RunCase.Help;
                             break;
                         case "-logall":
                             Logger.LogAll();
                             break;
                         case "-log":
-                            while (args[argCounter].Substring(0, 1) != "-")
+                            while (argCounter < args.Length && args[argCounter].Substring(0, 1) != "-")
                             {
                                 switch (args[argCounter++].ToLower())
                                 {
@@ -104,52 +113,31 @@ namespace Twee2Z.Console
                             }
                             break;
                         default:
-                            System.Console.WriteLine("Ihre Eingabe ist fehlerhaft");
-                            PrintHelp();
+                            Logger.LogError("Invalid argument: " + args[argCounter - 1]);
+                            runCase = RunCase.Help;
                             argCounter = args.Length;
                             break;
                     }
                 }
             }
 
-
-
-                /*
-            if (args.Length == 0)
+            switch (runCase)
             {
-                PrintHelp();
+                case RunCase.Tw2Z:
+                    Compile(arg0, arg1);
+                    break;
+                case RunCase.RunTw:
+                    //System.Console.WriteLine("Run twee-code");
+                    break;
+                case RunCase.RunZ:
+                    //System.Console.WriteLine("Run ZCode");
+                    break;
+                case RunCase.Help:
+                    PrintHelp();
+                    break;
             }
-            else
-            {
-                switch (args[argCounter++].ToLower())
-                {
-                    case "-tw2z":
-                        if (args.Length < 3)
-                        {
-                            Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
-                            PrintHelp();
-                        }
-                        else
-                        {
-                            Compile(args[argCounter++], args[argCounter++]);
-                        }
-                        break;
-                    case "-runz":
-                        System.Console.WriteLine("Run ZCode");
-                        break;
-                    case "-runtw":
-                        System.Console.WriteLine("Run twee-code");
-                        break;
-                    case "-help":
-                        PrintHelp();
-                        break;
-                    default:
-                        System.Console.WriteLine("Ihre Eingabe ist fehlerhaft");
-                        PrintHelp();
-                        break;
-                }
-            }
-                */
+
+            Logger.LogUserOutput("Press any key to contiune");
             System.Console.ReadKey(true);
         }
 

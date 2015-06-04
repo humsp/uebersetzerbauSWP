@@ -40,6 +40,10 @@ namespace Twee2Z.ObjectTree
             {
                 _tags.Add(tag);
             }
+            else
+            {
+                System.Console.WriteLine("WARNING: ignoring tag: " + tag + " for passage:" + Name);
+            }
         }
         public string Name
         {
@@ -54,6 +58,14 @@ namespace Twee2Z.ObjectTree
             get
             {
                 return _passageContentList;
+            }
+        }
+
+        public HashSet<string> Tags
+        {
+            get
+            {
+                return _tags;
             }
         }
     }

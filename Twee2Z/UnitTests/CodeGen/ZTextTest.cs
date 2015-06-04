@@ -2,13 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Twee2Z.CodeGen.Text;
 
-namespace Test
+namespace UnitTests
 {
     [TestClass]
-    public class TextTest
+    public class ZTextTest
     {
         [TestMethod]
-        public void Test()
+        public void TestHelloWorldZText()
         {
             ushort[] referenceArray = { 4522, 17972, 916, 56873 };
             ushort[] helloWolrd = ZText.Convert("Hello world");

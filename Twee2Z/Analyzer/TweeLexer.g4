@@ -1,4 +1,4 @@
-lexer grammar LEX;
+lexer grammar TweeLexer;
 
 /*
  * Lexer Rules

@@ -1,5 +1,5 @@
-grammar Twee;
-import Lexer;
+parser grammar TweeParser;
+
 /*
  * Parser Rules
  */
@@ -19,7 +19,7 @@ passage
 	;
 	
 passageStart
-	: ':'+
+	: DOUBLE_DOT +
 	;
 
 passageName

@@ -20,6 +20,7 @@ namespace Twee2Z.Analyzer
         
         public static ObjectTree.Tree Parse2(CommonTokenStream input)
         {
+            
             System.Console.WriteLine("Parse twee file ...");
             Twee.StartContext startContext = new Twee(input).start();
 

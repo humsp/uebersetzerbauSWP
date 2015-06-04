@@ -8,8 +8,7 @@ using Twee2Z.ObjectTree;
 
 namespace Twee2Z.Analyzer
 {
-
-    class TweeVisitor : TweeBaseVisitor<object>
+     class TweeVisitor : TweeParserBaseVisitor<object>
     {
         static public short link_flag = 0;
         private Tree _tree = new Tree();
@@ -125,5 +124,6 @@ namespace Twee2Z.Analyzer
                 return _tree;
             }
         }
+     
     }
 }

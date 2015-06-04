@@ -48,8 +48,16 @@
     <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeBuilder.cs" />
+<<<<<<< HEAD
     <Compile Include="Twee.g4.parser.cs">
       <DependentUpon>Twee.g4</DependentUpon>
+=======
+    <Compile Include="TweeLexer.g4.cs">
+      <DependentUpon>TweeLexer.g4</DependentUpon>
+    </Compile>
+    <Compile Include="TweeParser.g4.cs">
+      <DependentUpon>TweeParser.g4</DependentUpon>
+>>>>>>> origin/lexer
     </Compile>
     <Compile Include="TweeVisitor.cs" />
   </ItemGroup>
@@ -59,7 +67,11 @@
       <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
     </Antlr4>
     <None Include="packages.config" />
-    <Antlr4 Include="Twee.g4">
+    <Antlr4 Include="TweeParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="TweeLexer.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
     </Antlr4>

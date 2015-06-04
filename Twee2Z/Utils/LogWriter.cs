@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Security;
 
-namespace Twee2Z.Console
+namespace Twee2Z.Utils
 {
     public class LogWriter
     {

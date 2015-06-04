@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Twee2Z.Console
+namespace Twee2Z.Utils
 {
     public class Logger
     {
@@ -16,7 +16,8 @@ namespace Twee2Z.Console
             CodeGen,
             Warning,
             Error,
-            Debug
+            Debug,
+            UserOutput
         }
 
         public static void LogAnalyzer(string text)
@@ -49,6 +50,16 @@ namespace Twee2Z.Console
             Log(text, LogEvent.Error);
         }
 
+        public static void LogError(string text, Exception exception)
+        {
+            Log(text, LogEvent.Error, exception);
+        }
+
+        public static void LogDebug(string text)
+        {
+            Log(text, LogEvent.Debug);
+        }
+
         public static void LogDebug(string text)
         {
             Log(text, LogEvent.Debug);
@@ -64,7 +75,8 @@ namespace Twee2Z.Console
             Logger.AddLogEvent(Logger.LogEvent.CodeGen);
             Logger.AddLogEvent(Logger.LogEvent.Warning);
             Logger.AddLogEvent(Logger.LogEvent.Error);
-            Logger.AddLogEvent(Logger.LogEvent.Debug);
+            Logger.AddLogEvent(Logger.LogEvent.Debug); 
+            Logger.AddLogEvent(Logger.LogEvent.UserOutput);
         }
 
         public static void UseConsoleLogWriter()
@@ -111,6 +123,17 @@ namespace Twee2Z.Console
                 foreach (LogWriter writer in _logWriter)
                 {
                     writer.Log(logEvent + ": " + text);
+                }
+            }
+        }
+
+        public static void Log(string text, LogEvent logEvent, Exception exception)
+        {
+            if (_activeLogEvents.Contains(logEvent))
+            {
+                foreach (LogWriter writer in _logWriter)
+                {
+                    writer.Log(logEvent + ": " + text + " - Exception: " + exception.StackTrace);
                 }
             }
         }

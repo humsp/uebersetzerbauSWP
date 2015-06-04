@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Twee2Z.Console
+namespace Twee2Z.Utils
 {
     public class ClassLogger : Logger
     {

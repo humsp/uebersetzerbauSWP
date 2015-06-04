@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using Twee2Z.Analyzer;
 using Twee2Z.ObjectTree;
+using Twee2Z.Utils;
 
 namespace Twee2Z.Console
 {

@@ -15,6 +15,14 @@ namespace ZCodeInterpreter
 
         public static void Run(String zCodePath)
         {
+            System.OperatingSystem os = Environment.OSVersion;
+            if (os.Platform != PlatformID.Win32NT)
+            {
+                Logger.LogError("This feature run only under windows");
+                return;
+            }
+
+
             FileInfo f = new FileInfo(zCodePath);
             zCodePath = f.FullName;
 

@@ -47,7 +47,7 @@ namespace Twee2Z.Utils
 
         public static void LogError(string text)
         {
-            Log( text, LogEvent.Error);
+            Log(text, LogEvent.Error);
         }
 
         public static void LogError(string text, Exception exception)
@@ -68,14 +68,15 @@ namespace Twee2Z.Utils
         static HashSet<LogEvent> _activeLogEvents = new HashSet<LogEvent>();
         static List<LogWriter> _logWriter = new List<LogWriter>();
 
-        public static void LogAll(){
+        public static void LogAll()
+        {
             Logger.AddLogEvent(Logger.LogEvent.Analyzer);
             Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
             Logger.AddLogEvent(Logger.LogEvent.Validation);
             Logger.AddLogEvent(Logger.LogEvent.CodeGen);
             Logger.AddLogEvent(Logger.LogEvent.Warning);
             Logger.AddLogEvent(Logger.LogEvent.Error);
-            Logger.AddLogEvent(Logger.LogEvent.Debug); 
+            Logger.AddLogEvent(Logger.LogEvent.Debug);
             Logger.AddLogEvent(Logger.LogEvent.UserOutput);
         }
 
@@ -122,7 +123,14 @@ namespace Twee2Z.Utils
             {
                 foreach (LogWriter writer in _logWriter)
                 {
-                    writer.Log(logEvent + ": " + text);
+                    if (logEvent != LogEvent.UserOutput)
+                    {
+                        writer.Log(logEvent + ": " + text);
+                    }
+                    else
+                    {
+                        writer.Log(text);
+                    }
                 }
             }
         }

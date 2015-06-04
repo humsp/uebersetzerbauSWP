@@ -39,13 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address\ZByteAddress.cs" />
+    <Compile Include="Address\ZPackedAddress.cs" />
+    <Compile Include="Address\ZWordAddress.cs" />
     <Compile Include="CodeGen.cs" />
     <Compile Include="Instructions\InstructionFormKind.cs" />
     <Compile Include="Instructions\OpcodeHelper.cs" />
     <Compile Include="Instructions\OperandTypeKind.cs" />
+    <Compile Include="Instructions\Templates\Call1n.cs" />
+    <Compile Include="Instructions\Templates\SetTextStyle.cs" />
     <Compile Include="Instructions\Templates\Quit.cs" />
     <Compile Include="Instructions\ZInstruction.cs" />
+    <Compile Include="Instructions\ZOpcode.cs" />
     <Compile Include="IZComponent.cs" />
+    <Compile Include="Address\ZAddress.cs" />
     <Compile Include="Memory\ZDynamicMemory.cs" />
     <Compile Include="Memory\ZHighMemory.cs" />
     <Compile Include="Memory\ZStaticMemory.cs" />
@@ -53,7 +60,7 @@
     <Compile Include="Instructions\Templates\Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tables\ZGlobalVariablesTable.cs" />
-    <Compile Include="ZComponentBase.cs" />
+    <Compile Include="ZComponent.cs" />
     <Compile Include="ZStoryFile.cs" />
     <Compile Include="Memory\ZHeader.cs" />
     <Compile Include="Memory\ZHeaderExtension.cs" />

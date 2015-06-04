@@ -19,25 +19,142 @@ namespace Twee2Z.Console
         static void Main(string[] args)
         {
             // init logger. modify if needed
-            Logger.LogAll();
+            Logger.AddLogEvent(Logger.LogEvent.UserOutput);
+            Logger.AddLogEvent(Logger.LogEvent.Warning);
+            Logger.AddLogEvent(Logger.LogEvent.Error);
             Logger.UseConsoleLogWriter();
-            string logOutput = "log.txt";
-            if(File.Exists(logOutput)){
+            string logOutput = "defaultLog.txt";
+            if (File.Exists(logOutput))
+            {
                 File.Delete(logOutput);
             }
-            System.Console.WriteLine("See log at: " + System.IO.Path.GetFullPath(logOutput));
+            Logger.LogUserOutput("See default log at: " + System.IO.Path.GetFullPath(logOutput));
             Logger.AddLogWriter(new LogWriter(new StreamWriter(logOutput)));
             // end init logger
 
 
-            Complie(args[0], zStroyFile);
 
-            Logger.LogUserOutput("Done. Have a nice day!");
+
+
+
+            int argCounter = 0;
+
+
+            if (args.Length == 0)
+            {
+                PrintHelp();
+            }
+            else
+            {
+                while (argCounter < args.Length)
+                {
+                    switch (args[argCounter++].ToLower())
+                    {
+                        case "-tw2z":
+                            if (argCounter + 2 >= args.Length)
+                            {
+                                Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
+                                PrintHelp();
+                            }
+                            else
+                            {
+                                Compile(args[argCounter++], args[argCounter++]);
+                            }
+                            break;
+                        case "-runz":
+                            System.Console.WriteLine("Run ZCode");
+                            break;
+                        case "-runtw":
+                            System.Console.WriteLine("Run twee-code");
+                            break;
+                        case "-help":
+                            PrintHelp();
+                            break;
+                        case "-logall":
+                            Logger.LogAll();
+                            break;
+                        case "-log":
+                            while (args[argCounter].Substring(0, 1) != "-")
+                            {
+                                switch (args[argCounter++].ToLower())
+                                {
+                                    case "all":
+                                        Logger.LogAll();
+                                        break;
+                                    case "analyzer":
+                                        Logger.AddLogEvent(Logger.LogEvent.Analyzer);
+                                        break;
+                                    case "codegen":
+                                        Logger.AddLogEvent(Logger.LogEvent.CodeGen);
+                                        break;
+                                    case "debug":
+                                        Logger.AddLogEvent(Logger.LogEvent.Debug);
+                                        break;
+                                    case "objecttree":
+                                        Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
+                                        break;
+                                    case "validation":
+                                        Logger.AddLogEvent(Logger.LogEvent.Validation);
+                                        break;
+                                    default:
+                                        PrintHelp();
+                                        argCounter = args.Length;
+                                        break;
+                                }
+                            }
+                            break;
+                        default:
+                            System.Console.WriteLine("Ihre Eingabe ist fehlerhaft");
+                            PrintHelp();
+                            argCounter = args.Length;
+                            break;
+                    }
+                }
+            }
+
+
+
+                /*
+            if (args.Length == 0)
+            {
+                PrintHelp();
+            }
+            else
+            {
+                switch (args[argCounter++].ToLower())
+                {
+                    case "-tw2z":
+                        if (args.Length < 3)
+                        {
+                            Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
+                            PrintHelp();
+                        }
+                        else
+                        {
+                            Compile(args[argCounter++], args[argCounter++]);
+                        }
+                        break;
+                    case "-runz":
+                        System.Console.WriteLine("Run ZCode");
+                        break;
+                    case "-runtw":
+                        System.Console.WriteLine("Run twee-code");
+                        break;
+                    case "-help":
+                        PrintHelp();
+                        break;
+                    default:
+                        System.Console.WriteLine("Ihre Eingabe ist fehlerhaft");
+                        PrintHelp();
+                        break;
+                }
+            }
+                */
             System.Console.ReadKey(true);
         }
 
 
-        static void Complie(string from, string output)
+        static void Compile(string from, string output)
         {
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -75,6 +192,40 @@ namespace Twee2Z.Console
         {
             Logger.LogUserOutput("Save story file in:\n" + System.IO.Path.GetFullPath(zStroyFile));
             File.WriteAllBytes(output, storyFile.ToBytes());
+        }
+
+        public static void PrintHelp()
+        {
+
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("                            **** Help ****");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("-tw2z     Der Code in der Quellsprache Twee wird zu Z Code übersetzt,");
+            Logger.LogUserOutput("          und in der entsprechende Path gespeichert.");
+            Logger.LogUserOutput("          Bsp Eingabe :  -tw2z bsp.tw zfile.z1");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("-runZ     Als Eingabe wird ein ZCode eingegeben und über Z-Maschine ausgeführt.");
+            Logger.LogUserOutput("          Bsp Eingabe :  -runZ zfile.z1");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("-runTw    Ein Twee Code wird compiliert und über Z Machine ausgeführt");
+            Logger.LogUserOutput("          Bsp Eingabe :  -runTw txtadv.tw");
+            Logger.LogUserOutput("");
+            Logger.LogUserOutput("-help     Beschreibung der Funktionen ");
+            Logger.LogUserOutput("Bitte beachten Sie Klein- und Großschreibung");
+        }
+
+        public static bool checkPath(string path)
+        {
+
+            if (Directory.Exists(path))
+            {
+                return true;
+            }
+            Logger.LogUserOutput("Der Path " + path + "existiert nicht, Prüfen Sie es nochmal");
+            return false;
         }
     }
 }

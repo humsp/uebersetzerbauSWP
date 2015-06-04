@@ -1,10 +1,9 @@
-grammar Twee;
-import Lexer;
+parser grammar Twee;
 /*
  * Parser Rules
  */
 
- tokens {  }
+options {   tokenVocab = LEX; }
 
 /*
  * IMPORTANT: Don't use fragments in parser rules!
@@ -19,7 +18,7 @@ passage
 	;
 	
 passageStart
-	: ':'+
+	: PASS
 	;
 
 passageName
@@ -31,13 +30,15 @@ passageContent
 	;
 
 innerPassageContent
-	: (link|function|text|variable|macro) innerPassageContent
+	: (function|text|variable|macro|link) innerPassageContent
 	| (function|text|variable|macro|link)
 	;
 
 link
-	: LINK_START (WORDS PIPE)? (WORDS|FUNC_LINK) LINK_END
+	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) (SQ_BRACKET_CLOSE SQ_BRACKET_OPEN WORDS)? LINK_END
 	;
+
+
 macro
 	: MACRO_FORM
 	;

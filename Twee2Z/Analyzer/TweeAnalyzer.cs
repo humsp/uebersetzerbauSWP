@@ -21,7 +21,7 @@ namespace Twee2Z.Analyzer
         public static ObjectTree.Tree Parse2(CommonTokenStream input)
         {
             System.Console.WriteLine("Parse twee file ...");
-            TweeParser.StartContext startContext = new TweeParser(input).start();
+            Twee.StartContext startContext = new Twee(input).start();
 
             TweeVisitor visit = new TweeVisitor();
             visit.Visit(startContext);
@@ -33,7 +33,7 @@ namespace Twee2Z.Analyzer
         {
             System.Console.WriteLine("Lex twee file ...");
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
-            return new CommonTokenStream(new TweeLexer(antlrStream));
+            return new CommonTokenStream(new LEX(antlrStream));
         }
     }
 }

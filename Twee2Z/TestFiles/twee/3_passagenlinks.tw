@@ -1,5 +1,5 @@
 :: start
-[[Link]]						5
-[[Link][s]]						8	
-[[Text|previous()]]				7
-[[Text|Link]["Expression"]]		10
+[[Link]]
+[[Text|previous()]]
+[[Link][1+1]]
+[[Text|Link]["Expression"]]

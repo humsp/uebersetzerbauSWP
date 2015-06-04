@@ -4,22 +4,7 @@ lexer grammar LEX;
  * Lexer Rules
  */
  // constructs for parser rules
-LINK_START			: '[[' -> pushMode(LMODE);
 
-mode LMODE;
-WORDS		: WORD+;
-FUNC_LINK	: 'previous()' | 'start()' | 'passage()';
-PIPE				: '|';
-SQ_BRACKET_CLOSE	: ']';
-SQ_BRACKET_OPEN		: '[';
-LINK_END			: ']]'-> popMode;
-
-
-
-/*
-LINK_OPEN (symbol PIPE)? (symbol|FUNC_LINK) SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
-	| LINK_OPEN (symbol PIPE)? (symbol|FUNC_LINK) SQ_BRACKET_CLOSE_OPEN expression SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
-	*/
 
 MACRO_FORM			: MACRO_BRACKET_OPEN EXPRESSION_FORM MACRO_BRACKET_CLOSE;
 fragment IF			: 'if';
@@ -56,7 +41,7 @@ fragment DOLLAR				: '$';
 // special symbols
 STRING	: QUOTE .* QUOTE; 
 INT		: DIGIT+;
-WORD	: ~('0'..'9'|'\n'|'\r'|' '|'['|']');
+WORD	: ~('0'..'9'|'\n'|'\r'|' '|'['|']'|'|'); //<-PIPE hinzugefuegt wegen Link, ist noch zu beheben
 
 // normal symbols
 fragment LETTER: [a-zA-Z];
@@ -72,3 +57,13 @@ fragment QUOTE				: '"';
 
 SPACE : ' ';
 NEW_LINE : ('\r' | '\n' | '\r\n');
+PASS	 : ':'(':'+);
+
+LINK_START			: '[[' -> mode(LMODE);
+mode LMODE;
+FUNC_LINK	: ('previous()' | 'start()' | 'passage()');
+PIPE				: '|';
+SQ_BRACKET_CLOSE	: ']';
+SQ_BRACKET_OPEN		: '[';
+WORDS				: EXPRESSION_FORM|WORD+; //<- nach unten weil sonst keine funk erkannt werden
+LINK_END			: ']]' -> mode(DEFAULT_MODE); //KEIN POPMODE VERWENDEN!!

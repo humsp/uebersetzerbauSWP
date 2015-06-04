@@ -58,7 +58,7 @@ namespace Twee2Z.Console
                     switch (args[argCounter++].ToLower())
                     {
                         case "-tw2z":
-                            if (argCounter + 2 >= args.Length)
+                            if (argCounter + 2 > args.Length)
                             {
                                 Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
                                 runCase = RunCase.Help;
@@ -71,7 +71,16 @@ namespace Twee2Z.Console
                             }
                             break;
                         case "-runz":
-                            runCase = RunCase.RunZ;
+                            if (argCounter + 1 > args.Length)
+                            {
+                                Logger.LogError("Invalid arguments. '-run' needs 1 argement.");
+                                runCase = RunCase.Help;
+                            }
+                            else
+                            {
+                                runCase = RunCase.RunZ;
+                                arg0 = args[argCounter++];
+                            }
                             break;
                         case "-runtw":
                             runCase = RunCase.RunTw;
@@ -131,6 +140,7 @@ namespace Twee2Z.Console
                     break;
                 case RunCase.RunZ:
                     //System.Console.WriteLine("Run ZCode");
+                    ZCodeInterpreter.Interpreter.Run(arg0);
                     break;
                 case RunCase.Help:
                     PrintHelp();
@@ -201,8 +211,12 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("-runTw    Ein Twee Code wird compiliert und über Z Machine ausgeführt");
             Logger.LogUserOutput("          Bsp Eingabe :  -runTw txtadv.tw");
             Logger.LogUserOutput("");
+            Logger.LogUserOutput("-logAll   Um alle Logs zu aktivieren");
+            Logger.LogUserOutput("-log      Um spezielle Logs zu aktivieren.");
+            Logger.LogUserOutput("          Hierzu beliebige weiteren Argumente anhängen:");
+            Logger.LogUserOutput("          all, analyzer, codegen, debug, objecttree, validation");
+            Logger.LogUserOutput("");
             Logger.LogUserOutput("-help     Beschreibung der Funktionen ");
-            Logger.LogUserOutput("Bitte beachten Sie Klein- und Großschreibung");
         }
 
         public static bool checkPath(string path)

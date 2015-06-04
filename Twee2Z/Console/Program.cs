@@ -18,17 +18,28 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
+            // init logger. modify if needed
+            Logger.LogAll();
+            Logger.UseConsoleLogWriter();
+            string logOutput = "log.txt";
+            if(File.Exists(logOutput)){
+                File.Delete(logOutput);
+            }
+            System.Console.WriteLine("See log at: " + System.IO.Path.GetFullPath(logOutput));
+            Logger.AddLogWriter(new LogWriter(new StreamWriter(logOutput)));
+            // end init logger
+
+
             Complie(args[0], zStroyFile);
-            
-            System.Console.WriteLine("");
-            System.Console.WriteLine("Done. Have a nice day!");
+
+            Logger.LogUserOutput("Done. Have a nice day!");
             System.Console.ReadKey(true);
         }
 
 
         static void Complie(string from, string output)
         {
-            System.Console.WriteLine("Open twee file ...");
+            Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
             Tree tree = AnalyseFile(tweeFileStream);
             ValidateTree(tree);
@@ -38,7 +49,7 @@ namespace Twee2Z.Console
 
         public static Tree AnalyseFile(FileStream stream)
         {
-            System.Console.WriteLine("Start analyzer ...");
+            Logger.LogUserOutput("Start analyzer ...");
             return TweeAnalyzer.Parse(new StreamReader(stream));
         }
 
@@ -50,10 +61,10 @@ namespace Twee2Z.Console
 
         public static CodeGen.ZStoryFile GenStoryFile(Tree tree)
         {
-            System.Console.WriteLine("Create story file ...");
+            Logger.LogUserOutput("Create story file ...");
             CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();
 
-            System.Console.WriteLine("Add instructions to story file ...");
+            Logger.LogUserOutput("Add instructions to story file ...");
             string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
             storyFile.SetupHelloWorldDemo(text); // TODO austauschen gegen richtige MEthode
 
@@ -62,10 +73,8 @@ namespace Twee2Z.Console
 
         static void WriteStoryFile(CodeGen.ZStoryFile storyFile, string output)
         {
-            System.Console.WriteLine("Save story file ...");
+            Logger.LogUserOutput("Save story file in:\n" + System.IO.Path.GetFullPath(zStroyFile));
             File.WriteAllBytes(output, storyFile.ToBytes());
-            System.Console.WriteLine("The story file has been saved at:");
-            System.Console.WriteLine(System.IO.Path.GetFullPath(zStroyFile));
         }
     }
 }

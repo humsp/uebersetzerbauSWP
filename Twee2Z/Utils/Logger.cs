@@ -47,7 +47,7 @@ namespace Twee2Z.Utils
 
         public static void LogError(string text)
         {
-            Log(text, LogEvent.Error);
+            Log( text, LogEvent.Error);
         }
 
         public static void LogError(string text, Exception exception)
@@ -60,9 +60,9 @@ namespace Twee2Z.Utils
             Log(text, LogEvent.Debug);
         }
 
-        public static void LogDebug(string text)
+        public static void LogUserOutput(string text)
         {
-            Log(text, LogEvent.Debug);
+            Log(text, LogEvent.UserOutput);
         }
 
         static HashSet<LogEvent> _activeLogEvents = new HashSet<LogEvent>();

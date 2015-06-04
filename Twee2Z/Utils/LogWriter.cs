@@ -26,6 +26,7 @@ namespace Twee2Z.Utils
         public void Log(string text)
         {
             _textWriter.WriteLine(text);
+            _textWriter.Flush();
         }
 
 

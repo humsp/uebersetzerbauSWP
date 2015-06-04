@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
@@ -11,7 +12,6 @@ namespace Twee2Z.ObjectTree
         private const string _startPassageId = "start";
 
         private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
-        //private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         public void AddPassage(Passage passage)
         {
@@ -21,7 +21,7 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                System.Console.WriteLine("WARNING: ignoring passage with same name: " + passage.Name);
+                Logger.LogWarning("ignoring passage with same name: " + passage.Name);
             }
         }
 

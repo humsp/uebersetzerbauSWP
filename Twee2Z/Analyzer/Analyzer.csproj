@@ -47,7 +47,6 @@
   <ItemGroup>
     <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TreeBuilder.cs" />
     <Compile Include="Twee.g4.lexer.cs">
       <DependentUpon>Twee.g4</DependentUpon>
     </Compile>
@@ -67,6 +66,10 @@
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
       <Project>{c62b4606-623d-49a3-ad14-c3047cf59a6b}</Project>
       <Name>ObjectTree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{49d2792c-80fc-4964-ae5f-6bc170928d50}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

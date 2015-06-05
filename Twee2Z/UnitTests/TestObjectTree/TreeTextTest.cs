@@ -23,7 +23,10 @@ namespace UnitTests.TestObjectTree
 
             Assert.IsTrue(tree.Passages.ContainsKey("umlautÜüÄäÖöèéêÉÈÊ"));
             Assert.AreEqual("ende", tree.Passages["umlautÜüÄäÖöèéêÉÈÊ"].PassageContentList[0].PassageText.Text);
-
         }
+
+        // TODO kommentare
+
+        // invaliden passageninhalt prüfen
     }
 }

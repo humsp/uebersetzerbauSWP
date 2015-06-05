@@ -59,6 +59,8 @@
     <Compile Include="TestObjectTree\TreeLinkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestObjectTree\TreeTextTest.cs" />
+    <Compile Include="TestObjectTree\TreeTextFormatTest.cs" />
+    <Compile Include="TestObjectTree\UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Analyzer\Analyzer.csproj">

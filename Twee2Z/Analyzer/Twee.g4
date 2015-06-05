@@ -10,11 +10,11 @@ options {   tokenVocab = LEX; }
  */
 
 start
-	: .* passage+
+	: innerText passage+
 	; 
 
 passage
-	: passageStart SPACE* passageName SPACE* (NEW_LINE passageContent)?
+	: passageStart SPACE* passageName SPACE* passageTags? (WORD|SPACE|INT|STRING)* (NEW_LINE|NEW_LINE passageContent)?
 	;
 	
 passageStart
@@ -38,6 +38,9 @@ link
 	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) (SQ_BRACKET_CLOSE SQ_BRACKET_OPEN WORDS)? LINK_END
 	;
 
+passageTags
+	: TAGS
+	;
 
 macro
 	: MACRO_FORM

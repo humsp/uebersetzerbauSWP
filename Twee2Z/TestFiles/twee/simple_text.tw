@@ -19,3 +19,6 @@ prompt()
 <<1+2*4+3+2/5>>
 <<print(1+2)*4+(3+2)/5>>
 <<$A eq $B>>
+
+::sndPassage
+asd

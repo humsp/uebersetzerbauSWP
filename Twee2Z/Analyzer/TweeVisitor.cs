@@ -41,6 +41,19 @@ namespace Twee2Z.Analyzer
             Console.WriteLine("[PassageContent]");
             return base.VisitPassageContent(context);
         }
+        public override object VisitPassageTags(Twee.PassageTagsContext context)
+        {
+            string[] tags = new string[context.GetText().Split(' ').Length];
+            tags = context.GetText().Split(' ');
+            for (int i = 0; i < tags.Length; i++)
+            {
+                tags[i] = tags[i].Replace("[", "").Replace("]", "");
+                if (!tags[i].Equals("")) { Console.WriteLine("[PassageTag] = " + tags[i]); }
+            }
+                
+            return base.VisitPassageTags(context);
+        }
+
         public override object VisitLink(Twee.LinkContext context)
         {
             Console.WriteLine("[Link]");

@@ -20,7 +20,7 @@ Your story will if display this passage first Edit it by double clicking it
 "hallo">> <<endnobr>>
 <<silently>> <<print 
 "hallo">> <<endsilently>>
-:: pvariable [t1  t2 t3   t4]
+:: pvariable[t1  t2 t3 t4]
 asdsdassdd
 $housesDestroyed
 $_my_favorite_color

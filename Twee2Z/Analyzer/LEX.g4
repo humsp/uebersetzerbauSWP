@@ -59,6 +59,11 @@ SPACE : ' ';
 NEW_LINE : ('\r' | '\n' | '\r\n');
 PASS	 : ':'(':'+);
 
+TAGS				: SQ_BRACKET_OPEN SPACE* TAG_WORDS (SPACE+ TAG_WORDS)* SPACE* SQ_BRACKET_CLOSE;
+fragment TAG_WORDS				: (INT|WORD)+;
+fragment TAG_BRACKET_CLOSE		: ']';
+fragment TAG_BRACKET_OPEN		: '[';
+
 LINK_START			: '[[' -> mode(LMODE);
 mode LMODE;
 FUNC_LINK	: ('previous()' | 'start()' | 'passage()');
@@ -67,3 +72,5 @@ SQ_BRACKET_CLOSE	: ']';
 SQ_BRACKET_OPEN		: '[';
 WORDS				: EXPRESSION_FORM|WORD+; //<- nach unten weil sonst keine funk erkannt werden
 LINK_END			: ']]' -> mode(DEFAULT_MODE); //KEIN POPMODE VERWENDEN!!
+
+

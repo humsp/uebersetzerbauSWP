@@ -11,28 +11,15 @@ using System.Linq;
 namespace UnitTests.TestObjectTree
 {
     [TestClass]
-    public class TreeTest
+    public class TreeLinkTest
     {
-        const string untTestFolder = "../../../TestFiles/UnitTestFiles/";
-        const string passageOnlyPath = untTestFolder + "passageOnly.tw";
-        const string passageLinkPath = untTestFolder + "passageLink.tw";
-        const string passageLinkValidationPath = untTestFolder + "passageLinkValidation.tw";
-
-        [TestMethod]
-        public void TestTreePassageOnly()
-        {
-            Tree tree = createTree(passageOnlyPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
-            Assert.AreEqual(1, tree.Passages.Count);
-            Assert.AreEqual(1, tree.StartPassage.PassageContentList.Count);
-            Assert.AreEqual("Your story will display this passage first Edit it by double clicking it\r\n\r\n",
-                tree.StartPassage.PassageContentList[0].PassageText.Text);
-        }
+        private const string _passageLinkPath = Const.untTestFolder + "passageLink.tw";
+        private const string _passageLinkValidationPath = Const.untTestFolder + "passageLinkValidation.tw";
 
         [TestMethod]
         public void TestTreePassageLink()
         {
-            Tree tree = createTree(passageLinkPath);
+            Tree tree = TreeBuilder.createTree(_passageLinkPath);
             Assert.AreEqual("start", tree.StartPassage.Name);
             Assert.AreEqual(4, tree.Passages.Count);
 
@@ -52,7 +39,7 @@ namespace UnitTests.TestObjectTree
             // 2 Passage
             Passage sndPassage = tree.Passages["StoryTitle"];
             Assert.AreEqual(1, sndPassage.PassageContentList.Count);
-            Assert.AreEqual("Your story wil::l di[s]]play this passage first Edit it by double clicking it\r\nUntitled Story\r\n", 
+            Assert.AreEqual("Your story wil::l di[s]]play this passage first Edit it by double clicking it\r\nUntitled Story\r\n",
                 sndPassage.PassageContentList[0].PassageText.Text);
 
 
@@ -60,7 +47,7 @@ namespace UnitTests.TestObjectTree
             Passage thirdPassage = tree.Passages["myPassage"];
             Assert.AreEqual(3, thirdPassage.PassageContentList.Count);
             Assert.AreEqual("you are done\r\n", thirdPassage.PassageContentList[0].PassageText.Text);
-            
+
             PassageLink thirdPassageLink = thirdPassage.PassageContentList[1].PassageLink;
             Assert.AreEqual("start", thirdPassageLink.Target);
             Assert.AreEqual(startPassage, thirdPassageLink.TargetPassage);
@@ -77,7 +64,7 @@ namespace UnitTests.TestObjectTree
         [TestMethod]
         public void TestTreePassageLinkValidation()
         {
-            Tree tree = createTree(passageLinkValidationPath);
+            Tree tree = TreeBuilder.createTree(_passageLinkValidationPath);
             Assert.AreEqual("start", tree.StartPassage.Name);
             Assert.AreEqual(2, tree.Passages.Count);
 
@@ -97,34 +84,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual(2, fourthPassage.PassageContentList.Count);
             Assert.AreEqual("Anonymous ", fourthPassage.PassageContentList[0].PassageText.Text);
             Assert.AreEqual("x\r\n", fourthPassage.PassageContentList[1].PassageText.Text);
-        
-        }
 
-        [TestMethod]
-        public void TestTreePassageTag()
-        {
-            Tree tree = createTree(passageLinkPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
-            Assert.AreEqual(4, tree.Passages.Count);
-
-            Assert.AreEqual(3, tree.StartPassage.PassageContentList.Count);
-
-            HashSet<string> tags = tree.StartPassage.Tags;
-
-            Assert.AreEqual(3, tags.Count());
-
-            Assert.IsTrue(tags.Contains("tag1"));
-            Assert.IsTrue(tags.Contains("tag2"));
-            Assert.IsTrue(tags.Contains("tag3"));
-        }
-
-
-        private Tree createTree(string tweeFile)
-        {
-            FileStream tweeFileStream = new FileStream(tweeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Tree tree = Program.AnalyseFile(tweeFileStream);
-            Program.ValidateTree(tree);
-            return tree;
         }
     }
 }

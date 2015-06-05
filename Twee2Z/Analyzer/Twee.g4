@@ -10,7 +10,7 @@ options {   tokenVocab = LEX; }
  */
 
 start
-	: innerText passage+
+	: innerText? passage+
 	; 
 
 passage

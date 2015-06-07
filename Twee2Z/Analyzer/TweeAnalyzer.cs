@@ -26,6 +26,7 @@ namespace Twee2Z.Analyzer
 
             TweeVisitor visit = new TweeVisitor();
             visit.Visit(startContext);
+
             System.Console.WriteLine("Convert parse tree into object tree ...");
             return visit.Tree;
         }         

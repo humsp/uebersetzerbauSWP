@@ -38,7 +38,7 @@ namespace Twee2Z.Analyzer
 
         public override object VisitPassageContent(Twee.PassageContentContext context)
         {
-            Console.WriteLine("[PassageContent]");
+            Console.WriteLine("[PassageContent]");                    
             return base.VisitPassageContent(context);
         }
         public override object VisitPassageTags(Twee.PassageTagsContext context)

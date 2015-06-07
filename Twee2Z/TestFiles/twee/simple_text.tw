@@ -1,24 +1,26 @@
 :: start
 print
 Android S$martphone ab Ve display rsion 4(bentigt Lufthansa App und Samsung Wallet).
-[[Ziel]]
-[[Text|previous()]]
-"hallo1234567890ß@€*~+#-_.:,;<>|!§$%&/()=?`´^^"
+"hallo1234567890ß@€*~+#-_.:,;<>|!§$%&/()=?`´^^" ""
 $housesDestroyed
 $_my_favorite_color
+""
 $AN_EXTREMELY_IMPORTANT_NUMBER
 $street8
 $i
-random()
+[[ziel]]
+random("a")
 either()
+$i
 visited()
-visitedTag($i,  $a)
 turns()
 confirm()
 prompt()
-<<1+2*4+3+2/5>>
-<<print(1+2)*4+(3+2)/5>>
-<<$A eq $B>>
+<<display>>
+<<actions>>
+<<choice>>
 
-::sndPassage
+<<nobr>> <<print 
+>> <<endnobr>>
+<<silently>> <<print >> <<endsilently>>
 asd

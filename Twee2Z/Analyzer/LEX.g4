@@ -62,8 +62,8 @@ FUNC_BRACKET_CLOSE	: ')' -> popMode;
 
 // MAKRO-MODE 
 mode MMode;
-FOR                 : 'for' 'in'
-ENDFOR              : 'endfor'
+FOR                 : 'for' 'in' SPACE*;
+ENDFOR              : 'endfor' SPACE*;
 IF					: 'if' SPACE*;
 ELSE_IF				: 'else if' SPACE*;
 ELSE				: 'else' SPACE*;

@@ -60,6 +60,8 @@ FUNC_BRACKET_CLOSE	: ')' -> popMode;
 
 // MAKRO-MODE 
 mode MMode;
+FOR                 : 'for' 'in' SPACE*;
+ENDFOR              : 'endfor' SPACE*;
 IF					: 'if' SPACE*;
 ELSE_IF				: 'else if' SPACE*;
 ELSE				: 'else' SPACE*;
@@ -70,6 +72,7 @@ SILENTLY			: 'silently' SPACE*;
 ENDSILENTLY			: 'endsilently' SPACE*;
 ACTIONS				: 'actions' SPACE*;
 CHOICE				: 'choice' SPACE* ;
+RADIO               : 'radio' SPACE* ;
 DISPLAY				: 'display' (NEW_LINE|SPACE)*;
 SET					: 'set' (NEW_LINE|SPACE)*;
 PRINT				: 'print' (NEW_LINE|SPACE)*;

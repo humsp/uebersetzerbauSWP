@@ -109,8 +109,6 @@ namespace Twee2Z.Analyzer
             return base.VisitText(context);
         }
 
-
-
         public override object VisitVariable(Twee.VariableContext context)
         {
             Console.WriteLine("Variable: " + context.GetText());
@@ -122,6 +120,12 @@ namespace Twee2Z.Analyzer
         {
             Console.WriteLine("Function: " + context.GetText());
             return base.VisitFunction(context);
+        }
+
+        public override object VisitFormat(Twee.FormatContext context)
+        {
+            Console.WriteLine("Format: " + context.GetText());
+            return base.VisitFormat(context);
         }
 
         public override object VisitMacro(Twee.MacroContext context)

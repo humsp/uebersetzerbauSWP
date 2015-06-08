@@ -4,8 +4,6 @@ lexer grammar LEX;
  * Lexer Rules
  */
 
-
-
 // special symbols
 INT					: DIGIT+;
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
@@ -17,10 +15,10 @@ UNDERLINE_BEGIN		: '__'   -> pushMode(UnderlineMode);
 STRIKEOUT_BEGIN		: '=='   -> pushMode(StrikeoutMode);
 SUPERSCRIPT_BEGIN	: '^^'   -> pushMode(SuperscriptMode);
 SUBSCRIPT_BEGIN		: '~~'   -> pushMode(SubscriptMode);
-MONOSPACE_BEGIN		: '}}}'  -> pushMode(MonospaceMode);
-COMMENT_BEGIN		: '%/'   -> pushMode(CommentMode);
+MONOSPACE_BEGIN		: '{{{'  -> pushMode(MonospaceMode);
+COMMENT_BEGIN		: '/%'   -> pushMode(CommentMode);
 STRING				: STRING_START STRING_BODY STRING_END;
-WORD				: ~('0'..'9'|'\n'|'\r'|'['|']'|' '|'"'); //<-PIPE hinzugefuegt wegen Link, ist noch zu beheben
+WORD				: ~('0'..'9'|'\r'|'\n'|'['|']'|' '|'"'); //<-PIPE hinzugefuegt wegen Link, ist noch zu beheben
 
 // ('''' | '//' | '__' | '==' | '^^' | '~~' | '{{{' | '/%' | '@@')
 
@@ -137,7 +135,7 @@ SUBSCRIPT_END			: '~~' -> popMode;
 
 mode MonospaceMode;
 MONOSPACE_TEXT_SWITCH	: ('='|'_'|'^'|'~'|'//'|'/%') -> pushMode(DEFAULT_MODE);
-MONOSPACE_TEXT			: .*?;
+MONOSPACE_TEXT			: ~[}];
 MONOSPACE_END			: '}}}' -> popMode;
 
 mode CommentMode;

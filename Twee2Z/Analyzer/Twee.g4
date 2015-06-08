@@ -9,8 +9,9 @@ options {   tokenVocab = LEX; }
  * IMPORTANT: Don't use fragments in parser rules!
  */
 
+// TODO: ignore everything before start
 start
-	: innerText? passage+
+	: passage+
 	; 
 
 passage
@@ -22,16 +23,17 @@ passageStart
 	;
 
 passageName
-	:  (WORD|INT)+
+	:  (WORD|INT|SPACE)+
 	;
+	catch [RecognitionException] {  }
 
 passageContent
 	:  innerPassageContent	
 	;
 
 innerPassageContent
-	: (macro|function|text|variable|link) innerPassageContent
-	| (macro|function|text|variable|link)
+	: (macro|function|text|variable|link|format) innerPassageContent
+	| (macro|function|text|variable|link|format)
 	;
 
 link
@@ -42,7 +44,7 @@ passageTags
 	: TAGS
 	;
 
-/* TODO: weder ACTIONS noch CHOICE akzeptieren etwas. Mode-Problem?*/
+/* TODO: neither ACTIONS or CHOICE are accepted */
 macro
 	: MACRO_START (((DISPLAY|SET|PRINT) (EXPRESSION_FORM)?)| (ACTIONS STRING?) | CHOICE link?) MACRO_END 
 	| MACRO_START IF (STRING) MACRO_END passageContent (MACRO_START ELSE_IF (STRING) MACRO_END passageContent)? (MACRO_START ELSE MACRO_END passageContent)? MACRO_START ENDIF MACRO_END
@@ -58,21 +60,22 @@ variable
 	: VAR_NAME
 	;
 
+format
+	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT | passageContent)* ITALIC_END)
+	| (UNDERLINE_BEGIN (UNDERLINE_TEXT_SWITCH | UNDERLINE_TEXT | passageContent)* UNDERLINE_END)
+	| (STRIKEOUT_BEGIN (STRIKEOUT_TEXT_SWITCH | STRIKEOUT_TEXT | passageContent)*	STRIKEOUT_END)	
+	| (SUPERSCRIPT_BEGIN (SUPERSCRIPT_TEXT_SWITCH | SUPERSCRIPT_TEXT | passageContent)* SUPERSCRIPT_END)
+	| (SUBSCRIPT_BEGIN (SUBSCRIPT_TEXT_SWITCH | SUBSCRIPT_TEXT | passageContent)* SUBSCRIPT_END)
+	| (MONOSPACE_BEGIN (MONOSPACE_TEXT_SWITCH | MONOSPACE_TEXT | passageContent)* MONOSPACE_END)
+	| (COMMENT_BEGIN (COMMENT_TEXT_SWITCH | COMMENT_TEXT | passageContent)* COMMENT_END)
+	;
+
+//TODO: last symbol is always put on new line
 text
 	: innerText
 	;
 
 innerText
-	: (WORD|NEW_LINE|SPACE|INT|STRING|format) innerText
-	| (WORD|NEW_LINE|SPACE|INT|STRING|format)
-	;
-
-format
-	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT) ITALIC_END)
-	| (UNDERLINE_BEGIN (UNDERLINE_TEXT_SWITCH | UNDERLINE_TEXT) UNDERLINE_END)
-	| (STRIKEOUT_BEGIN (STRIKEOUT_TEXT_SWITCH | STRIKEOUT_TEXT)	STRIKEOUT_END)	
-	| (SUPERSCRIPT_BEGIN (SUPERSCRIPT_TEXT_SWITCH | SUPERSCRIPT_TEXT) SUPERSCRIPT_END)
-	| (SUBSCRIPT_BEGIN (SUBSCRIPT_TEXT_SWITCH | SUBSCRIPT_TEXT) SUBSCRIPT_END)
-	| (MONOSPACE_BEGIN (MONOSPACE_TEXT_SWITCH | MONOSPACE_TEXT) MONOSPACE_END)
-	| (COMMENT_BEGIN (COMMENT_TEXT_SWITCH | COMMENT_TEXT) COMMENT_END)
+	: (WORD|NEW_LINE|SPACE|INT|STRING) innerText
+	| (WORD|NEW_LINE|SPACE|INT|STRING)
 	;

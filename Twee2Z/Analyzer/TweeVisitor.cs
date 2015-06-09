@@ -74,6 +74,11 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + passageName);
                 }
+                if (context.GetChild(3).GetText() == "")
+                {
+                    throw new Exception("passage name empty:" + context.GetChild(3));
+                }
+
                 _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText()));
             }
             else if (context.ChildCount == 9)
@@ -100,6 +105,7 @@ namespace Twee2Z.Analyzer
         {
             Logger.LogAnalyzer("Text: " + context.GetText());
             _currentPassage.AddPassageContent(new PassageText(context.GetText()));
+
             return base.VisitText(context);
         }
 
@@ -113,6 +119,8 @@ namespace Twee2Z.Analyzer
         public override object VisitFunction(TweeParser.FunctionContext context)
         {
             Logger.LogAnalyzer("Function: " + context.GetText());
+   // substring = str.Split(',')[0]; das könnt ihr dafür nutzen, die einzelne Argumente zu extrahieren 
+   // PassgeFunction.addArg funktion steht euch zur Verfügung.
             return base.VisitFunction(context);
         }
         public override object VisitMacro(TweeParser.MacroContext context)

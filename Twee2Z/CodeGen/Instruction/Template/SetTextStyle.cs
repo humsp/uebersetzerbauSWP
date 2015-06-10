@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
 
-namespace Twee2Z.CodeGen.Instructions.Templates
+namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
     /// Sets the text style to: Roman (if 0), Reverse Video (if 1), Bold (if 2), Italic (4), Fixed Pitch (8).

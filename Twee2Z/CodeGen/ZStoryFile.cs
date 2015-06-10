@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Memory;
-using Twee2Z.CodeGen.Instructions;
-using Twee2Z.CodeGen.Instructions.Templates;
+using Twee2Z.CodeGen.Instruction;
+using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen

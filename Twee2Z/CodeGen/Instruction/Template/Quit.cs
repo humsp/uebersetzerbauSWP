@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Twee2Z.CodeGen.Instructions.Templates
+namespace Twee2Z.CodeGen.Instruction.Template
 {
     class Quit : ZInstruction
     {

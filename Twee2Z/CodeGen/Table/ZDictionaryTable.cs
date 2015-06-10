@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Twee2Z.CodeGen.Tables
+namespace Twee2Z.CodeGen.Table
 {
-    class ZGlobalVariablesTable : ZComponent
+    class ZDictionaryTable : ZComponent
     {
     }
 }

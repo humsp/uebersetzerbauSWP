@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.CodeGen.Tables;
-using Twee2Z.CodeGen.Instructions.Templates;
+using Twee2Z.CodeGen.Table;
+using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
 

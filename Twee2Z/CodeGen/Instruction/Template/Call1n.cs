@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
 
-namespace Twee2Z.CodeGen.Instructions.Templates
+namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
     /// Executes routine() and throws away result.

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
-namespace Twee2Z.CodeGen.Instructions
+namespace Twee2Z.CodeGen.Instruction
 {
     [DebuggerDisplay("OperandCount = {OperandCount}", Name = "{Name}")]
     class ZInstruction : ZComponent

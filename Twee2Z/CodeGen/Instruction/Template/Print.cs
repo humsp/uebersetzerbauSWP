@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
 
-namespace Twee2Z.CodeGen.Instructions.Templates
+namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
     /// Print the quoted (literal) Z-encoded string.

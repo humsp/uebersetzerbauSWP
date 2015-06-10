@@ -114,15 +114,24 @@ namespace Twee2Z.Analyzer
         {
             if (!context.GetText().Equals("\r\n"))
             {
+                if (!context.GetText().Equals(""))
+                {
+                    Console.Write(context.GetChild(0).GetText());
+                }
+                else
+                {
                     Console.WriteLine("Text: " + context.GetChild(0).GetText());
+                }
+                    
             }
+            
             _currentPassage.AddPassageContent(new PassageText(context.GetText()));
             return base.VisitText(context);
         }
 
         public override object VisitVariable(Twee.VariableContext context)
         {
-            Console.WriteLine("Variable: " + context.GetText());
+            Console.WriteLine("\nVariable: " + context.GetText());
             _tree.SetVariable(new Variable(context.GetText()));
             return base.VisitVariable(context);
         }

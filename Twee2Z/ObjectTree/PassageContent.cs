@@ -29,8 +29,7 @@ namespace Twee2Z.ObjectTree
         public enum ContentType
         {
             TextContent,
-            LinkContent,
-            TextContent
+            LinkContent
         };
 
         private ContentType _type;

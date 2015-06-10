@@ -32,11 +32,10 @@ namespace Twee2Z.ObjectTree
            _content.Add(content);
         }
 
-        public void addExp(string exp)
-        {
+		public void addExp(string exp)
+		{
 
-            _expression.Add(exp);
-        }
-
+			_expression.Add(exp);
+		}
     }
 }

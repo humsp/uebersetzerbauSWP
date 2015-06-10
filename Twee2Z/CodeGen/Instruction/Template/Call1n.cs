@@ -13,7 +13,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// <summary>
     /// Executes routine() and throws away result.
     /// </summary>
-    [DebuggerDisplay("RoutineAddress = {_routineLabel.TargetAddress}", Name = "call_1n")]
+    [DebuggerDisplay("Name = {_opcode.Name}, RoutineAddress = {_routineLabel.TargetAddress}")]
     class Call1n : ZInstruction
     {
         private ZRoutineLabel _routineLabel = null;

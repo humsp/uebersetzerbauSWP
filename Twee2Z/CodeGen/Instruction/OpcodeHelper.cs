@@ -143,7 +143,7 @@ namespace Twee2Z.CodeGen.Instruction
                     {
                         if (operandTypeKinds.Count() <= i)
                         {
-                            opcodeOperands |= (byte)(0x11 << ((3 - i) * 2));
+                            opcodeOperands |= (byte)(0x03 << ((3 - i) * 2));
                             continue;
                         }
 
@@ -156,10 +156,10 @@ namespace Twee2Z.CodeGen.Instruction
                                 opcodeOperands |= (byte)(0x01 << ((3 - i) * 2));
                                 break;
                             case OperandTypeKind.Variable:
-                                opcodeOperands |= (byte)(0x10 << ((3 - i) * 2));
+                                opcodeOperands |= (byte)(0x02 << ((3 - i) * 2));
                                 break;
                             case OperandTypeKind.OmittedAltogether:
-                                opcodeOperands |= (byte)(0x11 << ((3 - i) * 2));
+                                opcodeOperands |= (byte)(0x03 << ((3 - i) * 2));
                                 break;
                             default:
                                 throw new ArgumentException(String.Format("Unknown OperandTypeKind '{0}'", operandTypeKinds[i].ToString()), "operandTypeKinds");
@@ -188,7 +188,10 @@ namespace Twee2Z.CodeGen.Instruction
                     for (int i = 0; i < 4; i++)
                     {
                         if (operandTypeKinds.Count() <= i)
-                            opcodeOperands |= (byte)(0x11 << ((3 - i) * 2));
+                        {
+                            opcodeOperands |= (byte)(0x03 << ((3 - i) * 2));
+                            continue;
+                        }
 
                         switch (operandTypeKinds[i])
                         {
@@ -199,10 +202,10 @@ namespace Twee2Z.CodeGen.Instruction
                                 opcodeOperands |= (byte)(0x01 << ((3 - i) * 2));
                                 break;
                             case OperandTypeKind.Variable:
-                                opcodeOperands |= (byte)(0x10 << ((3 - i) * 2));
+                                opcodeOperands |= (byte)(0x02 << ((3 - i) * 2));
                                 break;
                             case OperandTypeKind.OmittedAltogether:
-                                opcodeOperands |= (byte)(0x11 << ((3 - i) * 2));
+                                opcodeOperands |= (byte)(0x03 << ((3 - i) * 2));
                                 break;
                             default:
                                 throw new ArgumentException(String.Format("Unknown OperandTypeKind '{0}'", operandTypeKinds[i].ToString()), "operandTypeKinds");

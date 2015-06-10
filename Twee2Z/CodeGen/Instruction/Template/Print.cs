@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// <summary>
     /// Print the quoted (literal) Z-encoded string.
     /// </summary>
-    [DebuggerDisplay("Output = {_text.Text}", Name = "print")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Output = {_text.Text}")]
     class Print : ZInstruction
     {
         private ZText _text = null;

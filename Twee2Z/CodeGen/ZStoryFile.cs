@@ -23,19 +23,27 @@ namespace Twee2Z.CodeGen
         {
             List<ZInstruction> _mainInstructions = new List<ZInstruction>();
             _mainInstructions.Add(new Print("main:" + System.Environment.NewLine));
-            _mainInstructions.Add(new Print("Teste neue Speicherverwaltung mit call_1n ..." + System.Environment.NewLine + System.Environment.NewLine));
+            _mainInstructions.Add(new Print("Teste neue Speicherverwaltung mit call_1n ..."));
+            _mainInstructions.Add(new NewLine());
+            _mainInstructions.Add(new NewLine());
             _mainInstructions.Add(new Call1n(new ZRoutineLabel("2ndRoutine")));
             
             _mainInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
             _mainInstructions.Add(new Quit());
 
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
-            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine) { Label = new ZLabel("intro") });
+            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine));
 
             _helloWorldInstructions.Add(new Print(input));
 
-            _helloWorldInstructions.Add(new Print(Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold) { Label = new ZLabel("teil2") });
+            _helloWorldInstructions.Add(new NewLine());
+            _helloWorldInstructions.Add(new PrintUnicode('y'));
+            _helloWorldInstructions.Add(new NewLine());
+            _helloWorldInstructions.Add(new PrintUnicode('ä'));
+            _helloWorldInstructions.Add(new NewLine());
+            _helloWorldInstructions.Add(new PrintUnicode('€'));
+            _helloWorldInstructions.Add(new NewLine());
+            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
             _helloWorldInstructions.Add(new Print("Fetter Text" + Environment.NewLine));
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
@@ -52,7 +60,9 @@ namespace Twee2Z.CodeGen
 
             List<ZInstruction> _2ndRoutineInstructions = new List<ZInstruction>();
             _2ndRoutineInstructions.Add(new Print("2ndRoutine:" + System.Environment.NewLine));
-            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt! Rufe nun normale Hello World-Routine auf ..." + System.Environment.NewLine + System.Environment.NewLine));
+            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt! Rufe nun normale Hello World-Routine auf ..."));
+            _2ndRoutineInstructions.Add(new NewLine());
+            _2ndRoutineInstructions.Add(new NewLine());
             
             _2ndRoutineInstructions.Add(new Jump(new ZJumpLabel("helloworldCall")));
             _2ndRoutineInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));

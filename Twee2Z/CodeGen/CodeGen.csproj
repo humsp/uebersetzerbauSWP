@@ -45,8 +45,10 @@
     <Compile Include="Instruction\InstructionFormKind.cs" />
     <Compile Include="Instruction\OpcodeHelper.cs" />
     <Compile Include="Instruction\OperandTypeKind.cs" />
+    <Compile Include="Instruction\Template\PrintUnicode.cs" />
     <Compile Include="Instruction\Template\Jump.cs" />
     <Compile Include="Instruction\Template\Call1n.cs" />
+    <Compile Include="Instruction\Template\NewLine.cs" />
     <Compile Include="Instruction\Template\SetTextStyle.cs" />
     <Compile Include="Instruction\Template\Quit.cs" />
     <Compile Include="Text\TextHelper.cs" />

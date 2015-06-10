@@ -13,7 +13,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// <summary>
     /// Executes routine() and throws away result.
     /// </summary>
-    [DebuggerDisplay("JumpAddress = {_jumpLabel.TargetAddress}", Name = "jump")]
+    [DebuggerDisplay("Name = {_opcode.Name}, JumpAddress = {_jumpLabel.TargetAddress}")]
     class Jump : ZInstruction
     {
         private ZJumpLabel _jumpLabel = null;

@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    [DebuggerDisplay("Hex = {_opcode.Hex}, InstructionForm = {_opcode.InstructionForm}, OperandCount = {_opcode.OperandCount}", Name = "{_opcode.Name}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, OpcodeNumber = {_opcode.OpcodeNumber}, InstructionForm = {_opcode.InstructionForm}, OperandCount = {_opcode.OperandCount}", Name = "{_opcode.Name}")]
     class ZInstruction : ZComponent
     {
         protected ZOpcode _opcode;

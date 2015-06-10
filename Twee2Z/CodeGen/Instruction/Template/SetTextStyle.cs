@@ -13,7 +13,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// In some interpreters (though this is not required) a combination of styles is possible (such as reverse video and bold).
     /// In these, changing to Roman should turn off all the other styles currently set.
     /// </summary>
-    [DebuggerDisplay("Style = {_styleFlags}", Name = "set_text_style")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Style = {_styleFlags}")]
     class SetTextStyle : ZInstruction
     {
         private StyleFlags _styleFlags;

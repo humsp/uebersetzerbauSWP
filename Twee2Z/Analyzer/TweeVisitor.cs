@@ -37,8 +37,7 @@ namespace Twee2Z.Analyzer
         }       
 
         public override object VisitPassageContent(Twee.PassageContentContext context)
-        {
-            Console.WriteLine("[PassageContent]");                    
+        {                    
             return base.VisitPassageContent(context);
         }
         public override object VisitPassageTags(Twee.PassageTagsContext context)
@@ -48,7 +47,9 @@ namespace Twee2Z.Analyzer
             for (int i = 0; i < tags.Length; i++)
             {
                 tags[i] = tags[i].Replace("[", "").Replace("]", "");
-                if (!tags[i].Equals("")) { Console.WriteLine("[PassageTag] = " + tags[i]); }
+                if (!tags[i].Equals("")) { 
+                    //Speichern hier in ObjectTree!
+                    Console.WriteLine("[PassageTag] = " + tags[i]); }
             }
                 
             return base.VisitPassageTags(context);
@@ -57,53 +58,63 @@ namespace Twee2Z.Analyzer
         public override object VisitLink(Twee.LinkContext context)
         {
             Console.WriteLine("[Link]");
-               
+            /*Hier OBJECTTREE:*/
+            string Ziel = "";
+            string Text = "";
+            string Expression = "";
+
             if (context.ChildCount == 5)
             {
 
-                string passageName = context.GetChild(3).GetText();
-                Console.WriteLine("Ziel: " + passageName);
-                Console.WriteLine("Text: " + context.GetChild(1).GetText());
-                if (context.GetChild(1).GetText() == "")
+                Ziel = context.GetChild(3).GetText();
+                Text = context.GetChild(1).GetText();
+                Console.WriteLine("Ziel: " + Ziel);
+                Console.WriteLine("Text: " + Text);
+                if (Ziel == "")
                 {
-                    throw new Exception("passage text empty:" + passageName);
+                    throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText(), false));
+                _currentPassage.AddPassageContent(new PassageLink(Ziel, Text, false));
             }
             else if (context.ChildCount == 6)
             {
-                string passageName = context.GetChild(1).GetText();
-                Console.WriteLine("Ziel: " + passageName);
-                Console.WriteLine("Expression: " + context.GetChild(4).GetText());
-                if (context.GetChild(1).GetText() == "")
+                Ziel = context.GetChild(1).GetText();
+                Expression = context.GetChild(4).GetText();
+                Console.WriteLine("Ziel: " + Ziel);
+                Console.WriteLine("Expression: " + Expression);
+                if (Ziel == "")
                 {
-                    throw new Exception("passage text empty:" + passageName);
+                    throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(3).GetText(), true));
+                _currentPassage.AddPassageContent(new PassageLink(Ziel, Expression, true));
             }
             else if (context.ChildCount == 8)
             {
-                string passageName = context.GetChild(3).GetText();
-                Console.WriteLine("Ziel: " + passageName);
-                Console.WriteLine("Text: " + context.GetChild(1).GetText());
-                Console.WriteLine("Expression: " + context.GetChild(6).GetText());
+                Ziel = context.GetChild(3).GetText();
+                Text = context.GetChild(1).GetText();
+                Expression = context.GetChild(6).GetText();
+                Console.WriteLine("Ziel: " + Ziel);
+                Console.WriteLine("Text: " + Text);
+                Console.WriteLine("Expression: " + Expression);
                 if (context.GetChild(2).GetText() == "")
                 {
-                    throw new Exception("passage text empty:" + passageName);
+                    throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(passageName, context.GetChild(1).GetText(), context.GetChild(6).GetText()));
+                _currentPassage.AddPassageContent(new PassageLink(Ziel, Text, Expression));
             }
             else
             {
-                Console.WriteLine("Ziel: " + context.GetChild(1).GetText());
-                _currentPassage.AddPassageContent(new PassageLink(context.GetChild(1).GetText()));
+                Ziel = context.GetChild(1).GetText();
+                Console.WriteLine("Ziel: " + Ziel);
+                _currentPassage.AddPassageContent(new PassageLink(Ziel));
             }
             return base.VisitLink(context);
         }
         public override object VisitText(Twee.TextContext context)
         {
-            if (!context.GetText().Equals("\r\n")) {
-                Console.WriteLine("Text: " + context.GetText());
+            if (!context.GetText().Equals("\r\n"))
+            {
+                    Console.WriteLine("Text: " + context.GetChild(0).GetText());
             }
             _currentPassage.AddPassageContent(new PassageText(context.GetText()));
             return base.VisitText(context);
@@ -122,11 +133,27 @@ namespace Twee2Z.Analyzer
             return base.VisitFunction(context);
         }
 
-        public override object VisitFormat(Twee.FormatContext context)
+       /* public override object VisitFormat(Twee.FormatContext context)
         {
+            switch(context.GetChild(0).GetText()) {
+                 
+                case "{{{": PassageText.Monospace    = true;
+                case "/*": PassageText.Comment = true;
+                case "}}}": PassageText.Monospace = false;
+                case "*/ //": PassageText.Comment = false;
+         /*
+                case "~~":  PassageText.Subscript = !PassageText.Subscript;
+                case "//": PassageText.Italic = !PassageText.Italic;
+                case "__": PassageText.Underline = !PassageText.Underline;
+                case "==": PassageText.Strikeout = !PassageText.Strikeout;
+                case "^^": PassageText.Superscript = !PassageText.Superscript;
+                case "''": PassageText.Bold = !PassageText.Bold;
+            }
+
+            new PassageText(MAGIC);
             Console.WriteLine("Format: " + context.GetText());
             return base.VisitFormat(context);
-        }
+        }*/
 
         public override object VisitMacro(Twee.MacroContext context)
         {

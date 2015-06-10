@@ -1,6 +1,9 @@
+Ignore
 :: start
-{{{ { }}}
-print
+Inhalt
+:::::: passage ü2
+{{{~~bjj~~sadd}}}
+print/
 Android S$martphone ab Ve display rsion 4(bentigt Lufthansa App und Samsung Wallet).
 "hallo1234567890ß@€*~+#-_.:,;<>|!§$%&/()=?`´^^" ""
 $housesDestroyed
@@ -17,11 +20,14 @@ visited()
 turns()
 confirm()
 prompt()
-<<display>>
+<<display $i>>
 <<actions>>
 <<choice>>
 
-<<nobr>> <<print 
+<<nobr>> <<print $varname
 >> <<endnobr>>
 <<silently>> <<print >> <<endsilently>>
 asd
+
+:: passage
+as

@@ -8,6 +8,24 @@ namespace Twee2Z.ObjectTree
 {
     public class PassageContent
     {
+        public static bool Monospace = false;
+        public static bool Subscript = false;
+        public static bool Comment = false;
+        public static bool Italic = false;
+        public static bool Underline = false;
+        public static bool Strikeout = false;
+        public static bool Superscript = false;
+        public static bool Bold = false;
+
+        public bool _monospace = false;
+        public bool _subscript = false;
+        public bool _comment = false;
+        public bool _italic = false;
+        public bool _underline = false;
+        public bool _strikeout = false;
+        public bool _superscript = false;
+        public bool _bold = false;
+
         public enum ContentType
         {
             TextContent,

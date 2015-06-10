@@ -1,16 +1,13 @@
-ihihi
 :: start
 Your story will if display this passage first Edit it by double clicking it
 :: p1   hallo
 ::: plinks
 [[Link]]
-[[Link][3]]
 [[Text|Link]]
-[[Text|Link][3]]
+[[Text|Link][E]]
 :::pmacros
-<<3>>
-<<display "hallo">>
-<<if 5 eq 5>> Text
+<<display E>>
+<<if >> Text
 <<endif>>
 <<if 5 eq 5>> Text <<else>> Text <<endif>>
 <<if 5 eq 5>> Text <<else if 5 eq 5>> Text <<endif>>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -194,9 +195,20 @@ namespace Twee2Z.CodeGen.Memory
 
         public override int Size { get { return HeaderSize; } }
 
-        protected override void SetAddress(int absoluteAddr)
+        protected override void SetLabel(int absoluteAddr, string name)
         {
-            _componentAddress = new ZByteAddress(absoluteAddr);
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
         }
 
         /// <summary>

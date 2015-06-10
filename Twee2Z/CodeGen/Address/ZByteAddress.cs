@@ -19,6 +19,12 @@ namespace Twee2Z.CodeGen.Address
         public ZByteAddress(int address)
             : base(address)
         {
+            _validateAddrAction = ValidateAddr;
+            ValidateAddr(address);
+        }
+
+        private void ValidateAddr(int address)
+        {
             if (address < 0x0000 || address > ZHighMemory.HighMemoryBase)
                 throw new ArgumentException(String.Format("A byte address must be between 0x0000 and {0} (last byte of static memory).", ZHighMemory.HighMemoryBase), "address");
         }

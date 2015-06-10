@@ -19,6 +19,12 @@ namespace Twee2Z.CodeGen.Address
         public ZPackedAddress(int address)
             : base(address)
         {
+            _validateAddrAction = ValidateAddr;
+            ValidateAddr(address);
+        }
+
+        private void ValidateAddr(int address)
+        {
             if (address < 0x0000 || address > ZMemory.MaxMemorySize)
                 throw new ArgumentException(String.Format("A packed address must be between 0x0000 and {0} (last byte of high memory).", ZMemory.MaxMemorySize), "address");
 

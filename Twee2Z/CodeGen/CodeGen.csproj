@@ -45,6 +45,7 @@
     <Compile Include="Instructions\InstructionFormKind.cs" />
     <Compile Include="Instructions\OpcodeHelper.cs" />
     <Compile Include="Instructions\OperandTypeKind.cs" />
+    <Compile Include="Instructions\Templates\Jump.cs" />
     <Compile Include="Instructions\Templates\Call1n.cs" />
     <Compile Include="Instructions\Templates\SetTextStyle.cs" />
     <Compile Include="Instructions\Templates\Quit.cs" />

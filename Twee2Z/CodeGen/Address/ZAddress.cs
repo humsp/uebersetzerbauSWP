@@ -14,6 +14,7 @@ namespace Twee2Z.CodeGen.Address
     class ZAddress
     {
         protected int _address;
+        protected Action<int> _validateAddrAction = null;
 
         /// <param name="address">Absolute address in memory.</param>
         public ZAddress(int address)
@@ -22,9 +23,9 @@ namespace Twee2Z.CodeGen.Address
         }
 
         /// <summary>
-        /// Get the absolute memory address.
+        /// Get or set the absolute memory address.
         /// </summary>
-        public int Absolute
+        public virtual int Absolute
         {
             get
             {
@@ -32,6 +33,9 @@ namespace Twee2Z.CodeGen.Address
             }
             set
             {
+                if (_validateAddrAction != null)
+                    _validateAddrAction.Invoke(_address);
+
                 _address = value;
             }
         }

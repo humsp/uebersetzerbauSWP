@@ -18,6 +18,12 @@ namespace Twee2Z.CodeGen.Address
         public ZWordAddress(int address)
             : base(address)
         {
+            _validateAddrAction = ValidateAddr;
+            ValidateAddr(address);
+        }
+
+        private void ValidateAddr(int address)
+        {
             if (address < 0x0000 || address > 0x1FFFE)
                 throw new ArgumentException("A word address must be between 0x0000 and 0x1FFFE (bottom 128K of memory).", "address");
 

@@ -7,20 +7,25 @@ using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Label
 {
-    abstract class ZLabel : ZComponent
+    class ZLabel : ZComponent
     {
         protected ZAddress _targetAddress = null;
         protected string _name;
+
+        public ZLabel(ZAddress address)
+        {
+            _targetAddress = address;
+        }
 
         public ZLabel(string name)
         {
             _name = name;
         }
 
-        public ZLabel(string name, ZAddress targetAddress)
+        public ZLabel(ZAddress address, string name)
             : this(name)
         {
-            _targetAddress = targetAddress;
+            _targetAddress = address;
         }
 
         public ZAddress TargetAddress
@@ -35,7 +40,17 @@ namespace Twee2Z.CodeGen.Label
             }
         }
 
-        public string Name { get { return _name; } }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
 
         public override byte[] ToBytes()
         {

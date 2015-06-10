@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Tables;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -23,8 +24,8 @@ namespace Twee2Z.CodeGen.Memory
 
         public ZStaticMemory()
         {
-            _dictionaryTable = new ZDictionaryTable() { Address = new ZAddress(DictionaryTableAddr) };
-            _abbreviationTable = new ZAbbreviationTable() { Address = new ZAddress(AbbreviationTableAddr) };
+            _dictionaryTable = new ZDictionaryTable() { Label = new ZLabel(new ZByteAddress(DictionaryTableAddr)) };
+            _abbreviationTable = new ZAbbreviationTable() { Label = new ZLabel(new ZByteAddress(AbbreviationTableAddr)) };
 
             _subComponents.Add(_dictionaryTable);
             _subComponents.Add(_abbreviationTable);
@@ -34,8 +35,8 @@ namespace Twee2Z.CodeGen.Memory
         {
             Byte[] byteArray = new Byte[Size];
 
-            _dictionaryTable.ToBytes().CopyTo(byteArray, _dictionaryTable.Address.Absolute);
-            _abbreviationTable.ToBytes().CopyTo(byteArray, _abbreviationTable.Address.Absolute);
+            _dictionaryTable.ToBytes().CopyTo(byteArray, _dictionaryTable.Label.TargetAddress.Absolute);
+            _abbreviationTable.ToBytes().CopyTo(byteArray, _abbreviationTable.Label.TargetAddress.Absolute);
 
             return byteArray;
         }
@@ -44,13 +45,24 @@ namespace Twee2Z.CodeGen.Memory
         {
             get
             {
-                return ZMemory.HighMemoryAddr - Address.Absolute;
+                return ZMemory.HighMemoryAddr - Label.TargetAddress.Absolute;
             }
         }
 
-        protected override void SetAddress(int absoluteAddr)
+        protected override void SetLabel(int absoluteAddr, string name)
         {
-            _componentAddress = new ZByteAddress(absoluteAddr);
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
         }
     }
 }

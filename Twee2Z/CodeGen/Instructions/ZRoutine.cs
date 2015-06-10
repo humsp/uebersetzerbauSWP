@@ -5,28 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Instructions
 {
-    [DebuggerDisplay("LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_name}")]
+    [DebuggerDisplay("LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_componentLabel.Name}")]
     class ZRoutine : ZComponent
     {
-        protected string _name;
         protected byte _localVariableCount;
 
-        public ZRoutine(string name)
+        public ZRoutine()
         {
-            _name = name;
             _localVariableCount = 0x00;
         }
 
-        public ZRoutine(string name, IEnumerable<ZInstruction> instructions)
-            : this(name)
+        public ZRoutine(IEnumerable<ZInstruction> instructions)
+            : this()
         {
             _subComponents.AddRange(instructions);
         }
-
-        public string Name { get { return _name; } }
 
         public override Byte[] ToBytes()
         {
@@ -56,9 +53,20 @@ namespace Twee2Z.CodeGen.Instructions
             }
         }
 
-        protected override void SetAddress(int absoluteAddr)
+        protected override void SetLabel(int absoluteAddr, string name)
         {
-            _componentAddress = new ZPackedAddress(absoluteAddr);
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZPackedAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZPackedAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
         }
     }
 }

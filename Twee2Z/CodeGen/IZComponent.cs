@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen
 {
@@ -26,8 +27,8 @@ namespace Twee2Z.CodeGen
         int Size { get; }
 
         /// <summary>
-        /// Gets the absolute address of the component within the story file.
+        /// Gets the absolute address with an optional label name. The address is set right before the code generation.
         /// </summary>
-        ZAddress Address { get; set; }
+        ZLabel Label { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Twee2Z.CodeGen.Instructions;
 using Twee2Z.CodeGen.Instructions.Templates;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -21,7 +22,7 @@ namespace Twee2Z.CodeGen.Memory
 
         public ZHighMemory()
         {
-            ZRoutine main = new ZRoutine("main", new ZInstruction[] { new Quit() });
+            ZRoutine main = new ZRoutine(new ZInstruction[] { new Quit() }) { Label = new ZRoutineLabel("main") };
             _routines.Add(main);
             _subComponents.AddRange(_routines);
         }
@@ -54,9 +55,20 @@ namespace Twee2Z.CodeGen.Memory
             return byteList.ToArray();
         }
         
-        protected override void SetAddress(int absoluteAddr)
+        protected override void SetLabel(int absoluteAddr, string name)
         {
-            _componentAddress = new ZPackedAddress(absoluteAddr);
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZPackedAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZPackedAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
         }
     }
 }

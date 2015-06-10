@@ -29,12 +29,13 @@ namespace Twee2Z.CodeGen
             _mainInstructions.Add(new Quit());
 
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
-            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine));
+            _helloWorldInstructions.Add(new Jump(new ZJumpLabel("teil2")));
+            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine) { Label = new ZLabel("intro") });
 
             _helloWorldInstructions.Add(new Print(input));
 
             _helloWorldInstructions.Add(new Print(Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
+            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold) { Label = new ZLabel("teil2") });
             _helloWorldInstructions.Add(new Print("Fetter Text" + Environment.NewLine));
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
@@ -56,9 +57,9 @@ namespace Twee2Z.CodeGen
             _2ndRoutineInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
             _2ndRoutineInstructions.Add(new Quit());
 
-            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine("main", _mainInstructions),
-                new ZRoutine("2ndRoutine", _2ndRoutineInstructions),
-                new ZRoutine("helloworldRoutine", _helloWorldInstructions)});
+            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") },
+                new ZRoutine(_2ndRoutineInstructions) { Label = new ZRoutineLabel("2ndRoutine") },
+                new ZRoutine(_helloWorldInstructions) { Label = new ZRoutineLabel("helloworldRoutine") } });
         }
 
         public Byte[] ToBytes()

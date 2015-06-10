@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    public enum InstructionFormKind
+    enum InstructionFormKind
     {
         Long,
         Short,

@@ -19,7 +19,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZJumpLabel _jumpLabel = null;
 
         public Jump(ZJumpLabel jumpLabel)
-            : base("jump", 0x0C, OperandCountKind.OneOP, InstructionFormKind.Short)
+            : base("jump", 0x0C, InstructionFormKind.Short, OperandCountKind.OneOP)
         {
             _jumpLabel = jumpLabel;
             _subComponents.Add(jumpLabel);

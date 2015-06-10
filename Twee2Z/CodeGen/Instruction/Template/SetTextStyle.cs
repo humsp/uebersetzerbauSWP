@@ -19,7 +19,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private StyleFlags _styleFlags;
 
         public SetTextStyle(StyleFlags styleFlags)
-            : base("set_text_style", 0x11, OperandCountKind.Var, InstructionFormKind.Variable)
+            : base("set_text_style", 0x11, InstructionFormKind.Variable, OperandCountKind.Var)
         {
             _styleFlags = styleFlags;
         }

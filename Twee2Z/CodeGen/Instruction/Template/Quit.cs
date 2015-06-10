@@ -13,7 +13,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         /// It is not legal to return from the main routine (that is, from where execution first begins) and this must be used instead.
         /// </summary>
         public Quit()
-            : base("quit", 0x0A, OperandCountKind.ZeroOP, InstructionFormKind.Short)
+            : base("quit", 0x0A, InstructionFormKind.Short, OperandCountKind.ZeroOP)
         {
         }
     }

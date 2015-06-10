@@ -7,23 +7,22 @@ using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    [DebuggerDisplay("OperandCount = {OperandCount}", Name = "{Name}")]
+    [DebuggerDisplay("Hex = {_opcode.Hex}, InstructionForm = {_opcode.InstructionForm}, OperandCount = {_opcode.OperandCount}", Name = "{_opcode.Name}")]
     class ZInstruction : ZComponent
     {
         protected ZOpcode _opcode;
-        protected InstructionFormKind _instructionForm;
 
-        public ZInstruction(string name, ushort hex, OperandCountKind operandCount, InstructionFormKind instructionForm)
+        public ZInstruction(string name, byte opcodeNumber, InstructionFormKind instructionForm, OperandCountKind operandCount)
         {
-            _opcode = new ZOpcode(name, hex, operandCount);
+            _opcode = new ZOpcode(name, opcodeNumber, instructionForm, operandCount);
             _subComponents.Add(_opcode);
-
-            _instructionForm = instructionForm;
         }
 
         public string Name { get { return _opcode.Name; } }
+
+        public InstructionFormKind InstructionForm { get { return _opcode.InstructionForm; } }
+
         public OperandCountKind OperandCount { get { return _opcode.OperandCount; } }
-        public InstructionFormKind InstructionForm { get { return _instructionForm; } }
 
         public override Byte[] ToBytes()
         {

@@ -29,7 +29,7 @@ namespace Twee2Z.CodeGen
             _mainInstructions.Add(new Quit());
 
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
-            _helloWorldInstructions.Add(new Jump(new ZJumpLabel("teil2")));
+            //_helloWorldInstructions.Add(new Jump(new ZJumpLabel("teil2")));
             _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine) { Label = new ZLabel("intro") });
 
             _helloWorldInstructions.Add(new Print(input));

@@ -17,7 +17,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZText _text = null;
 
         public Print(string output)
-            : base("print", 0x02, OperandCountKind.ZeroOP, InstructionFormKind.Short)
+            : base("print", 0x02, InstructionFormKind.Short, OperandCountKind.ZeroOP)
         {
             _text = new ZText(output);
             _subComponents.Add(_text);

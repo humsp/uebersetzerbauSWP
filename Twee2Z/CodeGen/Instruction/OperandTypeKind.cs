@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    public enum OperandTypeKind
+    enum OperandTypeKind
     {
-        LargeConstant,
-        SmallConstant,
-        Variable,
-        OmittedAltogether
+        LargeConstant = 0x00,
+        SmallConstant = 0x01,
+        Variable = 0x02,
+        OmittedAltogether = 0x03
     }
 }

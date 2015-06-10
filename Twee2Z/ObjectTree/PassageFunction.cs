@@ -31,7 +31,29 @@ namespace Twee2Z.ObjectTree
         }
 
 
+		public string Function
+		{
+			get
+			{
+				return _func;
+			}
+			set
+			{
+				_func = value;
+			}
+		}
 
+		public List<string> Target
+		{
+			get
+			{
+				return _args;
+			}
+			set
+			{
+				_args = value;
+			}
+		}
 
     }
 }

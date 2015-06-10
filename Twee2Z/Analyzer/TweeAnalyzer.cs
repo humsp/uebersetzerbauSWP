@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +13,7 @@ namespace Twee2Z.Analyzer
 {
     public static class TweeAnalyzer
     {
+        
         public static ObjectTree.Tree Parse(StreamReader input)
         {
             return Parse2(Lex(input));
@@ -21,7 +22,7 @@ namespace Twee2Z.Analyzer
         public static ObjectTree.Tree Parse2(CommonTokenStream input)
         {
             Logger.LogAnalyzer("Parse twee file ...");
-            TweeParser.StartContext startContext = new TweeParser(input).start();
+            Twee.StartContext startContext = new Twee(input).start();
 
             TweeVisitor visit = new TweeVisitor();
             visit.Visit(startContext);
@@ -33,7 +34,7 @@ namespace Twee2Z.Analyzer
         {
             Logger.LogAnalyzer("Lex twee file ...");
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
-            return new CommonTokenStream(new TweeLexer(antlrStream));
+            return new CommonTokenStream(new LEX(antlrStream));
         }
     }
 }

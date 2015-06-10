@@ -129,7 +129,7 @@ namespace Twee2Z.Console
                     }
                 }
             }
-
+            
             switch (runCase)
             {
                 case RunCase.Tw2Z:
@@ -156,10 +156,14 @@ namespace Twee2Z.Console
         {
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
+            
             Tree tree = AnalyseFile(tweeFileStream);
+            /*
             ValidateTree(tree);
             CodeGen.ZStoryFile storyFile = GenStoryFile(tree);
             WriteStoryFile(storyFile, output);
+             */ 
+             
         }
 
         public static Tree AnalyseFile(FileStream stream)

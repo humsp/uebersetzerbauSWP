@@ -47,15 +47,14 @@
   <ItemGroup>
     <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Twee.g4.lexer.cs">
-      <DependentUpon>Twee.g4</DependentUpon>
-    </Compile>
-    <Compile Include="Twee.g4.parser.cs">
-      <DependentUpon>Twee.g4</DependentUpon>
-    </Compile>
+   
     <Compile Include="TweeVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Antlr4 Include="LEX.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
+    </Antlr4>
     <None Include="packages.config" />
     <Antlr4 Include="Twee.g4">
       <Generator>MSBuild:Compile</Generator>

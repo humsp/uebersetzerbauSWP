@@ -1,0 +1,38 @@
+:: start
+Your story will if display this passage first Edit it by double clicking it
+:: p1   hallo
+::: plinks
+[[Link]]
+[[Text|Link]]
+[[Text|Link][E]]
+:::pmacros
+<<display E>>
+<<if >> Text
+<<endif>>
+<<if 5 eq 5>> Text <<else>> Text <<endif>>
+<<if 5 eq 5>> Text <<else if 5 eq 5>> Text <<endif>>
+<<actions "Lift the lid of the white pot" 
+"asldjals" "ohsoa">>
+<<nobr>> <<print 
+"hallo">> <<endnobr>>
+<<silently>> <<print 
+"hallo">> <<endsilently>>
+:: pvariable[t1  t2 t3 t4]
+asdsdassdd
+$housesDestroyed
+$_my_favorite_color
+$AN_EXTREMELY_IMPORTANT_NUMBER
+$street8
+$i
+:: pfunctions [  t1  t2 t3   ]
+random()
+either()
+visited()
+visitedTag()
+turns()
+confirm()
+prompt()
+f()
+ft($p)
+:: p6 [  .  t2 t3   ] blub blub
+:: p7 [  . _ 1 hallo  ]

@@ -20,11 +20,18 @@ namespace Twee2Z.ObjectTree
         {
             _target = link;
         }
-        public PassageLink(string link, string displayText)
+        public PassageLink(string link, string displayTextorExp, bool isexp)
             : base(ContentType.LinkContent)
         {
             _target = link;
-            _displayText = displayText;
+            if (isexp)
+            {
+                _expression = displayTextorExp;
+            }
+            else
+            {
+                _displayText = displayTextorExp;
+            }
         }
         public PassageLink(string link, string displayText, string expression)
             : base(ContentType.LinkContent)
@@ -121,4 +128,4 @@ namespace Twee2Z.ObjectTree
 
 	}
  * 
- * /
+ */

@@ -113,27 +113,27 @@ BOLD_END				: '''' -> popMode;
 // FORMAT-MODE
 mode ItalicMode;
 ITALIC_TEXT_SWITCH		: ('='|'_'|'^'|'~'|'{'|'/%') -> pushMode(DEFAULT_MODE);
-ITALIC_TEXT				: .*?;
+ITALIC_TEXT				: ~[/];
 ITALIC_END				: '//' -> popMode;
 
 mode UnderlineMode;
 UNDERLINE_TEXT_SWITCH	: ('='|'//'|'^'|'~'|'{'|'/%') -> pushMode(DEFAULT_MODE);
-UNDERLINE_TEXT			: .*?;
+UNDERLINE_TEXT			: ~[_];
 UNDERLINE_END			: '__' -> popMode;
 
 mode StrikeoutMode;
 STRIKEOUT_TEXT_SWITCH	: ('//'|'_'|'^'|'~'|'{'|'/%') -> pushMode(DEFAULT_MODE);
-STRIKEOUT_TEXT			: .*?;
+STRIKEOUT_TEXT			: ~[=];
 STRIKEOUT_END			: '==' -> popMode;
 
 mode SuperscriptMode;
 SUPERSCRIPT_TEXT_SWITCH	: ('='|'_'|'//'|'~'|'{'|'/%') -> pushMode(DEFAULT_MODE);
-SUPERSCRIPT_TEXT		: .*?;
+SUPERSCRIPT_TEXT		: ~[^];
 SUPERSCRIPT_END			: '^^' -> popMode;
 
 mode SubscriptMode;
 SUBSCRIPT_TEXT_SWITCH	: ('='|'_'|'^'|'//'|'{'|'/%') -> pushMode(DEFAULT_MODE);
-SUBSCRIPT_TEXT			: .*?;
+SUBSCRIPT_TEXT			: ~[~];
 SUBSCRIPT_END			: '~~' -> popMode;
 
 mode MonospaceMode;
@@ -143,5 +143,5 @@ MONOSPACE_END			: '}}}' -> popMode;
 
 mode CommentMode;
 COMMENT_TEXT_SWITCH		: ('='|'_'|'^'|'~'|'{'|'//') -> pushMode(DEFAULT_MODE);
-COMMENT_TEXT			: .*?;
+COMMENT_TEXT			: ~[%/];
 COMMENT_END				: '%/' -> popMode;

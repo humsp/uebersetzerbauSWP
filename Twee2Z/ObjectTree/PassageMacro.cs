@@ -35,7 +35,7 @@ namespace Twee2Z.ObjectTree
 		public void addExp(string exp)
 		{
 
-			_expression.Add(exp);
+			_content.Add(exp);
 		}
     }
 }

@@ -19,7 +19,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZRoutineLabel _routineLabel = null;
 
         public Call1n(ZRoutineLabel routineLabel)
-            : base("call_1n", 0x0F, InstructionFormKind.Short, OperandCountKind.OneOP)
+            : base("call_1n", 0x0F, InstructionFormKind.Short, OperandCountKind.OneOP, OperandTypeKind.LargeConstant)
         {
             _routineLabel = routineLabel;
             _subComponents.Add(routineLabel);

@@ -9,8 +9,6 @@ namespace Twee2Z.CodeGen.Label
 {
     class ZJumpLabel : ZLabel
     {
-        private ZAddress _sourceAddress = null;
-
         public ZJumpLabel(string name)
             : base(name)
         {
@@ -25,11 +23,7 @@ namespace Twee2Z.CodeGen.Label
         {
             get
             {
-                return _sourceAddress;
-            }
-            set
-            {
-                _sourceAddress = value;
+                return Label.TargetAddress;
             }
         }
 

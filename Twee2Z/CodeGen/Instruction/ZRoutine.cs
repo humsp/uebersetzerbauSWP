@@ -9,7 +9,7 @@ using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    [DebuggerDisplay("LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_componentLabel.Name}")]
+    [DebuggerDisplay("Name = {_componentLabel.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_componentLabel.Name}")]
     class ZRoutine : ZComponent
     {
         protected byte _localVariableCount;

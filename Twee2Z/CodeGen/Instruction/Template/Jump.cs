@@ -19,14 +19,14 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZJumpLabel _jumpLabel = null;
 
         public Jump(ZJumpLabel jumpLabel)
-            : base("jump", 0x0C, InstructionFormKind.Short, OperandCountKind.OneOP)
+            : base("jump", 0x0C, InstructionFormKind.Short, OperandCountKind.OneOP, new OperandTypeKind[] { OperandTypeKind.LargeConstant })
         {
             _jumpLabel = jumpLabel;
             _subComponents.Add(jumpLabel);
         }
 
         public ZJumpLabel JumpAddress { get { return _jumpLabel; } }
-
+        
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();

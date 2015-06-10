@@ -12,9 +12,9 @@ namespace Twee2Z.CodeGen.Instruction
     {
         protected ZOpcode _opcode;
 
-        public ZInstruction(string name, byte opcodeNumber, InstructionFormKind instructionForm, OperandCountKind operandCount)
+        public ZInstruction(string name, byte opcodeNumber, InstructionFormKind instructionForm, OperandCountKind operandCount, params OperandTypeKind[] operandTypes)
         {
-            _opcode = new ZOpcode(name, opcodeNumber, instructionForm, operandCount);
+            _opcode = new ZOpcode(name, opcodeNumber, instructionForm, operandCount, operandTypes);
             _subComponents.Add(_opcode);
         }
 

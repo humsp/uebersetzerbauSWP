@@ -13,7 +13,7 @@ namespace Twee2Z.ObjectTree
         private bool _underline;
         private bool _strikeout;
         private bool _subscript;
-        private bool _monospae;
+        private bool _monospace;
         private bool _comment;
 
         /*
@@ -26,6 +26,7 @@ namespace Twee2Z.ObjectTree
 | (COMMENT_BEGIN (COMMENT_TEXT_SWITCH | COMMENT_TEXT | passageContent)* COMMENT_END)
 ;
  */
+
 
         public PassageText(string text)
             : base(ContentType.TextContent)
@@ -40,6 +41,82 @@ namespace Twee2Z.ObjectTree
                 return _text;
             }
         }
+
+        public bool Italic
+        {
+            get
+            {
+                return _italic;
+            }
+            set
+            {
+                _italic = value;
+            }
+        }
+
+        public bool Underline
+        {
+            get
+            {
+                return _underline;
+            }
+            set
+            {
+                _underline = value;
+            }
+        }
+
+        public bool Strikeout
+        {
+            get
+            {
+                return _strikeout;
+            }
+            set
+            {
+                _strikeout = value;
+            }
+        }
+
+        public bool Subscript
+        {
+            get
+            {
+                return _subscript;
+            }
+            set
+            {
+                _subscript = value;
+            }
+        }
+
+        public bool Monoscpace
+        {
+            get
+            {
+                return _monospace;
+            }
+            set
+            {
+                _monospace = value;
+            }
+        }
+
+        public bool Comment
+        {
+            get
+            {
+                return _comment;
+            }
+            set
+            {
+                _comment = value;
+            }
+        }
+
+
+
+
 
 
 

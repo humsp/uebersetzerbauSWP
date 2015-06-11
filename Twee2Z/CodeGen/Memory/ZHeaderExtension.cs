@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -10,7 +12,7 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the header extension table writen right after the header.
     /// See also "11.1.7.3 The format of the header" on page 64 for reference.
     /// </summary>
-    class ZHeaderExtension : ZComponentBase
+    class ZHeaderExtension : ZComponent
     {
         private const int HeaderExtensionSize = 8;
 
@@ -47,5 +49,21 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderExtensionSize; } }
+
+        protected override void SetLabel(int absoluteAddr, string name)
+        {
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
+        }
     }
 }

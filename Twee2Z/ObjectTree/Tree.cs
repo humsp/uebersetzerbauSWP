@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
     public class Tree
     {
-        private const string _startPassageId = "start";
+        private const string _startPassageId = "start ";
 
         private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
-        private Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
-
-
 
         public void AddPassage(Passage passage)
         {
@@ -23,7 +21,7 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                System.Console.WriteLine("ignoring passage with same name: " + passage.Name);
+                Logger.LogWarning("ignoring passage with same name: " + passage.Name);
             }
         }
 
@@ -34,18 +32,6 @@ namespace Twee2Z.ObjectTree
                 return null;
             }
             return _passages[name];
-        }
-
-        public void SetVariable(Variable variable)
-        {
-            if (_variables.ContainsKey(variable.Id))
-            {
-                _variables[variable.Id] = variable;
-            }
-            else
-            {
-                _variables.Add(variable.Id, variable);
-            }
         }
 
         // getter
@@ -63,14 +49,6 @@ namespace Twee2Z.ObjectTree
             get
             {
                 return _passages;
-            }
-        }
-
-        public Dictionary<string, Variable> Variables
-        {
-            get
-            {
-                return _variables;
             }
         }
     }

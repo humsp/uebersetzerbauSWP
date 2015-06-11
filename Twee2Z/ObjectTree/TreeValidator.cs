@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
@@ -18,18 +19,18 @@ namespace Twee2Z.ObjectTree
 
         public void ValidateTree()
         {
-            System.Console.WriteLine("Validate Tree:");
+            Logger.LogValidation("Validate Tree");
             validateLinks();
         }
 
         private void validateLinks()
         {
-            System.Console.WriteLine("Validate links:");
+            Logger.LogValidation("Validate links:");
             foreach(Passage passage in _tree.Passages.Values)
             {
                 for (int i = 0; i < passage.PassageContentList.Count; i++ )
                 {
-                    PassageContent content = passage.PassageContentList.ElementAt(i);
+                    PassageContent content = passage.PassageContentList[i];
 
                     if (content.Type == PassageContent.ContentType.LinkContent)
                     {
@@ -41,9 +42,16 @@ namespace Twee2Z.ObjectTree
                         }
                         else
                         {
-                            System.Console.WriteLine("Ignore Link to: " + link.Target);
-                            passage.PassageContentList.RemoveAt(i);
-                            i--;
+                            Logger.LogWarning("Ignore Link to: " + link.Target);
+                            if(link.DisplayText != null)
+                            {
+                                passage.PassageContentList[i] = new PassageText(link.DisplayText);
+                            }
+                            else
+                            {
+                                passage.PassageContentList.RemoveAt(i);
+                                i--;
+                            }
                         }
                     }
                 }

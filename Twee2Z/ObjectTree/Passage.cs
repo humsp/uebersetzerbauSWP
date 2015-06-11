@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
@@ -19,7 +20,19 @@ namespace Twee2Z.ObjectTree
     
         public void AddPassageContent(PassageContent passageContent)
         {
-            _passageContentList.Add(passageContent);
+            int count = _passageContentList.Count;
+            if (passageContent.Type == PassageContent.ContentType.TextContent &&
+                count != 0 &&
+                _passageContentList.Last().Type == PassageContent.ContentType.TextContent)
+            {
+                String text = _passageContentList.Last().PassageText.Text + 
+                    passageContent.PassageText.Text;
+                _passageContentList[count - 1] = new PassageText(text);
+            }
+            else
+            {
+                _passageContentList.Add(passageContent);
+            }
         }
 
         public void AddTag(string tag)
@@ -28,6 +41,10 @@ namespace Twee2Z.ObjectTree
             {
                 _tags.Add(tag);
             }
+            else
+            {
+                Logger.LogWarning("ignoring tag: " + tag + " for passage:" + Name);
+             }
         }
         public string Name
         {
@@ -42,6 +59,14 @@ namespace Twee2Z.ObjectTree
             get
             {
                 return _passageContentList;
+            }
+        }
+
+        public HashSet<string> Tags
+        {
+            get
+            {
+                return _tags;
             }
         }
     }

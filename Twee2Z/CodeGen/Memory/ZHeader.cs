@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Memory
 {
@@ -11,7 +13,7 @@ namespace Twee2Z.CodeGen.Memory
     /// Represents the first 64K of a story file.
     /// See also "11. The format of the header" on page 61 for reference.
     /// </summary>
-    class ZHeader : ZComponentBase
+    class ZHeader : ZComponent
     {
         private const int HeaderSize = 64;
 
@@ -192,6 +194,22 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderSize; } }
+
+        protected override void SetLabel(int absoluteAddr, string name)
+        {
+            if (_componentLabel == null)
+                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
+            else if (_componentLabel.TargetAddress == null)
+            {
+                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
+                _componentLabel.Name = name;
+            }
+            else
+            {
+                _componentLabel.TargetAddress.Absolute = absoluteAddr;
+                _componentLabel.Name = name;
+            }
+        }
 
         /// <summary>
         /// Flags set by the interpreter to indicate support for certain features. We do not care about these but we are aware of it.

@@ -1,0 +1,16 @@
+﻿
+ignore? 
+<< set $a = 5 >>
+<<print "unsichtbar?">>
+
+::::: sta/%Text%/rt
+Your story will display this passage first Edit it by double clicking it
+
+:::ohneWS
+
+::::: führenderWS
+
+
+:: 		Passage mit 	Tab	und WS am Ende	    
+
+ende

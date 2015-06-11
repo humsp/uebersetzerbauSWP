@@ -1,0 +1,5 @@
+:: start
+[[Link]]
+[[Text|previous()]]
+[[Link][1+1]]
+[[Text|Link]["Expression"]]

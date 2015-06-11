@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen
 {
@@ -11,7 +13,7 @@ namespace Twee2Z.CodeGen
     /// </summary>
     interface IZComponent
     {
-        IEnumerable<IZComponent> SubComponents { get; }
+        List<IZComponent> SubComponents { get; }
 
         /// <summary>
         /// Converts the component to valid byte code for the story file.
@@ -20,8 +22,13 @@ namespace Twee2Z.CodeGen
         byte[] ToBytes();
 
         /// <summary>
-        /// Returns the size of the component. The size corresponds with the byte array length of ToBytes()./>.
+        /// Gets the size of the component. The size equals the byte array length of ToBytes()./>.
         /// </summary>
         int Size { get; }
+
+        /// <summary>
+        /// Gets the absolute address with an optional label name. The address is set right before the code generation.
+        /// </summary>
+        ZLabel Label { get; set; }
     }
 }

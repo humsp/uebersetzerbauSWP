@@ -36,7 +36,7 @@ namespace UnitTests.TestObjectTree
         {
             Tree tree = TreeBuilder.createTree(_passageNamesComment);
             Assert.AreEqual(2, tree.Passages.Count);
-            
+
             Assert.AreEqual("start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
 
@@ -73,9 +73,9 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("fuehrenderWS", tree.Passages["fuehrenderWS"].Name);
             Assert.AreEqual("x", tree.Passages["fuehrenderWS"].PassageContentList[0].PassageText.Text);
 
-            Assert.IsTrue(tree.Passages.ContainsKey("Passage mit 	Tab	und WS am Ende"));
-            Assert.AreEqual("Passage mit 	Tab	und WS am Ende", tree.Passages["Passage mit 	Tab	und WS am Ende"].Name);
-            Assert.AreEqual("ende", tree.Passages["Passage mit 	Tab	und WS am Ende"].PassageContentList[0].PassageText.Text);
+            Assert.IsTrue(tree.Passages.ContainsKey("Passage mit \tTab und WS am Ende"));
+            Assert.AreEqual("Passage mit \tTab und WS am Ende", tree.Passages["Passage mit \tTab und WS am Ende"].Name);
+            Assert.AreEqual("ende", tree.Passages["Passage mit \tTab und WS am Ende"].PassageContentList[0].PassageText.Text);
         }
 
         [TestMethod]

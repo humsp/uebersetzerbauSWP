@@ -30,8 +30,8 @@ namespace Twee2Z.Analyzer
 
         public override object VisitPassageName(Twee.PassageNameContext context)
         {
-            Logger.LogAnalyzer("Name: " + context.GetText());
-            _currentPassage = new Passage(context.GetText());
+            Logger.LogAnalyzer("Name: " + context.GetChild(1).GetText());
+            _currentPassage = new Passage(context.GetChild(1).GetText());
             _tree.AddPassage(_currentPassage);
             return base.VisitPassageName(context);
         }

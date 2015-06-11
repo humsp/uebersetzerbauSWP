@@ -19,10 +19,11 @@ FORMAT				: (	'//'{ObjectTree.PassageContent.Italic = true;}
 EXCLUDE				: (':'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%');
 NEW_LINE			: ('\r' | '\n' | '\r\n');
 PASS				: ':'(':'+);
+NEW_LINE_PASS		: NEW_LINE PASS;
 // STRING-MODE
 STRING_START		: QUOTE -> pushMode(SMode);
 SPACE				: ' ';
-TAB					: '	';
+TAB					: '\t';
 WORD				: ~(':'|'0'..'9'|'\r'|'\n'|'['|']'|' '|'"'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%');
 
 /*

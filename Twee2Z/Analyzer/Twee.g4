@@ -6,42 +6,33 @@ start
 	; 
 
 ignoreFirst
-	: passage
-	| ~PASS ignoreFirst
+	: (~PASS)*  PASS passage
 	;
 
 newPassage
-	: NEW_LINE passage
+	: NEW_LINE* NEW_LINE_PASS passage
 	;
 
 passage
-	: passageStart SPACE* passageName passageTags? (NEW_LINE|NEW_LINE passageContent)?
-	;
-passageStart
-	: PASS
+	: passageName passageTags? (newPassage | NEW_LINE passageContent)?
 	;
 
-/*
 passageName
-	:  ((WORD|INT)+ SPACE*)+ //alles auﬂer startsonderzeichen
+	:  spaceTabLoop passageNameInner spaceTabLoop?
 	;
-	//catch [RecognitionException] {  }
-*/
-
-passageName
-	:  passageNameInner
-	;
-	//catch [RecognitionException] {  }
 
 passageNameInner
-	: (SPACE|TAB)* (WORD|INT) passageNameInner
-	| (WORD|INT)
+	: (WORD|INT) (spaceTabLoop? (WORD|INT))* 
 	;
+
 
 passageContent
-	:  (macro|function|text|variable|link) passageContent?
+	:  (macro|function|variable|link|text) passageContent?
 	;
 
+spaceTabLoop
+	: (SPACE|TAB)*
+	;
 
 link
 	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) (SQ_BRACKET_CLOSE SQ_BRACKET_OPEN WORDS)? LINK_END
@@ -66,9 +57,11 @@ function
 variable
 	: VAR_NAME
 	;
+
 zeichenkette
 	:WORD+
 	;
+
 text
 	: innerText
 	;
@@ -76,6 +69,9 @@ text
 innerText
 	: (NEW_LINE*) (zeichenkette|SPACE+|INT|FORMAT|EXCLUDE|STRING) innerText?
 	;
+
+
+
 /*
 	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT | passageContent)* ITALIC_END)
 	| (UNDERLINE_BEGIN (UNDERLINE_TEXT_SWITCH | UNDERLINE_TEXT | passageContent)* UNDERLINE_END)

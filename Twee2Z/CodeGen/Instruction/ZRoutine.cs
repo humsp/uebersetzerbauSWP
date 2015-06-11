@@ -16,13 +16,18 @@ namespace Twee2Z.CodeGen.Instruction
 
         public ZRoutine()
         {
-            _localVariableCount = 0x00;
         }
 
         public ZRoutine(IEnumerable<ZInstruction> instructions)
+        {
+            _subComponents.AddRange(instructions);
+        }
+
+        public ZRoutine(IEnumerable<ZInstruction> instructions, byte localVariableCount)
             : this()
         {
             _subComponents.AddRange(instructions);
+            _localVariableCount = localVariableCount;
         }
 
         public override Byte[] ToBytes()

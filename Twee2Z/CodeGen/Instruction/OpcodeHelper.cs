@@ -228,7 +228,14 @@ namespace Twee2Z.CodeGen.Instruction
 
         public static int MeasureOpcodeSize(InstructionFormKind instructionFormKind, OperandCountKind operandCount, params OperandTypeKind[] operandTypes)
         {
-            if (instructionFormKind == InstructionFormKind.Extended || instructionFormKind == InstructionFormKind.Variable)
+            if (instructionFormKind == InstructionFormKind.Extended)
+            {
+                if (operandTypes.Count() > 0)
+                    return 3;
+                else
+                    return 2;
+            }
+            else if (instructionFormKind == InstructionFormKind.Variable)
             {
                 if (operandTypes.Count() > 0)
                     return 2;

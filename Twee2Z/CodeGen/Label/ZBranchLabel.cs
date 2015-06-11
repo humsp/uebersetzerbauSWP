@@ -82,8 +82,10 @@ namespace Twee2Z.CodeGen.Label
                     return -1;
 
                 // Offset is the target address minus the address of this label
-                else
+                else if (TargetAddress != null && SourceComponent != null)
                     return (short)(TargetAddress.Absolute - SourceComponent.Label.TargetAddress.Absolute - SourceComponent.Size);
+                else
+                    return 0;
             }
         }
 
@@ -102,8 +104,8 @@ namespace Twee2Z.CodeGen.Label
                 value = 1;
             else
                 value = (short)(Offset + 2);
-            
-            if (Offset <= 63)
+
+            if (false && value <= 63) // force to use two bytes, cant fix this bug for now
             {
                 byte byteVal = (byte)value;
                 

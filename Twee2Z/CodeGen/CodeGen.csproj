@@ -50,6 +50,8 @@
     <Compile Include="Instruction\Template\Jump.cs" />
     <Compile Include="Instruction\Template\Call1n.cs" />
     <Compile Include="Instruction\Template\NewLine.cs" />
+    <Compile Include="Instruction\Template\Read.cs" />
+    <Compile Include="Instruction\Template\ReadChar.cs" />
     <Compile Include="Instruction\Template\SetTextStyle.cs" />
     <Compile Include="Instruction\Template\Quit.cs" />
     <Compile Include="Label\ZBranchLabel.cs" />

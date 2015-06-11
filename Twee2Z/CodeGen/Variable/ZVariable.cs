@@ -26,6 +26,14 @@ namespace Twee2Z.CodeGen.Variable
 
         public byte VariableNumber { get { return _variableNumber; } }
 
+        public override int Size
+        {
+            get
+            {
+                return 1; // these are exactly 1 byte long
+            }
+        }
+
         public override byte[] ToBytes()
         {
             return new byte[] { _variableNumber };

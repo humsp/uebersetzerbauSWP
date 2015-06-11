@@ -29,6 +29,14 @@ namespace Twee2Z.CodeGen.Instruction.Template
 
         public char Output { get { return _unicodeChar; } }
 
+        public override int Size
+        {
+            get
+            {
+                return base.Size + 2;
+            }
+        }
+
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();

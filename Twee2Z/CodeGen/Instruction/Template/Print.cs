@@ -23,6 +23,11 @@ namespace Twee2Z.CodeGen.Instruction.Template
             _subComponents.Add(_text);
         }
 
+        protected override void Setup(int currentAddress)
+        {
+            base.Setup(currentAddress);
+        }
+
         public string Output { get { return _text.Text; } }
 
         public override Byte[] ToBytes()

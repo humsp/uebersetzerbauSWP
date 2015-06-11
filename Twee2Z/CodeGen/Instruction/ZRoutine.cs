@@ -68,5 +68,10 @@ namespace Twee2Z.CodeGen.Instruction
                 _componentLabel.Name = name;
             }
         }
+
+        protected override void Setup(int currentAddress)
+        {
+            base.Setup(currentAddress + 1); // dont forget the single byte (local variables counter)
+        }
     }
 }

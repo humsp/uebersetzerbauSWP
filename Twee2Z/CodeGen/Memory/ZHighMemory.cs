@@ -34,15 +34,7 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public List<ZRoutine> Routines { get { return _routines; } }
-
-        private void SetupForToBytes()
-        {
-            foreach (ZRoutine routine in Routines)
-            {
-                
-            }
-        }
-
+        
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<Byte>();

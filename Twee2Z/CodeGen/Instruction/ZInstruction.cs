@@ -24,6 +24,8 @@ namespace Twee2Z.CodeGen.Instruction
 
         public OperandCountKind OperandCount { get { return _opcode.OperandCount; } }
 
+        public ZOpcode Opcode { get { return _opcode; } }
+
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();

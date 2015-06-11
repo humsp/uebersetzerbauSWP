@@ -52,7 +52,7 @@ namespace Twee2Z.CodeGen.Instruction
         {
             get
             {
-                return OpcodeHelper.MeasureOpcodeSize(_instructionForm);
+                return OpcodeHelper.MeasureOpcodeSize(_instructionForm, _operandCount, _operandTypes);
             }
         }
     }

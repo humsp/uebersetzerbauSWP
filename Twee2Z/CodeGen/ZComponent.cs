@@ -57,9 +57,8 @@ namespace Twee2Z.CodeGen
             }
         }
 
-        protected virtual void Setup()
+        protected virtual void Setup(int currentAddress)
         {
-            int currentAddress = Label.TargetAddress.Absolute;
             foreach (ZComponent component in _subComponents)
             {
                 if (component.Label == null)
@@ -77,7 +76,7 @@ namespace Twee2Z.CodeGen
                     currentAddress = component.Label.TargetAddress.Absolute;
                     currentAddress += component.Size;
                 }
-                component.Setup();
+                component.Setup(component.Label.TargetAddress.Absolute);
             }
         }
 

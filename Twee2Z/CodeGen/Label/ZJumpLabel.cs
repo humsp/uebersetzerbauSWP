@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Address;
+using Twee2Z.CodeGen.Instruction;
 
 namespace Twee2Z.CodeGen.Label
 {
     class ZJumpLabel : ZLabel
     {
+        IZComponent _sourceComponent;
+
         public ZJumpLabel(string name)
             : base(name)
         {
@@ -19,12 +22,21 @@ namespace Twee2Z.CodeGen.Label
         {
         }
 
-        public ZAddress SourceAddress
+        public IZComponent SourceComponent
         {
             get
             {
-                return Label.TargetAddress;
+                return _sourceComponent;
             }
+            set
+            {
+                _sourceComponent = value;
+            }
+        }
+
+        protected override void SetLabel(int absoluteAddr, string name)
+        {
+            base.SetLabel(absoluteAddr, name);
         }
 
         public short Offset
@@ -32,7 +44,7 @@ namespace Twee2Z.CodeGen.Label
             get
             {
                 // Offset is the target address minus the address of this label
-                return (short)(TargetAddress.Absolute - SourceAddress.Absolute);
+                return (short)(TargetAddress.Absolute - SourceComponent.Label.TargetAddress.Absolute - SourceComponent.Size);
             }
         }
 
@@ -42,8 +54,11 @@ namespace Twee2Z.CodeGen.Label
                 throw new Exception("Cannot convert a ZLabel into Z-Code before the TargetAddress is set.");
 
             byte[] byteArray = new byte[2];
-            byteArray[0] = (byte)(Offset >> 8);
-            byteArray[1] = (byte)Offset;
+
+            short value = (short)(Offset + 2);
+            byteArray[0] = (byte)(value >> 8);
+            byteArray[1] = (byte)value;
+            
             return byteArray;
         }
     }

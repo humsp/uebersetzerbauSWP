@@ -224,26 +224,17 @@ namespace Twee2Z.CodeGen.Instruction
                 byteList.Add((byte)opcodeOperands);
 
             return byteList.ToArray();
-
-            /*switch (operandCount)
-            {
-                case OperandCountKind.ZeroOP:
-                    return (ushort)(hex | 0xB0);
-                case OperandCountKind.OneOP:
-                    return (ushort)(hex | 0x80);
-                case OperandCountKind.TwoOP:
-                    throw new NotImplementedException("Opcodes with two operands are not supported yet.");
-                case OperandCountKind.Var:
-                    return (ushort)(hex | 0xE0);
-                default:
-                    throw new ArgumentException(String.Format("Unknown OperandCountKind '{0}'", operandCount.ToString()), "operandCount");
-            }*/
         }
 
-        public static int MeasureOpcodeSize(InstructionFormKind instructionFormKind)
+        public static int MeasureOpcodeSize(InstructionFormKind instructionFormKind, OperandCountKind operandCount, params OperandTypeKind[] operandTypes)
         {
-            if (instructionFormKind == InstructionFormKind.Extended)
-                return 2;
+            if (instructionFormKind == InstructionFormKind.Extended || instructionFormKind == InstructionFormKind.Variable)
+            {
+                if (operandTypes.Count() > 0)
+                    return 2;
+                else
+                    return 1;
+            }
             else
                 return 1;
         }

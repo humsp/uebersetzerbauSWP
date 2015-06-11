@@ -45,18 +45,19 @@ namespace Twee2Z.CodeGen.Memory
             _highMem.Routines.AddRange(routines);
         }
 
-        protected override void Setup()
+        protected override void Setup(int currentAddress)
         {
-            base.Setup();
-            SetupLabels(_subComponents);
+            base.Setup(currentAddress);
+            SetupLabels(this);
         }
 
-        private void SetupLabels(IEnumerable<IZComponent> subComponents)
+        private void SetupLabels(IZComponent parent)
         {
-            foreach (IZComponent component in subComponents)
+            foreach (IZComponent component in parent.SubComponents)
             {
                 ZRoutineLabel routineLabel = component as ZRoutineLabel;
                 ZJumpLabel jumpLabel = component as ZJumpLabel;
+                ZBranchLabel branchLabel = component as ZBranchLabel;
 
                 if (routineLabel != null && routineLabel.TargetAddress == null)
                 {
@@ -68,17 +69,34 @@ namespace Twee2Z.CodeGen.Memory
                         throw new Exception(String.Format("The ZRoutineLabel targets a ZRoutine that does not exist. A routine named {0} has not been found.", routineLabel.Name));
                 }
 
-                if (jumpLabel != null && jumpLabel.TargetAddress == null)
+                if (jumpLabel != null && (jumpLabel.TargetAddress == null || jumpLabel.SourceComponent == null))
                 {
                     IZComponent foundComponent = SubComponentsToList().FirstOrDefault(c => c.Label.Name == jumpLabel.Name);
 
                     if (foundComponent != null)
                         jumpLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
                     else
-                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named {0} has not been found.", routineLabel.Name));
+                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named {0} has not been found.", jumpLabel.Name));
+
+                    jumpLabel.SourceComponent = parent;
                 }
 
-                SetupLabels(component.SubComponents);
+                if (branchLabel != null && ((branchLabel.RoutineReturnValue != null && branchLabel.TargetAddress == null) || (branchLabel.TargetAddress == null || branchLabel.SourceComponent == null)))
+                {
+                    if (branchLabel.Name != null)
+                    {
+                        IZComponent foundComponent = SubComponentsToList().FirstOrDefault(c => c.Label.Name == branchLabel.Name);
+
+                        if (foundComponent != null)
+                            branchLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
+                        else
+                            throw new Exception(String.Format("The ZBranchLabel targets a ZComponent that does not exist. A component named {0} has not been found.", branchLabel.Name));
+                    }
+
+                    branchLabel.SourceComponent = parent;
+                }
+
+                SetupLabels(component);
             }
         }
 
@@ -106,7 +124,7 @@ namespace Twee2Z.CodeGen.Memory
 
         public override Byte[] ToBytes()
         {
-            Setup();
+            Setup(0x0000);
 
             byte[] dynamicAndStaticByteArray = new byte[ZHighMemory.HighMemoryBase + 1];
             _dynamicMem.ToBytes().CopyTo(dynamicAndStaticByteArray, _dynamicMem.Label.TargetAddress.Absolute);

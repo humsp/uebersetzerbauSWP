@@ -22,7 +22,20 @@ namespace Twee2Z.CodeGen
         public void SetupHelloWorldDemo(string input)
         {
             List<ZInstruction> _mainInstructions = new List<ZInstruction>();
-            _mainInstructions.Add(new Print("main:" + System.Environment.NewLine));
+
+            _mainInstructions.Add(new Print("Ist 1 gleich 2? "));
+            //_mainInstructions.Add(new Jump(new ZJumpLabel("ja")));
+            _mainInstructions.Add(new Je(1, 2, new ZBranchLabel("ja")));
+
+            _mainInstructions.Add(new Print("Nein!" + System.Environment.NewLine) { Label = new ZLabel("nein") });
+            _mainInstructions.Add(new Quit());
+
+            _mainInstructions.Add(new Print("Ja!" + System.Environment.NewLine) { Label = new ZLabel("ja") });
+            _mainInstructions.Add(new Quit() { Label = new ZLabel("quit") });
+
+            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") } });
+
+            /*_mainInstructions.Add(new Print("main:" + System.Environment.NewLine));
             _mainInstructions.Add(new Print("Teste neue Speicherverwaltung mit call_1n ..."));
             _mainInstructions.Add(new NewLine());
             _mainInstructions.Add(new NewLine());
@@ -34,15 +47,21 @@ namespace Twee2Z.CodeGen
             List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
             _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine));
 
-            _helloWorldInstructions.Add(new Print(input));
 
-            _helloWorldInstructions.Add(new NewLine());
-            _helloWorldInstructions.Add(new PrintUnicode('y'));
-            _helloWorldInstructions.Add(new NewLine());
-            _helloWorldInstructions.Add(new PrintUnicode('ä'));
-            _helloWorldInstructions.Add(new NewLine());
-            _helloWorldInstructions.Add(new PrintUnicode('€'));
-            _helloWorldInstructions.Add(new NewLine());
+            StringBuilder splitInput = new StringBuilder();
+            foreach (char c in input)
+            {
+                if (c < 128)
+                    splitInput.Append(c);
+                else
+                {
+                    _helloWorldInstructions.Add(new Print(splitInput.ToString()));
+                    _helloWorldInstructions.Add(new PrintUnicode(c));
+                    splitInput.Clear();
+                }
+            }
+            _helloWorldInstructions.Add(new Print(splitInput.ToString()));
+
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
             _helloWorldInstructions.Add(new Print("Fetter Text" + Environment.NewLine));
             _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
@@ -60,7 +79,15 @@ namespace Twee2Z.CodeGen
 
             List<ZInstruction> _2ndRoutineInstructions = new List<ZInstruction>();
             _2ndRoutineInstructions.Add(new Print("2ndRoutine:" + System.Environment.NewLine));
-            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt! Rufe nun normale Hello World-Routine auf ..."));
+            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt!" + System.Environment.NewLine));
+
+            _2ndRoutineInstructions.Add(new Print("Ist 1 gleich 2? "));
+            _2ndRoutineInstructions.Add(new Je((ushort)1,(ushort) 2, new ZJumpLabel("printJa")));
+            _2ndRoutineInstructions.Add(new Print("Nein!" + System.Environment.NewLine));
+            _2ndRoutineInstructions.Add(new Jump(new ZJumpLabel("weiter")));
+            _2ndRoutineInstructions.Add(new Print("Ja!" + System.Environment.NewLine) { Label = new ZLabel("printJa") });
+
+            _2ndRoutineInstructions.Add(new Print("Rufe nun normale Hello World-Routine auf ...") { Label = new ZLabel("weiter") });
             _2ndRoutineInstructions.Add(new NewLine());
             _2ndRoutineInstructions.Add(new NewLine());
             
@@ -75,7 +102,7 @@ namespace Twee2Z.CodeGen
 
             _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") },
                 new ZRoutine(_2ndRoutineInstructions) { Label = new ZRoutineLabel("2ndRoutine") },
-                new ZRoutine(_helloWorldInstructions) { Label = new ZRoutineLabel("helloworldRoutine") } });
+                new ZRoutine(_helloWorldInstructions) { Label = new ZRoutineLabel("helloworldRoutine") } });*/
         }
 
         public Byte[] ToBytes()

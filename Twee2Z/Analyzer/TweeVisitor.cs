@@ -30,8 +30,16 @@ namespace Twee2Z.Analyzer
 
         public override object VisitPassageName(Twee.PassageNameContext context)
         {
-            Logger.LogAnalyzer("Name: " + context.GetText());
-            _currentPassage = new Passage(context.GetText());
+            String temp = context.GetText();
+            for (int i = temp.Length-1; i > 0; i--) //Leerzeichen nach Passname entfernen.
+            {
+                if (temp[i].Equals(' '))
+                {
+                    temp = temp.Substring(0, temp.Length - 1);
+                } 
+            }
+            Logger.LogAnalyzer("Name: " + temp);
+            _currentPassage = new Passage(temp);
             _tree.AddPassage(_currentPassage);
             return base.VisitPassageName(context);
         }

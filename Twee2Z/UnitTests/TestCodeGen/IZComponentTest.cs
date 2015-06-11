@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Twee2Z.CodeGen;
-using Twee2Z.CodeGen.Instructions.Templates;
+using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Memory;
 
 namespace UnitTests.TestCodeGen

@@ -156,14 +156,8 @@ namespace Twee2Z.Console
         {
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
-            
-            Tree tree = AnalyseFile(tweeFileStream);
-            /*
-            ValidateTree(tree);
-            CodeGen.ZStoryFile storyFile = GenStoryFile(tree);
-            WriteStoryFile(storyFile, output);
-             */ 
-             
+
+            File.WriteAllBytes(output, GenStoryFile(AnalyseFile(tweeFileStream)).ToBytes());
         }
 
         public static Tree AnalyseFile(FileStream stream)
@@ -184,8 +178,7 @@ namespace Twee2Z.Console
             CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();
 
             Logger.LogUserOutput("Add instructions to story file ...");
-            string text = tree.StartPassage.PassageContentList.ElementAt(0).PassageText.Text;
-            storyFile.SetupHelloWorldDemo(text); // TODO austauschen gegen richtige MEthode
+            storyFile.SetupPassageNavigationDemo(tree);
 
             return storyFile;
         }

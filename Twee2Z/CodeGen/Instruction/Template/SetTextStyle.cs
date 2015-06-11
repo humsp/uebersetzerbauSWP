@@ -26,6 +26,14 @@ namespace Twee2Z.CodeGen.Instruction.Template
 
         public StyleFlags Style { get { return _styleFlags; } }
 
+        public override int Size
+        {
+            get
+            {
+                return base.Size + 2;
+            }
+        }
+
         public override Byte[] ToBytes()
         {
             List<Byte> byteList = new List<byte>();

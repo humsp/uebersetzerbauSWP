@@ -9,7 +9,7 @@ namespace Twee2Z.ObjectTree
 {
     public class Tree
     {
-        private const string _startPassageId = "start";
+        private const string _startPassageId = "start ";
 
         private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
 

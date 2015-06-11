@@ -1,7 +1,7 @@
 parser grammar Twee;
 options {   tokenVocab = LEX; }
 
-glr
+start
 	: ignoreFirst newPassage*
 	; 
 

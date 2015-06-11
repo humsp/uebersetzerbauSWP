@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
@@ -42,8 +43,8 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                System.Console.WriteLine("WARNING: ignoring tag: " + tag + " for passage:" + Name);
-            }
+                Logger.LogWarning("ignoring tag: " + tag + " for passage:" + Name);
+             }
         }
         public string Name
         {

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Twee2Z.Utils
+namespace UnitTests
 {
-    public class Class1
+    class Const
     {
+        public const string untTestFolder = "../../../TestFiles/UnitTestFiles/";
     }
 }

@@ -5,19 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
+using Twee2Z.Utils;
 
 namespace ZCodeInterpreter
 {
     public class Interpreter
     {
-        static string zaxJar = "..\\..\\..\\ZaxInterpreter\\zax-master.jar";
+        static string winFrotz = "..\\..\\..\\WinFrotz\\Frotz.exe";
 
-        public static void Run(String zCodePath){
+        public static void Run(String zCodePath)
+        {
+            System.OperatingSystem os = Environment.OSVersion;
+            if (os.Platform != PlatformID.Win32NT)
+            {
+                Logger.LogError("This feature run only under windows");
+                return;
+            }
+
+
             FileInfo f = new FileInfo(zCodePath);
             zCodePath = f.FullName;
-            Console.WriteLine(zCodePath);
 
-            ProcessStartInfo processInfo = new ProcessStartInfo("java.exe", "-jar " + zaxJar + " " + zCodePath);
+            if (!File.Exists(zCodePath))
+            {
+                Logger.LogError("Counld not find zcode-file:" + zCodePath);
+                return;
+            }
+            Logger.LogUserOutput("open " + zCodePath);
+
+            ProcessStartInfo processInfo = new ProcessStartInfo(winFrotz, zCodePath);
 
             processInfo.CreateNoWindow = false;
             processInfo.UseShellExecute = false;

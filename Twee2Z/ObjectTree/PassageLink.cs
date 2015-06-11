@@ -13,16 +13,25 @@ namespace Twee2Z.ObjectTree
         private string _expression;
         private string _displayText;
 
+
+
         public PassageLink(string link)
             : base(ContentType.LinkContent)
         {
             _target = link;
         }
-        public PassageLink(string link, string displayText)
+        public PassageLink(string link, string displayTextorExp, bool isexp)
             : base(ContentType.LinkContent)
         {
             _target = link;
-            _displayText = displayText;
+            if (isexp)
+            {
+                _expression = displayTextorExp;
+            }
+            else
+            {
+                _displayText = displayTextorExp;
+            }
         }
         public PassageLink(string link, string displayText, string expression)
             : base(ContentType.LinkContent)
@@ -80,4 +89,43 @@ namespace Twee2Z.ObjectTree
             }
         }
     }
+	 
 }
+
+/*
+ * 	public class PassageExpression
+	{
+
+		private string _var ;
+		private string _variable ;
+		private string _stringVar ;
+		private string _type ;
+		private int _intVar ;
+		private float _floatVar ;
+
+
+		public PassageExpression (string type, string variable, string wert){
+
+			_var = variable;
+			_type = type;
+			if (_type = "int" ) variable = 
+			if (_type = "float")
+			if (_type = "string")
+		}
+
+		public int LinkInt
+		{
+			get
+			{
+				if (_type == ExpType.IntContent)
+				{
+					return (int)_type;
+				}
+
+			}
+		}
+
+
+	}
+ * 
+ */

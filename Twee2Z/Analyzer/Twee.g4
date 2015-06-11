@@ -1,104 +1,73 @@
-grammar Twee;
-
-/*
- * Parser Rules
- */
+parser grammar Twee;
+options {   tokenVocab = LEX; }
 
 start
-	: passage+
+	: ignoreFirst passage*
+	; 
+
+ignoreFirst
+	: passage
+	| ~PASS ignoreFirst
 	;
 
 passage
-	: passageStart SPACE* passageName SPACE* (passageTags SPACE*)? NEW_LINE passageContent
+	: passageStart SPACE* passageName passageTags? (NEW_LINE|NEW_LINE passageContent)?
+	;
+passageStart
+	: PASS
 	;
 	
-passageStart
-	: PASSAGE_START
-	| COLON COLON
+passageName
+	:  ((WORD|INT)+ SPACE*)+ //alles auﬂer startsonderzeichen
+	;
+	//catch [RecognitionException] {  }
+
+passageContent
+	:  (macro|function|text|variable|link) passageContent?
 	;
 
-passageName
-	: symbol
+
+link
+	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) (SQ_BRACKET_CLOSE SQ_BRACKET_OPEN WORDS)? LINK_END
 	;
 
 passageTags
-	: SQ_BRACKET_OPEN innerPassageTag SQ_BRACKET_CLOSE
+	: TAGS
 	;
 
-innerPassageTag
-	: symbol SPACE+ innerPassageTag
-	| 
+/* TODO: neither ACTIONS or CHOICE are accepted */
+macro
+	: MACRO_START (((DISPLAY|SET|PRINT))| (ACTIONS STRING?) | CHOICE link?) MACRO_END 
+	| MACRO_START IF (VAR_NAME) MACRO_END passageContent (MACRO_START ELSE_IF (STRING) MACRO_END passageContent)? (MACRO_START ELSE MACRO_END passageContent)? MACRO_START ENDIF MACRO_END
+	| MACRO_START NOBR MACRO_END passageContent MACRO_START ENDNOBR MACRO_END
+	| MACRO_START SILENTLY MACRO_END passageContent MACRO_START ENDSILENTLY MACRO_END 
+	;
+	
+function
+	: (FUNC_START FUNC_BRACKET_OPEN FUNC_PARAM* FUNC_BRACKET_CLOSE)
 	;
 
-passageContent
-	: (text|link|variable|function|macro) passageContent
-	| (text|link|variable|function|macro)
+variable
+	: VAR_NAME
 	;
-
-link
-	: LINK_OPEN symbol SQ_BRACKET_CLOSE SQ_BRACKET_CLOSE
-	| LINK_OPEN linkText PIPE symbol SQ_BRACKET_CLOSE (SQ_BRACKET_OPEN linkText)? SQ_BRACKET_CLOSE
+zeichenkette
+	:WORD+
 	;
-
-linkText
-	: innerText
-	;
-
-symbol
-	: WORD
-	;
-
 text
 	: innerText
 	;
 
 innerText
-	: (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE) innerText
-	| (WORD|SPACE|SQ_BRACKET_OPEN|SQ_BRACKET_CLOSE|COLON|PIPE|NEW_LINE)
+	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE|STRING) innerText?
 	;
-
-variable
-	: VAR_N
-	;
-	
-function
-	: WORD FUNC_BRACKET_OPEN WORD* FUNC_BRACKET_CLOSE
-	;
-
-macro
-	: MACRO_BRACKET_OPEN WORD+ MACRO_BRACKET_CLOSE
-	;
-
 /*
- * Lexer Rules
- */
-
-// special symbols
-PASSAGE_START : NEW_LINE '::';
-LINK_OPEN : '[[';
-COLON: ':';
-SQ_BRACKET_OPEN: '[';
-SQ_BRACKET_CLOSE: ']';
-PIPE: '|';
-DOLLAR: '$';
-FUNC_BRACKET_OPEN: '(';
-FUNC_BRACKET_CLOSE: ')';
-MACRO_BRACKET_OPEN: '<<';
-MACRO_BRACKET_CLOSE: '>>';
-
-// normal symbols
-VAR_N : DOLLAR (LETTER|LOW_LINE) (LETTER|INT|LOW_LINE)* (NEW_LINE|SPACE);
-WORD: (LETTER|EXCLAMATION_MARK|POINT|COMMA|SEMICOLON|LOW_LINE|INT|MUL|DIV|ADD|SUB)+;
-fragment LETTER: [a-zA-Z];
-fragment EXCLAMATION_MARK:'!';
-fragment POINT: '.';
-fragment COMMA: ',';
-fragment SEMICOLON: ';';
-fragment LOW_LINE: '_';
-fragment INT : [0-9];
-fragment MUL : '*';
-fragment DIV : '/';
-fragment ADD : '+';
-fragment SUB : '-';
-SPACE : ' ';
-NEW_LINE : ('\r' | '\n' | '\r\n');
+	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT | passageContent)* ITALIC_END)
+	| (UNDERLINE_BEGIN (UNDERLINE_TEXT_SWITCH | UNDERLINE_TEXT | passageContent)* UNDERLINE_END)
+	| (STRIKEOUT_BEGIN (STRIKEOUT_TEXT_SWITCH | STRIKEOUT_TEXT | passageContent)*	STRIKEOUT_END)	
+	| (SUPERSCRIPT_BEGIN (SUPERSCRIPT_TEXT_SWITCH | SUPERSCRIPT_TEXT | passageContent)* SUPERSCRIPT_END)
+	| (SUBSCRIPT_BEGIN (SUBSCRIPT_TEXT_SWITCH | SUBSCRIPT_TEXT)* SUBSCRIPT_END)
+	| (MONOSPACE_BEGIN (format)* MONOSPACE_END)
+	| (COMMENT_BEGIN (COMMENT_TEXT_SWITCH | COMMENT_TEXT | passageContent)* COMMENT_END)
+	;
+*/
+//TODO: last symbol is always put on new line

@@ -1,0 +1,10 @@
+:: start
+random()
+either()
+visited()
+visitedTag()
+turns()
+confirm()
+prompt()
+f()
+ft($p)

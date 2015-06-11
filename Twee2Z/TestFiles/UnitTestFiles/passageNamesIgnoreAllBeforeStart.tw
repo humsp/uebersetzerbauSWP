@@ -1,6 +1,6 @@
-﻿
-ignore? 
-<< set $a = 5 >>
+﻿<<
+ignore? || #+2104
+<< set $a = 5 >>__
 <<print "unsichtbar?">>
 
 ::::: start

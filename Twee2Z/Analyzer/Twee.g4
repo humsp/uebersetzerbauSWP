@@ -6,11 +6,13 @@ start
 	; 
 
 ignoreFirst
-	: (~PASS)*  PASS passage
+	: ~PASS ignoreFirst
+	| PASS passage
 	;
 
+
 newPassage
-	: NEW_LINE* NEW_LINE_PASS passage
+	: NEW_LINE+ PASS passage
 	;
 
 passage
@@ -18,11 +20,11 @@ passage
 	;
 
 passageName
-	:  spaceTabLoop passageNameInner spaceTabLoop?
+	:  spaceTabLoop passageNameInner spaceTabLoop
 	;
 
 passageNameInner
-	: (WORD|INT) (spaceTabLoop? (WORD|INT))* 
+	: (WORD|INT) (spaceTabLoop (WORD|INT))* 
 	;
 
 

@@ -27,7 +27,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("start", tree.StartPassage.Name);
             Assert.AreEqual(1, tree.Passages.Count);
             Assert.AreEqual(1, tree.StartPassage.PassageContentList.Count);
-            Assert.AreEqual("Your story will display this passage first Edit it by double clicking it\r\n\r\n",
+            Assert.AreEqual("Your story will display this passage first Edit it by double clicking it",
                 tree.StartPassage.PassageContentList[0].PassageText.Text);
         }
 

@@ -2,8 +2,13 @@ parser grammar Twee;
 options {   tokenVocab = LEX; }
 
 start
-	: .*? passage+
+	: ignoreFirst passage*
 	; 
+
+ignoreFirst
+	: passage
+	| ~PASS ignoreFirst
+	;
 
 passage
 	: passageStart SPACE* passageName passageTags? (NEW_LINE|NEW_LINE passageContent)?
@@ -49,7 +54,11 @@ zeichenkette
 	:WORD+
 	;
 text
-	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE|STRING) text?
+	: innerText
+	;
+
+innerText
+	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE|STRING) innerText?
 	;
 /*
 	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT | passageContent)* ITALIC_END)

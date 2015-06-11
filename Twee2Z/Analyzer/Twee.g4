@@ -1,13 +1,17 @@
 parser grammar Twee;
 options {   tokenVocab = LEX; }
 
-start
-	: ignoreFirst passage*
+glr
+	: ignoreFirst newPassage*
 	; 
 
 ignoreFirst
 	: passage
 	| ~PASS ignoreFirst
+	;
+
+newPassage
+	: NEW_LINE passage
 	;
 
 passage
@@ -16,11 +20,23 @@ passage
 passageStart
 	: PASS
 	;
-	
+
+/*
 passageName
 	:  ((WORD|INT)+ SPACE*)+ //alles auﬂer startsonderzeichen
 	;
 	//catch [RecognitionException] {  }
+*/
+
+passageName
+	:  passageNameInner
+	;
+	//catch [RecognitionException] {  }
+
+passageNameInner
+	: (SPACE|TAB)* (WORD|INT) passageNameInner
+	| (WORD|INT)
+	;
 
 passageContent
 	:  (macro|function|text|variable|link) passageContent?
@@ -58,7 +74,7 @@ text
 	;
 
 innerText
-	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE|STRING) innerText?
+	: (NEW_LINE*) (zeichenkette|SPACE+|INT|FORMAT|EXCLUDE|STRING) innerText?
 	;
 /*
 	: (ITALIC_BEGIN	(ITALIC_TEXT_SWITCH | ITALIC_TEXT | passageContent)* ITALIC_END)

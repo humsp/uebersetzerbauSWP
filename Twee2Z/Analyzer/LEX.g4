@@ -21,7 +21,8 @@ NEW_LINE			: ('\r' | '\n' | '\r\n');
 PASS				: ':'(':'+);
 // STRING-MODE
 STRING_START		: QUOTE -> pushMode(SMode);
-SPACE : ' ';
+SPACE				: ' ';
+TAB					: '	';
 WORD				: ~(':'|'0'..'9'|'\r'|'\n'|'['|']'|' '|'"'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%');
 
 /*

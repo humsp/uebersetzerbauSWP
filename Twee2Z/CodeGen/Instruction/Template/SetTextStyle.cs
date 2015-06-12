@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
+using Twee2Z.CodeGen.Text;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
@@ -19,31 +21,12 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private StyleFlags _styleFlags;
 
         public SetTextStyle(StyleFlags styleFlags)
-            : base("set_text_style", 0x11, InstructionFormKind.Variable, OperandCountKind.Var)
+            : base("set_text_style", 0x11, OpcodeTypeKind.Var, new ZOperand((byte)styleFlags))
         {
             _styleFlags = styleFlags;
         }
 
         public StyleFlags Style { get { return _styleFlags; } }
-
-        public override int Size
-        {
-            get
-            {
-                return base.Size + 2;
-            }
-        }
-
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-            byteList.Add(127); //magic number?!
-            byteList.Add((byte)_styleFlags);
-
-            return byteList.ToArray();
-        }
 
         [Flags]
         public enum StyleFlags

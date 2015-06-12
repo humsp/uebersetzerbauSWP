@@ -49,21 +49,5 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderExtensionSize; } }
-
-        protected override void SetLabel(int absoluteAddr, string name)
-        {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
-            {
-                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
-                _componentLabel.Name = name;
-            }
-            else
-            {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
-            }
-        }
     }
 }

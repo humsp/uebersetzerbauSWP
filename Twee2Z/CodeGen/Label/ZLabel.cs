@@ -10,7 +10,11 @@ namespace Twee2Z.CodeGen.Label
     class ZLabel : ZComponent
     {
         protected ZAddress _targetAddress = null;
-        protected string _name;
+        protected string _name = null;
+
+        public ZLabel()
+        {
+        }
 
         public ZLabel(ZAddress address)
         {
@@ -22,10 +26,10 @@ namespace Twee2Z.CodeGen.Label
             _name = name;
         }
 
-        public ZLabel(ZAddress address, string name)
-            : this(name)
+        public ZLabel(string name, ZAddress address)
         {
             _targetAddress = address;
+            _name = name;
         }
 
         public ZAddress TargetAddress

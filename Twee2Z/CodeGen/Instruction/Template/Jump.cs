@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
+using Twee2Z.CodeGen.Text;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
@@ -19,22 +21,12 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZJumpLabel _jumpLabel = null;
 
         public Jump(ZJumpLabel jumpLabel)
-            : base("jump", 0x0C, InstructionFormKind.Short, OperandCountKind.OneOP, new OperandTypeKind[] { OperandTypeKind.LargeConstant })
+            : base("jump", 0x0C, OpcodeTypeKind.OneOP, new ZOperand(jumpLabel))
         {
             _jumpLabel = jumpLabel;
             _subComponents.Add(jumpLabel);
         }
 
         public ZJumpLabel JumpAddress { get { return _jumpLabel; } }
-        
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-            byteList.AddRange(_jumpLabel.ToBytes());
-
-            return byteList.ToArray();
-        }
     }
 }

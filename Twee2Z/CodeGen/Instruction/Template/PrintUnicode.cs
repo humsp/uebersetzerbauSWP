@@ -7,6 +7,8 @@ using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
@@ -19,7 +21,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private char _unicodeChar;
 
         public PrintUnicode(char unicodeChar)
-            : base("print_unicode", 0x0B, InstructionFormKind.Extended, OperandCountKind.Var, OperandTypeKind.LargeConstant)
+            : base("print_unicode", 0x0B, OpcodeTypeKind.Ext, new ZOperand((short)unicodeChar))
         {
             if (Char.IsControl(unicodeChar))
                 throw new ArgumentException("Control characters for printing unicode are not allowed.", "unicodeChar");
@@ -28,24 +30,5 @@ namespace Twee2Z.CodeGen.Instruction.Template
         }
 
         public char Output { get { return _unicodeChar; } }
-
-        public override int Size
-        {
-            get
-            {
-                return base.Size + 2;
-            }
-        }
-
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-            byteList.Add((byte)((ushort)_unicodeChar >> 8));
-            byteList.Add((byte)_unicodeChar);
-
-            return byteList.ToArray();
-        }
     }
 }

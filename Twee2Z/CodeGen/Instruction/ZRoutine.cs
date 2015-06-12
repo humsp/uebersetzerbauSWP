@@ -9,8 +9,8 @@ using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    [DebuggerDisplay("Name = {_componentLabel.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_componentLabel.Name}")]
-    class ZRoutine : ZComponent
+    [DebuggerDisplay("LabelName = {_label.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}")]
+    class ZRoutine : ZLabeledComponent
     {
         protected byte _localVariableCount;
 
@@ -58,23 +58,23 @@ namespace Twee2Z.CodeGen.Instruction
             }
         }
 
-        protected override void SetLabel(int absoluteAddr, string name)
+        public override void SetLabel(int absoluteAddr, string name)
         {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZPackedAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
+            if (_label == null)
+                _label = new ZLabel(name, new ZPackedAddress(absoluteAddr));
+            else if (_label.TargetAddress == null)
             {
-                _componentLabel.TargetAddress = new ZPackedAddress(absoluteAddr);
-                _componentLabel.Name = name;
+                _label.TargetAddress = new ZPackedAddress(absoluteAddr);
+                _label.Name = name;
             }
             else
             {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
+                _label.TargetAddress.Absolute = absoluteAddr;
+                _label.Name = name;
             }
         }
 
-        protected override void Setup(int currentAddress)
+        public override void Setup(int currentAddress)
         {
             base.Setup(currentAddress + 1); // dont forget the single byte (local variables counter)
         }

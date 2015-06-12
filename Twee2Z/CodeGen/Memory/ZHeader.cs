@@ -17,6 +17,7 @@ namespace Twee2Z.CodeGen.Memory
     {
         private const int HeaderSize = 64;
 
+#pragma warning disable 0169 // disable warnings for unused variables
         private byte _versionNumber;
         private InterpreterFlags _interpreterFlags;
         private ushort _releaseNumber;
@@ -48,6 +49,7 @@ namespace Twee2Z.CodeGen.Memory
         private ushort _standardRevisionNumber;
         private ushort _alphabetTableAddr;
         private ushort _headerExtensionTableAddr;
+#pragma warning restore 0169
 
         /// <summary>
         /// 
@@ -194,22 +196,6 @@ namespace Twee2Z.CodeGen.Memory
         }
 
         public override int Size { get { return HeaderSize; } }
-
-        protected override void SetLabel(int absoluteAddr, string name)
-        {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
-            {
-                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
-                _componentLabel.Name = name;
-            }
-            else
-            {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
-            }
-        }
 
         /// <summary>
         /// Flags set by the interpreter to indicate support for certain features. We do not care about these but we are aware of it.

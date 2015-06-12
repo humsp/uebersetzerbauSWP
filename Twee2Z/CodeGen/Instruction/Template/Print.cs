@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
+using Twee2Z.CodeGen.Text;
+using Twee2Z.CodeGen.Instruction.Opcode;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
@@ -17,18 +18,22 @@ namespace Twee2Z.CodeGen.Instruction.Template
         private ZText _text = null;
 
         public Print(string output)
-            : base("print", 0x02, InstructionFormKind.Short, OperandCountKind.ZeroOP)
+            : base("print", 0x02, OpcodeTypeKind.ZeroOP)
         {
             _text = new ZText(output);
             _subComponents.Add(_text);
         }
 
-        protected override void Setup(int currentAddress)
-        {
-            base.Setup(currentAddress);
-        }
-
         public string Output { get { return _text.Text; } }
+
+        public override int Size
+        {
+            get
+            {
+                return base.Size;
+                //return base.Size + _text.Size;
+            }
+        }
 
         public override Byte[] ToBytes()
         {

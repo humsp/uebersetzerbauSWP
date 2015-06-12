@@ -7,6 +7,8 @@ using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
@@ -16,25 +18,9 @@ namespace Twee2Z.CodeGen.Instruction.Template
     [DebuggerDisplay("Name = {_opcode.Name}, RoutineAddress = {_routineLabel.TargetAddress}")]
     class Call1n : ZInstruction
     {
-        private ZRoutineLabel _routineLabel = null;
-
         public Call1n(ZRoutineLabel routineLabel)
-            : base("call_1n", 0x0F, InstructionFormKind.Short, OperandCountKind.OneOP, OperandTypeKind.LargeConstant)
+            : base("call_1n", 0x0F, OpcodeTypeKind.OneOP, new ZOperand(routineLabel))
         {
-            _routineLabel = routineLabel;
-            _subComponents.Add(routineLabel);
-        }
-
-        public ZAddress RoutineAddress { get { return _routineLabel.TargetAddress; } }
-
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-            byteList.AddRange(_routineLabel.ToBytes());
-
-            return byteList.ToArray();
         }
     }
 }

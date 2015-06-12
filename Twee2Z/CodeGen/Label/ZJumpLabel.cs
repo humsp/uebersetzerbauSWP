@@ -18,7 +18,7 @@ namespace Twee2Z.CodeGen.Label
         }
 
         public ZJumpLabel(string name, ZAddress address)
-            : base(address, name)
+            : base(name, address)
         {
         }
 
@@ -34,17 +34,12 @@ namespace Twee2Z.CodeGen.Label
             }
         }
 
-        protected override void SetLabel(int absoluteAddr, string name)
-        {
-            base.SetLabel(absoluteAddr, name);
-        }
-
         public short Offset
         {
             get
             {
                 // Offset is the target address minus the address of this label
-                return (short)(TargetAddress.Absolute - SourceComponent.Label.TargetAddress.Absolute - SourceComponent.Size);
+                return (short)(TargetAddress.Absolute - SourceComponent.Position.Absolute - SourceComponent.Size);
             }
         }
 

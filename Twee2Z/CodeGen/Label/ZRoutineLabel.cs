@@ -15,7 +15,7 @@ namespace Twee2Z.CodeGen.Label
         }
 
         public ZRoutineLabel(string name, ZPackedAddress address)
-            : base(address, name)
+            : base(name, address)
         {
         }
 

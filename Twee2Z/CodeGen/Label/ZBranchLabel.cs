@@ -20,7 +20,7 @@ namespace Twee2Z.CodeGen.Label
         }
 
         public ZBranchLabel(string name, ZAddress address)
-            : base(address, name)
+            : base(name, address)
         {
         }
 
@@ -38,10 +38,10 @@ namespace Twee2Z.CodeGen.Label
             }
             set
             {
-                if (TargetAddress.Absolute - value.Label.TargetAddress.Absolute - value.Size < 0)
+                if (TargetAddress.Absolute - value.Position.Absolute - value.Size < 0)
                     throw new ArgumentException("ZBranchLabels cannot jump backwards.", "absoluteAddr");
 
-                if (TargetAddress.Absolute - value.Label.TargetAddress.Absolute - value.Size > 16383)
+                if (TargetAddress.Absolute - value.Position.Absolute - value.Size > 16383)
                     throw new ArgumentException("The jump distance of ZBranchLabels has to be between 0 and 16383.", "absoluteAddr");
 
                 _sourceComponent = value;
@@ -83,7 +83,7 @@ namespace Twee2Z.CodeGen.Label
 
                 // Offset is the target address minus the address of this label
                 else if (TargetAddress != null && SourceComponent != null)
-                    return (short)(TargetAddress.Absolute - SourceComponent.Label.TargetAddress.Absolute - SourceComponent.Size);
+                    return (short)(TargetAddress.Absolute - SourceComponent.Position.Absolute - SourceComponent.Size);
                 else
                     return 0;
             }
@@ -105,7 +105,7 @@ namespace Twee2Z.CodeGen.Label
             else
                 value = (short)(Offset + 2);
 
-            if (false && value <= 63) // force to use two bytes, cant fix this bug for now
+            if (false && value <= 63) // The branch COULD fit into a single byte but we prefer using two bytes. This makes the Size calculation easier.
             {
                 byte byteVal = (byte)value;
                 

@@ -1,0 +1,58 @@
+﻿:: Start
+
+Du präsentierst den Meilenstein 3 deines Übersetzerbau-Projekts. Die anwesenden Teilnehmer sind skeptisch. Du weißt, dass der Compiler noch nicht 100%ig stabil ist.
+
+[[Halte dich genau an die eingeübte Präsentation|safe]]
+[[Weiche vom Plan ab|unsafe]]
+
+
+
+:: unsafe
+
+Du wirst übermütig und machst etwas, dass den Compiler zum Absturz bringt.
+
+''Die Schande brennt tief in dir.''
+
+
+
+
+:: safe
+
+Alles läuft nach Plan. Die Navigation funktioniert und die Menge tobt. (Anmerkung der Autors: Übertreibung als Stilmittel)
+
+Auf den zweiten Blick gibt es aber diese Reaktion:
+[[Toll|toll]]
+[[Ok|ok]]
+[[Meh|meh]]
+
+:: toll
+
+Toll!
+
+
+
+:: ok
+
+Ok.
+
+:: meh
+''Meh.''
+
+
+
+
+:: StoryTitle
+
+Twee2Z Meilenstein 3
+
+
+
+
+
+
+:: StoryAuthor
+
+Twee2Z-Team
+
+
+

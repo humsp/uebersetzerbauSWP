@@ -70,6 +70,11 @@ namespace Twee2Z.CodeGen.Text
             controlCharDictionary.Add(ZControlCharKind.TenBitZCharacter, new ZControlChar() { kind = ZControlCharKind.TenBitZCharacter, number = 6, table = 2 });
         }
 
+        public static bool IsZSCII(char input)
+        {
+            return input == ' ' || tableA0.Contains(input) || tableA1.Contains(input) || tableA2.Contains(input);
+        }
+
         public static int Measure(String input)
         {
             int zCharCounter = 0;
@@ -81,9 +86,17 @@ namespace Twee2Z.CodeGen.Text
                 {
                     zCharCounter++;
                 }
+                else if (input[i].ToString() == System.Environment.NewLine)
+                {
+                    zCharCounter++;
+                }
                 else if (i + 1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
                 {
                     zCharCounter += 2;
+                    i++;
+                }
+                else if (input[i] == '\r' || input[i] == '\n')
+                {
                     i++;
                 }
                 else
@@ -115,6 +128,14 @@ namespace Twee2Z.CodeGen.Text
                 {                    
                     AddCharToArray(ref output, ZCharSpaceNumber, 0, ref zCharCount);
                 }
+                else if (input[i].ToString() == System.Environment.NewLine)
+                {
+                    ZControlChar zControlChar;
+                    if (!controlCharDictionary.TryGetValue(ZControlCharKind.NewLine, out zControlChar))
+                        throw new Exception("NewLine not found in dictionary");
+
+                    AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
+                }
                 else if (i+1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
                 {
                     ZControlChar zControlChar;
@@ -123,6 +144,14 @@ namespace Twee2Z.CodeGen.Text
 
                     AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
                     i++;
+                }
+                else if (input[i] == '\r' || input[i] == '\n')
+                {
+                    ZControlChar zControlChar;
+                    if (!controlCharDictionary.TryGetValue(ZControlCharKind.NewLine, out zControlChar))
+                        throw new Exception("NewLine not found in dictionary");
+
+                    AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
                 }
                 else
                 {

@@ -9,6 +9,7 @@ using Twee2Z.CodeGen.Instruction.Opcode;
 using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Label;
 using Twee2Z.CodeGen.Variable;
+using Twee2Z.ObjectTree;
 
 namespace Twee2Z.CodeGen
 {
@@ -19,6 +20,113 @@ namespace Twee2Z.CodeGen
         public ZStoryFile()
         {
             _zMemory = new ZMemory();
+        }
+
+        public void ImportObjectTree(Tree tree)
+        {
+            // Tree.StartPassage is not working for "Start" as name
+            // That is why I have to find the start passage myself
+            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+
+            // Filter StoryTitle and StoryAuthor from the passages
+            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
+                                                         .Select(entry => entry.Value);
+
+            List<ZRoutine> routines = new List<ZRoutine>();
+
+            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+
+            routines.Add(ConvertPassageToRoutine(startPassage));
+
+            foreach (Passage passage in passages)
+            {
+                routines.Add(ConvertPassageToRoutine(passage));
+            }
+
+            _zMemory.SetRoutines(routines);
+        }
+
+        private ZRoutine ConvertPassageToRoutine(Passage passage)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+            int currentLink = 0;
+            List<string> links = new List<string>();
+
+            instructions.Add(new EraseWindow(0));
+
+            foreach (PassageContent content in passage.PassageContentList)
+            {
+                if (content.Type == PassageContent.ContentType.TextContent)
+                    instructions.AddRange(StringToInstructions(content.PassageText.Text));
+
+                else if (content.Type == PassageContent.ContentType.LinkContent)
+                {
+                    currentLink++;
+
+                    if (currentLink > 9)
+                        throw new Exception("More than 9 links are not supported yet.");
+
+                    string[] splitTarget = content.PassageLink.Target.Split('|');
+
+                    // DisplayedText is null on links. I have to get the text from Target.
+                    string display = splitTarget.First();
+
+                    // Get the target as well manually
+                    links.Add(splitTarget.Last());
+
+                    instructions.AddRange(StringToInstructions(display));
+
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
+                    instructions.Add(new Print(currentLink.ToString()));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+                }
+            }
+
+            if (currentLink > 0)
+            {
+                instructions.Add(new PrintUnicode('>'));
+                instructions.Add(new Print(" "));
+                instructions.Add(new ReadChar());
+
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    instructions.Add(new Je(new ZLocalVariable(0), (short)(i + 1), new ZBranchLabel(links[i] + "Call")));
+                }
+
+                instructions.Add(new Quit());
+
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i])) { Label = new ZLabel(links[i] + "Call") });
+                }
+            }
+            else
+            {
+                instructions.Add(new Quit());
+            }
+            
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
+        }
+
+        private IEnumerable<ZInstruction> StringToInstructions(string input)
+        {
+            List<ZInstruction> list = new List<ZInstruction>();
+            StringBuilder splitInput = new StringBuilder();
+            foreach (char c in input)
+            {
+                if (Text.TextHelper.IsZSCII(c) || c == '\r' || c == '\n')
+                    splitInput.Append(c);
+                else
+                {
+                    list.Add(new Print(splitInput.ToString()));
+                    list.Add(new PrintUnicode(c));
+                    splitInput.Clear();
+                }
+            }
+            list.Add(new Print(splitInput.ToString()));
+
+            return list;
         }
 
         public void SetupPassageNavigationDemo(ObjectTree.Tree tree)
@@ -164,20 +272,6 @@ namespace Twee2Z.CodeGen
                 new ZRoutine(_okInstructions, 0) { Label = new ZRoutineLabel("ok") },
                 new ZRoutine(_mehInstructions, 0) { Label = new ZRoutineLabel("meh") }
             });
-
-            /*StringBuilder splitInput = new StringBuilder();
-            foreach (char c in input)
-            {
-                if (c < 128)
-                    splitInput.Append(c);
-                else
-                {
-                    _helloWorldInstructions.Add(new Print(splitInput.ToString()));
-                    _helloWorldInstructions.Add(new PrintUnicode(c));
-                    splitInput.Clear();
-                }
-            }
-            _helloWorldInstructions.Add(new Print(splitInput.ToString()));*/
         }
         
         public Byte[] ToBytes()

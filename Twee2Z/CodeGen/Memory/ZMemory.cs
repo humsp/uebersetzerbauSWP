@@ -66,7 +66,7 @@ namespace Twee2Z.CodeGen.Memory
                     if (foundRoutine != null)
                         routineLabel.TargetAddress = new ZPackedAddress(foundRoutine.Label.TargetAddress.Absolute);
                     else
-                        throw new Exception(String.Format("The ZRoutineLabel targets a ZRoutine that does not exist. A routine named {0} has not been found.", routineLabel.Name));
+                        throw new Exception(String.Format("The ZRoutineLabel targets a ZRoutine that does not exist. A routine named '{0}' has not been found.", routineLabel.Name));
                 }
 
                 if (jumpLabel != null && (jumpLabel.TargetAddress == null || jumpLabel.SourceComponent == null))
@@ -76,7 +76,7 @@ namespace Twee2Z.CodeGen.Memory
                     if (foundComponent != null)
                         jumpLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
                     else
-                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named {0} has not been found.", jumpLabel.Name));
+                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named '{0}' has not been found.", jumpLabel.Name));
 
                     jumpLabel.SourceComponent = parent;
                 }
@@ -90,7 +90,7 @@ namespace Twee2Z.CodeGen.Memory
                         if (foundComponent != null)
                             branchLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
                         else
-                            throw new Exception(String.Format("The ZBranchLabel targets a ZComponent that does not exist. A component named {0} has not been found.", branchLabel.Name));
+                            throw new Exception(String.Format("The ZBranchLabel targets a ZComponent that does not exist. A component named '{0}' has not been found.", branchLabel.Name));
                     }
 
                     branchLabel.SourceComponent = parent;

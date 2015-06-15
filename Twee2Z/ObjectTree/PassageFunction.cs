@@ -12,7 +12,7 @@ namespace Twee2Z.ObjectTree
         private List<string> _args ;
 
             public PassageFunction(string func)
-               : base(ContentType.FunctionContext)
+            : base(ContentType.FunctionContent)
         {
             _func = func;
         }

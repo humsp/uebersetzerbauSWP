@@ -31,7 +31,8 @@ namespace Twee2Z.ObjectTree
             TextContent,
             LinkContent,
             VariableContent,
-            FunctionContent
+            FunctionContent,
+            MacroContent
         };
 
         private ContentType _type;
@@ -85,6 +86,18 @@ namespace Twee2Z.ObjectTree
                 if (_type == ContentType.FunctionContent)
                 {
                     return (PassageFunction)this;
+                }
+                return null;
+            }
+        }
+
+        public PassageMacro PassageMacro
+        {
+            get
+            {
+                if (_type == ContentType.MacroContent)
+                {
+                    return (PassageMacro)this;
                 }
                 return null;
             }

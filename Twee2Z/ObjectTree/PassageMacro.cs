@@ -11,17 +11,19 @@ namespace Twee2Z.ObjectTree
 
         private string _macro;
         private List<MacroContentType> _content;
+        private string condition;
+
 
         public enum MacroContentType
         {
-            VarContent,
             ExpContent,
+            StringContent,
             FunktionContent
         };
 
         
         public PassageMacro(string macro)
-               : base(ContentType.MacroContext)
+               : base(ContentType.MacroContent)
         {
             _macro = macro;
         }

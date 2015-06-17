@@ -87,6 +87,5 @@ namespace Twee2Z.ObjectTree
                 return _variableType;
             }
         }
-
     }
 }

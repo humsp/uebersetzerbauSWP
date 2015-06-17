@@ -8,22 +8,20 @@ namespace Twee2Z.ObjectTree
 {
     public class PassageText : PassageContent
     {
-        
-
 
         private string _text;
 
         public PassageText(string text)
             : base(ContentType.TextContent)
         {
-            _monospace = Monospace;
-            _subscript = Subscript;
-            _comment = Comment;
-            _italic = Italic;
-            _underline = Underline;
-            _strikeout = Strikeout;
+            _monospace   = Monospace;
+            _subscript   = Subscript;
+            _comment     = Comment;
+            _italic      = Italic;
+            _underline   = Underline;
+            _strikeout   = Strikeout;
             _superscript = Superscript;
-            _bold = Bold;
+            _bold        = Bold;
             _text = text;
         }
 

@@ -1,6 +1,6 @@
 Ignore
 :: start
-Inhalt
+InhaltInhaltInhaltInhalt{{{BOLDBOLDBOLD}}}InhaltInhaltInhaltInhaltInhalt
 :::::: passage ü2
 {{{~~bjj~~sadd}}}
 print/
@@ -21,13 +21,6 @@ turns()
 confirm()
 prompt()
 <<display $i>>
-<<actions>>
-<<choice>>
-
-<<nobr>> <<print $varname
->> <<endnobr>>
-<<silently>> <<print >> <<endsilently>>
-asd
 
 :: passage
 as

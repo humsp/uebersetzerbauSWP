@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.Utils;
 
 namespace Twee2Z.ObjectTree
 {
@@ -37,6 +38,15 @@ namespace Twee2Z.ObjectTree
 
         public PassageContent(ContentType type)
         {
+
+            _monospace = Monospace;
+            _subscript = Subscript;
+            _comment = Comment;
+            _italic = Italic;
+            _underline = Underline;
+            _strikeout = Strikeout;
+            _superscript = Superscript;
+            _bold = Bold;
             Type = type;
         }
 

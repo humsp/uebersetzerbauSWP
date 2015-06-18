@@ -34,8 +34,6 @@ namespace Twee2Z.ObjectTree
             return _passages[name];
         }
 
-        // getter
-
         public Passage StartPassage
         {
             get

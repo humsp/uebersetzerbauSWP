@@ -17,7 +17,7 @@ ignoreFirst
 	passageContent?
 */
 passage
-	: PASS PMODEWORD+ TAG? ~PMODE_END* PMODE_END passageContent?
+	: PASS PMODEWORD TAG? ~PMODE_END* PMODE_END passageContent?
 	;
 
 /* The passage Content consists of plain text (can be formatted), macros, functions, variables and links */

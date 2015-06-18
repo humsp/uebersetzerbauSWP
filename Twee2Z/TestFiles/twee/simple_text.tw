@@ -1,10 +1,22 @@
 Ignore
-:: start
-InhaltInhaltInhaltInhalt{{{BOLDBOLDBOLD}}}InhaltInhaltInhaltInhaltInhalt
-:::::: passage ü2
+:: start       klasd     
+
+InhaltInhaltInhaltInhalt
+{{{mono}}}
+~~subscript~~
+/%comment%/
+//italic//
+__underline__
+==strikeout==
+^^superscript^^
+''bold''
+
+
+InhaltInhaltInhaltInhaltInhalt
+:::::: 1a2b3d 12
 {{{~~bjj~~sadd}}}
 print/
-Android S$martphone ab Ve display rsion 4(bentigt Lufthansa App und Samsung Wallet).
+Android S$martphone ab Ve display rsion 4(bentigt Lufthansa App und Sam[[a b]]sung Wallet).
 "hallo1234567890ß@€*~+#-_.:,;<>|!§$%&/()=?`´^^" 
 $housesDestroyed
 $_my_favorite_color

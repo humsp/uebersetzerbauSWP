@@ -31,25 +31,24 @@ namespace Twee2Z.ObjectTree
         {
             TextContent,
             LinkContent,
-            VariableContent
+            VariableContent,
+            FunctionContent
         };
 
         private ContentType _type;
 
         public PassageContent(ContentType type)
         {
-
-            _monospace = Monospace;
-            _subscript = Subscript;
-            _comment = Comment;
-            _italic = Italic;
-            _underline = Underline;
-            _strikeout = Strikeout;
-            _superscript = Superscript;
-            _bold = Bold;
+            _monospace = PassageContent.Monospace;
+            _subscript = PassageContent.Subscript;
+            _comment = PassageContent.Comment;
+            _italic = PassageContent.Italic;
+            _underline = PassageContent.Underline;
+            _strikeout = PassageContent.Strikeout;
+            _superscript = PassageContent.Superscript;
+            _bold = PassageContent.Bold;
             Type = type;
         }
-
 
         public PassageLink PassageLink
         {
@@ -82,6 +81,18 @@ namespace Twee2Z.ObjectTree
                 if (_type == ContentType.VariableContent)
                 {
                     return (PassageLink)this;
+                }
+                return null;
+            }
+        }
+
+        public PassageFunction PassageFunction
+        {
+            get
+            {
+                if (_type == ContentType.FunctionContent)
+                {
+                    return (PassageFunction)this;
                 }
                 return null;
             }

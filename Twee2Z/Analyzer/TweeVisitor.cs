@@ -14,8 +14,6 @@ namespace Twee2Z.Analyzer
         private Tree _tree;
         private Passage _currentPassage;
 
-        //Text Formatierung
-
         public override object VisitStart(Twee.StartContext context)
         {
             _tree = new Tree();
@@ -27,20 +25,16 @@ namespace Twee2Z.Analyzer
         {
             Logger.LogAnalyzer("[Passage]");
             string[] tags;
-            String Name = context.GetChild(1).GetText();
-           
-            for (int i = Name.Length - 1; i > 0; i--)       //Leerzeichen nach Passname entfernen.
-            {
-                if (Name[i].Equals(' '))
-                {
-                    Name = Name.Substring(0, Name.Length - 1);
-                }
-            }
+
+            // Remove Spaces after PassageName
+            String Name = context.GetChild(1).GetText().Trim();                        
+
             Logger.LogAnalyzer("Name: " + Name);
             _currentPassage = new Passage(Name);
             _tree.AddPassage(_currentPassage);
-            
-            for (int i = 0; i < context.ChildCount; i++)  //Tag Auseinanderbauen und Speichern
+
+            // Get each tag and pass & print it
+            for (int i = 0; i < context.ChildCount; i++) 
             {
                 if (context.GetChild(i).GetText().Contains('['))
                 {
@@ -66,7 +60,6 @@ namespace Twee2Z.Analyzer
         {
             return base.VisitPassageContent(context);
         }
-
 
         /**
          * This function is called if a link is read inside a twee file.
@@ -170,9 +163,9 @@ namespace Twee2Z.Analyzer
                         case "~~": ObjectTree.PassageContent.Subscript = !ObjectTree.PassageContent.Subscript; break;
                         case "/%": ObjectTree.PassageContent.Comment = true; break;
                         case "%/": ObjectTree.PassageContent.Comment = false; break;
-                        default: 
+                        default:
                             Logger.LogAnalyzer("Text: " + Text);
-                            _currentPassage.AddPassageContent(new PassageText(Text));break;
+                            _currentPassage.AddPassageContent(new PassageText(Text)); break;
                     }
                 }
                 else { _currentPassage.AddPassageContent(new PassageText(Text)); }
@@ -208,10 +201,20 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitFunction(Twee.FunctionContext context)
         {
-            String Funktion = context.GetText();
-            Logger.LogAnalyzer("Function: " + Funktion);
-            // substring = str.Split(',')[0]; das könnt ihr dafür nutzen, die einzelne Argumente zu extrahieren 
-            // PassgeFunction.addArg funktion steht euch zur Verfügung.
+            String _functionName = context.GetChild(0).GetText();
+            String _paramList = context.GetChild(2).GetText().Trim();
+
+            PassageFunction _objectPF = new PassageFunction(_functionName);
+            
+            Logger.LogAnalyzer("Function: " + _functionName);
+
+            /*
+            if (!(_paramList.Equals(')')))
+            {
+                for (int i = 0; i < _paramList.Length; i++)
+                    _objectPF.addArg(_paramList[i]);
+            }
+            */
             return base.VisitFunction(context);
         }
 

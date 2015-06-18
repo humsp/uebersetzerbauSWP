@@ -147,13 +147,15 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitText(Twee.TextContext context)
         {
-            if (!(context.GetChild(0).GetText().Equals("\r\n")
-                || context.GetChild(0).GetText().Equals("\n")
-                || context.GetChild(0).GetText().Equals("\r")))
+            String Text = context.GetChild(0).GetText();
+            if (!Text.Equals(""))  /*Solange nicht leer*/
             {
-                if (!context.GetChild(0).GetText().Equals(""))
+                if (!(Text.Equals("\r\n")  /*Solange nicht NL oder Space, wirds geprintet*/
+                    || Text.Equals("\n")
+                    || Text.Equals("\r")
+                    || Text.Equals(" ")))
                 {
-                    switch (context.GetChild(0).GetText())
+                    switch (Text)
                     {
                         case "{{{": ObjectTree.PassageContent.Monospace = true; break;
                         case "}}}": ObjectTree.PassageContent.Monospace = false; break;
@@ -165,13 +167,15 @@ namespace Twee2Z.Analyzer
                         case "~~": ObjectTree.PassageContent.Subscript = !ObjectTree.PassageContent.Subscript; break;
                         case "/%": ObjectTree.PassageContent.Comment = true; break;
                         case "%/": ObjectTree.PassageContent.Comment = false; break;
+                        default: 
+                            Logger.LogAnalyzer("Text: " + Text);
+                            _currentPassage.AddPassageContent(new PassageText(Text));break;
                     }
-
-                    Logger.LogAnalyzer("Text: " + context.GetChild(0).GetText());
                 }
+                else { _currentPassage.AddPassageContent(new PassageText(Text)); }
             }
 
-            _currentPassage.AddPassageContent(new PassageText(context.GetText()));
+            
             return base.VisitText(context);
         }
 

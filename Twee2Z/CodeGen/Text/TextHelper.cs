@@ -88,7 +88,7 @@ namespace Twee2Z.CodeGen.Text
                 }
                 else if (input[i].ToString() == System.Environment.NewLine)
                 {
-                    zCharCounter++;
+                    zCharCounter += 2;
                 }
                 else if (i + 1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
                 {
@@ -97,7 +97,7 @@ namespace Twee2Z.CodeGen.Text
                 }
                 else if (input[i] == '\r' || input[i] == '\n')
                 {
-                    i++;
+                    zCharCounter += 2;
                 }
                 else
                 {

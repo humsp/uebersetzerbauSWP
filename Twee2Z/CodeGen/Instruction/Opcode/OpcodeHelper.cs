@@ -19,25 +19,28 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
         /// <param name="operandCount"></param>
         /// <param name="operandTypes"></param>
         /// <returns>An opcode in bytes.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"> If <paramref name="opcodeNumber"/> has an invalid value or <paramref name="operands"/> an invalid count of operands.</exception>
+        /// <exception cref="InvalidOperationException"> If <paramref name="instructionForm"/> and <paramref name="operandCount"/> is an invalid combination.
+        /// <exception cref="ArgumentException"> If <paramref name="operands"/> contains an unknown enum value.</exception>
         public static byte[] ToOpcode(byte opcodeNumber, InstructionFormKind instructionForm, InstructionOperandCountKind operandCount, OperandTypeKind[] operandTypes)
         {
             if (operandCount == InstructionOperandCountKind.ZeroOP && operandTypes.Count() != 0)
-                throw new ArgumentException("With InstructionOperandCountKind.ZeroOP no operands must be given.", "operandTypes");
+                throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "With InstructionOperandCountKind.ZeroOP no operands must be given.");
 
             if (operandCount == InstructionOperandCountKind.OneOP && operandTypes.Count() != 1)
-                throw new ArgumentException("With InstructionOperandCountKind.OneOP exactly one operand must be given.", "operandTypes");
+                throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "With InstructionOperandCountKind.OneOP exactly one operand must be given.");
 
             if (operandCount == InstructionOperandCountKind.TwoOP && operandTypes.Count() != 2)
-                throw new ArgumentException("With InstructionOperandCountKind.TwoOP exactly two operands must be given.", "operandTypes");
+                throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "With InstructionOperandCountKind.TwoOP exactly two operands must be given.");
 
             if (operandCount == InstructionOperandCountKind.Var)
             {
                 if (operandTypes.Count() > 4)
                 {
                     if (operandTypes.Count() <= 8)
-                        throw new ArgumentException("With InstructionOperandCountKind.Var only 0 to 4 operands can be given. Up to 8 operands are not supported yet (only call_vs2 and call_vn2 make use of this).", "operandTypes");
+                        throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "With InstructionOperandCountKind.Var only 0 to 4 operands can be given. Up to 8 operands are not supported yet (only call_vs2 and call_vn2 make use of this).");
                     else
-                        throw new ArgumentException("With InstructionOperandCountKind.Var only 0 to 4 operands can be given.", "operandTypes");
+                        throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "With InstructionOperandCountKind.Var only 0 to 4 operands can be given.");
                 }                    
             }
 
@@ -49,11 +52,11 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             {
                 case InstructionFormKind.Long:
                     if (opcodeNumber > 0x1F)
-                        throw new ArgumentException("The opcode number of an InstructionFormKind.Long must be in range of 0x00 - 0x1F.", "opcodeNumber");
+                        throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an InstructionFormKind.Long must be in range of 0x00 - 0x1F.");
                     break;
                 case InstructionFormKind.Short:
                     if (opcodeNumber > 0xF)
-                        throw new ArgumentException("The opcode number of an InstructionFormKind.Short must be in range of 0x0 - 0xF.", "opcodeNumber");
+                        throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an InstructionFormKind.Short must be in range of 0x0 - 0xF.");
                     opcodeHead |= 0x80;
                     break;
                 case InstructionFormKind.Extended:
@@ -61,7 +64,7 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
                     break;
                 case InstructionFormKind.Variable:
                     if (opcodeNumber > 0x1F)
-                        throw new ArgumentException("The opcode number of an InstructionFormKind.Variable must be in range of 0x00 - 0x1F.", "opcodeNumber");
+                        throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an InstructionFormKind.Variable must be in range of 0x00 - 0x1F.");
                     opcodeHead |= 0xC0;
                     break;
                 default:
@@ -71,7 +74,7 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             if (instructionForm == InstructionFormKind.Short)
             {
                 if (operandTypes.Count() > 1)
-                    throw new ArgumentException("An InstructionForm.Short cannot have more than one operand.", "operandTypes");
+                    throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "An InstructionForm.Short cannot have more than one operand.");
                 
                 switch (operandCount)
                 {
@@ -107,7 +110,7 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             else if (instructionForm == InstructionFormKind.Long)
             {
                 if (operandTypes.Count() != 2)
-                    throw new ArgumentException("An InstructionForm.Long must have exectly two operands.", "operandTypes");
+                    throw new ArgumentOutOfRangeException("operandTypes", operandTypes.Count(), "An InstructionForm.Long must have exectly two operands.");
 
                 switch (operandCount)
                 {
@@ -267,10 +270,12 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
         /// <summary>
         /// Takes several opcode information and returns the best match of InstructionFormKind and InstructionOperandCountKind.
         /// </summary>
-        /// <param name="opcodeNumber">The opcode number</param>
-        /// <param name="opcodeType">The opcode type as written in the table of opcodes</param>
-        /// <param name="operands">The operands to use</param>
-        /// <returns>A tuple of InstructionFormKind and InstructionOperandCountKind</returns>
+        /// <param name="opcodeNumber">The opcode number.</param>
+        /// <param name="opcodeType">The opcode type as written in the table of opcodes.</param>
+        /// <param name="operands">The operands to use.</param>
+        /// <returns>A tuple of InstructionFormKind and InstructionOperandCountKind.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"> If <paramref name="opcodeNumber"/> has an invalid value or <paramref name="operands"/> an invalid count of operands.</exception>
+        /// <exception cref="ArgumentException"> If <paramref name="operands"/> contains an unknown enum value.</exception>
         public static Tuple<InstructionFormKind, InstructionOperandCountKind> GetFormAndCount(byte opcodeNumber, OpcodeTypeKind opcodeType, ZOperand[] operands)
         {
             InstructionFormKind instructionForm;
@@ -279,10 +284,10 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             if (opcodeType == OpcodeTypeKind.ZeroOP)
             {
                 if (opcodeNumber > 0xF)
-                    throw new ArgumentException("The opcode number of an OpcodeTypeKind.ZeroOP must be in range of 0x0 - 0xF.", "opcodeNumber");
+                    throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an OpcodeTypeKind.ZeroOP must be in range of 0x0 - 0xF.");
 
                 if (operands.Count() > 0)
-                    throw new ArgumentException("With OpcodeTypeKind.ZeroOP no operands must be given.", "operands");
+                    throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.ZeroOP no operands must be given.");
 
                 instructionForm = InstructionFormKind.Short;
                 operandCount = InstructionOperandCountKind.ZeroOP;
@@ -290,10 +295,10 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             else if (opcodeType == OpcodeTypeKind.OneOP)
             {
                 if (opcodeNumber > 0xF)
-                    throw new ArgumentException("The opcode number of an OpcodeTypeKind.OneOP must be in range of 0x0 - 0xF.", "opcodeNumber");
+                    throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an OpcodeTypeKind.OneOP must be in range of 0x0 - 0xF.");
 
                 if (operands.Count() != 1)
-                    throw new ArgumentException("With OpcodeTypeKind.OneOP excactly operands must be given.", "operands");
+                    throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.OneOP excactly operands must be given.");
 
                 instructionForm = InstructionFormKind.Short;
                 operandCount = InstructionOperandCountKind.OneOP;
@@ -301,10 +306,10 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             else if (opcodeType == OpcodeTypeKind.TwoOP)
             {
                 if (opcodeNumber > 0x1F)
-                    throw new ArgumentException("The opcode number of an OpcodeTypeKind.TwoOP must be in range of 0x00 - 0x1F.", "opcodeNumber");
+                    throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an OpcodeTypeKind.TwoOP must be in range of 0x00 - 0x1F.");
 
                 if (operands.Count() != 2)
-                    throw new ArgumentException("With OpcodeTypeKind.TwoOP exactly two operands must be given.", "operands");
+                    throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.TwoOP exactly two operands must be given.");
 
                 // Could be in long form for two small constants or variables
                 // But let's keep this logic dumb
@@ -315,14 +320,14 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             else if (opcodeType == OpcodeTypeKind.Var)
             {
                 if (opcodeNumber > 0x1F)
-                    throw new ArgumentException("The opcode number of an OpcodeTypeKind.Var must be in range of 0x00-0x1F.", "opcodeNumber");
+                    throw new ArgumentOutOfRangeException("opcodeNumber", opcodeNumber, "The opcode number of an OpcodeTypeKind.Var must be in range of 0x00-0x1F.");
 
                 if (operands.Count() > 4)
                 {
                     if (operands.Count() <= 8)
-                        throw new ArgumentException("With OpcodeTypeKind.Var only 0 to 4 operands can be given. Up to 8 operands are not supported yet (only call_vs2 and call_vn2 make use of this).", "operands");
+                        throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.Var only 0 to 4 operands can be given. Up to 8 operands are not supported yet (only call_vs2 and call_vn2 make use of this).");
                     else
-                        throw new ArgumentException("With OpcodeTypeKind.Var only 0 to 4 operands can be given.", "operands");
+                        throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.Var only 0 to 4 operands can be given.");
                 }
 
                 instructionForm = InstructionFormKind.Variable;
@@ -331,7 +336,7 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
             else if (opcodeType == OpcodeTypeKind.Ext)
             {
                 if (operands.Count() > 4)
-                    throw new ArgumentException("With OpcodeTypeKind.Ext only 0 to 4 operands can be given.", "operands");
+                    throw new ArgumentOutOfRangeException("operands", operands.Count(), "With OpcodeTypeKind.Ext only 0 to 4 operands can be given.");
 
                 instructionForm = InstructionFormKind.Extended;
                 operandCount = InstructionOperandCountKind.Var;

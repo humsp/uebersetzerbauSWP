@@ -10,15 +10,23 @@ using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
-    [DebuggerDisplay("Name = {_opcode.Name}")]
+    /// <summary>
+    /// Reads a single character from input stream 0 (the keyboard) and stores the result in the store variable.
+    /// <para>
+    /// See also "read_char" on page 96 for reference.
+    /// </para>
+    /// </summary>
+    /// <remarks>
+    /// The operands "time" and "routine" are not supported yet. If you want to use them, then go ahead and create a ZInstruction on your own.
+    /// </remarks>
+    [DebuggerDisplay("Name = {_opcode.Name}, Store = {_store}")]
     class ReadChar : ZInstructionSt
     {
         /// <summary>
-        /// Reads a single character from input stream 0 (the keyboard). The first operand must be 1 (presumably it was provided to support multiple input devices, but only the keyboard was ever used).
-        /// time and routine are optional (in Versions 4 and later only) and dealt with as in read above.
+        /// Creates a new instance of a ReadChar instruction.
         /// </summary>
-        public ReadChar()
-            : base("read_char", 0x16, OpcodeTypeKind.Var, new ZLocalVariable(0), new ZOperand((byte)1), new ZOperand((byte)0), new ZOperand((byte)0))
+        public ReadChar(ZVariable variable)
+            : base("read_char", 0x16, OpcodeTypeKind.Var, variable, new ZOperand((byte)1), new ZOperand((byte)0), new ZOperand((byte)0))
         {
         }
     }

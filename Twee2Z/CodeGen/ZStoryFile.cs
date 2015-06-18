@@ -26,15 +26,15 @@ namespace Twee2Z.CodeGen
         {
             // Tree.StartPassage is not working for "Start" as name
             // That is why I have to find the start passage myself
-            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == " start").Value;
 
             // Filter StoryTitle and StoryAuthor from the passages
-            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
+            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != " StoryTitle" && entry.Key != " StoryAuthor" && entry.Key.ToLower() != " start")
                                                          .Select(entry => entry.Value);
 
             List<ZRoutine> routines = new List<ZRoutine>();
             
-            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name.Substring(1))) }) { Label = new ZRoutineLabel("main") });
             
             routines.Add(ConvertPassageToRoutine(startPassage));
 
@@ -57,7 +57,24 @@ namespace Twee2Z.CodeGen
             foreach (PassageContent content in passage.PassageContentList)
             {
                 if (content.Type == PassageContent.ContentType.TextContent)
+                {
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+
+                    SetTextStyle.StyleFlags flags = SetTextStyle.StyleFlags.None;
+
+                    if (content.PassageText._bold)
+                        flags |= SetTextStyle.StyleFlags.Bold;
+
+                    if (content.PassageText._italic)
+                        flags |= SetTextStyle.StyleFlags.Italic;
+
+                    if (content.PassageText._monospace)
+                        flags |= SetTextStyle.StyleFlags.FixedPitch;
+
+                    instructions.Add(new SetTextStyle(flags));
+
                     instructions.AddRange(StringToInstructions(content.PassageText.Text));
+                }
 
                 else if (content.Type == PassageContent.ContentType.LinkContent)
                 {
@@ -66,16 +83,9 @@ namespace Twee2Z.CodeGen
                     if (currentLink > 9)
                         throw new Exception("More than 9 links are not supported yet.");
 
-                    // I have to parse the link myself
-                    string[] splitTarget = content.PassageLink.Target.Split('|');
+                    links.Add(content.PassageLink.Target);
 
-                    // DisplayedText is null on links. I have to get the text from Target.
-                    string display = splitTarget.First();
-
-                    // Get the target as well manually
-                    links.Add(splitTarget.Last());
-
-                    instructions.AddRange(StringToInstructions(display));
+                    instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText));
 
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
@@ -86,7 +96,7 @@ namespace Twee2Z.CodeGen
 
             if (currentLink > 0)
             {
-                instructions.Add(new PrintUnicode('>'));
+                instructions.Add(new PrintUnicode('>') { Label = new ZLabel("read" + passage.Name) });
                 instructions.Add(new Print(" "));
                 instructions.Add(new ReadChar(new ZLocalVariable(0)));
 
@@ -112,7 +122,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Quit());
             }
             
-            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name.Substring(1)) };
         }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)

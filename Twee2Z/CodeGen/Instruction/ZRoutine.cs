@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,25 +10,74 @@ using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Instruction
 {
+    /// <summary>
+    /// Represents a routine in Z-Code. Must be labeled for jumping in Z-Code execution (you can omit to do so but an unlabeled routine cannot be called).
+    /// A routine consists of a local variable count and multiple instructions.
+    /// See also "5. How routines are encoded" on page 31 for reference.
+    /// </summary>
     [DebuggerDisplay("LabelName = {_label.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}")]
     class ZRoutine : ZLabeledComponent
     {
-        protected byte _localVariableCount;
+        protected byte _localVariableCount = 0;
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with no instructions.
+        /// </summary>
         public ZRoutine()
         {
         }
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with instructions.
+        /// </summary>
+        /// <param name="instructions">The instructions to add.</param>
         public ZRoutine(IEnumerable<ZInstruction> instructions)
         {
             _subComponents.AddRange(instructions);
         }
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with instructions and a local variable count.
+        /// </summary>
+        /// <param name="instructions">The instructions to add.</param>
+        /// <param name="localVariableCount">The local variable count. Must be in range of 0 - 15.</param>
         public ZRoutine(IEnumerable<ZInstruction> instructions, byte localVariableCount)
             : this()
         {
+            if (localVariableCount > 15)
+                throw new ArgumentOutOfRangeException("localVariableCount", localVariableCount, "A routine has between 0 and 15 local variables.");
+
             _subComponents.AddRange(instructions);
             _localVariableCount = localVariableCount;
+        }
+
+        /// <summary>
+        /// Gets or sets the count of the local variables. Must be in range of 0 - 15.
+        /// </summary>
+        public byte LocalVariableCount
+        {
+            get
+            {
+                return _localVariableCount;
+            }
+            set
+            {
+                if (value > 15)
+                    throw new ArgumentOutOfRangeException("value", value, "A routine has between 0 and 15 local variables.");
+
+                _localVariableCount = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the instructions in this routine.
+        /// </summary>
+        public ReadOnlyCollection<ZInstruction> Instructions
+        {
+            get
+            {
+                return _subComponents.OfType<ZInstruction>().ToList().AsReadOnly();
+            }
         }
 
         public override Byte[] ToBytes()
@@ -76,7 +126,7 @@ namespace Twee2Z.CodeGen.Instruction
 
         public override void Setup(int currentAddress)
         {
-            base.Setup(currentAddress + 1); // dont forget the single byte (local variables counter)
+            base.Setup(currentAddress + 1); // dont forget the first byte (local variables counter)
         }
     }
 }

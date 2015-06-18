@@ -13,14 +13,36 @@ using Twee2Z.CodeGen.Instruction.Operand;
 namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
-    /// Executes routine() and throws away result.
+    /// Calls a routine with given label and throws its result away.
+    /// <para>
+    /// See also "call_1n" on page 80 for reference.
+    /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, RoutineAddress = {_routineLabel.TargetAddress}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, RoutineLabel = {RoutineLabel}")]
     class Call1n : ZInstruction
     {
+        /// <summary>
+        /// Creates a new instance of a Call1n instruction.
+        /// </summary>
+        /// <param name="routineLabel">The label of the routine to call.</param>
         public Call1n(ZRoutineLabel routineLabel)
             : base("call_1n", 0x0F, OpcodeTypeKind.OneOP, new ZOperand(routineLabel))
         {
+        }
+
+        /// <summary>
+        /// Gets or sets the routine label to call.
+        /// </summary>
+        public ZRoutineLabel RoutineLabel
+        {
+            get
+            {
+                return (ZRoutineLabel)_operands[0].Value;
+            }
+            set
+            {
+                _operands[0] = new ZOperand(value);
+            }
         }
     }
 }

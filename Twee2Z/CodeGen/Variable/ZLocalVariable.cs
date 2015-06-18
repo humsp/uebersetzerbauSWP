@@ -11,7 +11,7 @@ namespace Twee2Z.CodeGen.Variable
         public ZLocalVariable(byte localVariableNumber)
             : base(VariableKind.Local)
         {
-            if (localVariableNumber > 15)
+            if (localVariableNumber > 14)
                 throw new ArgumentException("There are 15 local variables to choose from only.", "localVariableNumber");
 
             _variableNumber = (byte)(localVariableNumber + 0x01);

@@ -178,7 +178,7 @@ namespace Twee2Z.Console
             CodeGen.ZStoryFile storyFile = new CodeGen.ZStoryFile();
 
             Logger.LogUserOutput("Add instructions to story file ...");
-            storyFile.SetupPassageNavigationDemo(tree);
+            storyFile.ImportObjectTree(tree);
 
             return storyFile;
         }

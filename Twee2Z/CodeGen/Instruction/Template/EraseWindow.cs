@@ -9,18 +9,37 @@ using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
-    [DebuggerDisplay("Name = {_opcode.Name}")]
+    /// <summary>
+    /// Erases window with given number (to background colour).
+    /// <para>
+    /// See also "erase_window" on page 84 for reference.
+    /// </para>
+    /// </summary>
+    [DebuggerDisplay("Name = {_opcode.Name}, Window = {Window}")]
     class EraseWindow : ZInstruction
     {
         /// <summary>
-        /// Erases window with given number (to background colour);
-        /// or if -1 it unsplits the screen and clears the lot;
-        /// or if -2 it clears the screen without unsplitting it.
-        /// In cases -1 and -2, the cursor may move (see S 8 for precise details).
+        /// Creates a new instance of a EraseWindow instruction.
         /// </summary>
+        /// <param name="window">The window to erase. The main window is 0 by default.</param>
         public EraseWindow(short window)
             : base("erase_window", 0x0D, OpcodeTypeKind.Var, new ZOperand(window))
         {
+        }
+
+        /// <summary>
+        /// Gets or sets the window to erase.
+        /// </summary>
+        public short Window
+        {
+            get
+            {
+                return (short)_operands[0].Value;
+            }
+            set
+            {
+                _operands[0] = new ZOperand(value);
+            }
         }
     }
 }

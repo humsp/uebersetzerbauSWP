@@ -14,9 +14,12 @@ using Twee2Z.CodeGen.Instruction.Operand;
 namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
-    /// Jump if a is equal to any of the subsequent operands.
+    /// Jump if the two operands equal.
+    /// <para>
+    /// See also "je" on page 86 for reference.
+    /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, BranchAddress = {_branchLabel.TargetAddress}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Branch = {_branch}")]
     class Je : ZInstructionBr
     {
         private Je(ZBranchLabel branchLabel, params ZOperand[] operands)

@@ -9,6 +9,7 @@ using Twee2Z.CodeGen.Instruction.Opcode;
 using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Label;
 using Twee2Z.CodeGen.Variable;
+using Twee2Z.ObjectTree;
 
 namespace Twee2Z.CodeGen
 {
@@ -21,12 +22,125 @@ namespace Twee2Z.CodeGen
             _zMemory = new ZMemory();
         }
 
+        public void ImportObjectTree(Tree tree)
+        {
+            // Tree.StartPassage is not working for "Start" as name
+            // That is why I have to find the start passage myself
+            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+
+            // Filter StoryTitle and StoryAuthor from the passages
+            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
+                                                         .Select(entry => entry.Value);
+
+            List<ZRoutine> routines = new List<ZRoutine>();
+            
+            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+            
+            routines.Add(ConvertPassageToRoutine(startPassage));
+
+            foreach (Passage passage in passages)
+            {
+                routines.Add(ConvertPassageToRoutine(passage));
+            }
+
+            _zMemory.SetRoutines(routines);
+        }
+
+        private ZRoutine ConvertPassageToRoutine(Passage passage)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+            int currentLink = 0;
+            List<string> links = new List<string>();
+
+            instructions.Add(new EraseWindow(0));
+
+            foreach (PassageContent content in passage.PassageContentList)
+            {
+                if (content.Type == PassageContent.ContentType.TextContent)
+                    instructions.AddRange(StringToInstructions(content.PassageText.Text));
+
+                else if (content.Type == PassageContent.ContentType.LinkContent)
+                {
+                    currentLink++;
+
+                    if (currentLink > 9)
+                        throw new Exception("More than 9 links are not supported yet.");
+
+                    // I have to parse the link myself
+                    string[] splitTarget = content.PassageLink.Target.Split('|');
+
+                    // DisplayedText is null on links. I have to get the text from Target.
+                    string display = splitTarget.First();
+
+                    // Get the target as well manually
+                    links.Add(splitTarget.Last());
+
+                    instructions.AddRange(StringToInstructions(display));
+
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
+                    instructions.Add(new Print(currentLink.ToString()));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                }
+            }
+
+            if (currentLink > 0)
+            {
+                instructions.Add(new PrintUnicode('>'));
+                instructions.Add(new Print(" "));
+                instructions.Add(new ReadChar(new ZLocalVariable(0)));
+
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    // So this casting and converting looks aweful
+                    // First get the number for this link: i + 1
+                    // Then hard cast it into a string
+                    // Now convert it into a char
+                    // Finally hard cast it into short for the ZOperand
+                    instructions.Add(new Je(new ZLocalVariable(0), (short)Convert.ToChar((i + 1).ToString()), new ZBranchLabel(links[i] + "Call")));
+                }
+
+                instructions.Add(new Quit());
+
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i])) { Label = new ZLabel(links[i] + "Call") });
+                }
+            }
+            else
+            {
+                instructions.Add(new Quit());
+            }
+            
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
+        }
+
+        private IEnumerable<ZInstruction> StringToInstructions(string input)
+        {
+            List<ZInstruction> list = new List<ZInstruction>();
+            StringBuilder splitInput = new StringBuilder();
+            foreach (char c in input)
+            {
+                if (Text.TextHelper.IsZSCII(c) || c == '\r' || c == '\n')
+                    splitInput.Append(c);
+                else
+                {
+                    list.Add(new Print(splitInput.ToString()));
+                    list.Add(new PrintUnicode(c));
+                    splitInput.Clear();
+                }
+            }
+            list.Add(new Print(splitInput.ToString()));
+
+            return list;
+        }
+
         public void SetupPassageNavigationDemo(ObjectTree.Tree tree)
         {
             List<ZInstruction> _mainInstructions = new List<ZInstruction>();
             _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo));
             _mainInstructions.Add(new Print("Twee2Z Meilenstein 3"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _mainInstructions.Add(new Print(" (Twee2Z-Team)"));
             _mainInstructions.Add(new NewLine());
 
@@ -48,26 +162,25 @@ namespace Twee2Z.CodeGen
             _mainInstructions.Add(new Print("bte Pr"));
             _mainInstructions.Add(new PrintUnicode('ä'));
             _mainInstructions.Add(new Print("sentation"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
             _mainInstructions.Add(new Print("1"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _mainInstructions.Add(new NewLine());
 
             _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
             _mainInstructions.Add(new Print("Weiche vom Plan ab"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
             _mainInstructions.Add(new Print("2"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _mainInstructions.Add(new NewLine());
 
             _mainInstructions.Add(new PrintUnicode('>'));
             _mainInstructions.Add(new Print(" "));
-            _mainInstructions.Add(new ReadChar());
+            _mainInstructions.Add(new ReadChar(new ZLocalVariable(0)));
             _mainInstructions.Add(new Je(new ZLocalVariable(0), (short)'1', new ZBranchLabel("safeCall")));
             _mainInstructions.Add(new Je(new ZLocalVariable(0), (short)'2', new ZBranchLabel("unsafeCall")));
-            
             _mainInstructions.Add(new Quit());
 
             _mainInstructions.Add(new Call1n(new ZRoutineLabel("safe")) { Label = new ZLabel("safeCall") });
@@ -101,31 +214,31 @@ namespace Twee2Z.CodeGen
 
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
             _safeInstructions.Add(new Print("Toll"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
             _safeInstructions.Add(new Print("1"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new NewLine());
 
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
             _safeInstructions.Add(new Print("Ok"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
             _safeInstructions.Add(new Print("2"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new NewLine());
 
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
             _safeInstructions.Add(new Print("Meh"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
             _safeInstructions.Add(new Print("3"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
+            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
             _safeInstructions.Add(new NewLine());
 
             _safeInstructions.Add(new PrintUnicode('>'));
             _safeInstructions.Add(new Print(" "));
-            _safeInstructions.Add(new ReadChar());
+            _safeInstructions.Add(new ReadChar(new ZLocalVariable(0)));
             _safeInstructions.Add(new Je(new ZLocalVariable(0), (short)'1', new ZBranchLabel("tollCall")));
             _safeInstructions.Add(new Je(new ZLocalVariable(0), (short)'2', new ZBranchLabel("okCall")));
             _safeInstructions.Add(new Je(new ZLocalVariable(0), (short)'3', new ZBranchLabel("mehCall")));
@@ -164,20 +277,6 @@ namespace Twee2Z.CodeGen
                 new ZRoutine(_okInstructions, 0) { Label = new ZRoutineLabel("ok") },
                 new ZRoutine(_mehInstructions, 0) { Label = new ZRoutineLabel("meh") }
             });
-
-            /*StringBuilder splitInput = new StringBuilder();
-            foreach (char c in input)
-            {
-                if (c < 128)
-                    splitInput.Append(c);
-                else
-                {
-                    _helloWorldInstructions.Add(new Print(splitInput.ToString()));
-                    _helloWorldInstructions.Add(new PrintUnicode(c));
-                    splitInput.Clear();
-                }
-            }
-            _helloWorldInstructions.Add(new Print(splitInput.ToString()));*/
         }
         
         public Byte[] ToBytes()

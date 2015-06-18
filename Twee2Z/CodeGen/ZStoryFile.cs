@@ -26,15 +26,15 @@ namespace Twee2Z.CodeGen
         {
             // Tree.StartPassage is not working for "Start" as name
             // That is why I have to find the start passage myself
-            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == " start").Value;
+            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
 
             // Filter StoryTitle and StoryAuthor from the passages
-            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != " StoryTitle" && entry.Key != " StoryAuthor" && entry.Key.ToLower() != " start")
+            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
                                                          .Select(entry => entry.Value);
 
             List<ZRoutine> routines = new List<ZRoutine>();
             
-            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name.Substring(1))) }) { Label = new ZRoutineLabel("main") });
+            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
             
             routines.Add(ConvertPassageToRoutine(startPassage));
 
@@ -74,6 +74,8 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new SetTextStyle(flags));
 
                     instructions.AddRange(StringToInstructions(content.PassageText.Text));
+
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                 }
 
                 else if (content.Type == PassageContent.ContentType.LinkContent)
@@ -85,7 +87,7 @@ namespace Twee2Z.CodeGen
 
                     links.Add(content.PassageLink.Target);
 
-                    instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText));
+                    instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText ?? content.PassageLink.Target));
 
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
@@ -97,7 +99,6 @@ namespace Twee2Z.CodeGen
             if (currentLink > 0)
             {
                 instructions.Add(new PrintUnicode('>') { Label = new ZLabel("read" + passage.Name) });
-                instructions.Add(new Print(" "));
                 instructions.Add(new ReadChar(new ZLocalVariable(0)));
 
                 for (int i = 0; i < links.Count(); i++)
@@ -110,6 +111,10 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Je(new ZLocalVariable(0), (short)Convert.ToChar((i + 1).ToString()), new ZBranchLabel(links[i] + "Call")));
                 }
 
+                instructions.Add(new NewLine());
+                instructions.Add(new Print("Unbekannte Eingabe!"));
+                instructions.Add(new NewLine());
+                instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
                 instructions.Add(new Quit());
 
                 for (int i = 0; i < links.Count(); i++)
@@ -122,7 +127,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Quit());
             }
             
-            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name.Substring(1)) };
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
         }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)
@@ -135,12 +140,14 @@ namespace Twee2Z.CodeGen
                     splitInput.Append(c);
                 else
                 {
-                    list.Add(new Print(splitInput.ToString()));
+                    if (splitInput.Length > 0)
+                        list.Add(new Print(splitInput.ToString()));
                     list.Add(new PrintUnicode(c));
                     splitInput.Clear();
                 }
             }
-            list.Add(new Print(splitInput.ToString()));
+            if (splitInput.Length > 0)
+                list.Add(new Print(splitInput.ToString()));
 
             return list;
         }

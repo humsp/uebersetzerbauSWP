@@ -25,25 +25,28 @@ namespace Twee2Z.Analyzer
 
         public override object VisitPassage(Twee.PassageContext context)
         {
-            String temp = context.GetChild(1).GetText();
-            for (int i = temp.Length - 1; i > 0; i--) //Leerzeichen nach Passname entfernen.
+            Logger.LogAnalyzer("[Passage]");
+            string[] tags;
+            String Name = context.GetChild(1).GetText();
+           
+            for (int i = Name.Length - 1; i > 0; i--)       //Leerzeichen nach Passname entfernen.
             {
-                if (temp[i].Equals(' '))
+                if (Name[i].Equals(' '))
                 {
-                    temp = temp.Substring(0, temp.Length - 1);
+                    Name = Name.Substring(0, Name.Length - 1);
                 }
             }
-            Logger.LogAnalyzer("[Passage]");
-            Logger.LogAnalyzer("Name: " + temp);
-            _currentPassage = new Passage(temp);
+            Logger.LogAnalyzer("Name: " + Name);
+            _currentPassage = new Passage(Name);
             _tree.AddPassage(_currentPassage);
-            for (int i = 0; i < context.ChildCount; i++)
+            
+            for (int i = 0; i < context.ChildCount; i++)  //Tag Auseinanderbauen und Speichern
             {
                 if (context.GetChild(i).GetText().Contains('['))
                 {
                     if (!(context.GetChild(2).GetText().Contains('\n')))
                     {
-                        string[] tags = new string[context.GetChild(2).GetText().Split(' ').Length];
+                        tags = new string[context.GetChild(2).GetText().Split(' ').Length];
                         tags = context.GetChild(2).GetText().Split(' ');
                         for (int j = 0; j < tags.Length; j++)
                         {
@@ -174,8 +177,6 @@ namespace Twee2Z.Analyzer
                 }
                 else { _currentPassage.AddPassageContent(new PassageText(Text)); }
             }
-
-            
             return base.VisitText(context);
         }
 
@@ -190,8 +191,9 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitVariable(Twee.VariableContext context)
         {
-            Logger.LogAnalyzer("\nVariable: " + context.GetText());
-            _currentPassage.AddPassageContent(new PassageVariable(context.GetText(), 0));
+            String VarName = context.GetText();
+            Logger.LogAnalyzer("\nVariable: " + VarName);
+            _currentPassage.AddPassageContent(new PassageVariable(VarName, 0));
             return base.VisitVariable(context);
         }
 
@@ -206,7 +208,8 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitFunction(Twee.FunctionContext context)
         {
-            Logger.LogAnalyzer("Function: " + context.GetText());
+            String Funktion = context.GetText();
+            Logger.LogAnalyzer("Function: " + Funktion);
             // substring = str.Split(',')[0]; das könnt ihr dafür nutzen, die einzelne Argumente zu extrahieren 
             // PassgeFunction.addArg funktion steht euch zur Verfügung.
             return base.VisitFunction(context);
@@ -218,7 +221,8 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitMacro(Twee.MacroContext context)
         {
-            Logger.LogAnalyzer("Macro: " + context.GetText());
+            String Macro = context.GetText();
+            Logger.LogAnalyzer("Macro: " + Macro);
             return base.VisitMacro(context);
         }
 

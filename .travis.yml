@@ -1,0 +1,15 @@
+sudo: required
+
+language: csharp
+
+solution: Twee2Z/Twee2Z.sln
+
+install:
+  - nuget restore Twee2Z/Twee2Z.sln
+  
+notifications:
+ email:
+    - r.kloth@fu-berlin.de
+
+on:
+  all_branches: true

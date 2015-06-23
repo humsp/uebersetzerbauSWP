@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Twee2Z.CodeGen.Text;
 
 namespace UnitTests.TestCodeGen
 {
-    [TestClass]
+    [TestFixture]
     public class ZTextTest
     {
-        [TestMethod]
+        [Test]
         public void TestHelloWorldZText()
         {
             ushort[] referenceArray = { 4522, 17972, 916, 56873 };

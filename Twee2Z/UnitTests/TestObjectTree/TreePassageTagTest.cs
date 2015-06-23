@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Twee2Z.ObjectTree;
 
 namespace UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     class TreePassageTagTest
     {
         private const string _passageLinkPath = Const.untTestFolder + "passageLink.tw";
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageTag()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkPath);

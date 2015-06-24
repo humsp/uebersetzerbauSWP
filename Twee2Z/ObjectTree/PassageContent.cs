@@ -103,6 +103,7 @@ namespace Twee2Z.ObjectTree
             }
         }
 
+
         public ContentType Type
         {
             get
@@ -114,11 +115,7 @@ namespace Twee2Z.ObjectTree
                 _type = value;
             }
         }
-    }
-}
 
-
-/*
         public bool Italic
         {
             get
@@ -190,4 +187,33 @@ namespace Twee2Z.ObjectTree
                 _comment = value;
             }
         }
-*/
+
+        public bool Bold
+        {
+            get
+            {
+                return _bold;
+            }
+            set
+            {
+                _bold = value;
+            }
+        }
+
+        public bool Superscript
+        {
+            get
+            {
+                return _superscript;
+            }
+            set
+            {
+                _superscript = value;
+            }
+        }
+
+
+    }
+}
+
+

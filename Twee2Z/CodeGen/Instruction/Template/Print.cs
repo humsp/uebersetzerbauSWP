@@ -21,6 +21,10 @@ namespace Twee2Z.CodeGen.Instruction.Template
             : base("print", 0x02, OpcodeTypeKind.ZeroOP)
         {
             _text = new ZText(output);
+            // Print is an unique case here
+            // It is listed as ZeroOP but the string appended to the opcode
+            // Do not add normal operands to SubComponents
+            // It results in really nasty bugs (Size will count it twice -> setting labels will fail)
             _subComponents.Add(_text);
         }
 
@@ -31,7 +35,6 @@ namespace Twee2Z.CodeGen.Instruction.Template
             get
             {
                 return base.Size;
-                //return base.Size + _text.Size;
             }
         }
 

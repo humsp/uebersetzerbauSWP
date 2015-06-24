@@ -24,7 +24,6 @@ namespace Twee2Z.CodeGen.Instruction.Template
             : base("jump", 0x0C, OpcodeTypeKind.OneOP, new ZOperand(jumpLabel))
         {
             _jumpLabel = jumpLabel;
-            _subComponents.Add(jumpLabel);
         }
 
         public ZJumpLabel JumpAddress { get { return _jumpLabel; } }

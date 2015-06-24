@@ -115,7 +115,7 @@ namespace Twee2Z.CodeGen
                 }
 
                 instructions.Add(new NewLine());
-                 instructions.Add(new Print("Unbekannte Eingabe!"));
+                instructions.Add(new Print("Unbekannte Eingabe!"));
                 instructions.Add(new NewLine());
                 instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
                 instructions.Add(new Quit());

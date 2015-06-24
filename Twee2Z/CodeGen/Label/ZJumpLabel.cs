@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Instruction;
 
 namespace Twee2Z.CodeGen.Label
 {
+    [DebuggerDisplay("Name = {_name}, SourceComponent = {_sourceComponent}, TargetAdress = {_targetAddress}")]
     class ZJumpLabel : ZLabel
     {
         IZComponent _sourceComponent;

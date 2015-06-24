@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Label
 {
+    [DebuggerDisplay("Name = {_name}, TargetAdress = {_targetAddress}")]
     class ZRoutineLabel : ZLabel
     {
         public ZRoutineLabel(string name)

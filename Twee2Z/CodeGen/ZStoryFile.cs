@@ -58,8 +58,6 @@ namespace Twee2Z.CodeGen
             {
                 if (content.Type == PassageContent.ContentType.TextContent)
                 {
-                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
-
                     SetTextStyle.StyleFlags flags = SetTextStyle.StyleFlags.None;
 
                     if (content.PassageText._bold)
@@ -71,11 +69,16 @@ namespace Twee2Z.CodeGen
                     if (content.PassageText._monospace)
                         flags |= SetTextStyle.StyleFlags.FixedPitch;
 
-                    instructions.Add(new SetTextStyle(flags));
+                    if (flags != SetTextStyle.StyleFlags.None)
+                    {
+                        instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                        instructions.Add(new SetTextStyle(flags));
+                    }
 
                     instructions.AddRange(StringToInstructions(content.PassageText.Text));
 
-                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                    if (flags != SetTextStyle.StyleFlags.None)
+                        instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                 }
 
                 else if (content.Type == PassageContent.ContentType.LinkContent)
@@ -112,7 +115,7 @@ namespace Twee2Z.CodeGen
                 }
 
                 instructions.Add(new NewLine());
-                instructions.Add(new Print("Unbekannte Eingabe!"));
+                 instructions.Add(new Print("Unbekannte Eingabe!"));
                 instructions.Add(new NewLine());
                 instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
                 instructions.Add(new Quit());

@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Twee2Z.ObjectTree;
 
 
 namespace UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     public class TreeTextTest
     {
         private const string _testUmlaut = Const.untTestFolder + "textUmlaut.tw";
 
-        [TestMethod]
+        [Test]
         public void TestUmlaut()
         {
             Tree tree = TreeBuilder.createTree(_testUmlaut);

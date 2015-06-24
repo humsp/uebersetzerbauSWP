@@ -6,54 +6,48 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree 
 {
-    class PassageFunction : PassageContent
-    {
-        private string _func;
-        private List<string> _args ;
+	class PassageFunction : PassageContent
+	{
 
-            public PassageFunction(string func)
-               : base(ContentType.FunctionContext)
-        {
-            _func = func;
-        }
+		private string _functionName;
+		private string _paramList ;
 
-        public void addArg (string argument){
 
-                    
-            if (!_args.Contains(argument))
-            {
-                _args.Add(argument);
-            }
-            else
-            {
-                Logger.LogWarning("The Argument "+ tag + " exists already.");
-             }
-        }
+
+
+		public PassageFunction(string functionName, string paramList)
+			: base(ContentType.FunctionContent)
+		{
+			_functionName = functionName;
+			_paramList = paramList;
+		 	
+		}
+
 
 
 		public string Function
 		{
 			get
 			{
-				return _func;
+				return _functionName;
 			}
 			set
 			{
-				_func = value;
+				_functionName = value;
 			}
 		}
 
-		public List<string> Target
+		public string paramList
 		{
 			get
 			{
-				return _args;
+				return _paramList;
 			}
 			set
 			{
-				_args = value;
+				_paramList = value;
 			}
 		}
 
-    }
+	}
 }

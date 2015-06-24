@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.IO;
 using Twee2Z.Analyzer;
 using Twee2Z.ObjectTree;
@@ -10,13 +10,13 @@ using System.Linq;
 
 namespace UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     public class TreeLinkTest
     {
         private const string _passageLinkPath = Const.untTestFolder + "passageLink.tw";
         private const string _passageLinkValidationPath = Const.untTestFolder + "passageLinkValidation.tw";
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageLink()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkPath);
@@ -61,7 +61,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("Anonymous x\r\n", fourthPassage.PassageContentList[0].PassageText.Text);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageLinkValidation()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkValidationPath);

@@ -6,16 +6,16 @@ MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode);
 LINK_START			: '[[' -> pushMode(LMode);
 FUNC_START			: FUNC_NAME -> pushMode(FMode);
 VAR_NAME			: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
-FORMAT				: ('\u0027\u0027'	{ObjectTree.PassageContent.Bold = true;}
-					|'//'				{ObjectTree.PassageContent.Italic = true;}
-					|'__'				{ObjectTree.PassageContent.Underline = true;}
-					|'=='				{ObjectTree.PassageContent.Strikeout = true;}
-					|'^^'				{ObjectTree.PassageContent.Superscript = true;}
-					|'~~'				{ObjectTree.PassageContent.Subscript = true;}
-					|'{{{'				{ObjectTree.PassageContent.Monospace = true;}
-					|'/%'				{ObjectTree.PassageContent.Comment = true;}
-					|'}}}'				{ObjectTree.PassageContent.Monospace = false;}
-					|'%/'				{ObjectTree.PassageContent.Comment = false;});
+FORMAT				: ('\u0027\u0027'	
+					|'//'				
+					|'__'				
+					|'=='				
+					|'^^'				
+					|'~~'				
+					|'{{{'				
+					|'/%'				
+					|'}}}'				
+					|'%/'	);			
 EXCLUDE				: (':'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%'|']'|'['|'\u0027');
 NEW_LINE			: ('\r' | '\n' | '\r\n');
 STRING_START		: QUOTE -> pushMode(SMode);
@@ -37,7 +37,7 @@ fragment DOLLAR				: '$';
 
 // PASSAGE-MODE
 mode PMode;
-PMODEWORD				: SPACE* ((WORD|INT|'/%'|'%/')+ SPACE*);
+PMODEWORD				: SPACE* ((WORD|INT|'/%'|'%/')+ SPACE*)+;
 TAG						: TAG_BEGIN ('.'|'_'|(SPACE* ((WORD|INT)+ SPACE*)))* TAG_END;
 TAG_BEGIN				: '[';
 TAG_END					: ']';
@@ -100,5 +100,5 @@ FUNC_LINK	: ('previous()' | 'start()' | 'passage()');
 PIPE				: '|';
 SQ_BRACKET_CLOSE	: ']';
 SQ_BRACKET_OPEN		: '['  -> pushMode(EMode);
-WORDS				: WORD+; 
+WORDS				: (WORD|SPACE)+; 
 LINK_END			: ']]' -> popMode; 

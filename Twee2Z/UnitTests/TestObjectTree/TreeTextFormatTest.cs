@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     public class TreeTextFormatTest
     {
         // TODO

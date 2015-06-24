@@ -13,8 +13,6 @@ namespace Twee2Z.ObjectTree
         private string _expression;
         private string _displayText;
 
-
-
         public PassageLink(string link)
             : base(ContentType.LinkContent)
         {
@@ -89,7 +87,7 @@ namespace Twee2Z.ObjectTree
             }
         }
     }
-	 
+
 }
 
 /*

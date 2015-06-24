@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Twee2Z.ObjectTree;
 
 namespace UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     public class TreePassageNamesTest
     {
         private const string _passageOnlyPath = Const.untTestFolder + "passageOnly.tw";
@@ -20,7 +20,7 @@ namespace UnitTests.TestObjectTree
         private const string _passageNamesInvalidFormat = Const.untTestFolder + "passageNamesInvalidFormat.tw";
         private const string _passageNamesWS = Const.untTestFolder + "passageNamesWS.tw";
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageOnly()
         {
             Tree tree = TreeBuilder.createTree(_passageOnlyPath);
@@ -31,7 +31,7 @@ namespace UnitTests.TestObjectTree
                 tree.StartPassage.PassageContentList[0].PassageText.Text);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNameWithComment()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesComment);
@@ -46,7 +46,7 @@ namespace UnitTests.TestObjectTree
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesIgnoreAllBeforeStart()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesIgnoreAllBeforeStart);
@@ -56,7 +56,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesWS()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesWS);
@@ -78,43 +78,43 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("ende", tree.Passages["Passage mit 	Tab	und WS am Ende"].PassageContentList[0].PassageText.Text);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalid()
         {
             TestInvalidToken(_passageNamesInvalidFormat, "__underline__", "underline");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken1()
         {
             TestInvalidToken(_passageNamesInvalidToken1, "toke|n", "token");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken2()
         {
             TestInvalidToken(_passageNamesInvalidToken2, "toke$n", "token");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken3()
         {
             TestInvalidToken(_passageNamesInvalidToken3, "toke<n", "token");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken4()
         {
             TestInvalidToken(_passageNamesInvalidToken4, "toke>n", "token");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken5()
         {
             TestInvalidToken(_passageNamesInvalidToken5, "toke[n", "token");
         }
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageNamesInvalidToken6()
         {
             TestInvalidToken(_passageNamesInvalidToken6, "toke]n", "token");

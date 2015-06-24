@@ -21,18 +21,7 @@ namespace Twee2Z.ObjectTree
         public void AddPassageContent(PassageContent passageContent)
         {
             int count = _passageContentList.Count;
-            if (passageContent.Type == PassageContent.ContentType.TextContent &&
-                count != 0 &&
-                _passageContentList.Last().Type == PassageContent.ContentType.TextContent)
-            {
-                String text = _passageContentList.Last().PassageText.Text + 
-                    passageContent.PassageText.Text;
-                _passageContentList[count - 1] = new PassageText(text);
-            }
-            else
-            {
-                _passageContentList.Add(passageContent);
-            }
+            _passageContentList.Add(passageContent);
         }
 
         public void AddTag(string tag)

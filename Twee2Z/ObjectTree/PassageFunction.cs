@@ -25,7 +25,7 @@ namespace Twee2Z.ObjectTree
 
 
 
-		public string FuncName
+		public string Function
 		{
 			get
 			{

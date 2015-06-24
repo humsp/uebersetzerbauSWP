@@ -18,5 +18,6 @@ script:
 notifications:
  email:
     - r.kloth@fu-berlin.de
+    - david.sungaila@fu-berlin.de
 
 

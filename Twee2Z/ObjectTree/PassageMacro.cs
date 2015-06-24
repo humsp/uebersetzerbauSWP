@@ -10,32 +10,27 @@ namespace Twee2Z.ObjectTree
     {
 
         private string _macro;
-        private List<MacroContentType> _content;
 
-        public enum MacroContentType
+
+        public string Macro
         {
-            VarContent,
-            ExpContent,
-            FunktionContent
-        };
+            get
+            {
+                return _macro;
+            }
+            set
+            {
+                _macro = value;
+            }
+        }
 
-        
+
+
         public PassageMacro(string macro)
-               : base(ContentType.MacroContext)
+            : base(ContentType.MacroContent)
         {
             _macro = macro;
         }
 
-        public void addCont(string content)
-        {
-
-           _content.Add(content);
-        }
-
-		public void addExp(string exp)
-		{
-
-			_content.Add(exp);
-		}
     }
 }

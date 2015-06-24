@@ -32,7 +32,8 @@ namespace Twee2Z.ObjectTree
             TextContent,
             LinkContent,
             VariableContent,
-            FunctionContent
+            FunctionContent,
+            MacroContent
         };
 
         private ContentType _type;

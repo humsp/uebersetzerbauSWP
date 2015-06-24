@@ -8,8 +8,12 @@ namespace Twee2Z.ObjectTree
 {
     public class PassageFunction : PassageContent
     {
-        private string _func;
+        private string _functionName;
         private List<string> _args;
+        /*
+         * _functionName = context.GetChild(0).GetText();
+            String _paramList
+         * */
 
         public PassageFunction(string func)
             : base(ContentType.FunctionContent)

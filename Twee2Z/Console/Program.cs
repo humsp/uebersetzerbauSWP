@@ -146,7 +146,6 @@ namespace Twee2Z.Console
                     PrintHelp();
                     break;
             }
-
             //Logger.LogUserOutput("Press any key to contiune");
             //System.Console.ReadKey(true);
         }
@@ -156,14 +155,25 @@ namespace Twee2Z.Console
         {
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
-
             File.WriteAllBytes(output, GenStoryFile(AnalyseFile(tweeFileStream)).ToBytes());
         }
 
         public static Tree AnalyseFile(FileStream stream)
         {
             Logger.LogUserOutput("Start analyzer ...");
-            return TweeAnalyzer.Parse(new StreamReader(stream));
+            /*Add a new line at the beginnig of the Stream, because of LEX passage starting rule PASS*/
+            String str = new StreamReader(stream).ReadToEnd();
+            str = "\r\n" + str;
+
+            Stream s = new MemoryStream();
+            StreamWriter writer = new StreamWriter(s);
+            writer.Write(str);
+            writer.Flush();
+            s.Position = 0;
+
+            System.Console.WriteLine();
+
+            return TweeAnalyzer.Parse(new StreamReader(s));
         }
 
         public static void ValidateTree(Tree tree)

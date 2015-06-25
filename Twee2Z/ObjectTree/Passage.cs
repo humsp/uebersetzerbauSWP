@@ -12,6 +12,7 @@ namespace Twee2Z.ObjectTree
         private string _name;
         private HashSet<string> _tags = new HashSet<string>();
 		private List<PassageContent> _passageContentList = new List<PassageContent>();
+        public static String temp = "";
 
 		public Passage(String name)
         {

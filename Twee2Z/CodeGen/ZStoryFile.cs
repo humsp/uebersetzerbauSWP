@@ -25,20 +25,42 @@ namespace Twee2Z.CodeGen
         public void ImportObjectTree(Tree tree)
         {
             // Tree.StartPassage not working still
-            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
-            
-            // Enumerate passages without the start passage
-            IEnumerable<Passage> passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start").Select(entry => entry.Value);
-
+            Passage startPassage = null;
+            IEnumerable<Passage> passages = null;
+            try
+            {
+                startPassage = tree.StartPassage;//tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+                // Enumerate passages without the start passage
+                passages = tree.Passages/*.Where(passage => passage.Key.ToLower() != "start")*/.Select(entry => entry.Value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " -> start-Passage fehlt");
+                return;
+            }
             List<ZRoutine> routines = new List<ZRoutine>();
             
             routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
-            
+            try
+                {
             routines.Add(ConvertPassageToRoutine(startPassage));
-
+                }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message); 
+                return;
+            }
             foreach (Passage passage in passages)
             {
-                routines.Add(ConvertPassageToRoutine(passage));
+                try
+                {
+                    routines.Add(ConvertPassageToRoutine(passage));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return;
+                }
             }
 
             _zMemory.SetRoutines(routines);
@@ -94,6 +116,10 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
                     instructions.Add(new Print(currentLink.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                }
+                else
+                {
+                    throw new Exception("\n\nException - ConvertPassageToRoutine: I can't handle " + content.Type.ToString() + " yet. :(\n\n");
                 }
             }
 

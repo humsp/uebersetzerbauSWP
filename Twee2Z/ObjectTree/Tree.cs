@@ -23,6 +23,7 @@ namespace Twee2Z.ObjectTree
                 switch (passage.Name)
                 {
                     case "start": _start = passage; break;
+                    case "Start": _start = passage; break; //falls jemand denkt, dass es so auch geht *hust*
                     case "StoryTitle": _storyTitle = passage; break;
                     case "StoryAuthor": _storyAuthor = passage; break;
                     default: _passages.Add(passage.Name, passage); break;

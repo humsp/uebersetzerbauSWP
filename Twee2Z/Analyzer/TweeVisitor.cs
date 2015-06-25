@@ -167,7 +167,7 @@ namespace Twee2Z.Analyzer
                         case "%/": ObjectTree.PassageContent.Comment = false; break;
                         default:
                             if(_macroTextCount == 0){
-                                Logger.LogAnalyzer("Text: " + Text +" : "+_macroTextCount);
+                                Logger.LogAnalyzer("Text: " + Text);
                                 _currentPassage.AddPassageContent(new PassageText(Text)); 
                             }
                             else

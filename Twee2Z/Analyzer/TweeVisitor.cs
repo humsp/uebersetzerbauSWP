@@ -12,55 +12,17 @@ namespace Twee2Z.Analyzer
 {
     class TweeVisitor : TweeBaseVisitor<object>
     {
-        private Passage _currentPassage;
+        private TweeBuilder _builder;
         private static int _macroTextCount = 0;
-        private Tree _tree;
+
         public Tree Tree
         {
-            get
-            {
-                return _tree;
-            }
-        }
-
-        private PassageContent LastPassageContent()
-        {
-            if (_currentPassage.PassageContentList.Count == 0)
-            {
-                return null;
-            }
-            return _currentPassage.PassageContentList[_currentPassage.PassageContentList.Count - 1];
-        }
-
-        private PassageFormat GetCurrentFormat()
-        {
-            PassageContent content = LastPassageContent();
-            if (content == null || content.Type != PassageContent.ContentType.FormatContent)
-            {
-                PassageFormat format = new PassageFormat();
-                _currentPassage.AddPassageContent(format);
-                return format;
-            }
-            return content.PassageFormat;
-        }
-
-        private void AddTextPassage(PassageText textPassage)
-        {
-            PassageContent content = LastPassageContent();
-            if (content != null && content.Type == PassageContent.ContentType.TextContent)
-            {
-                content.PassageText.MergePassageText(textPassage);
-            }
-            else
-            {
-                _currentPassage.AddPassageContent(textPassage);
-            }
-
+            get { return _builder.Tree; }
         }
 
         public override object VisitStart(Twee.StartContext context)
         {
-            _tree = new Tree();
+            _builder = new TweeBuilder();
             Logger.LogAnalyzer("[Start]");
             return base.VisitStart(context);
         }
@@ -71,11 +33,10 @@ namespace Twee2Z.Analyzer
             string[] tags;
 
             // Remove Spaces after PassageName
-            String Name = context.GetChild(1).GetText().Trim();
+            String name = context.GetChild(1).GetText().Trim();
 
-            Logger.LogAnalyzer("Name: " + Name);
-            _currentPassage = new Passage(Name);
-            _tree.AddPassage(_currentPassage);
+            Logger.LogAnalyzer("Name: " + name);
+            _builder.AddPassage(new Passage(name));
 
             if (context.TAG() != null)
             {
@@ -87,7 +48,7 @@ namespace Twee2Z.Analyzer
                     tags = tagString.Replace("  ", " ").Split(' ');
                     for (int i = 0; i < tags.Length; i++)
                     {
-                        _currentPassage.AddTag(tags[i]);
+                        _builder.CurrentPassage.AddTag(tags[i]);
                         Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
                     }
                 }
@@ -149,7 +110,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(Ziel, Text, false));
+                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, false));
             }
 
             // case: [[target][expression]]
@@ -163,7 +124,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(Ziel, Expression, true));
+                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Expression, true));
             }
 
             // case: [[text|target][expression]]
@@ -179,7 +140,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _currentPassage.AddPassageContent(new PassageLink(Ziel, Text, Expression));
+                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, Expression));
             }
 
             // case: [[target]]
@@ -187,7 +148,7 @@ namespace Twee2Z.Analyzer
             {
                 Ziel = context.GetChild(1).GetText();
                 Logger.LogAnalyzer("Ziel: " + Ziel);
-                _currentPassage.AddPassageContent(new PassageLink(Ziel));
+                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel));
             }
             return base.VisitLink(context);
         }
@@ -214,40 +175,40 @@ namespace Twee2Z.Analyzer
                     switch (Text)
                     {
                         case "{{{":
-                            GetCurrentFormat().Monospace = true;
+                            _builder.CurrentFormat.Monospace = true;
                             break;
                         case "}}}":
-                            GetCurrentFormat().Monospace = false;
+                            _builder.CurrentFormat.Monospace = false;
                             break;
                         case "''":
-                            GetCurrentFormat().Bold = !GetCurrentFormat().Bold;
+                            _builder.CurrentFormat.Bold = !_builder.CurrentFormat.Bold;
                             break;
                         case "//":
-                            GetCurrentFormat().Italic = !GetCurrentFormat().Italic;
+                            _builder.CurrentFormat.Italic = !_builder.CurrentFormat.Italic;
                             break;
                         case "__":
-                            GetCurrentFormat().Underline = !GetCurrentFormat().Underline;
+                            _builder.CurrentFormat.Underline = !_builder.CurrentFormat.Underline;
                             break;
                         case "==":
-                            GetCurrentFormat().Strikeout = !GetCurrentFormat().Strikeout;
+                            _builder.CurrentFormat.Strikeout = !_builder.CurrentFormat.Strikeout;
                             break;
                         case "^^":
-                            GetCurrentFormat().Superscript = !GetCurrentFormat().Superscript;
+                            _builder.CurrentFormat.Superscript = !_builder.CurrentFormat.Superscript;
                             break;
                         case "~~":
-                            GetCurrentFormat().Subscript = !GetCurrentFormat().Subscript;
+                            _builder.CurrentFormat.Subscript = !_builder.CurrentFormat.Subscript;
                             break;
                         case "/%":
-                            GetCurrentFormat().Comment = true;
+                            _builder.CurrentFormat.Comment = true;
                             break;
                         case "%/":
-                            GetCurrentFormat().Comment = false;
+                            _builder.CurrentFormat.Comment = false;
                             break;
                         default:
                             if (_macroTextCount == 0)
                             {
                                 Logger.LogAnalyzer("Text: " + Text);
-                                AddTextPassage(new PassageText(Text));
+                                _builder.AddPassageContent(new PassageText(Text));
                             }
                             else
                             {
@@ -258,7 +219,7 @@ namespace Twee2Z.Analyzer
                 }
                 else
                 {
-                    AddTextPassage(new PassageText(Text));
+                    _builder.AddPassageContent(new PassageText(Text));
                 }
             }
             return base.VisitText(context);
@@ -277,7 +238,7 @@ namespace Twee2Z.Analyzer
         {
             String VarName = context.GetText();
             Logger.LogAnalyzer("\nVariable: " + VarName);
-            _currentPassage.AddPassageContent(new PassageVariable(VarName, 0));
+            _builder.AddPassageContent(new PassageVariable(VarName, 0));
             return base.VisitVariable(context);
         }
 
@@ -292,18 +253,18 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitFunction(Twee.FunctionContext context)
         {
-            String _functionName = context.GetChild(0).GetText();
-            String _paramList = context.GetChild(2).GetText().Trim();
+            String functionName = context.GetChild(0).GetText();
+            String paramList = context.GetChild(2).GetText().Trim();
 
-            PassageFunction _objectPF = new PassageFunction(_functionName);
+            PassageFunction objectF = new PassageFunction(functionName);
 
-            Logger.LogAnalyzer("Function: " + _functionName);
+            Logger.LogAnalyzer("Function: " + functionName);
 
             /*
             if (!(_paramList.Equals(')')))
             {
                 for (int i = 0; i < _paramList.Length; i++)
-                    _objectPF.addArg(_paramList[i]);
+                    objectF.addArg(_paramList[i]);
             }
             */
             return base.VisitFunction(context);
@@ -321,7 +282,7 @@ namespace Twee2Z.Analyzer
             {
                 RecChildCont(list, context.GetChild(i));
             }
-            _currentPassage.AddPassageContent(new PassageMacro(Macro, list));
+            _builder.AddPassageContent(new PassageMacro(Macro, list));
             Logger.LogAnalyzer("Macro: " + Macro);
             return base.VisitMacro(context);
         }

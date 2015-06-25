@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree
 {
-    public class PassageFormat : PassageContent
+    public class PassageContentFormat
     {
         private bool _monospace = false;
 
@@ -22,7 +22,7 @@ namespace Twee2Z.ObjectTree
             get { return _subscript; }
             set { _subscript = value; }
         }
-        private bool _comment = false;
+        private bool _comment = false; // TODO extract comment
 
         public bool Comment
         {
@@ -66,11 +66,31 @@ namespace Twee2Z.ObjectTree
         }
 
 
-        public PassageFormat()
-            : base(ContentType.FormatContent)
+        public PassageContentFormat Copy()
         {
+            PassageContentFormat format = new PassageContentFormat();
+            format.Bold = _bold;
+            format.Monospace = _monospace;
+            format.Comment = _comment;
+            format.Italic = _italic;
+            format.Strikeout = _strikeout;
+            format.Subscript = _subscript;
+            format.Superscript = _superscript;
+            format.Underline = _underline;
+
+            return format;
         }
 
-
+        public bool euquals(PassageContentFormat format)
+        {
+            return _bold == format.Bold &&
+                _italic == format.Italic &&
+                _monospace == format.Monospace &&
+                _comment == format.Comment &&
+                _strikeout == format.Strikeout &&
+                _subscript == format.Subscript &&
+                _superscript == format.Superscript &&
+                _underline == format.Underline;
+        }
     }
 }

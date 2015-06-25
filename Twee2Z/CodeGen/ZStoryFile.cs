@@ -79,16 +79,16 @@ namespace Twee2Z.CodeGen
                 if (content.Type == PassageContent.ContentType.TextContent)
                 {
                     SetTextStyle.StyleFlags flags = SetTextStyle.StyleFlags.None;
-                    /* TODO flags neu einbauen
-                    if (content.PassageText._bold)
+
+                    if (content.PassageText.ContentFormat.Bold)
                         flags |= SetTextStyle.StyleFlags.Bold;
 
-                    if (content.PassageText._italic)
+                    if (content.PassageText.ContentFormat.Italic)
                         flags |= SetTextStyle.StyleFlags.Italic;
 
-                    if (content.PassageText._monospace)
+                    if (content.PassageText.ContentFormat.Monospace)
                         flags |= SetTextStyle.StyleFlags.FixedPitch;
-                    */
+                    
                     if (flags != SetTextStyle.StyleFlags.None)
                     {
                         instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));

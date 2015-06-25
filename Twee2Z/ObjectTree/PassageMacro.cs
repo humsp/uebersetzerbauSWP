@@ -30,16 +30,16 @@ namespace Twee2Z.ObjectTree
         {
             get
             {
-                return MacroElements;
+                return _macroElements;
             }
         }
-        public int TextCount
+        /*public int TextCount
         {
             get
             {
                 return TextCount;
             }
-        }
+        }*/
 
 
         public PassageMacro(string macro, ArrayList list)

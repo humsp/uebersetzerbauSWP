@@ -29,14 +29,14 @@ namespace Twee2Z.Analyzer
             string[] tags;
 
             // Remove Spaces after PassageName
-            String Name = context.GetChild(1).GetText().Trim();                        
+            String Name = context.GetChild(1).GetText().Trim();
 
             Logger.LogAnalyzer("Name: " + Name);
             _currentPassage = new Passage(Name);
             _tree.AddPassage(_currentPassage);
 
             // Get each tag and pass & print it
-            for (int i = 0; i < context.ChildCount; i++) 
+            for (int i = 0; i < context.ChildCount; i++)
             {
                 if (context.GetChild(i).GetText().Contains('['))
                 {
@@ -166,19 +166,21 @@ namespace Twee2Z.Analyzer
                         case "/%": ObjectTree.PassageContent.Comment = true; break;
                         case "%/": ObjectTree.PassageContent.Comment = false; break;
                         default:
-                            if(_macroTextCount == 0){
+                            if (_macroTextCount == 0)
+                            {
                                 Logger.LogAnalyzer("Text: " + Text);
-                                _currentPassage.AddPassageContent(new PassageText(Text)); 
+                                _currentPassage.AddPassageContent(new PassageText(Text));
                             }
                             else
                             {
                                 _macroTextCount--;
                             }
-                             break;
+                            break;
                     }
                 }
-                else {
-                        _currentPassage.AddPassageContent(new PassageText(Text));
+                else
+                {
+                    _currentPassage.AddPassageContent(new PassageText(Text));
                 }
             }
             return base.VisitText(context);
@@ -216,7 +218,7 @@ namespace Twee2Z.Analyzer
             String _paramList = context.GetChild(2).GetText().Trim();
 
             PassageFunction _objectPF = new PassageFunction(_functionName);
-            
+
             Logger.LogAnalyzer("Function: " + _functionName);
 
             /*
@@ -239,11 +241,10 @@ namespace Twee2Z.Analyzer
             ArrayList list = new ArrayList();
             for (int i = 0; i < context.ChildCount; i++)
             {
-                RecChildCont(list, context.GetChild(i));               
+                RecChildCont(list, context.GetChild(i));
             }
             _currentPassage.AddPassageContent(new PassageMacro(Macro, list));
             Logger.LogAnalyzer("Macro: " + Macro);
-            _currentPassage.AddPassageContent(new PassageMacro(Macro));
             return base.VisitMacro(context);
         }
 
@@ -256,7 +257,8 @@ namespace Twee2Z.Analyzer
                     RecChildCont(list, child.GetChild(i));
                 }
             }
-            else{
+            else
+            {
                 if (child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
                 {
                     _macroTextCount++;

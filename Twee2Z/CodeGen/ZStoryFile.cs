@@ -15,6 +15,7 @@ namespace Twee2Z.CodeGen
 {
     public class ZStoryFile
     {
+        private ZSymbolTable _symbolTable;
         private ZMemory _zMemory;
 
         public ZStoryFile()
@@ -24,43 +25,35 @@ namespace Twee2Z.CodeGen
 
         public void ImportObjectTree(Tree tree)
         {
-            // Tree.StartPassage not working still
+            _symbolTable = new ZSymbolTable();
             Passage startPassage = null;
             IEnumerable<Passage> passages = null;
             try
             {
-                startPassage = tree.StartPassage;//tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
-                // Enumerate passages without the start passage
-                passages = tree.Passages/*.Where(passage => passage.Key.ToLower() != "start")*/.Select(entry => entry.Value);
+                startPassage = tree.StartPassage;
+                passages = tree.Passages.Select(entry => entry.Value);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message + " -> start-Passage fehlt");
-                return;
+                throw new Exception("Start passage not found.", ex);
             }
+
             List<ZRoutine> routines = new List<ZRoutine>();
             
             routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+            
             try
-                {
-            routines.Add(ConvertPassageToRoutine(startPassage));
-                }
-            catch (Exception e)
             {
-                Console.WriteLine(e.Message); 
-                return;
-            }
-            foreach (Passage passage in passages)
-            {
-                try
+                routines.Add(ConvertPassageToRoutine(startPassage));
+
+                foreach (Passage passage in passages)
                 {
                     routines.Add(ConvertPassageToRoutine(passage));
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    return;
-                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not convert passage into routine.", ex);
             }
 
             _zMemory.SetRoutines(routines);
@@ -117,9 +110,25 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Print(currentLink.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                 }
+
+                else if (content.Type == PassageContent.ContentType.MacroContent)
+                {
+                    PassageMacro macro = (PassageMacro)content;
+
+                    if (macro.MacroElements[1].ToString() == "set")
+                    {
+                        string[] splitList = macro.MacroElements[2].ToString().Split('=');
+                        string name = splitList.First().Trim();
+                        short value = Convert.ToInt16(splitList.Last().Trim());
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                    }
+                }
+
                 else
                 {
-                    throw new Exception("\n\nException - ConvertPassageToRoutine: I can't handle " + content.Type.ToString() + " yet. :(\n\n");
+                    throw new Exception("Unknown ContentType: " + content.GetType().Name);
                 }
             }
 

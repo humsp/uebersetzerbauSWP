@@ -25,7 +25,7 @@ namespace UnitTests.TestObjectTree
         {
             Tree tree = TreeBuilder.createTree(_passageOnlyPath);
             Assert.AreEqual("Start", tree.StartPassage.Name);
-            Assert.AreEqual(1, tree.Passages.Count);
+            Assert.AreEqual(3, tree.Passages.Count);
             Assert.AreEqual(1, tree.StartPassage.PassageContentList.Count);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it\r\n\r\n",
                 tree.StartPassage.PassageContentList[0].PassageText.Text);
@@ -50,7 +50,7 @@ namespace UnitTests.TestObjectTree
         public void TestTreePassageNamesIgnoreAllBeforeStart()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesIgnoreAllBeforeStart);
-            Assert.AreEqual(1, tree.Passages.Count);
+            Assert.AreEqual(3, tree.Passages.Count);
 
             Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
@@ -60,7 +60,7 @@ namespace UnitTests.TestObjectTree
         public void TestTreePassageNamesWS()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesWS);
-            Assert.AreEqual(4, tree.Passages.Count);
+            Assert.AreEqual(6, tree.Passages.Count);
 
             Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
@@ -124,7 +124,7 @@ namespace UnitTests.TestObjectTree
         private void TestInvalidToken(string file, string falseName, string rightName)
         {
             Tree tree = TreeBuilder.createTree(file);
-            Assert.AreEqual(2, tree.Passages.Count);
+            Assert.AreEqual(4, tree.Passages.Count);
 
             Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("x", tree.StartPassage.PassageContentList[0].PassageText.Text);

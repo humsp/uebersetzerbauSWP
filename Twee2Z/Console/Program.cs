@@ -155,7 +155,6 @@ namespace Twee2Z.Console
         {
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
-<<<<<<< HEAD
 
             Tree tree = AnalyseFile(tweeFileStream);
             if(ValidateTree(tree))
@@ -166,9 +165,6 @@ namespace Twee2Z.Console
             {
                 Logger.LogError("Stop compiling");
             }
-=======
-            File.WriteAllBytes(output, GenStoryFile(AnalyseFile(tweeFileStream)).ToBytes());
->>>>>>> a4e616c090a440dc455c90f81fcba5d07c11b629
         }
 
         public static Tree AnalyseFile(FileStream stream)

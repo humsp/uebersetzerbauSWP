@@ -36,7 +36,22 @@ namespace Twee2Z.ObjectTree
         private bool validateLinks()
         {
             Logger.LogValidation("Validate links:");
-            foreach(Passage passage in _tree.Passages.Values)
+            Dictionary<string, Passage> _allPassages = _tree.Passages;
+            if (_tree.StartPassage != null)
+            {
+                _allPassages.Add("start", _tree.StartPassage);
+            }
+                        if (_tree.StoryTitle != null)
+            {
+                _allPassages.Add("StoryTitle", _tree.StoryTitle);
+            }
+                        if (_tree.StoryAuthor != null)
+            {
+                _allPassages.Add("StoryAuthor", _tree.StoryAuthor);
+            }
+
+
+            foreach (Passage passage in _allPassages.Values)//_tree.Passages.Values)
             {
                 for (int i = 0; i < passage.PassageContentList.Count; i++ )
                 {

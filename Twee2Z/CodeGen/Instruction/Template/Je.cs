@@ -19,7 +19,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "je" on page 86 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, Branch = {_branch}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, A = {_operands[0].Value}, B = {_operands[1].Value}, Branch = {_branch}")]
     class Je : ZInstructionBr
     {
         private Je(ZBranchLabel branchLabel, params ZOperand[] operands)

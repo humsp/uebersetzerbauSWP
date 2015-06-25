@@ -44,7 +44,14 @@ namespace Twee2Z.ObjectTree
         {
             if (!_passages.ContainsKey(name))
             {
-                return null;
+                switch (name)
+                {
+                    case "start": return _start; break;
+                    case "Start": return _start; break;
+                    case "StoryTitle": return _storyTitle; break;
+                    case "StoryAuthor": return _storyAuthor; break;
+                    default: return null;
+                }
             }
             return _passages[name];
         }

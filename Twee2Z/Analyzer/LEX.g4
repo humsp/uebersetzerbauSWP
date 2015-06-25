@@ -1,7 +1,7 @@
 lexer grammar LEX;
 
 INT					: DIGIT+;
-PASS				: ':'(':')+ -> pushMode(PMode);
+PASS				: '\r\n:'(':')+ -> pushMode(PMode);
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
 LINK_START			: '[[' -> pushMode(LMode);
 FUNC_START			: FUNC_NAME -> pushMode(FMode);

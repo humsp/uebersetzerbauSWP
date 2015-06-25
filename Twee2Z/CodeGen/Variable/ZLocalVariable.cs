@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Variable
 {
+    [DebuggerDisplay("LocalVariableNumber = {LocalVariableNumber}")]
     class ZLocalVariable : ZVariable
     {
         public ZLocalVariable(byte localVariableNumber)
@@ -17,7 +19,7 @@ namespace Twee2Z.CodeGen.Variable
             _variableNumber = (byte)(localVariableNumber + 0x01);
         }
 
-        public byte LocalVariableNuber
+        public byte LocalVariableNumber
         {
             get
             {

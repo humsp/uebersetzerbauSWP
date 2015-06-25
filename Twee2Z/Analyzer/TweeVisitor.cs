@@ -226,6 +226,7 @@ namespace Twee2Z.Analyzer
         {
             String Macro = context.GetText();
             Logger.LogAnalyzer("Macro: " + Macro);
+            _currentPassage.AddPassageContent(new PassageMacro(Macro));
             return base.VisitMacro(context);
         }
 

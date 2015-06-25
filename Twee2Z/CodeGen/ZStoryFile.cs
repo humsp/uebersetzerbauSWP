@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Twee2Z.CodeGen.Memory;
 using Twee2Z.CodeGen.Instruction;
 using Twee2Z.CodeGen.Instruction.Opcode;
@@ -15,6 +16,9 @@ namespace Twee2Z.CodeGen
 {
     public class ZStoryFile
     {
+        private readonly Regex _variableName = new Regex(@"\$\w+");
+        private readonly Regex _variableValue = new Regex(@"-?\d+");
+        private ZSymbolTable _symbolTable;
         private ZMemory _zMemory;
 
         public ZStoryFile()
@@ -24,6 +28,8 @@ namespace Twee2Z.CodeGen
 
         public void ImportObjectTree(Tree tree)
         {
+            _symbolTable = new ZSymbolTable();
+
             // Tree.StartPassage not working still
             Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
             
@@ -95,7 +101,30 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Print(currentLink.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                 }
+
+                else if (content.Type == PassageContent.ContentType.MacroContent)
+                {
+                    PassageMacro macro = (PassageMacro)content;
+                    string macroAsString = macro.Macro;
+
+                    if (macroAsString.StartsWith("<<set "))
+                    {
+                        string name = _variableName.Match(macroAsString).Value;
+                        short value = Convert.ToInt16(_variableValue.Match(macroAsString).Value);
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                        //instructions.Add(new Store(new ZGlobalVariable(0), value));
+                        //instructions.Add(new Push((short)41));
+                        //instructions.Add(new Load(new ZGlobalVariable(0), new ZLocalVariable(1)));
+                    }
+                }
             }
+
+            // TEST
+            //instructions.Add(new Je(_symbolTable.GetSymbol("$variable"), (short)42, new ZBranchLabel("quit" + passage.Name) { BranchOn = false }));
+            //instructions.Add(new Je(new ZGlobalVariable(0), (short)42, new ZBranchLabel("quit" + passage.Name) { BranchOn = false }));
+            //instructions.Add(new Print("42!"));
 
             if (currentLink > 0)
             {
@@ -116,7 +145,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Print("Unbekannte Eingabe!"));
                 instructions.Add(new NewLine());
                 instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
-                instructions.Add(new Quit());
+                instructions.Add(new Quit() { Label = new ZLabel("quit" + passage.Name) });
 
                 for (int i = 0; i < links.Count(); i++)
                 {
@@ -125,7 +154,7 @@ namespace Twee2Z.CodeGen
             }
             else
             {
-                instructions.Add(new Quit());
+                instructions.Add(new Quit() { Label = new ZLabel("quit" + passage.Name) });
             }
             
             return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };

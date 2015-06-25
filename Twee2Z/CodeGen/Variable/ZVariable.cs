@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Twee2Z.CodeGen.Variable
 {
+    [DebuggerDisplay("VariableKind = {_variableKind}, VariableNumber = {_variableNumber}")]
     abstract class ZVariable : ZComponent
     {
         protected VariableKind _variableKind;

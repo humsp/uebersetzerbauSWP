@@ -21,7 +21,7 @@ namespace Twee2Z.CodeGen.Memory
         internal const ushort HeaderTableAddr = 0x0000;
         internal const ushort HeaderExtensionTableAddr = 0x0040;
         internal const ushort ObjectTableAddr = 0x0048;
-        internal const ushort GlobalVariablesTableAddr = 0x0048;
+        internal const ushort GlobalVariablesTableAddr = 0x0050;
         internal const ushort InitProgramCounterAddr = 0x2000;
 
         private ZHeader _header;

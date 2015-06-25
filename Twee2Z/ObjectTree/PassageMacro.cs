@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree
 {
-    class PassageMacro : PassageContent
+    public class PassageMacro : PassageContent
     {
 
         private string _macro;

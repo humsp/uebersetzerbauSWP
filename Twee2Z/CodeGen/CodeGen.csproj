@@ -52,6 +52,11 @@
     <Compile Include="Instruction\Template\Call1n.cs" />
     <Compile Include="Instruction\Template\NewLine.cs" />
     <Compile Include="Instruction\Template\EraseWindow.cs" />
+    <Compile Include="Instruction\Template\Load.cs" />
+    <Compile Include="Instruction\Template\Push.cs" />
+    <Compile Include="Instruction\Template\Pull.cs" />
+    <Compile Include="Instruction\Template\Pop.cs" />
+    <Compile Include="Instruction\Template\Store.cs" />
     <Compile Include="Instruction\Template\ReadChar.cs" />
     <Compile Include="Instruction\Template\SetTextStyle.cs" />
     <Compile Include="Instruction\Template\Quit.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="Table\ZObjectTable.cs" />
     <Compile Include="Instruction\ZRoutine.cs" />
     <Compile Include="Text\ZText.cs" />
+    <Compile Include="ZSymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">

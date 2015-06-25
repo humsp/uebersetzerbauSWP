@@ -28,7 +28,7 @@ namespace Twee2Z.ObjectTree
 
         private bool validateStartPassage()
         {
-            if (_tree.StartPassage != null)
+            if (_tree.StartPassage == null)
             {
                 Logger.LogError("There ist no passage called 'Start'");
                 return false;
@@ -38,25 +38,25 @@ namespace Twee2Z.ObjectTree
 
         private bool validateStoryTitle()
         {
-            if (_tree.StoryTitle != null)
+            if (_tree.StoryTitle == null)
             {
                 Logger.LogWarning("No story title passage found");
+                Passage storyTitle = new Passage("StoryTitle");
+                storyTitle.AddPassageContent(new PassageText("Unknown title"));
+                _tree.AddPassage(storyTitle);
             }
-            Passage storyTitle = new Passage("StoryTitle");
-            storyTitle.AddPassageContent(new PassageText("Unknown title"));
-            _tree.AddPassage(storyTitle);
             return true;
         }
 
         private bool validateStoryAuthor()
         {
-            if (_tree.StoryAuthor != null)
+            if (_tree.StoryAuthor == null)
             {
                 Logger.LogWarning("No story author passage found");
+                Passage storyTitle = new Passage("StoryAuthor");
+                storyTitle.AddPassageContent(new PassageText("Unknown author"));
+                _tree.AddPassage(storyTitle);
             }
-            Passage storyTitle = new Passage("StoryAuthor");
-            storyTitle.AddPassageContent(new PassageText("Unknown author"));
-            _tree.AddPassage(storyTitle);
             return true;
         }
 

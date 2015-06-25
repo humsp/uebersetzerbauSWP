@@ -75,13 +75,13 @@ namespace Twee2Z.ObjectTree
             }
         }
 
-        public PassageLink PassageVariable
+        public PassageVariable PassageVariable
         {
             get
             {
                 if (_type == ContentType.VariableContent)
                 {
-                    return (PassageLink)this;
+                    return (PassageVariable)this;
                 }
                 return null;
             }

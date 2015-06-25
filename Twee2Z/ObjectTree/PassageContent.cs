@@ -9,6 +9,7 @@ namespace Twee2Z.ObjectTree
 {
     public class PassageContent
     {
+        /*
         public static bool Monospace = false;
         public static bool Subscript = false;
         public static bool Comment = false;
@@ -27,14 +28,7 @@ namespace Twee2Z.ObjectTree
         public bool _superscript = false;
         public bool _bold = false;
 
-        public enum ContentType
-        {
-            TextContent,
-            LinkContent,
-            VariableContent,
-            FunctionContent,
-            MacroContent
-        };
+       
 
         private ContentType _type;
 
@@ -48,6 +42,23 @@ namespace Twee2Z.ObjectTree
             _strikeout = PassageContent.Strikeout;
             _superscript = PassageContent.Superscript;
             _bold = PassageContent.Bold;
+            Type = type;
+        }*/
+
+        public enum ContentType
+        {
+            TextContent,
+            LinkContent,
+            VariableContent,
+            FunctionContent,
+            MacroContent,
+            FormatContent
+        };
+
+        private ContentType _type;
+
+        public PassageContent(ContentType type)
+        {
             Type = type;
         }
 
@@ -106,6 +117,18 @@ namespace Twee2Z.ObjectTree
                 if (_type == ContentType.MacroContent)
                 {
                     return (PassageMacro)this;
+                }
+                return null;
+            }
+        }
+
+        public PassageFormat PassageFormat
+        {
+            get
+            {
+                if (_type == ContentType.FormatContent)
+                {
+                    return (PassageFormat)this;
                 }
                 return null;
             }

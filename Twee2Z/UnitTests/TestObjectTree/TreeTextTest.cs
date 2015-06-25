@@ -14,7 +14,7 @@ namespace UnitTests.TestObjectTree
         public void TestUmlaut()
         {
             Tree tree = TreeBuilder.createTree(_testUmlaut);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(2, tree.Passages.Count);
 
             Passage startPassage = tree.StartPassage;

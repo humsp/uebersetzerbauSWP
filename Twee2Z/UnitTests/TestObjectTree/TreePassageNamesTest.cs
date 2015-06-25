@@ -24,7 +24,7 @@ namespace UnitTests.TestObjectTree
         public void TestTreePassageOnly()
         {
             Tree tree = TreeBuilder.createTree(_passageOnlyPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(1, tree.Passages.Count);
             Assert.AreEqual(1, tree.StartPassage.PassageContentList.Count);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it\r\n\r\n",
@@ -37,7 +37,7 @@ namespace UnitTests.TestObjectTree
             Tree tree = TreeBuilder.createTree(_passageNamesComment);
             Assert.AreEqual(2, tree.Passages.Count);
             
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
 
             Assert.IsTrue(tree.Passages.ContainsKey("o/%Text%/ther"));
@@ -52,7 +52,7 @@ namespace UnitTests.TestObjectTree
             Tree tree = TreeBuilder.createTree(_passageNamesIgnoreAllBeforeStart);
             Assert.AreEqual(1, tree.Passages.Count);
 
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
         }
 
@@ -62,7 +62,7 @@ namespace UnitTests.TestObjectTree
             Tree tree = TreeBuilder.createTree(_passageNamesWS);
             Assert.AreEqual(4, tree.Passages.Count);
 
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
 
             Assert.IsTrue(tree.Passages.ContainsKey("ohneWS"));
@@ -126,7 +126,7 @@ namespace UnitTests.TestObjectTree
             Tree tree = TreeBuilder.createTree(file);
             Assert.AreEqual(2, tree.Passages.Count);
 
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("x", tree.StartPassage.PassageContentList[0].PassageText.Text);
 
             Assert.IsFalse(tree.Passages.ContainsKey(falseName));

@@ -20,7 +20,7 @@ namespace UnitTests.TestObjectTree
         public void TestTreePassageLink()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(4, tree.Passages.Count);
 
             // 1 Passage
@@ -49,7 +49,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("you are done\r\n", thirdPassage.PassageContentList[0].PassageText.Text);
 
             PassageLink thirdPassageLink = thirdPassage.PassageContentList[1].PassageLink;
-            Assert.AreEqual("start", thirdPassageLink.Target);
+            Assert.AreEqual("Start", thirdPassageLink.Target);
             Assert.AreEqual(startPassage, thirdPassageLink.TargetPassage);
             Assert.AreEqual(null, thirdPassageLink.Expression);
             Assert.AreEqual(null, thirdPassageLink.DisplayText);
@@ -65,7 +65,7 @@ namespace UnitTests.TestObjectTree
         public void TestTreePassageLinkValidation()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkValidationPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(2, tree.Passages.Count);
 
             // 1 Passage

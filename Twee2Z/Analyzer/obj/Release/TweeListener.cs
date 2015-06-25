@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from E:\Dima\@UNI\@SW-Projekt\uebersetzerbauSWP\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
+// Generated from C:\Users\Rene\Documents\Git\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
 
 // Unreachable code detected
 #pragma warning disable 0162

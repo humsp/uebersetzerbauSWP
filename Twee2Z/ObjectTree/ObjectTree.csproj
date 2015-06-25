@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PassageFormat.cs" />
     <Compile Include="PassageMacro.cs" />
     <Compile Include="PassageFunction.cs" />
     <Compile Include="PassageVariable.cs" />

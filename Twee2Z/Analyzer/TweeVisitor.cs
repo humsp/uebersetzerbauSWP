@@ -12,9 +12,51 @@ namespace Twee2Z.Analyzer
 {
     class TweeVisitor : TweeBaseVisitor<object>
     {
-        private Tree _tree;
         private Passage _currentPassage;
         private static int _macroTextCount = 0;
+        private Tree _tree;
+        public Tree Tree
+        {
+            get
+            {
+                return _tree;
+            }
+        }
+
+        private PassageContent LastPassageContent()
+        {
+            if (_currentPassage.PassageContentList.Count == 0)
+            {
+                return null;
+            }
+            return _currentPassage.PassageContentList[_currentPassage.PassageContentList.Count - 1];
+        }
+
+        private PassageFormat GetCurrentFormat()
+        {
+            PassageContent content = LastPassageContent();
+            if (content == null || content.Type != PassageContent.ContentType.FormatContent)
+            {
+                PassageFormat format = new PassageFormat();
+                _currentPassage.AddPassageContent(format);
+                return format;
+            }
+            return content.PassageFormat;
+        }
+
+        private void AddTextPassage(PassageText textPassage)
+        {
+            PassageContent content = LastPassageContent();
+            if (content != null && content.Type == PassageContent.ContentType.TextContent)
+            {
+                content.PassageText.MergePassageText(textPassage);
+            }
+            else
+            {
+                _currentPassage.AddPassageContent(textPassage);
+            }
+
+        }
 
         public override object VisitStart(Twee.StartContext context)
         {
@@ -29,14 +71,30 @@ namespace Twee2Z.Analyzer
             string[] tags;
 
             // Remove Spaces after PassageName
-            String Name = context.GetChild(1).GetText().Trim();                        
+            String Name = context.GetChild(1).GetText().Trim();
 
             Logger.LogAnalyzer("Name: " + Name);
             _currentPassage = new Passage(Name);
             _tree.AddPassage(_currentPassage);
 
-            // Get each tag and pass & print it
-            for (int i = 0; i < context.ChildCount; i++) 
+            if (context.TAG() != null)
+            {
+                // Get each tag and pass & print it
+                string tagString = context.TAG().GetText();
+                if (tagString.Length != 0)
+                {
+                    tagString = tagString.Substring(1, tagString.Length - 2);
+                    tags = tagString.Replace("  ", " ").Split(' ');
+                    for (int i = 0; i < tags.Length; i++)
+                    {
+                        _currentPassage.AddTag(tags[i]);
+                        Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
+                    }
+                }
+            }
+
+            /*
+            for (int i = 0; i < context.ChildCount; i++)
             {
                 if (context.GetChild(i).GetText().Contains('['))
                 {
@@ -54,7 +112,7 @@ namespace Twee2Z.Analyzer
                         }
                     }
                 }
-            }
+            }*/
             return base.VisitPassage(context);
         }
 
@@ -155,30 +213,52 @@ namespace Twee2Z.Analyzer
                 {
                     switch (Text)
                     {
-                        case "{{{": ObjectTree.PassageContent.Monospace = true; break;
-                        case "}}}": ObjectTree.PassageContent.Monospace = false; break;
-                        case "''": ObjectTree.PassageContent.Bold = !ObjectTree.PassageContent.Bold; break;
-                        case "//": ObjectTree.PassageContent.Italic = !ObjectTree.PassageContent.Italic; break;
-                        case "__": ObjectTree.PassageContent.Underline = !ObjectTree.PassageContent.Underline; break;
-                        case "==": ObjectTree.PassageContent.Strikeout = !ObjectTree.PassageContent.Strikeout; break;
-                        case "^^": ObjectTree.PassageContent.Superscript = !ObjectTree.PassageContent.Superscript; break;
-                        case "~~": ObjectTree.PassageContent.Subscript = !ObjectTree.PassageContent.Subscript; break;
-                        case "/%": ObjectTree.PassageContent.Comment = true; break;
-                        case "%/": ObjectTree.PassageContent.Comment = false; break;
+                        case "{{{":
+                            GetCurrentFormat().Monospace = true;
+                            break;
+                        case "}}}":
+                            GetCurrentFormat().Monospace = false;
+                            break;
+                        case "''":
+                            GetCurrentFormat().Bold = !GetCurrentFormat().Bold;
+                            break;
+                        case "//":
+                            GetCurrentFormat().Italic = !GetCurrentFormat().Italic;
+                            break;
+                        case "__":
+                            GetCurrentFormat().Underline = !GetCurrentFormat().Underline;
+                            break;
+                        case "==":
+                            GetCurrentFormat().Strikeout = !GetCurrentFormat().Strikeout;
+                            break;
+                        case "^^":
+                            GetCurrentFormat().Superscript = !GetCurrentFormat().Superscript;
+                            break;
+                        case "~~":
+                            GetCurrentFormat().Subscript = !GetCurrentFormat().Subscript;
+                            break;
+                        case "/%":
+                            GetCurrentFormat().Comment = true;
+                            break;
+                        case "%/":
+                            GetCurrentFormat().Comment = false;
+                            break;
                         default:
-                            if(_macroTextCount == 0){
+                            if (_macroTextCount == 0)
+                            {
                                 Logger.LogAnalyzer("Text: " + Text);
-                                _currentPassage.AddPassageContent(new PassageText(Text)); 
+                                AddTextPassage(new PassageText(Text));
                             }
                             else
                             {
                                 _macroTextCount--;
                             }
-                             break;
+                            break;
                     }
                 }
-                else {
-                        _currentPassage.AddPassageContent(new PassageText(Text));
+                else
+                {
+                    AddTextPassage(new PassageText(Text));
                 }
             }
             return base.VisitText(context);
@@ -216,7 +296,7 @@ namespace Twee2Z.Analyzer
             String _paramList = context.GetChild(2).GetText().Trim();
 
             PassageFunction _objectPF = new PassageFunction(_functionName);
-            
+
             Logger.LogAnalyzer("Function: " + _functionName);
 
             /*
@@ -239,7 +319,7 @@ namespace Twee2Z.Analyzer
             ArrayList list = new ArrayList();
             for (int i = 0; i < context.ChildCount; i++)
             {
-                RecChildCont(list, context.GetChild(i));               
+                RecChildCont(list, context.GetChild(i));
             }
             _currentPassage.AddPassageContent(new PassageMacro(Macro, list));
             Logger.LogAnalyzer("Macro: " + Macro);
@@ -255,7 +335,8 @@ namespace Twee2Z.Analyzer
                     RecChildCont(list, child.GetChild(i));
                 }
             }
-            else{
+            else
+            {
                 if (child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
                 {
                     _macroTextCount++;
@@ -264,12 +345,6 @@ namespace Twee2Z.Analyzer
             }
         }
 
-        public Tree Tree
-        {
-            get
-            {
-                return _tree;
-            }
-        }
+
     }
 }

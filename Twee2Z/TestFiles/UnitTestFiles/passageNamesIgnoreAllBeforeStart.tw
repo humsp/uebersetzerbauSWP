@@ -3,5 +3,5 @@ ignore?
 << set $a = 5 >>
 <<print "unsichtbar?">>
 
-::::: start
+::::: Start
 Your story will display this passage first Edit it by double clicking it

@@ -157,7 +157,15 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("Open twee file: " + from);
             FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            File.WriteAllBytes(output, GenStoryFile(AnalyseFile(tweeFileStream)).ToBytes());
+            Tree tree = AnalyseFile(tweeFileStream);
+            if(ValidateTree(tree))
+            {
+                File.WriteAllBytes(output, GenStoryFile(tree).ToBytes());
+            }
+            else
+            {
+                Logger.LogError("Stop compiling");
+            }
         }
 
         public static Tree AnalyseFile(FileStream stream)
@@ -166,10 +174,10 @@ namespace Twee2Z.Console
             return TweeAnalyzer.Parse(new StreamReader(stream));
         }
 
-        public static void ValidateTree(Tree tree)
+        public static bool ValidateTree(Tree tree)
         {
             TreeValidator validator = new TreeValidator(tree);
-            validator.ValidateTree();
+            return validator.ValidateTree();
         }
 
         public static CodeGen.ZStoryFile GenStoryFile(Tree tree)

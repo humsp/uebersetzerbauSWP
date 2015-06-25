@@ -17,13 +17,23 @@ namespace Twee2Z.ObjectTree
             _tree = tree;
         }
 
-        public void ValidateTree()
+        public bool ValidateTree()
         {
             Logger.LogValidation("Validate Tree");
-            validateLinks();
+            return validateStartPassage() && validateLinks();
         }
 
-        private void validateLinks()
+        private bool validateStartPassage()
+        {
+            if (_tree.StartPassage != null)
+            {
+                Logger.LogError("There ist no passage called 'Start'");
+                return false;
+            }
+            return true;
+        }
+
+        private bool validateLinks()
         {
             Logger.LogValidation("Validate links:");
             foreach(Passage passage in _tree.Passages.Values)
@@ -56,6 +66,7 @@ namespace Twee2Z.ObjectTree
                     }
                 }
             }
+            return true;
         }
     }
 }

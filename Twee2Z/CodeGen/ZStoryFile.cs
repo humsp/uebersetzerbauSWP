@@ -79,7 +79,7 @@ namespace Twee2Z.CodeGen
                 if (content.Type == PassageContent.ContentType.TextContent)
                 {
                     SetTextStyle.StyleFlags flags = SetTextStyle.StyleFlags.None;
-
+                    /* TODO flags neu einbauen
                     if (content.PassageText._bold)
                         flags |= SetTextStyle.StyleFlags.Bold;
 
@@ -88,7 +88,7 @@ namespace Twee2Z.CodeGen
 
                     if (content.PassageText._monospace)
                         flags |= SetTextStyle.StyleFlags.FixedPitch;
-
+                    */
                     if (flags != SetTextStyle.StyleFlags.None)
                     {
                         instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));

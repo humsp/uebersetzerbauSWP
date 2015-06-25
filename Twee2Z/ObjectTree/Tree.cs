@@ -9,15 +9,24 @@ namespace Twee2Z.ObjectTree
 {
     public class Tree
     {
-        private const string _startPassageId = "start";
+        //private const string _startPassageId = "start";
 
         private Dictionary<string, Passage> _passages = new Dictionary<string, Passage>();
+        private Passage _storyTitle;
+        private Passage _storyAuthor;
+        private Passage _start;
 
         public void AddPassage(Passage passage)
         {
             if (!_passages.ContainsKey(passage.Name))
             {
-                _passages.Add(passage.Name, passage);
+                switch (passage.Name)
+                {
+                    case "start": _start = passage; break;
+                    case "StoryTitle": _storyTitle = passage; break;
+                    case "StoryAuthor": _storyAuthor = passage; break;
+                    default: _passages.Add(passage.Name, passage); break;
+                }
             }
             else
             {
@@ -38,9 +47,25 @@ namespace Twee2Z.ObjectTree
         {
             get
             {
-                return _passages[_startPassageId];
+                return _start;
+                //return _passages[_startPassageId];
             }
         }
+        public Passage StoryAuthor
+        {
+            get
+            {
+                return _storyAuthor;
+            }
+        }
+        public Passage StoryTitle
+        {
+            get
+            {
+                return _storyTitle;
+            }
+        }
+
 
         public Dictionary<string, Passage> Passages
         {

@@ -26,11 +26,15 @@ namespace Twee2Z.CodeGen
         {
             // Tree.StartPassage is not working for "Start" as name
             // That is why I have to find the start passage myself
-            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
-
+            Passage startPassage = null;
+            try
+            {
+                startPassage = tree.StartPassage;//tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+            }
+            catch (Exception e) { Console.WriteLine("\n\n-----> AAAAAA! EXEPTION! OMG! No \"start\"-Passage found!\n\n"); return; }
             // Filter StoryTitle and StoryAuthor from the passages
-            IEnumerable<Passage> passages = tree.Passages.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
-                                                         .Select(entry => entry.Value);
+            IEnumerable<Passage> passages = tree.Passages/*.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
+                                                         */.Select(entry => entry.Value);
 
             List<ZRoutine> routines = new List<ZRoutine>();
             

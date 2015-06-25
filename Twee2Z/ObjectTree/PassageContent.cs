@@ -99,6 +99,18 @@ namespace Twee2Z.ObjectTree
             }
         }
 
+        public PassageMacro PassageMacro
+        {
+            get
+            {
+                if (_type == ContentType.MacroContent)
+                {
+                    return (PassageMacro)this;
+                }
+                return null;
+            }
+        }
+
         public ContentType Type
         {
             get

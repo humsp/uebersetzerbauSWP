@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Twee2Z.ObjectTree
 {
@@ -10,6 +11,7 @@ namespace Twee2Z.ObjectTree
     {
 
         private string _macro;
+        private ArrayList _macroElements = new ArrayList();
 
 
         public string Macro
@@ -24,12 +26,27 @@ namespace Twee2Z.ObjectTree
             }
         }
 
+        public ArrayList MacroElements
+        {
+            get
+            {
+                return MacroElements;
+            }
+        }
+        public int TextCount
+        {
+            get
+            {
+                return TextCount;
+            }
+        }
 
 
-        public PassageMacro(string macro)
+        public PassageMacro(string macro, ArrayList list)
             : base(ContentType.MacroContent)
         {
             _macro = macro;
+            _macroElements = list;
         }
 
     }

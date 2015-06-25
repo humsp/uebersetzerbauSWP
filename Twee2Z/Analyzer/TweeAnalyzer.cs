@@ -36,5 +36,6 @@ namespace Twee2Z.Analyzer
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
             return new CommonTokenStream(new LEX(antlrStream));
         }
+
     }
 }

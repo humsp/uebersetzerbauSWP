@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
+using System.Collections;
 
 namespace Twee2Z.Analyzer
 {
@@ -13,6 +14,7 @@ namespace Twee2Z.Analyzer
     {
         private Tree _tree;
         private Passage _currentPassage;
+        private static int _macroTextCount = 0;
 
         public override object VisitStart(Twee.StartContext context)
         {
@@ -164,11 +166,20 @@ namespace Twee2Z.Analyzer
                         case "/%": ObjectTree.PassageContent.Comment = true; break;
                         case "%/": ObjectTree.PassageContent.Comment = false; break;
                         default:
-                            Logger.LogAnalyzer("Text: " + Text);
-                            _currentPassage.AddPassageContent(new PassageText(Text)); break;
+                            if(_macroTextCount == 0){
+                                Logger.LogAnalyzer("Text: " + Text);
+                                _currentPassage.AddPassageContent(new PassageText(Text)); 
+                            }
+                            else
+                            {
+                                _macroTextCount--;
+                            }
+                             break;
                     }
                 }
-                else { _currentPassage.AddPassageContent(new PassageText(Text)); }
+                else {
+                        _currentPassage.AddPassageContent(new PassageText(Text));
+                }
             }
             return base.VisitText(context);
         }
@@ -225,9 +236,33 @@ namespace Twee2Z.Analyzer
         public override object VisitMacro(Twee.MacroContext context)
         {
             String Macro = context.GetText();
+            ArrayList list = new ArrayList();
+            for (int i = 0; i < context.ChildCount; i++)
+            {
+                RecChildCont(list, context.GetChild(i));               
+            }
+            _currentPassage.AddPassageContent(new PassageMacro(Macro, list));
             Logger.LogAnalyzer("Macro: " + Macro);
             _currentPassage.AddPassageContent(new PassageMacro(Macro));
             return base.VisitMacro(context);
+        }
+
+        public void RecChildCont(ArrayList list, Antlr4.Runtime.Tree.IParseTree child)
+        {
+            if (child.ChildCount > 0 && !child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
+            {
+                for (int i = 0; i < child.ChildCount; i++)
+                {
+                    RecChildCont(list, child.GetChild(i));
+                }
+            }
+            else{
+                if (child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
+                {
+                    _macroTextCount++;
+                }
+                list.Add(child.GetText().Trim());
+            }
         }
 
         public Tree Tree

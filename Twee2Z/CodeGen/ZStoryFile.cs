@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using Twee2Z.CodeGen.Memory;
 using Twee2Z.CodeGen.Instruction;
 using Twee2Z.CodeGen.Instruction.Opcode;
@@ -16,9 +15,6 @@ namespace Twee2Z.CodeGen
 {
     public class ZStoryFile
     {
-        private readonly Regex _variableName = new Regex(@"\$\w+");
-        private readonly Regex _variableValue = new Regex(@"-?\d+");
-        private ZSymbolTable _symbolTable;
         private ZMemory _zMemory;
 
         public ZStoryFile()
@@ -28,23 +24,43 @@ namespace Twee2Z.CodeGen
 
         public void ImportObjectTree(Tree tree)
         {
-            _symbolTable = new ZSymbolTable();
-
             // Tree.StartPassage not working still
-            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
-            
-            // Enumerate passages without the start passage
-            IEnumerable<Passage> passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start").Select(entry => entry.Value);
-
+            Passage startPassage = null;
+            IEnumerable<Passage> passages = null;
+            try
+            {
+                startPassage = tree.StartPassage;//tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+                // Enumerate passages without the start passage
+                passages = tree.Passages/*.Where(passage => passage.Key.ToLower() != "start")*/.Select(entry => entry.Value);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " -> start-Passage fehlt");
+                return;
+            }
             List<ZRoutine> routines = new List<ZRoutine>();
             
             routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
-            
+            try
+                {
             routines.Add(ConvertPassageToRoutine(startPassage));
-
+                }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message); 
+                return;
+            }
             foreach (Passage passage in passages)
             {
-                routines.Add(ConvertPassageToRoutine(passage));
+                try
+                {
+                    routines.Add(ConvertPassageToRoutine(passage));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return;
+                }
             }
 
             _zMemory.SetRoutines(routines);
@@ -101,20 +117,9 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Print(currentLink.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                 }
-
-                else if (content.Type == PassageContent.ContentType.MacroContent)
+                else
                 {
-                    PassageMacro macro = (PassageMacro)content;
-                    string macroAsString = macro.Macro;
-
-                    if (macroAsString.StartsWith("<<set "))
-                    {
-                        string name = _variableName.Match(macroAsString).Value;
-                        short value = Convert.ToInt16(_variableValue.Match(macroAsString).Value);
-
-                        _symbolTable.AddSymbol(name);
-                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
-                    }
+                    throw new Exception("\n\nException - ConvertPassageToRoutine: I can't handle " + content.Type.ToString() + " yet. :(\n\n");
                 }
             }
 
@@ -149,7 +154,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Quit());
             }
             
-            return new ZRoutine(instructions, 2) { Label = new ZRoutineLabel(passage.Name) };
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
         }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)

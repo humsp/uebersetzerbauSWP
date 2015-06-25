@@ -31,7 +31,7 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                Logger.LogWarning("ignoring tag: " + tag + " for passage:" + Name);
+                Logger.LogWarning("ignoring redundant tag: " + tag + " for passage:" + Name);
              }
         }
         public string Name

@@ -24,17 +24,11 @@ namespace Twee2Z.CodeGen
 
         public void ImportObjectTree(Tree tree)
         {
-            // Tree.StartPassage is not working for "Start" as name
-            // That is why I have to find the start passage myself
-            Passage startPassage = null;
-            try
-            {
-                startPassage = tree.StartPassage;//tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
-            }
-            catch (Exception e) { Console.WriteLine("\n\n-----> AAAAAA! EXEPTION! OMG! No \"start\"-Passage found!\n\n"); return; }
-            // Filter StoryTitle and StoryAuthor from the passages
-            IEnumerable<Passage> passages = tree.Passages/*.Where(entry => entry.Key != "StoryTitle" && entry.Key != "StoryAuthor" && entry.Key.ToLower() != "start")
-                                                         */.Select(entry => entry.Value);
+            // Tree.StartPassage not working still
+            Passage startPassage = tree.Passages.Single(entry => entry.Key.ToLower() == "start").Value;
+            
+            // Enumerate passages without the start passage
+            IEnumerable<Passage> passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start").Select(entry => entry.Value);
 
             List<ZRoutine> routines = new List<ZRoutine>();
             

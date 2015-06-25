@@ -16,7 +16,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "load" on page 87 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Opcode = {_opcode}, Variable = {_variable}, Store = {_store}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Variable = {_variable}, Store = {_store}")]
     class Load : ZInstructionSt
     {
         ZVariable _variable;
@@ -25,8 +25,11 @@ namespace Twee2Z.CodeGen.Instruction.Template
         /// Creates a new instance of a Load instruction.
         /// </summary>
         public Load(ZVariable variable, ZVariable store)
-            : base("load", 0x0E, OpcodeTypeKind.OneOP, store, new ZOperand(variable))
+            : base("load", 0x0E, OpcodeTypeKind.OneOP, store, new ZOperand(variable.VariableNumber))
         {
+            // While this instruction requires a variable
+            // We have to convert it into a byte constant
+            // Thus "new ZOperand(variable.VariableNumber)"
             _variable = variable;
         }
     }

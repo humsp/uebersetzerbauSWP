@@ -16,15 +16,21 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "pull" on page 93 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Opcode = {_opcode}, Store = {_store}")]
-    class Pull : ZInstructionSt
+    [DebuggerDisplay("Name = {_opcode.Name}, Variable = {_variable}")]
+    class Pull : ZInstruction
     {
+        ZVariable _variable;
+
         /// <summary>
         /// Creates a new instance of a Pull instruction.
         /// </summary>
         public Pull(ZVariable variable)
-            : base("pull", 0x09, OpcodeTypeKind.Var, variable)
+            : base("pull", 0x09, OpcodeTypeKind.Var, new ZOperand(variable.VariableNumber))
         {
+            // While this instruction requires a variable
+            // We have to convert it into a byte constant
+            // Thus "new ZOperand(variable.VariableNumber)"
+            _variable = variable;
         }
     }
 }

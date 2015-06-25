@@ -114,17 +114,9 @@ namespace Twee2Z.CodeGen
 
                         _symbolTable.AddSymbol(name);
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
-                        //instructions.Add(new Store(new ZGlobalVariable(0), value));
-                        //instructions.Add(new Push((short)41));
-                        //instructions.Add(new Load(new ZGlobalVariable(0), new ZLocalVariable(1)));
                     }
                 }
             }
-
-            // TEST
-            //instructions.Add(new Je(_symbolTable.GetSymbol("$variable"), (short)42, new ZBranchLabel("quit" + passage.Name) { BranchOn = false }));
-            //instructions.Add(new Je(new ZGlobalVariable(0), (short)42, new ZBranchLabel("quit" + passage.Name) { BranchOn = false }));
-            //instructions.Add(new Print("42!"));
 
             if (currentLink > 0)
             {
@@ -145,7 +137,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Print("Unbekannte Eingabe!"));
                 instructions.Add(new NewLine());
                 instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
-                instructions.Add(new Quit() { Label = new ZLabel("quit" + passage.Name) });
+                instructions.Add(new Quit());
 
                 for (int i = 0; i < links.Count(); i++)
                 {
@@ -154,10 +146,10 @@ namespace Twee2Z.CodeGen
             }
             else
             {
-                instructions.Add(new Quit() { Label = new ZLabel("quit" + passage.Name) });
+                instructions.Add(new Quit());
             }
             
-            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
+            return new ZRoutine(instructions, 2) { Label = new ZRoutineLabel(passage.Name) };
         }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)

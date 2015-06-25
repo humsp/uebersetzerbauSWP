@@ -6,24 +6,39 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree 
 {
-	class PassageFunction : PassageContent
+	public class PassageFunction : PassageContent
 	{
 
 		private string _functionName;
 		private string _paramList ;
 
+		/*
+		public PassageFunction()
+			: base(ContentType.FunctionContent)
+		{
+			_functionName = null;
+			_paramList = null;
+		 	
+		}
+
+*/
+
+		public PassageFunction(string functionName)
+			: base(ContentType.FunctionContent)
+		{
+			_functionName = functionName;
 
 
+
+		}
 
 		public PassageFunction(string functionName, string paramList)
 			: base(ContentType.FunctionContent)
 		{
 			_functionName = functionName;
 			_paramList = paramList;
-		 	
+
 		}
-
-
 
 		public string Function
 		{

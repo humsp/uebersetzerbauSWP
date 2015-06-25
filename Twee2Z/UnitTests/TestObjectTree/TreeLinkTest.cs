@@ -20,99 +20,71 @@ namespace UnitTests.TestObjectTree
         [Test]
         public void TestTreePassageLink()
         {
-
             Tree tree = TreeBuilder.createTree(_passageLinkPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(4, tree.Passages.Count);
 
             // 1 Passage
             Passage startPassage = tree.StartPassage;
-            Assert.AreEqual(28, startPassage.PassageContentList.Count);
-            String _passageText = "";  //Text Position 0-26
-            for (int i = 0; i < 26; i++)
-            {
-                _passageText = _passageText + startPassage.PassageContentList[i].PassageText.Text;
-            }
+            Assert.AreEqual(3, startPassage.PassageContentList.Count);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it\r\n",
-                _passageText);
-            //Link Position 26
-            PassageLink startPassageLink = startPassage.PassageContentList[26].PassageLink;
+                startPassage.PassageContentList[0].PassageText.Text);
+
+            PassageLink startPassageLink = startPassage.PassageContentList[1].PassageLink;
             Assert.AreEqual("HIERTEXT", startPassageLink.DisplayText);
             Assert.AreEqual("myPassage", startPassageLink.Target);
             Assert.AreEqual(tree.Passages["myPassage"], startPassageLink.TargetPassage);
             Assert.AreEqual(null, startPassageLink.Expression);
-            Assert.AreEqual("\r\n", startPassage.PassageContentList[27].PassageText.Text);
+            Assert.AreEqual("\r\n", startPassage.PassageContentList[2].PassageText.Text);
 
             // 2 Passage
-            Passage sndPassage = tree.StoryTitle;
-            _passageText = "";//Text Position 0-37
-            for (int i = 0; i < 38; i++)
-            {
-                _passageText = _passageText + sndPassage.PassageContentList[i].PassageText.Text;
-            }
-            Assert.AreEqual(38, sndPassage.PassageContentList.Count);
+            Passage sndPassage = tree.Passages["StoryTitle"];
+            Assert.AreEqual(1, sndPassage.PassageContentList.Count);
             Assert.AreEqual("Your story wil::l di[s]]play this passage first Edit it by double clicking it\r\nUntitled Story\r\n",
-                _passageText);
+                sndPassage.PassageContentList[0].PassageText.Text);
 
 
             // 3 Passage
             Passage thirdPassage = tree.Passages["myPassage"];
-            Assert.AreEqual(8, thirdPassage.PassageContentList.Count);
-            _passageText = "";//Text Position 0-5
-            for (int i = 0; i < 6; i++)
-            {
-                _passageText = _passageText + thirdPassage.PassageContentList[i].PassageText.Text;
-            }
-            Assert.AreEqual("you are done\r\n", _passageText);
+            Assert.AreEqual(3, thirdPassage.PassageContentList.Count);
+            Assert.AreEqual("you are done\r\n", thirdPassage.PassageContentList[0].PassageText.Text);
 
-            PassageLink thirdPassageLink = thirdPassage.PassageContentList[6].PassageLink;
+            PassageLink thirdPassageLink = thirdPassage.PassageContentList[1].PassageLink;
             Assert.AreEqual("start", thirdPassageLink.Target);
             Assert.AreEqual(startPassage, thirdPassageLink.TargetPassage);
             Assert.AreEqual(null, thirdPassageLink.Expression);
             Assert.AreEqual(null, thirdPassageLink.DisplayText);
-            Assert.AreEqual("\r\n", thirdPassage.PassageContentList[7].PassageText.Text);
+            Assert.AreEqual("\r\n", thirdPassage.PassageContentList[2].PassageText.Text);
 
             // 4 Passage
-            Passage fourthPassage = tree.StoryAuthor;
-            Assert.AreEqual(4, fourthPassage.PassageContentList.Count);
-            _passageText = "";//Text Position 0-3
-            for (int i = 0; i < 4; i++)
-            {
-                _passageText = _passageText + fourthPassage.PassageContentList[i].PassageText.Text;
-            }
-            Assert.AreEqual("Anonymous x\r\n", _passageText);
+            Passage fourthPassage = tree.Passages["StoryAuthor"];
+            Assert.AreEqual(1, fourthPassage.PassageContentList.Count);
+            Assert.AreEqual("Anonymous x\r\n", fourthPassage.PassageContentList[0].PassageText.Text);
         }
 
         [Test]
         public void TestTreePassageLinkValidation()
         {
             Tree tree = TreeBuilder.createTree(_passageLinkValidationPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
-            Assert.AreEqual(2, tree.Passages.Count);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
+            Assert.AreEqual(3, tree.Passages.Count);
 
             // 1 Passage
             Passage startPassage = tree.StartPassage;
-            Assert.AreEqual(27, startPassage.PassageContentList.Count);
-            String _passageText = "";  //Text Position 0-26
-            for (int i = 0; i < 24; i++)
-            {
-                _passageText = _passageText + startPassage.PassageContentList[i].PassageText.Text;
-            }
+            Assert.AreEqual(3, startPassage.PassageContentList.Count);
             Assert.AreEqual("Your story wilplay this passage first Edit it by double clicking it\r\n",
-                _passageText);
+                startPassage.PassageContentList[0].PassageText.Text);
 
-            PassageLink startPassageLink = startPassage.PassageContentList[24].PassageLink;
+            PassageLink startPassageLink = startPassage.PassageContentList[1].PassageLink;
             Assert.IsNull(startPassageLink);
-            Assert.AreEqual("\r\n", startPassage.PassageContentList[25].PassageText.Text);
-            Assert.AreEqual("\r\n", startPassage.PassageContentList[26].PassageText.Text);
+            Assert.AreEqual("HIERTEXT", startPassage.PassageContentList[1].PassageText.Text);
+            Assert.AreEqual("\r\n\r\n", startPassage.PassageContentList[2].PassageText.Text);
 
             // 2 Passage
             Passage fourthPassage = tree.Passages["StoryAuthor"];
-            Assert.AreEqual(4, fourthPassage.PassageContentList.Count);
-            Assert.AreEqual("Anonymous", fourthPassage.PassageContentList[0].PassageText.Text);
-            Assert.AreEqual(" ", fourthPassage.PassageContentList[1].PassageText.Text);
-            Assert.AreEqual("x", fourthPassage.PassageContentList[2].PassageText.Text);
-            Assert.AreEqual("\r\n", fourthPassage.PassageContentList[3].PassageText.Text);
+            Assert.AreEqual(2, fourthPassage.PassageContentList.Count);
+            Assert.AreEqual("Anonymous ", fourthPassage.PassageContentList[0].PassageText.Text);
+            Assert.AreEqual("x\r\n", fourthPassage.PassageContentList[1].PassageText.Text);
 
         }
     }

@@ -17,33 +17,57 @@ namespace Twee2Z.ObjectTree
             _tree = tree;
         }
 
-        public void ValidateTree()
+        public bool ValidateTree()
         {
             Logger.LogValidation("Validate Tree");
-            validateLinks();
+            return validateStartPassage() && 
+                validateStoryTitle() &&
+                validateStoryAuthor() &&
+                validateLinks();
         }
 
-        private void validateLinks()
+        private bool validateStartPassage()
+        {
+            if (_tree.StartPassage == null)
+            {
+                Logger.LogError("There ist no passage called 'Start'");
+                return false;
+            }
+            return true;
+        }
+
+        private bool validateStoryTitle()
+        {
+            if (_tree.StoryTitle == null)
+            {
+                Logger.LogWarning("No story title passage found");
+                Passage storyTitle = new Passage("StoryTitle");
+                storyTitle.AddPassageContent(new PassageText("Unknown title"));
+                _tree.AddPassage(storyTitle);
+            }
+            return true;
+        }
+
+        private bool validateStoryAuthor()
+        {
+            if (_tree.StoryAuthor == null)
+            {
+                Logger.LogWarning("No story author passage found");
+                Passage storyTitle = new Passage("StoryAuthor");
+                storyTitle.AddPassageContent(new PassageText("Unknown author"));
+                _tree.AddPassage(storyTitle);
+            }
+            return true;
+        }
+
+        private bool validateLinks()
         {
             Logger.LogValidation("Validate links:");
             Dictionary<string, Passage> _allPassages = _tree.Passages;
-            if (_tree.StartPassage != null)
-            {
-                _allPassages.Add("start", _tree.StartPassage);
-            }
-                        if (_tree.StoryTitle != null)
-            {
-                _allPassages.Add("StoryTitle", _tree.StoryTitle);
-            }
-                        if (_tree.StoryAuthor != null)
-            {
-                _allPassages.Add("StoryAuthor", _tree.StoryAuthor);
-            }
 
-
-            foreach (Passage passage in _allPassages.Values)//_tree.Passages.Values)
+            foreach (Passage passage in _allPassages.Values)
             {
-                for (int i = 0; i < passage.PassageContentList.Count; i++ )
+                for (int i = 0; i < passage.PassageContentList.Count; i++)
                 {
                     PassageContent content = passage.PassageContentList[i];
 
@@ -58,7 +82,7 @@ namespace Twee2Z.ObjectTree
                         else
                         {
                             Logger.LogWarning("Ignore Link to: " + link.Target);
-                            if(link.DisplayText != null)
+                            if (link.DisplayText != null)
                             {
                                 passage.PassageContentList[i] = new PassageText(link.DisplayText);
                             }
@@ -71,6 +95,7 @@ namespace Twee2Z.ObjectTree
                     }
                 }
             }
+            return true;
         }
     }
 }

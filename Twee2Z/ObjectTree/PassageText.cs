@@ -24,5 +24,10 @@ namespace Twee2Z.ObjectTree
                 return _text;
             }
         }
+
+        public void MergePassageText(PassageText passageText)
+        {
+            _text += passageText.Text;
+        }
     }
 }

@@ -16,8 +16,7 @@ namespace Twee2Z.ObjectTree
 		public Passage(String name)
         {
             _name = name;
-        }
-    
+        }    
         public void AddPassageContent(PassageContent passageContent)
         {
             int count = _passageContentList.Count;

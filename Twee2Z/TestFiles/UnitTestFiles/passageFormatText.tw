@@ -1,5 +1,5 @@
 :: Start
-Your story __will display__ this passage
+Your story //will display// this passage
 
 :: StoryTitle
 Your story wil::l di[s]]play this passage first Edit it by double clicking it
@@ -8,7 +8,7 @@ Untitled Story
 
 :: myPassage 
 you are done
-[[start]]
+[[Start]]
 
 :: StoryAuthor
 Anonymous x

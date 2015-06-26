@@ -17,9 +17,9 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual(4, tree.Passages.Count);
 
             Assert.AreEqual(3, tree.StartPassage.PassageContentList.Count);
-            Assert.IsFalse(tree.StartPassage.PassageContentList[0].ContentFormat.Underline);
-            Assert.IsTrue(tree.StartPassage.PassageContentList[1].ContentFormat.Underline);
-            Assert.IsFalse(tree.StartPassage.PassageContentList[2].ContentFormat.Underline);
+            Assert.IsFalse(tree.StartPassage.PassageContentList[0].ContentFormat.Italic);
+            Assert.IsTrue(tree.StartPassage.PassageContentList[1].ContentFormat.Italic);
+            Assert.IsFalse(tree.StartPassage.PassageContentList[2].ContentFormat.Italic);
         }
     }
 }

@@ -45,35 +45,18 @@ namespace Twee2Z.Analyzer
                 if (tagString.Length != 0)
                 {
                     tagString = tagString.Substring(1, tagString.Length - 2);
-                    tags = tagString.Replace("  ", " ").Split(' ');
+                    tags = tagString.Split(' ');
                     for (int i = 0; i < tags.Length; i++)
                     {
-                        _builder.CurrentPassage.AddTag(tags[i]);
-                        Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
-                    }
-                }
-            }
-
-            /*
-            for (int i = 0; i < context.ChildCount; i++)
-            {
-                if (context.GetChild(i).GetText().Contains('['))
-                {
-                    if (!(context.GetChild(2).GetText().Contains('\n')))
-                    {
-                        tags = new string[context.GetChild(2).GetText().Split(' ').Length];
-                        tags = context.GetChild(2).GetText().Split(' ');
-                        for (int j = 0; j < tags.Length; j++)
+                        tags[i].Trim();
+                        if (!tags[i].Equals(""))
                         {
-                            tags[j] = tags[j].Replace("[", "").Replace("]", "");
-                            if (!tags[j].Equals(""))
-                            {
-                                Logger.LogAnalyzer("[PassageTag] = " + tags[j]);
-                            }
+                            _builder.CurrentPassage.AddTag(tags[i]);
+                            Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
                         }
                     }
                 }
-            }*/
+            }
             return base.VisitPassage(context);
         }
 

@@ -82,15 +82,13 @@ namespace Twee2Z.ObjectTree
                         else
                         {
                             Logger.LogWarning("Ignore Link to: " + link.Target);
-                            if (link.DisplayText != null)
-                            {
-                                passage.PassageContentList[i] = new PassageText(link.DisplayText);
-                            }
-                            else
-                            {
-                                passage.PassageContentList.RemoveAt(i);
-                                i--;
-                            }
+
+                            string name = link.DisplayText != null ? link.DisplayText : link.Target;
+
+                            PassageText passageText = new PassageText(name);
+                            passageText.ContentFormat = passage.PassageContentList[i].ContentFormat;
+
+                            passage.PassageContentList[i] = passageText;
                         }
                     }
                 }

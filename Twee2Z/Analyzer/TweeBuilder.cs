@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
+using Twee2Z.ObjectTree.PassageContents;
+using Twee2Z.ObjectTree.PassageContents.Macro;
 
 namespace Twee2Z.Analyzer
 {

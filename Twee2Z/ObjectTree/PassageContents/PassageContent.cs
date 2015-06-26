@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.Utils;
+using Twee2Z.ObjectTree.PassageContents.Macro;
 
-namespace Twee2Z.ObjectTree
+namespace Twee2Z.ObjectTree.PassageContents
 {
     public class PassageContent
     {
@@ -30,7 +31,7 @@ namespace Twee2Z.ObjectTree
 
         public PassageContent(ContentType type)
         {
-            Type = type;
+            _type = type;
         }
 
         public PassageLink PassageLink
@@ -98,10 +99,6 @@ namespace Twee2Z.ObjectTree
             get
             {
                 return _type;
-            }
-            set
-            {
-                _type = value;
             }
         }
     }

@@ -39,17 +39,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PassageContentFormat.cs" />
-    <Compile Include="PassageMacro.cs" />
-    <Compile Include="PassageFunction.cs" />
-    <Compile Include="PassageVariable.cs" />
+    <Compile Include="Expr\Expression.cs" />
+    <Compile Include="PassageContents\Macro\PassageMacroDisplay.cs" />
+    <Compile Include="PassageContents\Macro\PassageMacroIfElse.cs" />
+    <Compile Include="PassageContents\Macro\PassageMacroSet.cs" />
+    <Compile Include="PassageContents\PassageContentFormat.cs" />
+    <Compile Include="PassageContents\Macro\PassageMacro.cs" />
+    <Compile Include="PassageContents\PassageFunction.cs" />
+    <Compile Include="PassageContents\PassageVariable.cs" />
     <Compile Include="TreeValidator.cs" />
-    <Compile Include="PassageLink.cs" />
+    <Compile Include="PassageContents\PassageLink.cs" />
     <Compile Include="Passage.cs" />
-    <Compile Include="PassageContent.cs" />
+    <Compile Include="PassageContents\PassageContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />
-    <Compile Include="PassageText.cs" />
+    <Compile Include="PassageContents\PassageText.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utils.csproj">

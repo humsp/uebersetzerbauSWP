@@ -146,8 +146,8 @@ namespace Twee2Z.Console
                     PrintHelp();
                     break;
             }
-            //Logger.LogUserOutput("Press any key to contiune");
-            //System.Console.ReadKey(true);
+            Logger.LogUserOutput("Press any key to contiune");
+            System.Console.ReadKey(true);
         }
 
 

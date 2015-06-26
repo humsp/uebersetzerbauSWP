@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
 using System.Collections;
+using Twee2Z.ObjectTree.PassageContents;
+using Twee2Z.ObjectTree.PassageContents.Macro;
 
 namespace Twee2Z.Analyzer
 {
@@ -259,14 +261,14 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitMacro(Twee.MacroContext context)
         {
-            String Macro = context.GetText();
+            String macro = context.GetText();
             ArrayList list = new ArrayList();
             for (int i = 0; i < context.ChildCount; i++)
             {
                 RecChildCont(list, context.GetChild(i));
             }
-            _builder.AddPassageContent(new PassageMacro(Macro, list));
-            Logger.LogAnalyzer("Macro: " + Macro);
+            //_builder.AddPassageContent(new PassageMacro(macro, list));
+            Logger.LogAnalyzer("Macro: " + macro);
             return base.VisitMacro(context);
         }
 

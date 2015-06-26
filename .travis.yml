@@ -1,4 +1,4 @@
-sudo: required
+﻿sudo: required
 
 language: csharp
 
@@ -13,14 +13,12 @@ install:
 
 script:
   - xbuild /p:Configuration=Release /v:m /p:restorepackages=false Twee2Z/Twee2Z.sln
-# disable tests
-#  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./Twee2Z/UnitTests/bin/Release/UnitTests.dll
   
 notifications:
  email:
-    - r.kloth@fu-berlin.de
-    - david.sungaila@fu-berlin.de
-	- bo3el.fa7m@hotmail.com
-	- taraka.ma@gmail.com
-	- majd.hasan@hotmail.com
+   - r.kloth@fu-berlin.de
+   - david.sungaila@fu-berlin.de
+   - bo3el.fa7m@hotmail.com
+   - taraka.ma@gmail.com
+   - majd.hasan@hotmail.com
 

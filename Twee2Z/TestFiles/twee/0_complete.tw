@@ -1,6 +1,7 @@
-:: start
+:: Start
 Your story will if display this passage first Edit it by double clicking it
 :: p1   hallo
+blablabla
 ::: plinks
 [[Link]]
 [[Text|Link]]
@@ -12,7 +13,7 @@ Your story will if display this passage first Edit it by double clicking it
 <<if 5eq5>> Text <<else>> Text <<endif>>
 <<if 5eq5>> Text <<else if 5eq5>> Text <<endif>>
 
-:: pvariable[t1  t2 t3 t4]
+:: pvariable[t1  t2 t3 t4]as
 asdsdassdd
 $housesDestroyed
 $_my_favorite_color
@@ -29,5 +30,6 @@ confirm()
 prompt()
 either()
 random($p)
-:: p6 [  .  t2 t3   ] blub blub
+:: p6 [  .  t2 t3   ] bluub bluub
+
 :: p7 [  . _ 1 hallo  ]

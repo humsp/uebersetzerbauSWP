@@ -24,9 +24,9 @@ namespace Twee2Z.Analyzer
             get { return _tree; }
         }
 
-        public Passage CurrentPassage
+        public void AddTag(string tag)
         {
-            get { return _currentPassage; }
+            _currentPassage.AddTag(tag);
         }
 
         public void AddPassage(Passage passage)

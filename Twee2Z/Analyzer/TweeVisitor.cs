@@ -51,8 +51,8 @@ namespace Twee2Z.Analyzer
                         tags[i].Trim();
                         if (!tags[i].Equals(""))
                         {
-                            _builder.CurrentPassage.AddTag(tags[i]);
                             Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
+                            _builder.AddTag(tags[i]);
                         }
                     }
                 }
@@ -93,7 +93,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, false));
+                _builder.AddPassageContent(new PassageLink(Ziel, Text, false));
             }
 
             // case: [[target][expression]]
@@ -107,7 +107,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Expression, true));
+                _builder.AddPassageContent(new PassageLink(Ziel, Expression, true));
             }
 
             // case: [[text|target][expression]]
@@ -123,7 +123,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, Expression));
+                _builder.AddPassageContent(new PassageLink(Ziel, Text, Expression));
             }
 
             // case: [[target]]
@@ -131,7 +131,7 @@ namespace Twee2Z.Analyzer
             {
                 Ziel = context.GetChild(1).GetText();
                 Logger.LogAnalyzer("Ziel: " + Ziel);
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel));
+                _builder.AddPassageContent(new PassageLink(Ziel));
             }
             return base.VisitLink(context);
         }

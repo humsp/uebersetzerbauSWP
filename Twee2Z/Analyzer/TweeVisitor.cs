@@ -51,12 +51,12 @@ namespace Twee2Z.Analyzer
                         tags[i].Trim();
                         if (!tags[i].Equals(""))
                         {
-                        _builder.CurrentPassage.AddTag(tags[i]);
-                        Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
+                            _builder.CurrentPassage.AddTag(tags[i]);
+                            Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
+                        }
                     }
                 }
             }
-                }
             return base.VisitPassage(context);
         }
 

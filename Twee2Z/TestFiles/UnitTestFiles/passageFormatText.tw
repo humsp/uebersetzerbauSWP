@@ -1,9 +1,9 @@
-:: Start [a b      		c]
-Your story will display this passage first Edit it by double clicking it
-[[HIERTEXT|myPassage]]
+:: Start
+Your story __will display__ this passage
 
 :: StoryTitle
 Your story wil::l di[s]]play this passage first Edit it by double clicking it
+[[HIERTEXT|myPassage]]
 Untitled Story
 
 :: myPassage 

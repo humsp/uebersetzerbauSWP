@@ -45,9 +45,13 @@ namespace Twee2Z.Analyzer
                 if (tagString.Length != 0)
                 {
                     tagString = tagString.Substring(1, tagString.Length - 2);
-                    tags = tagString.Replace("  ", " ").Split(' ');
+                    tags = tagString.Replace("\t", " ").Split(' ');
                     for (int i = 0; i < tags.Length; i++)
                     {
+                        if (tags[i] == "")
+                        {
+                            continue;
+                        }
                         _builder.CurrentPassage.AddTag(tags[i]);
                         Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
                     }

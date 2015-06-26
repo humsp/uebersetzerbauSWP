@@ -113,7 +113,7 @@ namespace Twee2Z.CodeGen
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
                 {
-                    PassageMacro macro = (PassageMacro)content;
+                    PassageMacro macro = content.PassageMacro;
 
                     if (macro.MacroElements[1].ToString() == "set")
                     {

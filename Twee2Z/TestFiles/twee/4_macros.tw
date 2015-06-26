@@ -1,4 +1,4 @@
-:: start
+:: Start
 hallo welt
 <<display "hallo">>
 <<if 5 eq 5>> TextA

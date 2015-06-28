@@ -12,7 +12,7 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
         private Expression _expression;
 
         public PassageMacroSet(Expression expression)
-            : base(PassageMarcroType.Set)
+            : base(PassageMarcroType.SetMacro)
         {
             _expression = expression;
         }

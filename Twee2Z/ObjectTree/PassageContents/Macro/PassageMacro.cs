@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 
 namespace Twee2Z.ObjectTree.PassageContents.Macro
 {
@@ -12,9 +13,9 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
 
         public enum PassageMarcroType
         {
-            Set,
-            Display,
-            IfElse
+            SetMacro,
+            DisplayMacro,
+            BranchMacro
         };
 
         private PassageMarcroType _macroType;
@@ -62,13 +63,13 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
             get { return _macroType; }
         }
 
-        public PassageMacroIfElse PassageMacroIf
+        public PassageMacroBranch PassageMacroBranch
         {
             get
             {
-                if (_macroType == PassageMarcroType.IfElse)
+                if (_macroType == PassageMarcroType.BranchMacro)
                 {
-                    return (PassageMacroIfElse)this;
+                    return (PassageMacroBranch)this;
                 }
                 return null;
             }
@@ -78,7 +79,7 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
         {
             get
             {
-                if (_macroType == PassageMarcroType.Display)
+                if (_macroType == PassageMarcroType.DisplayMacro)
                 {
                     return (PassageMacroDisplay)this;
                 }
@@ -90,7 +91,7 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
         {
             get
             {
-                if (_macroType == PassageMarcroType.Set)
+                if (_macroType == PassageMarcroType.SetMacro)
                 {
                     return (PassageMacroSet)this;
                 }

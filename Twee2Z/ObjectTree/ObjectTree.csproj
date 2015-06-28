@@ -40,8 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expr\Expression.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroBranchNode.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroIfElse.cs" />
     <Compile Include="PassageContents\Macro\PassageMacroDisplay.cs" />
-    <Compile Include="PassageContents\Macro\PassageMacroIfElse.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroElse.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroIf.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroBranch.cs" />
     <Compile Include="PassageContents\Macro\PassageMacroSet.cs" />
     <Compile Include="PassageContents\PassageContentFormat.cs" />
     <Compile Include="PassageContents\Macro\PassageMacro.cs" />

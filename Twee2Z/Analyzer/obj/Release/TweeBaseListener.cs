@@ -112,6 +112,71 @@ public partial class TweeBaseListener : ITweeListener {
 	public virtual void ExitMacro([NotNull] Twee.MacroContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMacroBranchIf([NotNull] Twee.MacroBranchIfContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMacroBranchIf([NotNull] Twee.MacroBranchIfContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMacroBranchElse([NotNull] Twee.MacroBranchElseContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMacroBranchElse([NotNull] Twee.MacroBranchElseContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMacroBranchPop([NotNull] Twee.MacroBranchPopContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMacroBranchPop([NotNull] Twee.MacroBranchPopContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterExpression([NotNull] Twee.ExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.expression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitExpression([NotNull] Twee.ExpressionContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="Twee.function"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

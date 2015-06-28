@@ -127,6 +127,10 @@ namespace Twee2Z.CodeGen
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
                     }*/
                 }
+                else if (content.Type == PassageContent.ContentType.BranchContent)
+                {
+                   
+                }
 
                 else
                 {

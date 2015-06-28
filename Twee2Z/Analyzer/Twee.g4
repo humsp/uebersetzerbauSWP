@@ -29,14 +29,38 @@ link
 	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) ((SQ_BRACKET_CLOSE SQ_BRACKET_OPEN EXPRESSION EXP_END_L)|LINK_END)
 	;
 
+
+/* macro */
+
 macro
 	: MACRO_START (DISPLAY|SET|PRINT) EXPRESSION EXP_END_M
 	| MACRO_START  (ACTIONS text | CHOICE link?) MACRO_END 
-	| MACRO_START IF EXPRESSION EXP_END_M passageContent (MACRO_START ELSE_IF EXPRESSION EXP_END_M passageContent)? (MACRO_START ELSE MACRO_END passageContent)? MACRO_START ENDIF MACRO_END
+	| macroBranchIf macroBranchIfElse* macroBranchElse? macroBranchPop
 	| MACRO_START NOBR MACRO_END passageContent MACRO_START ENDNOBR MACRO_END
 	| MACRO_START SILENTLY MACRO_END passageContent MACRO_START ENDSILENTLY MACRO_END 
 	;
 	
+macroBranchIf
+	: MACRO_START IF expression EXP_END_M passageContent
+	;
+
+macroBranchIfElse
+	: MACRO_START ELSE_IF expression EXP_END_M passageContent
+	;
+
+macroBranchElse
+	: MACRO_START ELSE MACRO_END passageContent
+	;
+
+macroBranchPop
+	: MACRO_START ENDIF MACRO_END
+	;
+
+expression
+	: EXPRESSION
+	;
+
+
 function
 	: (FUNC_START FUNC_BRACKET_OPEN (EXPRESSION|EXPRESSION FUNC_PARAM+)? EXP_END)
 	;
@@ -46,7 +70,7 @@ variable
 	;
 
 zeichenkette
-	:WORD+
+	: WORD+
 	;
 
 text

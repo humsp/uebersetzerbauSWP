@@ -7,15 +7,16 @@ using System.Diagnostics;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
 using System.Collections;
+using Twee2Z.ObjectTree.Expr;
 using Twee2Z.ObjectTree.PassageContents;
 using Twee2Z.ObjectTree.PassageContents.Macro;
+using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 
 namespace Twee2Z.Analyzer
 {
     class TweeVisitor : TweeBaseVisitor<object>
     {
         private TweeBuilder _builder;
-        private static int _macroTextCount = 0;
 
         public Tree Tree
         {
@@ -190,15 +191,8 @@ namespace Twee2Z.Analyzer
                             _builder.CurrentFormat.Comment = false;
                             break;
                         default:
-                            if (_macroTextCount == 0)
-                            {
-                                Logger.LogAnalyzer("Text: " + Text);
-                                _builder.AddPassageContent(new PassageText(Text));
-                            }
-                            else
-                            {
-                                _macroTextCount--;
-                            }
+                            Logger.LogAnalyzer("Text: " + Text);
+                            _builder.AddPassageContent(new PassageText(Text));
                             break;
                     }
                 }
@@ -262,35 +256,44 @@ namespace Twee2Z.Analyzer
         public override object VisitMacro(Twee.MacroContext context)
         {
             String macro = context.GetText();
-            ArrayList list = new ArrayList();
-            for (int i = 0; i < context.ChildCount; i++)
-            {
-                RecChildCont(list, context.GetChild(i));
-            }
-            //_builder.AddPassageContent(new PassageMacro(macro, list));
             Logger.LogAnalyzer("Macro: " + macro);
+
+           // if(set /display) //TODO
             return base.VisitMacro(context);
         }
 
-        public void RecChildCont(ArrayList list, Antlr4.Runtime.Tree.IParseTree child)
+        public override object VisitMacroBranchIf(Twee.MacroBranchIfContext context)
         {
-            if (child.ChildCount > 0 && !child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
-            {
-                for (int i = 0; i < child.ChildCount; i++)
-                {
-                    RecChildCont(list, child.GetChild(i));
-                }
-            }
-            else
-            {
-                if (child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
-                {
-                    _macroTextCount++;
-                }
-                list.Add(child.GetText().Trim());
-            }
+            _builder.AddPassageContent(new PassageMacroBranch());
+
+            Twee.ExpressionContext cont = context.GetChild<Twee.ExpressionContext>(0);
+            _builder.AddPassageContent(new PassageMacroIf(new Expression(cont.GetText())));
+            return base.VisitMacroBranchIf(context);
+        }
+
+        public override object VisitMacroBranchIfElse(Twee.MacroBranchIfElseContext context)
+        {
+            Twee.ExpressionContext cont = context.GetChild<Twee.ExpressionContext>(0);
+            _builder.AddPassageContent(new PassageMacroElseIf(new Expression(cont.GetText())));
+            return base.VisitMacroBranchIfElse(context);
+        }
+
+        public override object VisitMacroBranchElse(Twee.MacroBranchElseContext context)
+        {
+            _builder.AddPassageContent(new PassageMacroElse());
+            return base.VisitMacroBranchElse(context);
         }
 
 
+        public override object VisitMacroBranchPop(Twee.MacroBranchPopContext context)
+        {
+            _builder.FinishBranch();
+            return base.VisitMacroBranchPop(context);
+        }
+
+        public override object VisitExpression(Twee.ExpressionContext context)
+        {
+            return base.VisitExpression(context);
+        }
     }
 }

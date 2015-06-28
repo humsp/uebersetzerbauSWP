@@ -13,7 +13,7 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
 
 
         public PassageMacroDisplay(string target)
-            : base(PassageMarcroType.Display)
+            : base(PassageMarcroType.DisplayMacro)
         {
             _target = target;
         }

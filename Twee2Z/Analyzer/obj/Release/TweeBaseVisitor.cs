@@ -99,6 +99,61 @@ public partial class TweeBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	public virtual Result VisitMacro([NotNull] Twee.MacroContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMacroBranchIf([NotNull] Twee.MacroBranchIfContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMacroBranchElse([NotNull] Twee.MacroBranchElseContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitMacroBranchPop([NotNull] Twee.MacroBranchPopContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.expression"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitExpression([NotNull] Twee.ExpressionContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="Twee.function"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>

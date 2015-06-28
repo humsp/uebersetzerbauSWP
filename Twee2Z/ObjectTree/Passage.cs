@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.Utils;
+using Twee2Z.ObjectTree.PassageContents;
 
 namespace Twee2Z.ObjectTree
 {
@@ -19,7 +20,6 @@ namespace Twee2Z.ObjectTree
         }    
         public void AddPassageContent(PassageContent passageContent)
         {
-            int count = _passageContentList.Count;
             _passageContentList.Add(passageContent);
         }
 

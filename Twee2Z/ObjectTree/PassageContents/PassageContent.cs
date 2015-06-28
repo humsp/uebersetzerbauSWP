@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.Utils;
+using Twee2Z.ObjectTree.PassageContents.Macro;
+using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 
-namespace Twee2Z.ObjectTree
+namespace Twee2Z.ObjectTree.PassageContents
 {
     public class PassageContent
     {
@@ -13,7 +15,14 @@ namespace Twee2Z.ObjectTree
 
         public PassageContentFormat ContentFormat
         {
-            get { return _contentFormat; }
+            get
+            {
+                if (_contentFormat == null)
+                {
+                    _contentFormat = new PassageContentFormat();
+                }
+                return _contentFormat;
+            }
             set { _contentFormat = value; }
         }
 
@@ -23,14 +32,15 @@ namespace Twee2Z.ObjectTree
             LinkContent,
             VariableContent,
             FunctionContent,
-            MacroContent
+            MacroContent,
+            BranchContent
         };
 
         private ContentType _type;
 
         public PassageContent(ContentType type)
         {
-            Type = type;
+            _type = type;
         }
 
         public PassageLink PassageLink
@@ -93,15 +103,23 @@ namespace Twee2Z.ObjectTree
             }
         }
 
+        public PassageMacroBranchNode PassageBranch
+        {
+            get
+            {
+                if (_type == ContentType.BranchContent)
+                {
+                    return (PassageMacroBranchNode)this;
+                }
+                return null;
+            }
+        }
+
         public ContentType Type
         {
             get
             {
                 return _type;
-            }
-            set
-            {
-                _type = value;
             }
         }
     }

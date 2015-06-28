@@ -96,6 +96,61 @@ public interface ITweeListener : IParseTreeListener {
 	void ExitMacro([NotNull] Twee.MacroContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacroBranchIf([NotNull] Twee.MacroBranchIfContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacroBranchIf([NotNull] Twee.MacroBranchIfContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacroBranchElse([NotNull] Twee.MacroBranchElseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacroBranchElse([NotNull] Twee.MacroBranchElseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMacroBranchPop([NotNull] Twee.MacroBranchPopContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMacroBranchPop([NotNull] Twee.MacroBranchPopContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Twee.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExpression([NotNull] Twee.ExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Twee.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExpression([NotNull] Twee.ExpressionContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="Twee.function"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

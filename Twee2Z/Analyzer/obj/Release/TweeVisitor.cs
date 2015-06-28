@@ -73,6 +73,41 @@ public interface ITweeVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitMacro([NotNull] Twee.MacroContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchIf"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacroBranchIf([NotNull] Twee.MacroBranchIfContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchIfElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacroBranchIfElse([NotNull] Twee.MacroBranchIfElseContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacroBranchElse([NotNull] Twee.MacroBranchElseContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.macroBranchPop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMacroBranchPop([NotNull] Twee.MacroBranchPopContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Twee.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExpression([NotNull] Twee.ExpressionContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="Twee.function"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

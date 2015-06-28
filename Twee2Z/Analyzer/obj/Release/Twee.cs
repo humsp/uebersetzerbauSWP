@@ -41,11 +41,13 @@ public partial class Twee : Parser {
 		NEW_LINE=9, STRING=13;
 	public const int
 		RULE_start = 0, RULE_ignoreFirst = 1, RULE_passage = 2, RULE_passageContent = 3, 
-		RULE_link = 4, RULE_macro = 5, RULE_function = 6, RULE_variable = 7, RULE_zeichenkette = 8, 
-		RULE_text = 9;
+		RULE_link = 4, RULE_macro = 5, RULE_macroBranchIf = 6, RULE_macroBranchIfElse = 7, 
+		RULE_macroBranchElse = 8, RULE_macroBranchPop = 9, RULE_expression = 10, 
+		RULE_function = 11, RULE_variable = 12, RULE_zeichenkette = 13, RULE_text = 14;
 	public static readonly string[] ruleNames = {
 		"start", "ignoreFirst", "passage", "passageContent", "link", "macro", 
-		"function", "variable", "zeichenkette", "text"
+		"macroBranchIf", "macroBranchIfElse", "macroBranchElse", "macroBranchPop", 
+		"expression", "function", "variable", "zeichenkette", "text"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -154,17 +156,17 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 20; ignoreFirst();
-			State = 24;
+			State = 30; ignoreFirst();
+			State = 34;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			while (_la==PASS) {
 				{
 				{
-				State = 21; passage();
+				State = 31; passage();
 				}
 				}
-				State = 26;
+				State = 36;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
@@ -215,12 +217,12 @@ public partial class Twee : Parser {
 		EnterRule(_localctx, 2, RULE_ignoreFirst);
 		int _la;
 		try {
-			State = 30;
+			State = 40;
 			switch (_input.La(1)) {
 			case PASS:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 27; passage();
+				State = 37; passage();
 				}
 				break;
 			case INT:
@@ -281,13 +283,13 @@ public partial class Twee : Parser {
 			case LINK_END:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 28;
+				State = 38;
 				_la = _input.La(1);
 				if ( _la <= 0 || (_la==PASS) ) {
 				_errHandler.RecoverInline(this);
 				}
 				Consume();
-				State = 29; ignoreFirst();
+				State = 39; ignoreFirst();
 				}
 				break;
 			default:
@@ -344,23 +346,23 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 32; Match(PASS);
-			State = 33; Match(PMODEWORD);
-			State = 35;
+			State = 42; Match(PASS);
+			State = 43; Match(PMODEWORD);
+			State = 45;
 			switch ( Interpreter.AdaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				State = 34; Match(TAG);
+				State = 44; Match(TAG);
 				}
 				break;
 			}
-			State = 40;
+			State = 50;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << PASS) | (1L << MACRO_START) | (1L << LINK_START) | (1L << FUNC_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << STRING_START) | (1L << SPACE) | (1L << WORD) | (1L << STRING) | (1L << PMODEWORD) | (1L << TAG) | (1L << TAG_BEGIN) | (1L << TAG_END) | (1L << STRING_BODY) | (1L << STRING_END) | (1L << FUNC_NAME) | (1L << FUNC_BRACKET_OPEN) | (1L << FUNC_BRACKET_CLOSE) | (1L << IF) | (1L << ELSE_IF) | (1L << ELSE) | (1L << ENDIF) | (1L << NOBR) | (1L << ENDNOBR) | (1L << SILENTLY) | (1L << ENDSILENTLY) | (1L << ACTIONS) | (1L << CHOICE) | (1L << DISPLAY) | (1L << SET) | (1L << PRINT) | (1L << MACRO_BRACKET_OPEN) | (1L << MACRO_END) | (1L << EXPRESSION) | (1L << FUNC_PARAM) | (1L << MUL) | (1L << DIV) | (1L << ADD) | (1L << SUB) | (1L << LOG_OP) | (1L << MOD) | (1L << EQ_SIGN) | (1L << NOT) | (1L << EXP_END) | (1L << EXP_END_L) | (1L << EXP_END_M) | (1L << FUNC_LINK) | (1L << PIPE) | (1L << SQ_BRACKET_CLOSE) | (1L << SQ_BRACKET_OPEN) | (1L << WORDS) | (1L << LINK_END))) != 0)) {
 				{
 				{
-				State = 37;
+				State = 47;
 				_la = _input.La(1);
 				if ( _la <= 0 || (_la==PMODE_END) ) {
 				_errHandler.RecoverInline(this);
@@ -368,16 +370,16 @@ public partial class Twee : Parser {
 				Consume();
 				}
 				}
-				State = 42;
+				State = 52;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
-			State = 43; Match(PMODE_END);
-			State = 45;
+			State = 53; Match(PMODE_END);
+			State = 55;
 			_la = _input.La(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << MACRO_START) | (1L << LINK_START) | (1L << FUNC_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << SPACE) | (1L << WORD) | (1L << STRING))) != 0)) {
 				{
-				State = 44; passageContent();
+				State = 54; passageContent();
 				}
 			}
 
@@ -440,16 +442,16 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 52;
+			State = 62;
 			switch (_input.La(1)) {
 			case MACRO_START:
 				{
-				State = 47; macro();
+				State = 57; macro();
 				}
 				break;
 			case FUNC_START:
 				{
-				State = 48; function();
+				State = 58; function();
 				}
 				break;
 			case INT:
@@ -460,27 +462,27 @@ public partial class Twee : Parser {
 			case WORD:
 			case STRING:
 				{
-				State = 49; text();
+				State = 59; text();
 				}
 				break;
 			case VAR_NAME:
 				{
-				State = 50; variable();
+				State = 60; variable();
 				}
 				break;
 			case LINK_START:
 				{
-				State = 51; link();
+				State = 61; link();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 55;
+			State = 65;
 			switch ( Interpreter.AdaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				{
-				State = 54; passageContent();
+				State = 64; passageContent();
 				}
 				break;
 			}
@@ -538,37 +540,37 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 57; Match(LINK_START);
-			State = 60;
+			State = 67; Match(LINK_START);
+			State = 70;
 			switch ( Interpreter.AdaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				{
-				State = 58; Match(WORDS);
-				State = 59; Match(PIPE);
+				State = 68; Match(WORDS);
+				State = 69; Match(PIPE);
 				}
 				break;
 			}
-			State = 62;
+			State = 72;
 			_la = _input.La(1);
 			if ( !(_la==FUNC_LINK || _la==WORDS) ) {
 			_errHandler.RecoverInline(this);
 			}
 			Consume();
-			State = 68;
+			State = 78;
 			switch (_input.La(1)) {
 			case SQ_BRACKET_CLOSE:
 				{
 				{
-				State = 63; Match(SQ_BRACKET_CLOSE);
-				State = 64; Match(SQ_BRACKET_OPEN);
-				State = 65; Match(EXPRESSION);
-				State = 66; Match(EXP_END_L);
+				State = 73; Match(SQ_BRACKET_CLOSE);
+				State = 74; Match(SQ_BRACKET_OPEN);
+				State = 75; Match(EXPRESSION);
+				State = 76; Match(EXP_END_L);
 				}
 				}
 				break;
 			case LINK_END:
 				{
-				State = 67; Match(LINK_END);
+				State = 77; Match(LINK_END);
 				}
 				break;
 			default:
@@ -595,16 +597,27 @@ public partial class Twee : Parser {
 		public ITerminalNode NOBR() { return GetToken(Twee.NOBR, 0); }
 		public ITerminalNode PRINT() { return GetToken(Twee.PRINT, 0); }
 		public IReadOnlyList<ITerminalNode> MACRO_END() { return GetTokens(Twee.MACRO_END); }
-		public ITerminalNode EXPRESSION(int i) {
-			return GetToken(Twee.EXPRESSION, i);
+		public MacroBranchIfElseContext macroBranchIfElse(int i) {
+			return GetRuleContext<MacroBranchIfElseContext>(i);
+		}
+		public IReadOnlyList<MacroBranchIfElseContext> macroBranchIfElse() {
+			return GetRuleContexts<MacroBranchIfElseContext>();
 		}
 		public LinkContext link() {
 			return GetRuleContext<LinkContext>(0);
 		}
-		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
-		public IReadOnlyList<ITerminalNode> EXP_END_M() { return GetTokens(Twee.EXP_END_M); }
-		public IReadOnlyList<PassageContentContext> passageContent() {
-			return GetRuleContexts<PassageContentContext>();
+		public MacroBranchPopContext macroBranchPop() {
+			return GetRuleContext<MacroBranchPopContext>(0);
+		}
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public MacroBranchElseContext macroBranchElse() {
+			return GetRuleContext<MacroBranchElseContext>(0);
+		}
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
 		}
 		public ITerminalNode ACTIONS() { return GetToken(Twee.ACTIONS, 0); }
 		public ITerminalNode SILENTLY() { return GetToken(Twee.SILENTLY, 0); }
@@ -615,19 +628,12 @@ public partial class Twee : Parser {
 		public TextContext text() {
 			return GetRuleContext<TextContext>(0);
 		}
-		public ITerminalNode IF() { return GetToken(Twee.IF, 0); }
 		public ITerminalNode CHOICE() { return GetToken(Twee.CHOICE, 0); }
-		public ITerminalNode ELSE() { return GetToken(Twee.ELSE, 0); }
-		public IReadOnlyList<ITerminalNode> EXPRESSION() { return GetTokens(Twee.EXPRESSION); }
 		public ITerminalNode DISPLAY() { return GetToken(Twee.DISPLAY, 0); }
-		public PassageContentContext passageContent(int i) {
-			return GetRuleContext<PassageContentContext>(i);
-		}
-		public ITerminalNode ENDIF() { return GetToken(Twee.ENDIF, 0); }
-		public ITerminalNode EXP_END_M(int i) {
-			return GetToken(Twee.EXP_END_M, i);
-		}
 		public ITerminalNode ENDNOBR() { return GetToken(Twee.ENDNOBR, 0); }
+		public MacroBranchIfContext macroBranchIf() {
+			return GetRuleContext<MacroBranchIfContext>(0);
+		}
 		public IReadOnlyList<ITerminalNode> MACRO_START() { return GetTokens(Twee.MACRO_START); }
 		public MacroContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -655,43 +661,44 @@ public partial class Twee : Parser {
 		EnterRule(_localctx, 10, RULE_macro);
 		int _la;
 		try {
-			State = 122;
+			int _alt;
+			State = 123;
 			switch ( Interpreter.AdaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 70; Match(MACRO_START);
-				State = 71;
+				State = 80; Match(MACRO_START);
+				State = 81;
 				_la = _input.La(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DISPLAY) | (1L << SET) | (1L << PRINT))) != 0)) ) {
 				_errHandler.RecoverInline(this);
 				}
 				Consume();
-				State = 72; Match(EXPRESSION);
-				State = 73; Match(EXP_END_M);
+				State = 82; expression();
+				State = 83; Match(EXP_END_M);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 74; Match(MACRO_START);
-				State = 81;
+				State = 85; Match(MACRO_START);
+				State = 92;
 				switch (_input.La(1)) {
 				case ACTIONS:
 					{
-					State = 75; Match(ACTIONS);
-					State = 76; text();
+					State = 86; Match(ACTIONS);
+					State = 87; text();
 					}
 					break;
 				case CHOICE:
 					{
-					State = 77; Match(CHOICE);
-					State = 79;
+					State = 88; Match(CHOICE);
+					State = 90;
 					_la = _input.La(1);
 					if (_la==LINK_START) {
 						{
-						State = 78; link();
+						State = 89; link();
 						}
 					}
 
@@ -700,72 +707,317 @@ public partial class Twee : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 83; Match(MACRO_END);
+				State = 94; Match(MACRO_END);
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 84; Match(MACRO_START);
-				State = 85; Match(IF);
-				State = 86; Match(EXPRESSION);
-				State = 87; Match(EXP_END_M);
-				State = 88; passageContent();
-				State = 94;
-				switch ( Interpreter.AdaptivePredict(_input,11,_ctx) ) {
-				case 1:
-					{
-					State = 89; Match(MACRO_START);
-					State = 90; Match(ELSE_IF);
-					State = 91; Match(EXPRESSION);
-					State = 92; Match(EXP_END_M);
-					State = 93; passageContent();
+				State = 95; macroBranchIf();
+				State = 99;
+				_errHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
+				while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+					if ( _alt==1 ) {
+						{
+						{
+						State = 96; macroBranchIfElse();
+						}
+						} 
 					}
-					break;
+					State = 101;
+					_errHandler.Sync(this);
+					_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
 				}
-				State = 100;
+				State = 103;
 				switch ( Interpreter.AdaptivePredict(_input,12,_ctx) ) {
 				case 1:
 					{
-					State = 96; Match(MACRO_START);
-					State = 97; Match(ELSE);
-					State = 98; Match(MACRO_END);
-					State = 99; passageContent();
+					State = 102; macroBranchElse();
 					}
 					break;
 				}
-				State = 102; Match(MACRO_START);
-				State = 103; Match(ENDIF);
-				State = 104; Match(MACRO_END);
+				State = 105; macroBranchPop();
 				}
 				break;
 
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 106; Match(MACRO_START);
-				State = 107; Match(NOBR);
-				State = 108; Match(MACRO_END);
-				State = 109; passageContent();
-				State = 110; Match(MACRO_START);
-				State = 111; Match(ENDNOBR);
-				State = 112; Match(MACRO_END);
+				State = 107; Match(MACRO_START);
+				State = 108; Match(NOBR);
+				State = 109; Match(MACRO_END);
+				State = 110; passageContent();
+				State = 111; Match(MACRO_START);
+				State = 112; Match(ENDNOBR);
+				State = 113; Match(MACRO_END);
 				}
 				break;
 
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 114; Match(MACRO_START);
-				State = 115; Match(SILENTLY);
-				State = 116; Match(MACRO_END);
-				State = 117; passageContent();
-				State = 118; Match(MACRO_START);
-				State = 119; Match(ENDSILENTLY);
-				State = 120; Match(MACRO_END);
+				State = 115; Match(MACRO_START);
+				State = 116; Match(SILENTLY);
+				State = 117; Match(MACRO_END);
+				State = 118; passageContent();
+				State = 119; Match(MACRO_START);
+				State = 120; Match(ENDSILENTLY);
+				State = 121; Match(MACRO_END);
 				}
 				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class MacroBranchIfContext : ParserRuleContext {
+		public ITerminalNode IF() { return GetToken(Twee.IF, 0); }
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public MacroBranchIfContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macroBranchIf; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.EnterMacroBranchIf(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.ExitMacroBranchIf(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITweeVisitor<TResult> typedVisitor = visitor as ITweeVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacroBranchIf(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MacroBranchIfContext macroBranchIf() {
+		MacroBranchIfContext _localctx = new MacroBranchIfContext(_ctx, State);
+		EnterRule(_localctx, 12, RULE_macroBranchIf);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 125; Match(MACRO_START);
+			State = 126; Match(IF);
+			State = 127; expression();
+			State = 128; Match(EXP_END_M);
+			State = 129; passageContent();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class MacroBranchIfElseContext : ParserRuleContext {
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public MacroBranchIfElseContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macroBranchIfElse; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.EnterMacroBranchIfElse(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.ExitMacroBranchIfElse(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITweeVisitor<TResult> typedVisitor = visitor as ITweeVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacroBranchIfElse(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MacroBranchIfElseContext macroBranchIfElse() {
+		MacroBranchIfElseContext _localctx = new MacroBranchIfElseContext(_ctx, State);
+		EnterRule(_localctx, 14, RULE_macroBranchIfElse);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 131; Match(MACRO_START);
+			State = 132; Match(ELSE_IF);
+			State = 133; expression();
+			State = 134; Match(EXP_END_M);
+			State = 135; passageContent();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class MacroBranchElseContext : ParserRuleContext {
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
+		public ITerminalNode ELSE() { return GetToken(Twee.ELSE, 0); }
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public MacroBranchElseContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macroBranchElse; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.EnterMacroBranchElse(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.ExitMacroBranchElse(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITweeVisitor<TResult> typedVisitor = visitor as ITweeVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacroBranchElse(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MacroBranchElseContext macroBranchElse() {
+		MacroBranchElseContext _localctx = new MacroBranchElseContext(_ctx, State);
+		EnterRule(_localctx, 16, RULE_macroBranchElse);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 137; Match(MACRO_START);
+			State = 138; Match(ELSE);
+			State = 139; Match(MACRO_END);
+			State = 140; passageContent();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class MacroBranchPopContext : ParserRuleContext {
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
+		public ITerminalNode ENDIF() { return GetToken(Twee.ENDIF, 0); }
+		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public MacroBranchPopContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_macroBranchPop; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.EnterMacroBranchPop(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.ExitMacroBranchPop(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITweeVisitor<TResult> typedVisitor = visitor as ITweeVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMacroBranchPop(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MacroBranchPopContext macroBranchPop() {
+		MacroBranchPopContext _localctx = new MacroBranchPopContext(_ctx, State);
+		EnterRule(_localctx, 18, RULE_macroBranchPop);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 142; Match(MACRO_START);
+			State = 143; Match(ENDIF);
+			State = 144; Match(MACRO_END);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ExpressionContext : ParserRuleContext {
+		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
+		public ExpressionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expression; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.EnterExpression(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITweeListener typedListener = listener as ITweeListener;
+			if (typedListener != null) typedListener.ExitExpression(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITweeVisitor<TResult> typedVisitor = visitor as ITweeVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitExpression(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ExpressionContext expression() {
+		ExpressionContext _localctx = new ExpressionContext(_ctx, State);
+		EnterRule(_localctx, 20, RULE_expression);
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 146; Match(EXPRESSION);
 			}
 		}
 		catch (RecognitionException re) {
@@ -811,42 +1063,42 @@ public partial class Twee : Parser {
 	[RuleVersion(0)]
 	public FunctionContext function() {
 		FunctionContext _localctx = new FunctionContext(_ctx, State);
-		EnterRule(_localctx, 12, RULE_function);
+		EnterRule(_localctx, 22, RULE_function);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 124; Match(FUNC_START);
-			State = 125; Match(FUNC_BRACKET_OPEN);
-			State = 133;
+			State = 148; Match(FUNC_START);
+			State = 149; Match(FUNC_BRACKET_OPEN);
+			State = 157;
 			switch ( Interpreter.AdaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				{
-				State = 126; Match(EXPRESSION);
+				State = 150; Match(EXPRESSION);
 				}
 				break;
 
 			case 2:
 				{
-				State = 127; Match(EXPRESSION);
-				State = 129;
+				State = 151; Match(EXPRESSION);
+				State = 153;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 				do {
 					{
 					{
-					State = 128; Match(FUNC_PARAM);
+					State = 152; Match(FUNC_PARAM);
 					}
 					}
-					State = 131;
+					State = 155;
 					_errHandler.Sync(this);
 					_la = _input.La(1);
 				} while ( _la==FUNC_PARAM );
 				}
 				break;
 			}
-			State = 135; Match(EXP_END);
+			State = 159; Match(EXP_END);
 			}
 			}
 		}
@@ -886,11 +1138,11 @@ public partial class Twee : Parser {
 	[RuleVersion(0)]
 	public VariableContext variable() {
 		VariableContext _localctx = new VariableContext(_ctx, State);
-		EnterRule(_localctx, 14, RULE_variable);
+		EnterRule(_localctx, 24, RULE_variable);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 137; Match(VAR_NAME);
+			State = 161; Match(VAR_NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -932,12 +1184,12 @@ public partial class Twee : Parser {
 	[RuleVersion(0)]
 	public ZeichenketteContext zeichenkette() {
 		ZeichenketteContext _localctx = new ZeichenketteContext(_ctx, State);
-		EnterRule(_localctx, 16, RULE_zeichenkette);
+		EnterRule(_localctx, 26, RULE_zeichenkette);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 140;
+			State = 164;
 			_errHandler.Sync(this);
 			_alt = 1;
 			do {
@@ -945,14 +1197,14 @@ public partial class Twee : Parser {
 				case 1:
 					{
 					{
-					State = 139; Match(WORD);
+					State = 163; Match(WORD);
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 142;
+				State = 166;
 				_errHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(_input,16,_ctx);
 			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
@@ -1008,21 +1260,21 @@ public partial class Twee : Parser {
 	[RuleVersion(0)]
 	public TextContext text() {
 		TextContext _localctx = new TextContext(_ctx, State);
-		EnterRule(_localctx, 18, RULE_text);
+		EnterRule(_localctx, 28, RULE_text);
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 155;
+			State = 179;
 			switch (_input.La(1)) {
 			case WORD:
 				{
-				State = 144; zeichenkette();
+				State = 168; zeichenkette();
 				}
 				break;
 			case SPACE:
 				{
-				State = 146;
+				State = 170;
 				_errHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -1030,14 +1282,14 @@ public partial class Twee : Parser {
 					case 1:
 						{
 						{
-						State = 145; Match(SPACE);
+						State = 169; Match(SPACE);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 148;
+					State = 172;
 					_errHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(_input,17,_ctx);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
@@ -1045,37 +1297,37 @@ public partial class Twee : Parser {
 				break;
 			case NEW_LINE:
 				{
-				State = 150; Match(NEW_LINE);
+				State = 174; Match(NEW_LINE);
 				}
 				break;
 			case INT:
 				{
-				State = 151; Match(INT);
+				State = 175; Match(INT);
 				}
 				break;
 			case FORMAT:
 				{
-				State = 152; Match(FORMAT);
+				State = 176; Match(FORMAT);
 				}
 				break;
 			case EXCLUDE:
 				{
-				State = 153; Match(EXCLUDE);
+				State = 177; Match(EXCLUDE);
 				}
 				break;
 			case STRING:
 				{
-				State = 154; Match(STRING);
+				State = 178; Match(STRING);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 158;
+			State = 182;
 			switch ( Interpreter.AdaptivePredict(_input,19,_ctx) ) {
 			case 1:
 				{
-				State = 157; text();
+				State = 181; text();
 				}
 				break;
 			}
@@ -1093,66 +1345,74 @@ public partial class Twee : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3;\xA3\x4\x2\t\x2"+
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3;\xBB\x4\x2\t\x2"+
 		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
-		"\t\x4\n\t\n\x4\v\t\v\x3\x2\x3\x2\a\x2\x19\n\x2\f\x2\xE\x2\x1C\v\x2\x3"+
-		"\x3\x3\x3\x3\x3\x5\x3!\n\x3\x3\x4\x3\x4\x3\x4\x5\x4&\n\x4\x3\x4\a\x4)"+
-		"\n\x4\f\x4\xE\x4,\v\x4\x3\x4\x3\x4\x5\x4\x30\n\x4\x3\x5\x3\x5\x3\x5\x3"+
-		"\x5\x3\x5\x5\x5\x37\n\x5\x3\x5\x5\x5:\n\x5\x3\x6\x3\x6\x3\x6\x5\x6?\n"+
-		"\x6\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6\x3\x6\x5\x6G\n\x6\x3\a\x3\a\x3\a\x3"+
-		"\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\aR\n\a\x5\aT\n\a\x3\a\x3\a\x3\a\x3\a\x3"+
-		"\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\a\x61\n\a\x3\a\x3\a\x3\a\x3\a\x5\a"+
-		"g\n\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a"+
-		"\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\a}\n\a\x3\b\x3\b\x3\b\x3\b\x3\b"+
-		"\x6\b\x84\n\b\r\b\xE\b\x85\x5\b\x88\n\b\x3\b\x3\b\x3\t\x3\t\x3\n\x6\n"+
-		"\x8F\n\n\r\n\xE\n\x90\x3\v\x3\v\x6\v\x95\n\v\r\v\xE\v\x96\x3\v\x3\v\x3"+
-		"\v\x3\v\x3\v\x5\v\x9E\n\v\x3\v\x5\v\xA1\n\v\x3\v\x2\x2\x2\f\x2\x2\x4\x2"+
-		"\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2\x2\x6\x3\x2\x4\x4\x3"+
-		"\x2\x14\x14\x4\x2\x36\x36::\x3\x2$&\xB8\x2\x16\x3\x2\x2\x2\x4 \x3\x2\x2"+
-		"\x2\x6\"\x3\x2\x2\x2\b\x36\x3\x2\x2\x2\n;\x3\x2\x2\x2\f|\x3\x2\x2\x2\xE"+
-		"~\x3\x2\x2\x2\x10\x8B\x3\x2\x2\x2\x12\x8E\x3\x2\x2\x2\x14\x9D\x3\x2\x2"+
-		"\x2\x16\x1A\x5\x4\x3\x2\x17\x19\x5\x6\x4\x2\x18\x17\x3\x2\x2\x2\x19\x1C"+
-		"\x3\x2\x2\x2\x1A\x18\x3\x2\x2\x2\x1A\x1B\x3\x2\x2\x2\x1B\x3\x3\x2\x2\x2"+
-		"\x1C\x1A\x3\x2\x2\x2\x1D!\x5\x6\x4\x2\x1E\x1F\n\x2\x2\x2\x1F!\x5\x4\x3"+
-		"\x2 \x1D\x3\x2\x2\x2 \x1E\x3\x2\x2\x2!\x5\x3\x2\x2\x2\"#\a\x4\x2\x2#%"+
-		"\a\x10\x2\x2$&\a\x11\x2\x2%$\x3\x2\x2\x2%&\x3\x2\x2\x2&*\x3\x2\x2\x2\'"+
-		")\n\x3\x2\x2(\'\x3\x2\x2\x2),\x3\x2\x2\x2*(\x3\x2\x2\x2*+\x3\x2\x2\x2"+
-		"+-\x3\x2\x2\x2,*\x3\x2\x2\x2-/\a\x14\x2\x2.\x30\x5\b\x5\x2/.\x3\x2\x2"+
-		"\x2/\x30\x3\x2\x2\x2\x30\a\x3\x2\x2\x2\x31\x37\x5\f\a\x2\x32\x37\x5\xE"+
-		"\b\x2\x33\x37\x5\x14\v\x2\x34\x37\x5\x10\t\x2\x35\x37\x5\n\x6\x2\x36\x31"+
-		"\x3\x2\x2\x2\x36\x32\x3\x2\x2\x2\x36\x33\x3\x2\x2\x2\x36\x34\x3\x2\x2"+
-		"\x2\x36\x35\x3\x2\x2\x2\x37\x39\x3\x2\x2\x2\x38:\x5\b\x5\x2\x39\x38\x3"+
-		"\x2\x2\x2\x39:\x3\x2\x2\x2:\t\x3\x2\x2\x2;>\a\x6\x2\x2<=\a:\x2\x2=?\a"+
-		"\x37\x2\x2><\x3\x2\x2\x2>?\x3\x2\x2\x2?@\x3\x2\x2\x2@\x46\t\x4\x2\x2\x41"+
-		"\x42\a\x38\x2\x2\x42\x43\a\x39\x2\x2\x43\x44\a)\x2\x2\x44G\a\x34\x2\x2"+
-		"\x45G\a;\x2\x2\x46\x41\x3\x2\x2\x2\x46\x45\x3\x2\x2\x2G\v\x3\x2\x2\x2"+
-		"HI\a\x5\x2\x2IJ\t\x5\x2\x2JK\a)\x2\x2K}\a\x35\x2\x2LS\a\x5\x2\x2MN\a\""+
-		"\x2\x2NT\x5\x14\v\x2OQ\a#\x2\x2PR\x5\n\x6\x2QP\x3\x2\x2\x2QR\x3\x2\x2"+
-		"\x2RT\x3\x2\x2\x2SM\x3\x2\x2\x2SO\x3\x2\x2\x2TU\x3\x2\x2\x2U}\a(\x2\x2"+
-		"VW\a\x5\x2\x2WX\a\x1A\x2\x2XY\a)\x2\x2YZ\a\x35\x2\x2Z`\x5\b\x5\x2[\\\a"+
-		"\x5\x2\x2\\]\a\x1B\x2\x2]^\a)\x2\x2^_\a\x35\x2\x2_\x61\x5\b\x5\x2`[\x3"+
-		"\x2\x2\x2`\x61\x3\x2\x2\x2\x61\x66\x3\x2\x2\x2\x62\x63\a\x5\x2\x2\x63"+
-		"\x64\a\x1C\x2\x2\x64\x65\a(\x2\x2\x65g\x5\b\x5\x2\x66\x62\x3\x2\x2\x2"+
-		"\x66g\x3\x2\x2\x2gh\x3\x2\x2\x2hi\a\x5\x2\x2ij\a\x1D\x2\x2jk\a(\x2\x2"+
-		"k}\x3\x2\x2\x2lm\a\x5\x2\x2mn\a\x1E\x2\x2no\a(\x2\x2op\x5\b\x5\x2pq\a"+
-		"\x5\x2\x2qr\a\x1F\x2\x2rs\a(\x2\x2s}\x3\x2\x2\x2tu\a\x5\x2\x2uv\a \x2"+
-		"\x2vw\a(\x2\x2wx\x5\b\x5\x2xy\a\x5\x2\x2yz\a!\x2\x2z{\a(\x2\x2{}\x3\x2"+
-		"\x2\x2|H\x3\x2\x2\x2|L\x3\x2\x2\x2|V\x3\x2\x2\x2|l\x3\x2\x2\x2|t\x3\x2"+
-		"\x2\x2}\r\x3\x2\x2\x2~\x7F\a\a\x2\x2\x7F\x87\a\x18\x2\x2\x80\x88\a)\x2"+
-		"\x2\x81\x83\a)\x2\x2\x82\x84\a*\x2\x2\x83\x82\x3\x2\x2\x2\x84\x85\x3\x2"+
-		"\x2\x2\x85\x83\x3\x2\x2\x2\x85\x86\x3\x2\x2\x2\x86\x88\x3\x2\x2\x2\x87"+
-		"\x80\x3\x2\x2\x2\x87\x81\x3\x2\x2\x2\x87\x88\x3\x2\x2\x2\x88\x89\x3\x2"+
-		"\x2\x2\x89\x8A\a\x33\x2\x2\x8A\xF\x3\x2\x2\x2\x8B\x8C\a\b\x2\x2\x8C\x11"+
-		"\x3\x2\x2\x2\x8D\x8F\a\xE\x2\x2\x8E\x8D\x3\x2\x2\x2\x8F\x90\x3\x2\x2\x2"+
-		"\x90\x8E\x3\x2\x2\x2\x90\x91\x3\x2\x2\x2\x91\x13\x3\x2\x2\x2\x92\x9E\x5"+
-		"\x12\n\x2\x93\x95\a\r\x2\x2\x94\x93\x3\x2\x2\x2\x95\x96\x3\x2\x2\x2\x96"+
-		"\x94\x3\x2\x2\x2\x96\x97\x3\x2\x2\x2\x97\x9E\x3\x2\x2\x2\x98\x9E\a\v\x2"+
-		"\x2\x99\x9E\a\x3\x2\x2\x9A\x9E\a\t\x2\x2\x9B\x9E\a\n\x2\x2\x9C\x9E\a\xF"+
-		"\x2\x2\x9D\x92\x3\x2\x2\x2\x9D\x94\x3\x2\x2\x2\x9D\x98\x3\x2\x2\x2\x9D"+
-		"\x99\x3\x2\x2\x2\x9D\x9A\x3\x2\x2\x2\x9D\x9B\x3\x2\x2\x2\x9D\x9C\x3\x2"+
-		"\x2\x2\x9E\xA0\x3\x2\x2\x2\x9F\xA1\x5\x14\v\x2\xA0\x9F\x3\x2\x2\x2\xA0"+
-		"\xA1\x3\x2\x2\x2\xA1\x15\x3\x2\x2\x2\x16\x1A %*/\x36\x39>\x46QS`\x66|"+
-		"\x85\x87\x90\x96\x9D\xA0";
+		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10\t"+
+		"\x10\x3\x2\x3\x2\a\x2#\n\x2\f\x2\xE\x2&\v\x2\x3\x3\x3\x3\x3\x3\x5\x3+"+
+		"\n\x3\x3\x4\x3\x4\x3\x4\x5\x4\x30\n\x4\x3\x4\a\x4\x33\n\x4\f\x4\xE\x4"+
+		"\x36\v\x4\x3\x4\x3\x4\x5\x4:\n\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x5\x5"+
+		"\x41\n\x5\x3\x5\x5\x5\x44\n\x5\x3\x6\x3\x6\x3\x6\x5\x6I\n\x6\x3\x6\x3"+
+		"\x6\x3\x6\x3\x6\x3\x6\x3\x6\x5\x6Q\n\x6\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a"+
+		"\x3\a\x3\a\x3\a\x3\a\x5\a]\n\a\x5\a_\n\a\x3\a\x3\a\x3\a\a\a\x64\n\a\f"+
+		"\a\xE\ag\v\a\x3\a\x5\aj\n\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3"+
+		"\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\a~\n\a\x3\b\x3\b\x3"+
+		"\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\n\x3\n\x3\n\x3\n\x3"+
+		"\n\x3\v\x3\v\x3\v\x3\v\x3\f\x3\f\x3\r\x3\r\x3\r\x3\r\x3\r\x6\r\x9C\n\r"+
+		"\r\r\xE\r\x9D\x5\r\xA0\n\r\x3\r\x3\r\x3\xE\x3\xE\x3\xF\x6\xF\xA7\n\xF"+
+		"\r\xF\xE\xF\xA8\x3\x10\x3\x10\x6\x10\xAD\n\x10\r\x10\xE\x10\xAE\x3\x10"+
+		"\x3\x10\x3\x10\x3\x10\x3\x10\x5\x10\xB6\n\x10\x3\x10\x5\x10\xB9\n\x10"+
+		"\x3\x10\x2\x2\x2\x11\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12"+
+		"\x2\x14\x2\x16\x2\x18\x2\x1A\x2\x1C\x2\x1E\x2\x2\x6\x3\x2\x4\x4\x3\x2"+
+		"\x14\x14\x4\x2\x36\x36::\x3\x2$&\xCB\x2 \x3\x2\x2\x2\x4*\x3\x2\x2\x2\x6"+
+		",\x3\x2\x2\x2\b@\x3\x2\x2\x2\n\x45\x3\x2\x2\x2\f}\x3\x2\x2\x2\xE\x7F\x3"+
+		"\x2\x2\x2\x10\x85\x3\x2\x2\x2\x12\x8B\x3\x2\x2\x2\x14\x90\x3\x2\x2\x2"+
+		"\x16\x94\x3\x2\x2\x2\x18\x96\x3\x2\x2\x2\x1A\xA3\x3\x2\x2\x2\x1C\xA6\x3"+
+		"\x2\x2\x2\x1E\xB5\x3\x2\x2\x2 $\x5\x4\x3\x2!#\x5\x6\x4\x2\"!\x3\x2\x2"+
+		"\x2#&\x3\x2\x2\x2$\"\x3\x2\x2\x2$%\x3\x2\x2\x2%\x3\x3\x2\x2\x2&$\x3\x2"+
+		"\x2\x2\'+\x5\x6\x4\x2()\n\x2\x2\x2)+\x5\x4\x3\x2*\'\x3\x2\x2\x2*(\x3\x2"+
+		"\x2\x2+\x5\x3\x2\x2\x2,-\a\x4\x2\x2-/\a\x10\x2\x2.\x30\a\x11\x2\x2/.\x3"+
+		"\x2\x2\x2/\x30\x3\x2\x2\x2\x30\x34\x3\x2\x2\x2\x31\x33\n\x3\x2\x2\x32"+
+		"\x31\x3\x2\x2\x2\x33\x36\x3\x2\x2\x2\x34\x32\x3\x2\x2\x2\x34\x35\x3\x2"+
+		"\x2\x2\x35\x37\x3\x2\x2\x2\x36\x34\x3\x2\x2\x2\x37\x39\a\x14\x2\x2\x38"+
+		":\x5\b\x5\x2\x39\x38\x3\x2\x2\x2\x39:\x3\x2\x2\x2:\a\x3\x2\x2\x2;\x41"+
+		"\x5\f\a\x2<\x41\x5\x18\r\x2=\x41\x5\x1E\x10\x2>\x41\x5\x1A\xE\x2?\x41"+
+		"\x5\n\x6\x2@;\x3\x2\x2\x2@<\x3\x2\x2\x2@=\x3\x2\x2\x2@>\x3\x2\x2\x2@?"+
+		"\x3\x2\x2\x2\x41\x43\x3\x2\x2\x2\x42\x44\x5\b\x5\x2\x43\x42\x3\x2\x2\x2"+
+		"\x43\x44\x3\x2\x2\x2\x44\t\x3\x2\x2\x2\x45H\a\x6\x2\x2\x46G\a:\x2\x2G"+
+		"I\a\x37\x2\x2H\x46\x3\x2\x2\x2HI\x3\x2\x2\x2IJ\x3\x2\x2\x2JP\t\x4\x2\x2"+
+		"KL\a\x38\x2\x2LM\a\x39\x2\x2MN\a)\x2\x2NQ\a\x34\x2\x2OQ\a;\x2\x2PK\x3"+
+		"\x2\x2\x2PO\x3\x2\x2\x2Q\v\x3\x2\x2\x2RS\a\x5\x2\x2ST\t\x5\x2\x2TU\x5"+
+		"\x16\f\x2UV\a\x35\x2\x2V~\x3\x2\x2\x2W^\a\x5\x2\x2XY\a\"\x2\x2Y_\x5\x1E"+
+		"\x10\x2Z\\\a#\x2\x2[]\x5\n\x6\x2\\[\x3\x2\x2\x2\\]\x3\x2\x2\x2]_\x3\x2"+
+		"\x2\x2^X\x3\x2\x2\x2^Z\x3\x2\x2\x2_`\x3\x2\x2\x2`~\a(\x2\x2\x61\x65\x5"+
+		"\xE\b\x2\x62\x64\x5\x10\t\x2\x63\x62\x3\x2\x2\x2\x64g\x3\x2\x2\x2\x65"+
+		"\x63\x3\x2\x2\x2\x65\x66\x3\x2\x2\x2\x66i\x3\x2\x2\x2g\x65\x3\x2\x2\x2"+
+		"hj\x5\x12\n\x2ih\x3\x2\x2\x2ij\x3\x2\x2\x2jk\x3\x2\x2\x2kl\x5\x14\v\x2"+
+		"l~\x3\x2\x2\x2mn\a\x5\x2\x2no\a\x1E\x2\x2op\a(\x2\x2pq\x5\b\x5\x2qr\a"+
+		"\x5\x2\x2rs\a\x1F\x2\x2st\a(\x2\x2t~\x3\x2\x2\x2uv\a\x5\x2\x2vw\a \x2"+
+		"\x2wx\a(\x2\x2xy\x5\b\x5\x2yz\a\x5\x2\x2z{\a!\x2\x2{|\a(\x2\x2|~\x3\x2"+
+		"\x2\x2}R\x3\x2\x2\x2}W\x3\x2\x2\x2}\x61\x3\x2\x2\x2}m\x3\x2\x2\x2}u\x3"+
+		"\x2\x2\x2~\r\x3\x2\x2\x2\x7F\x80\a\x5\x2\x2\x80\x81\a\x1A\x2\x2\x81\x82"+
+		"\x5\x16\f\x2\x82\x83\a\x35\x2\x2\x83\x84\x5\b\x5\x2\x84\xF\x3\x2\x2\x2"+
+		"\x85\x86\a\x5\x2\x2\x86\x87\a\x1B\x2\x2\x87\x88\x5\x16\f\x2\x88\x89\a"+
+		"\x35\x2\x2\x89\x8A\x5\b\x5\x2\x8A\x11\x3\x2\x2\x2\x8B\x8C\a\x5\x2\x2\x8C"+
+		"\x8D\a\x1C\x2\x2\x8D\x8E\a(\x2\x2\x8E\x8F\x5\b\x5\x2\x8F\x13\x3\x2\x2"+
+		"\x2\x90\x91\a\x5\x2\x2\x91\x92\a\x1D\x2\x2\x92\x93\a(\x2\x2\x93\x15\x3"+
+		"\x2\x2\x2\x94\x95\a)\x2\x2\x95\x17\x3\x2\x2\x2\x96\x97\a\a\x2\x2\x97\x9F"+
+		"\a\x18\x2\x2\x98\xA0\a)\x2\x2\x99\x9B\a)\x2\x2\x9A\x9C\a*\x2\x2\x9B\x9A"+
+		"\x3\x2\x2\x2\x9C\x9D\x3\x2\x2\x2\x9D\x9B\x3\x2\x2\x2\x9D\x9E\x3\x2\x2"+
+		"\x2\x9E\xA0\x3\x2\x2\x2\x9F\x98\x3\x2\x2\x2\x9F\x99\x3\x2\x2\x2\x9F\xA0"+
+		"\x3\x2\x2\x2\xA0\xA1\x3\x2\x2\x2\xA1\xA2\a\x33\x2\x2\xA2\x19\x3\x2\x2"+
+		"\x2\xA3\xA4\a\b\x2\x2\xA4\x1B\x3\x2\x2\x2\xA5\xA7\a\xE\x2\x2\xA6\xA5\x3"+
+		"\x2\x2\x2\xA7\xA8\x3\x2\x2\x2\xA8\xA6\x3\x2\x2\x2\xA8\xA9\x3\x2\x2\x2"+
+		"\xA9\x1D\x3\x2\x2\x2\xAA\xB6\x5\x1C\xF\x2\xAB\xAD\a\r\x2\x2\xAC\xAB\x3"+
+		"\x2\x2\x2\xAD\xAE\x3\x2\x2\x2\xAE\xAC\x3\x2\x2\x2\xAE\xAF\x3\x2\x2\x2"+
+		"\xAF\xB6\x3\x2\x2\x2\xB0\xB6\a\v\x2\x2\xB1\xB6\a\x3\x2\x2\xB2\xB6\a\t"+
+		"\x2\x2\xB3\xB6\a\n\x2\x2\xB4\xB6\a\xF\x2\x2\xB5\xAA\x3\x2\x2\x2\xB5\xAC"+
+		"\x3\x2\x2\x2\xB5\xB0\x3\x2\x2\x2\xB5\xB1\x3\x2\x2\x2\xB5\xB2\x3\x2\x2"+
+		"\x2\xB5\xB3\x3\x2\x2\x2\xB5\xB4\x3\x2\x2\x2\xB6\xB8\x3\x2\x2\x2\xB7\xB9"+
+		"\x5\x1E\x10\x2\xB8\xB7\x3\x2\x2\x2\xB8\xB9\x3\x2\x2\x2\xB9\x1F\x3\x2\x2"+
+		"\x2\x16$*/\x34\x39@\x43HP\\^\x65i}\x9D\x9F\xA8\xAE\xB5\xB8";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

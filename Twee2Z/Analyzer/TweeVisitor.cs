@@ -7,13 +7,16 @@ using System.Diagnostics;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
 using System.Collections;
+using Twee2Z.ObjectTree.Expr;
+using Twee2Z.ObjectTree.PassageContents;
+using Twee2Z.ObjectTree.PassageContents.Macro;
+using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 
 namespace Twee2Z.Analyzer
 {
     class TweeVisitor : TweeBaseVisitor<object>
     {
         private TweeBuilder _builder;
-        private static int _macroTextCount = 0;
 
         public Tree Tree
         {
@@ -51,8 +54,8 @@ namespace Twee2Z.Analyzer
                         tags[i].Trim();
                         if (!tags[i].Equals(""))
                         {
-                            _builder.CurrentPassage.AddTag(tags[i]);
                             Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
+                            _builder.AddTag(tags[i]);
                         }
                     }
                 }
@@ -93,7 +96,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, false));
+                _builder.AddPassageContent(new PassageLink(Ziel, Text, false));
             }
 
             // case: [[target][expression]]
@@ -107,7 +110,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Expression, true));
+                _builder.AddPassageContent(new PassageLink(Ziel, Expression, true));
             }
 
             // case: [[text|target][expression]]
@@ -123,7 +126,7 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel, Text, Expression));
+                _builder.AddPassageContent(new PassageLink(Ziel, Text, Expression));
             }
 
             // case: [[target]]
@@ -131,7 +134,7 @@ namespace Twee2Z.Analyzer
             {
                 Ziel = context.GetChild(1).GetText();
                 Logger.LogAnalyzer("Ziel: " + Ziel);
-                _builder.CurrentPassage.AddPassageContent(new PassageLink(Ziel));
+                _builder.AddPassageContent(new PassageLink(Ziel));
             }
             return base.VisitLink(context);
         }
@@ -188,15 +191,8 @@ namespace Twee2Z.Analyzer
                             _builder.CurrentFormat.Comment = false;
                             break;
                         default:
-                            if (_macroTextCount == 0)
-                            {
-                                Logger.LogAnalyzer("Text: " + Text);
-                                _builder.AddPassageContent(new PassageText(Text));
-                            }
-                            else
-                            {
-                                _macroTextCount--;
-                            }
+                            Logger.LogAnalyzer("Text: " + Text);
+                            _builder.AddPassageContent(new PassageText(Text));
                             break;
                     }
                 }
@@ -259,36 +255,65 @@ namespace Twee2Z.Analyzer
          **/
         public override object VisitMacro(Twee.MacroContext context)
         {
-            String Macro = context.GetText();
-            ArrayList list = new ArrayList();
-            for (int i = 0; i < context.ChildCount; i++)
+            String macro = context.GetText();
+            Logger.LogAnalyzer("Macro: " + macro);
+
+            Expression expr;
+            switch (context.GetChild(1).GetText().ToLower())
             {
-                RecChildCont(list, context.GetChild(i));
+                case "display":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroDisplay(expr));
+                    break;
+                case "set":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroSet(expr));
+                    break;
+                case "print":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroPrint(expr));
+                    break;
+                case "if":
+                case "endif":
+                    //nothing to do
+                    break;
             }
-            _builder.AddPassageContent(new PassageMacro(Macro, list));
-            Logger.LogAnalyzer("Macro: " + Macro);
             return base.VisitMacro(context);
         }
 
-        public void RecChildCont(ArrayList list, Antlr4.Runtime.Tree.IParseTree child)
+        public override object VisitMacroBranchIf(Twee.MacroBranchIfContext context)
         {
-            if (child.ChildCount > 0 && !child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
-            {
-                for (int i = 0; i < child.ChildCount; i++)
-                {
-                    RecChildCont(list, child.GetChild(i));
-                }
-            }
-            else
-            {
-                if (child.GetType().ToString().Equals("Twee2Z.Analyzer.Twee+TextContext"))
-                {
-                    _macroTextCount++;
-                }
-                list.Add(child.GetText().Trim());
-            }
+            _builder.AddPassageContent(new PassageMacroBranch());
+
+            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroIf(expr));
+            return base.VisitMacroBranchIf(context);
+        }
+
+        public override object VisitMacroBranchIfElse(Twee.MacroBranchIfElseContext context)
+        {
+            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroElseIf(expr));
+            return base.VisitMacroBranchIfElse(context);
+        }
+
+        public override object VisitMacroBranchElse(Twee.MacroBranchElseContext context)
+        {
+            _builder.AddPassageContent(new PassageMacroElse());
+            return base.VisitMacroBranchElse(context);
         }
 
 
+        public override object VisitMacroBranchPop(Twee.MacroBranchPopContext context)
+        {
+            _builder.FinishBranch();
+            return base.VisitMacroBranchPop(context);
+        }
+
+        public Expression ParseExpression(Twee.ExpressionContext context)
+        {
+            // TODO
+            return new Expression(context.GetText());
+        }
     }
 }

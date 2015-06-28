@@ -10,6 +10,8 @@ using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Label;
 using Twee2Z.CodeGen.Variable;
 using Twee2Z.ObjectTree;
+using Twee2Z.ObjectTree.PassageContents;
+using Twee2Z.ObjectTree.PassageContents.Macro;
 
 namespace Twee2Z.CodeGen
 {
@@ -113,8 +115,8 @@ namespace Twee2Z.CodeGen
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
                 {
-                    PassageMacro macro = (PassageMacro)content;
-
+                    PassageMacro macro = content.PassageMacro;
+                    /*
                     if (macro.MacroElements[1].ToString() == "set")
                     {
                         string[] splitList = macro.MacroElements[2].ToString().Split('=');
@@ -123,7 +125,11 @@ namespace Twee2Z.CodeGen
 
                         _symbolTable.AddSymbol(name);
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
-                    }
+                    }*/
+                }
+                else if (content.Type == PassageContent.ContentType.BranchContent)
+                {
+                   
                 }
 
                 else

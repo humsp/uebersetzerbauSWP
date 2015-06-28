@@ -80,6 +80,7 @@ namespace Twee2Z.Analyzer
                 CurrentFormat.euquals(lastContent.ContentFormat))
             {
                 lastContent.PassageText.MergePassageText(passageContent.PassageText);
+                passageContent = lastContent;
             }
             else if (MacroStackCount == 0)
             {

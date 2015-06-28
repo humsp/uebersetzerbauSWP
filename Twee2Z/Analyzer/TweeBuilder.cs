@@ -84,13 +84,6 @@ namespace Twee2Z.Analyzer
             else if (MacroStackCount == 0)
             {
                 _currentPassage.AddPassageContent(passageContent);
-
-                // put on stack if macro branch
-                if (passageContent.Type == PassageContent.ContentType.MacroContent &&
-                    passageContent.PassageMacro.MacroType == PassageMacro.PassageMarcroType.BranchMacro)
-                {
-                    _passageContentMacroStack.Add(passageContent);
-                }
             }
             else if (lastContent.Type == PassageContent.ContentType.MacroContent &&
                     lastContent.PassageMacro.MacroType == PassageMacro.PassageMarcroType.BranchMacro)
@@ -126,6 +119,13 @@ namespace Twee2Z.Analyzer
             else
             {
                 throw new Exception("unknown case");
+            }
+
+            // put on stack if macro branch
+            if (passageContent.Type == PassageContent.ContentType.MacroContent &&
+                passageContent.PassageMacro.MacroType == PassageMacro.PassageMarcroType.BranchMacro)
+            {
+                _passageContentMacroStack.Add(passageContent);
             }
 
             _lastPassageContent = passageContent;

@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="Expr\Expression.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroBranchNode.cs" />
-    <Compile Include="PassageContents\Macro\Branch\PassageMacroIfElse.cs" />
+    <Compile Include="PassageContents\Macro\Branch\PassageMacroElseIf.cs" />
     <Compile Include="PassageContents\Macro\PassageMacroDisplay.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroElse.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroIf.cs" />

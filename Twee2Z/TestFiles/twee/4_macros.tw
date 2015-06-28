@@ -6,3 +6,6 @@ hallo welt
 <<if 5 eq 5>> TextB <<else>> TextC <<endif>>
 <<if 5 eq 5>> TextD <<else if 5 eq 5>> TextE <<endif>>
 <<set $s = 5>>
+<<if 5 eq 5>> Text1.1 
+<<if 5 eq 5>> Text2.1 <<else>> Text2.2 <<endif>> 
+<<else>> Text1.2 <<endif>>

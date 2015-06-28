@@ -15,42 +15,11 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
         {
             SetMacro,
             DisplayMacro,
-            BranchMacro
+            BranchMacro,
+            PrintMacro
         };
 
         private PassageMarcroType _macroType;
-
-        /*
-        private string _macro;
-        private ArrayList _macroElements = new ArrayList();
-
-
-        public string Macro
-        {
-            get
-            {
-                return _macro;
-            }
-            set
-            {
-                _macro = value;
-            }
-        }
-
-        public ArrayList MacroElements
-        {
-            get
-            {
-                return _macroElements;
-            }
-        }
-
-        public PassageMacro(string macro, ArrayList list)
-            : base(ContentType.MacroContent)
-        {
-            _macro = macro;
-            _macroElements = list;
-        }*/
 
         public PassageMacro(PassageMarcroType macroType)
             : base(ContentType.MacroContent)
@@ -94,6 +63,18 @@ namespace Twee2Z.ObjectTree.PassageContents.Macro
                 if (_macroType == PassageMarcroType.SetMacro)
                 {
                     return (PassageMacroSet)this;
+                }
+                return null;
+            }
+        }
+
+        public PassageMacroPrint PassageMacroPrint
+        {
+            get
+            {
+                if (_macroType == PassageMarcroType.PrintMacro)
+                {
+                    return (PassageMacroPrint)this;
                 }
                 return null;
             }

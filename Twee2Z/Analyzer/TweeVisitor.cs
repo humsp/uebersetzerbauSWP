@@ -258,7 +258,26 @@ namespace Twee2Z.Analyzer
             String macro = context.GetText();
             Logger.LogAnalyzer("Macro: " + macro);
 
-           // if(set /display) //TODO
+            Expression expr;
+            switch (context.GetChild(1).GetText().ToLower())
+            {
+                case "display":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroDisplay(expr));
+                    break;
+                case "set":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroSet(expr));
+                    break;
+                case "print":
+                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroPrint(expr));
+                    break;
+                case "if":
+                case "endif":
+                    //nothing to do
+                    break;
+            }
             return base.VisitMacro(context);
         }
 
@@ -266,15 +285,15 @@ namespace Twee2Z.Analyzer
         {
             _builder.AddPassageContent(new PassageMacroBranch());
 
-            Twee.ExpressionContext cont = context.GetChild<Twee.ExpressionContext>(0);
-            _builder.AddPassageContent(new PassageMacroIf(new Expression(cont.GetText())));
+            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroIf(expr));
             return base.VisitMacroBranchIf(context);
         }
 
         public override object VisitMacroBranchIfElse(Twee.MacroBranchIfElseContext context)
         {
-            Twee.ExpressionContext cont = context.GetChild<Twee.ExpressionContext>(0);
-            _builder.AddPassageContent(new PassageMacroElseIf(new Expression(cont.GetText())));
+            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroElseIf(expr));
             return base.VisitMacroBranchIfElse(context);
         }
 
@@ -291,9 +310,10 @@ namespace Twee2Z.Analyzer
             return base.VisitMacroBranchPop(context);
         }
 
-        public override object VisitExpression(Twee.ExpressionContext context)
+        public Expression ParseExpression(Twee.ExpressionContext context)
         {
-            return base.VisitExpression(context);
+            // TODO
+            return new Expression(context.GetText());
         }
     }
 }

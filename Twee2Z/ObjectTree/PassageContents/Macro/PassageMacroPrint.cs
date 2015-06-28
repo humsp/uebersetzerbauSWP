@@ -7,12 +7,12 @@ using Twee2Z.ObjectTree.Expr;
 
 namespace Twee2Z.ObjectTree.PassageContents.Macro
 {
-    public class PassageMacroDisplay : PassageMacro
+    public class PassageMacroPrint : PassageMacro
     {
         private Expression _expression;
 
-        public PassageMacroDisplay(Expression expression)
-            : base(PassageMarcroType.DisplayMacro)
+        public PassageMacroPrint(Expression expression)
+            : base(PassageMarcroType.PrintMacro)
         {
             _expression = expression;
         }

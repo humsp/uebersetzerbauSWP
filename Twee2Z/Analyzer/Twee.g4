@@ -33,13 +33,13 @@ link
 /* macro */
 
 macro
-	: MACRO_START (DISPLAY|SET|PRINT) EXPRESSION EXP_END_M
+	: MACRO_START (DISPLAY|SET|PRINT) expression EXP_END_M
 	| MACRO_START  (ACTIONS text | CHOICE link?) MACRO_END 
 	| macroBranchIf macroBranchIfElse* macroBranchElse? macroBranchPop
 	| MACRO_START NOBR MACRO_END passageContent MACRO_START ENDNOBR MACRO_END
 	| MACRO_START SILENTLY MACRO_END passageContent MACRO_START ENDSILENTLY MACRO_END 
 	;
-	
+
 macroBranchIf
 	: MACRO_START IF expression EXP_END_M passageContent
 	;

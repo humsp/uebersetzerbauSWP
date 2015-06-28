@@ -46,6 +46,7 @@
     <Compile Include="PassageContents\Macro\Branch\PassageMacroElse.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroIf.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroBranch.cs" />
+    <Compile Include="PassageContents\Macro\PassageMacroPrint.cs" />
     <Compile Include="PassageContents\Macro\PassageMacroSet.cs" />
     <Compile Include="PassageContents\PassageContentFormat.cs" />
     <Compile Include="PassageContents\Macro\PassageMacro.cs" />

@@ -1,9 +1,14 @@
 parser grammar ExpressionParser;
-options {   tokenVocab = ExpressiosLexer; }
+options {   tokenVocab = ExpressionLexer; }
+
+expression
+	: NAME
+	| expr
+	;
 
 expr
-	: NAME
-	| exprR
+	: exprR
+	| VAR_NAME assign exprR
 	;
 
 
@@ -20,15 +25,29 @@ functionArg
 	: expr
 	;
 
-
-/* expression R */
+/* expression  */
+/* expression R (right from op) */
 exprR
-	: (op WS)* op? exprROp
+	: exprROpUnary
+	| exprRContent
+	;
+
+
+/* expression R (right from op) with op*/
+
+exprROpUnary
+	: (opUnary WS?)* exprRContent
 	;
 
 exprROp
-	: value WS? (op WS)* op? exprR
-	| exprRBracket
+	: op WS? (opUnary WS?)* exprRContent
+	;
+
+
+exprRContent
+	: value
+	| value WS? exprROp
+	| exprRBracket WS? exprROp
 	;
 
 exprRBracket
@@ -42,6 +61,13 @@ value
 	| STRING
 	;
 
+opUnary
+	: OP_SUB
+	| OP_ADD
+	| OP_LOG_NOT+
+	| OP_LOG_NOT2+
+	;
+
 op
 	: OP_LOG_AND
 	| OP_LOG_AND2
@@ -49,20 +75,18 @@ op
 	| OP_LOG_OR2
 	| OP_LOG_XOR
 	| OP_LOG_XOR2
-	| OP_LOG_NOT
-	| OP_LOG_NOT2
-	| OP_SUB
-	| OP_ADD
 	| OP_MUL
 	| OP_DIV
-	|
+	| EQ_IS
+	| GT
+	| GE
+	| LT
+	| LE
 	;
 
 
-
-
 /* assign */
-assing
+assign
 	: ASSIGN_EQ
 	| ASSIGN_SUB
 	| ASSIGN_ADD

@@ -33,7 +33,9 @@ namespace Twee2Z.CodeGen
             try
             {
                 startPassage = tree.StartPassage;
-                passages = tree.Passages.Select(entry => entry.Value);
+                passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start" &&
+                                               passage.Key.ToLower() != "storyauthor" &&
+                                               passage.Key.ToLower() != "storytitle").Select(entry => entry.Value);
             }
             catch (Exception ex)
             {
@@ -115,17 +117,17 @@ namespace Twee2Z.CodeGen
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
                 {
-                    PassageMacro macro = content.PassageMacro;
-                    /*
-                    if (macro.MacroElements[1].ToString() == "set")
+                    PassageMacroSet setMacro = content as PassageMacroSet;
+
+                    if (setMacro != null)
                     {
-                        string[] splitList = macro.MacroElements[2].ToString().Split('=');
+                        string[] splitList = setMacro.Expression.ExpressionString.Split('=');
                         string name = splitList.First().Trim();
                         short value = Convert.ToInt16(splitList.Last().Trim());
 
                         _symbolTable.AddSymbol(name);
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
-                    }*/
+                    }
                 }
                 else if (content.Type == PassageContent.ContentType.BranchContent)
                 {
@@ -140,6 +142,7 @@ namespace Twee2Z.CodeGen
 
             if (currentLink > 0)
             {
+                instructions.Add(new NewLine());
                 instructions.Add(new PrintUnicode('>') { Label = new ZLabel("read" + passage.Name) });
                 instructions.Add(new ReadChar(new ZLocalVariable(0)));
 
@@ -157,7 +160,6 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new Print("Unbekannte Eingabe!"));
                 instructions.Add(new NewLine());
                 instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
-                instructions.Add(new Quit());
 
                 for (int i = 0; i < links.Count(); i++)
                 {
@@ -166,6 +168,7 @@ namespace Twee2Z.CodeGen
             }
             else
             {
+                instructions.Add(new NewLine());
                 instructions.Add(new Quit());
             }
             

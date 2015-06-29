@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Rene\Documents\Git\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
+// Generated from C:\Users\David\Desktop\Twee\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -29,16 +29,16 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class Twee : Parser {
 	public const int
-		EQ_SIGN=47, FUNC_PARAM=40, MOD=46, SUB=44, SQ_BRACKET_OPEN=55, NOT=48, 
-		SPACE=11, FUNC_LINK=52, IF=24, PASS=2, ACTIONS=32, WORD=12, SILENTLY=30, 
-		MACRO_END=38, WORDS=56, NOBR=28, ENDIF=27, PIPE=53, LOG_OP=45, EXPRESSION=39, 
-		ENDSILENTLY=31, CHOICE=33, ELSE_IF=25, EXCLUDE=8, LINK_END=57, ADD=43, 
-		ENDNOBR=29, STRING_START=10, FUNC_START=5, PMODEWORD=14, ELSE=26, FUNC_BRACKET_OPEN=22, 
-		EXP_END_L=50, STRING_BODY=19, PMODE_END=18, EXP_END_M=51, SET=35, INT=1, 
-		EXP_END=49, VAR_NAME=6, MACRO_BRACKET_OPEN=37, MUL=41, PRINT=36, TAG_BEGIN=16, 
-		TAG=15, SQ_BRACKET_CLOSE=54, TAG_END=17, STRING_END=20, DISPLAY=34, LINK_START=4, 
-		FUNC_BRACKET_CLOSE=23, FUNC_NAME=21, MACRO_START=3, FORMAT=7, DIV=42, 
-		NEW_LINE=9, STRING=13;
+		PRINT=36, ADD=43, FORMAT=7, ENDNOBR=29, FUNC_START=5, LINK_START=4, PIPE=53, 
+		FUNC_BRACKET_CLOSE=23, LINK_END=57, ELSE_IF=25, STRING_BODY=19, ELSE=26, 
+		IF=24, SUB=44, WORD=12, VAR_NAME=6, MUL=41, ENDSILENTLY=31, SQ_BRACKET_OPEN=55, 
+		NEW_LINE=9, NOT=48, PASS=2, MACRO_START=3, MACRO_BRACKET_OPEN=37, EXP_END=49, 
+		EXCLUDE=8, STRING_END=20, SET=35, PMODE_END=18, FUNC_LINK=52, INT=1, SPACE=11, 
+		CHOICE=33, DISPLAY=34, PMODEWORD=14, ACTIONS=32, EQ_SIGN=47, TAG_BEGIN=16, 
+		MACRO_END=38, EXP_END_M=51, EXP_END_L=50, MOD=46, WORDS=56, ENDIF=27, 
+		SILENTLY=30, STRING_START=10, DIV=42, FUNC_NAME=21, NOBR=28, LOG_OP=45, 
+		SQ_BRACKET_CLOSE=54, STRING=13, TAG=15, FUNC_BRACKET_OPEN=22, TAG_END=17, 
+		EXPRESSION=39, FUNC_PARAM=40;
 	public const int
 		RULE_start = 0, RULE_ignoreFirst = 1, RULE_passage = 2, RULE_passageContent = 3, 
 		RULE_link = 4, RULE_macro = 5, RULE_macroBranchIf = 6, RULE_macroBranchIfElse = 7, 
@@ -122,11 +122,11 @@ public partial class Twee : Parser {
 		public IReadOnlyList<PassageContext> passage() {
 			return GetRuleContexts<PassageContext>();
 		}
-		public IgnoreFirstContext ignoreFirst() {
-			return GetRuleContext<IgnoreFirstContext>(0);
-		}
 		public PassageContext passage(int i) {
 			return GetRuleContext<PassageContext>(i);
+		}
+		public IgnoreFirstContext ignoreFirst() {
+			return GetRuleContext<IgnoreFirstContext>(0);
 		}
 		public StartContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -184,12 +184,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class IgnoreFirstContext : ParserRuleContext {
+		public PassageContext passage() {
+			return GetRuleContext<PassageContext>(0);
+		}
 		public ITerminalNode PASS() { return GetToken(Twee.PASS, 0); }
 		public IgnoreFirstContext ignoreFirst() {
 			return GetRuleContext<IgnoreFirstContext>(0);
-		}
-		public PassageContext passage() {
-			return GetRuleContext<PassageContext>(0);
 		}
 		public IgnoreFirstContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -308,16 +308,16 @@ public partial class Twee : Parser {
 	}
 
 	public partial class PassageContext : ParserRuleContext {
-		public ITerminalNode PASS() { return GetToken(Twee.PASS, 0); }
-		public ITerminalNode PMODEWORD() { return GetToken(Twee.PMODEWORD, 0); }
-		public IReadOnlyList<ITerminalNode> PMODE_END() { return GetTokens(Twee.PMODE_END); }
 		public ITerminalNode PMODE_END(int i) {
 			return GetToken(Twee.PMODE_END, i);
 		}
+		public ITerminalNode TAG() { return GetToken(Twee.TAG, 0); }
 		public PassageContentContext passageContent() {
 			return GetRuleContext<PassageContentContext>(0);
 		}
-		public ITerminalNode TAG() { return GetToken(Twee.TAG, 0); }
+		public ITerminalNode PASS() { return GetToken(Twee.PASS, 0); }
+		public ITerminalNode PMODEWORD() { return GetToken(Twee.PMODEWORD, 0); }
+		public IReadOnlyList<ITerminalNode> PMODE_END() { return GetTokens(Twee.PMODE_END); }
 		public PassageContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -397,23 +397,23 @@ public partial class Twee : Parser {
 	}
 
 	public partial class PassageContentContext : ParserRuleContext {
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
 		public TextContext text() {
 			return GetRuleContext<TextContext>(0);
-		}
-		public FunctionContext function() {
-			return GetRuleContext<FunctionContext>(0);
-		}
-		public MacroContext macro() {
-			return GetRuleContext<MacroContext>(0);
-		}
-		public VariableContext variable() {
-			return GetRuleContext<VariableContext>(0);
 		}
 		public LinkContext link() {
 			return GetRuleContext<LinkContext>(0);
 		}
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
+		public FunctionContext function() {
+			return GetRuleContext<FunctionContext>(0);
+		}
+		public VariableContext variable() {
+			return GetRuleContext<VariableContext>(0);
+		}
+		public MacroContext macro() {
+			return GetRuleContext<MacroContext>(0);
 		}
 		public PassageContentContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -500,15 +500,15 @@ public partial class Twee : Parser {
 	}
 
 	public partial class LinkContext : ParserRuleContext {
+		public ITerminalNode SQ_BRACKET_OPEN() { return GetToken(Twee.SQ_BRACKET_OPEN, 0); }
 		public ITerminalNode EXP_END_L() { return GetToken(Twee.EXP_END_L, 0); }
-		public ITerminalNode PIPE() { return GetToken(Twee.PIPE, 0); }
-		public ITerminalNode FUNC_LINK() { return GetToken(Twee.FUNC_LINK, 0); }
-		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
 		public ITerminalNode LINK_START() { return GetToken(Twee.LINK_START, 0); }
 		public ITerminalNode SQ_BRACKET_CLOSE() { return GetToken(Twee.SQ_BRACKET_CLOSE, 0); }
-		public ITerminalNode LINK_END() { return GetToken(Twee.LINK_END, 0); }
-		public ITerminalNode SQ_BRACKET_OPEN() { return GetToken(Twee.SQ_BRACKET_OPEN, 0); }
+		public ITerminalNode FUNC_LINK() { return GetToken(Twee.FUNC_LINK, 0); }
 		public IReadOnlyList<ITerminalNode> WORDS() { return GetTokens(Twee.WORDS); }
+		public ITerminalNode PIPE() { return GetToken(Twee.PIPE, 0); }
+		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
+		public ITerminalNode LINK_END() { return GetToken(Twee.LINK_END, 0); }
 		public ITerminalNode WORDS(int i) {
 			return GetToken(Twee.WORDS, i);
 		}
@@ -590,51 +590,51 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroContext : ParserRuleContext {
-		public ITerminalNode MACRO_START(int i) {
-			return GetToken(Twee.MACRO_START, i);
-		}
-		public ITerminalNode SET() { return GetToken(Twee.SET, 0); }
-		public ITerminalNode NOBR() { return GetToken(Twee.NOBR, 0); }
-		public ITerminalNode PRINT() { return GetToken(Twee.PRINT, 0); }
-		public IReadOnlyList<ITerminalNode> MACRO_END() { return GetTokens(Twee.MACRO_END); }
 		public MacroBranchIfElseContext macroBranchIfElse(int i) {
 			return GetRuleContext<MacroBranchIfElseContext>(i);
+		}
+		public ITerminalNode PRINT() { return GetToken(Twee.PRINT, 0); }
+		public TextContext text() {
+			return GetRuleContext<TextContext>(0);
+		}
+		public MacroBranchElseContext macroBranchElse() {
+			return GetRuleContext<MacroBranchElseContext>(0);
+		}
+		public ITerminalNode DISPLAY() { return GetToken(Twee.DISPLAY, 0); }
+		public IReadOnlyList<ITerminalNode> MACRO_START() { return GetTokens(Twee.MACRO_START); }
+		public IReadOnlyList<ITerminalNode> MACRO_END() { return GetTokens(Twee.MACRO_END); }
+		public ITerminalNode MACRO_END(int i) {
+			return GetToken(Twee.MACRO_END, i);
 		}
 		public IReadOnlyList<MacroBranchIfElseContext> macroBranchIfElse() {
 			return GetRuleContexts<MacroBranchIfElseContext>();
 		}
+		public ITerminalNode CHOICE() { return GetToken(Twee.CHOICE, 0); }
+		public MacroBranchIfContext macroBranchIf() {
+			return GetRuleContext<MacroBranchIfContext>(0);
+		}
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode ENDSILENTLY() { return GetToken(Twee.ENDSILENTLY, 0); }
+		public ITerminalNode MACRO_START(int i) {
+			return GetToken(Twee.MACRO_START, i);
+		}
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public ITerminalNode SILENTLY() { return GetToken(Twee.SILENTLY, 0); }
 		public LinkContext link() {
 			return GetRuleContext<LinkContext>(0);
 		}
+		public ITerminalNode ACTIONS() { return GetToken(Twee.ACTIONS, 0); }
 		public MacroBranchPopContext macroBranchPop() {
 			return GetRuleContext<MacroBranchPopContext>(0);
 		}
 		public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public MacroBranchElseContext macroBranchElse() {
-			return GetRuleContext<MacroBranchElseContext>(0);
-		}
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
-		public ITerminalNode ACTIONS() { return GetToken(Twee.ACTIONS, 0); }
-		public ITerminalNode SILENTLY() { return GetToken(Twee.SILENTLY, 0); }
-		public ITerminalNode MACRO_END(int i) {
-			return GetToken(Twee.MACRO_END, i);
-		}
-		public ITerminalNode ENDSILENTLY() { return GetToken(Twee.ENDSILENTLY, 0); }
-		public TextContext text() {
-			return GetRuleContext<TextContext>(0);
-		}
-		public ITerminalNode CHOICE() { return GetToken(Twee.CHOICE, 0); }
-		public ITerminalNode DISPLAY() { return GetToken(Twee.DISPLAY, 0); }
+		public ITerminalNode SET() { return GetToken(Twee.SET, 0); }
+		public ITerminalNode NOBR() { return GetToken(Twee.NOBR, 0); }
 		public ITerminalNode ENDNOBR() { return GetToken(Twee.ENDNOBR, 0); }
-		public MacroBranchIfContext macroBranchIf() {
-			return GetRuleContext<MacroBranchIfContext>(0);
-		}
-		public IReadOnlyList<ITerminalNode> MACRO_START() { return GetTokens(Twee.MACRO_START); }
 		public MacroContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -781,13 +781,13 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchIfContext : ParserRuleContext {
-		public ITerminalNode IF() { return GetToken(Twee.IF, 0); }
-		public ExpressionContext expression() {
-			return GetRuleContext<ExpressionContext>(0);
-		}
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
 		public PassageContentContext passageContent() {
 			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode IF() { return GetToken(Twee.IF, 0); }
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
 		public MacroBranchIfContext(ParserRuleContext parent, int invokingState)
@@ -836,13 +836,13 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchIfElseContext : ParserRuleContext {
-		public ExpressionContext expression() {
-			return GetRuleContext<ExpressionContext>(0);
-		}
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
-		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
 		public PassageContentContext passageContent() {
 			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
+		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
+		public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
 		public MacroBranchIfElseContext(ParserRuleContext parent, int invokingState)
@@ -891,12 +891,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchElseContext : ParserRuleContext {
-		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public ITerminalNode ELSE() { return GetToken(Twee.ELSE, 0); }
 		public PassageContentContext passageContent() {
 			return GetRuleContext<PassageContentContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public MacroBranchElseContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -942,9 +942,9 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchPopContext : ParserRuleContext {
-		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public ITerminalNode ENDIF() { return GetToken(Twee.ENDIF, 0); }
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public MacroBranchPopContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1032,13 +1032,13 @@ public partial class Twee : Parser {
 	}
 
 	public partial class FunctionContext : ParserRuleContext {
+		public ITerminalNode FUNC_START() { return GetToken(Twee.FUNC_START, 0); }
+		public ITerminalNode FUNC_BRACKET_OPEN() { return GetToken(Twee.FUNC_BRACKET_OPEN, 0); }
 		public ITerminalNode FUNC_PARAM(int i) {
 			return GetToken(Twee.FUNC_PARAM, i);
 		}
-		public ITerminalNode FUNC_START() { return GetToken(Twee.FUNC_START, 0); }
-		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
-		public ITerminalNode FUNC_BRACKET_OPEN() { return GetToken(Twee.FUNC_BRACKET_OPEN, 0); }
 		public ITerminalNode EXP_END() { return GetToken(Twee.EXP_END, 0); }
+		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
 		public IReadOnlyList<ITerminalNode> FUNC_PARAM() { return GetTokens(Twee.FUNC_PARAM); }
 		public FunctionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1222,21 +1222,21 @@ public partial class Twee : Parser {
 	}
 
 	public partial class TextContext : ParserRuleContext {
-		public TextContext text() {
-			return GetRuleContext<TextContext>(0);
-		}
-		public ZeichenketteContext zeichenkette() {
-			return GetRuleContext<ZeichenketteContext>(0);
-		}
-		public ITerminalNode EXCLUDE() { return GetToken(Twee.EXCLUDE, 0); }
-		public ITerminalNode FORMAT() { return GetToken(Twee.FORMAT, 0); }
-		public ITerminalNode INT() { return GetToken(Twee.INT, 0); }
-		public IReadOnlyList<ITerminalNode> SPACE() { return GetTokens(Twee.SPACE); }
-		public ITerminalNode NEW_LINE() { return GetToken(Twee.NEW_LINE, 0); }
-		public ITerminalNode STRING() { return GetToken(Twee.STRING, 0); }
 		public ITerminalNode SPACE(int i) {
 			return GetToken(Twee.SPACE, i);
 		}
+		public ITerminalNode FORMAT() { return GetToken(Twee.FORMAT, 0); }
+		public TextContext text() {
+			return GetRuleContext<TextContext>(0);
+		}
+		public ITerminalNode EXCLUDE() { return GetToken(Twee.EXCLUDE, 0); }
+		public ITerminalNode STRING() { return GetToken(Twee.STRING, 0); }
+		public IReadOnlyList<ITerminalNode> SPACE() { return GetTokens(Twee.SPACE); }
+		public ITerminalNode INT() { return GetToken(Twee.INT, 0); }
+		public ZeichenketteContext zeichenkette() {
+			return GetRuleContext<ZeichenketteContext>(0);
+		}
+		public ITerminalNode NEW_LINE() { return GetToken(Twee.NEW_LINE, 0); }
 		public TextContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{

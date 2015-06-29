@@ -6,6 +6,7 @@ using Twee2Z.ObjectTree;
 using Twee2Z.Console;
 using System.Collections.Generic;
 using System.Linq;
+using Twee2Z.ObjectTree.PassageContents;
 
 
 namespace UnitTests.TestObjectTree
@@ -50,7 +51,7 @@ namespace UnitTests.TestObjectTree
             Assert.AreEqual("you are done\r\n", thirdPassage.PassageContentList[0].PassageText.Text);
 
             PassageLink thirdPassageLink = thirdPassage.PassageContentList[1].PassageLink;
-            Assert.AreEqual("start", thirdPassageLink.Target);
+            Assert.AreEqual("Start", thirdPassageLink.Target);
             Assert.AreEqual(startPassage, thirdPassageLink.TargetPassage);
             Assert.AreEqual(null, thirdPassageLink.Expression);
             Assert.AreEqual(null, thirdPassageLink.DisplayText);
@@ -82,9 +83,10 @@ namespace UnitTests.TestObjectTree
 
             // 2 Passage
             Passage fourthPassage = tree.Passages["StoryAuthor"];
-            Assert.AreEqual(2, fourthPassage.PassageContentList.Count);
+            Assert.AreEqual(3, fourthPassage.PassageContentList.Count);
             Assert.AreEqual("Anonymous ", fourthPassage.PassageContentList[0].PassageText.Text);
-            Assert.AreEqual("x\r\n", fourthPassage.PassageContentList[1].PassageText.Text);
+            Assert.AreEqual("myPassage", fourthPassage.PassageContentList[1].PassageText.Text);
+            Assert.AreEqual("x\r\n", fourthPassage.PassageContentList[2].PassageText.Text);
 
         }
     }

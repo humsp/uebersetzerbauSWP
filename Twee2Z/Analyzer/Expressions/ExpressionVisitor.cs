@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.ObjectTree.Expressions;
+using Twee2Z.ObjectTree.Expressions.Base;
+using Twee2Z.ObjectTree.Expressions.Base.Values;
+using Twee2Z.ObjectTree.Expressions.Base.Values.Functions;
 using Twee2Z.Utils;
 
 namespace Twee2Z.Analyzer.Expressions
 {
-    class ExpressionVisitor : ExpressionParserBaseVisitor<object>
+    class ExpressionVisitor : ExpressionParserBaseVisitor<Expression>
     {
         private Expression _expression;
 
@@ -18,14 +21,14 @@ namespace Twee2Z.Analyzer.Expressions
         }
 
 
-        public override object VisitExpression(ExpressionParser.ExpressionContext context)
+        public override Expression VisitExpression(ExpressionParser.ExpressionContext context)
         {
             Logger.LogAnalyzer("-----------------------");
             Logger.LogAnalyzer("Expression: " + context.GetText());
             return base.VisitExpression(context);
         }
 
-        public override object VisitExpr(ExpressionParser.ExprContext context)
+        public override Expression VisitExpr(ExpressionParser.ExprContext context)
         {
             if (context.ChildCount > 1)
             {
@@ -34,67 +37,73 @@ namespace Twee2Z.Analyzer.Expressions
             return base.VisitExpr(context);
         }
 
-        public override object VisitExprR(ExpressionParser.ExprRContext context)
+        public override Expression VisitExprR(ExpressionParser.ExprRContext context)
         {
             return base.VisitExprR(context);
         }
 
-        public override object VisitExprROpUnary(ExpressionParser.ExprROpUnaryContext context)
+        public override Expression VisitExprROpUnary(ExpressionParser.ExprROpUnaryContext context)
         {
             return base.VisitExprROpUnary(context);
         }
 
-        public override object VisitExprROp(ExpressionParser.ExprROpContext context)
+        public override Expression VisitExprROp(ExpressionParser.ExprROpContext context)
         {
             return base.VisitExprROp(context);
         }
 
-        public override object VisitExprRContent(ExpressionParser.ExprRContentContext context)
+        public override Expression VisitExprRContent(ExpressionParser.ExprRContentContext context)
         {
             return base.VisitExprRContent(context);
         }
 
-        public override object VisitExprRBracket(ExpressionParser.ExprRBracketContext context)
+        public override Expression VisitExprRBracket(ExpressionParser.ExprRBracketContext context)
         {
             return base.VisitExprRBracket(context);
         }
 
-        public override object VisitValue(ExpressionParser.ValueContext context)
+        public override Expression VisitValue(ExpressionParser.ValueContext context)
         {
             Logger.LogAnalyzer("Value: " + context.GetText());
+            Expression e = Visit(context.function());
+            //Expression expr = context.GetChild<ExpressionParser.FunctionContext>(0).Vis;
+            //if()
+            //Expression e = base.VisitValue(context);
             return base.VisitValue(context);
         }
 
-        public override object VisitOpUnary(ExpressionParser.OpUnaryContext context)
+        public override Expression VisitOpUnary(ExpressionParser.OpUnaryContext context)
         {
             Logger.LogAnalyzer("OP Unary: " + context.GetText());
             return base.VisitOpUnary(context);
         }
 
-        public override object VisitOp(ExpressionParser.OpContext context)
+        public override Expression VisitOp(ExpressionParser.OpContext context)
         {
             Logger.LogAnalyzer("OP: " + context.GetText());
             return base.VisitOp(context);
         }
 
-        public override object VisitAssign(ExpressionParser.AssignContext context)
+        public override Expression VisitAssign(ExpressionParser.AssignContext context)
         {
             Logger.LogAnalyzer("Assign: " + context.GetText());
             return base.VisitAssign(context);
         }
 
-        public override object VisitFunction(ExpressionParser.FunctionContext context)
+        public override Expression VisitFunction(ExpressionParser.FunctionContext context)
         {
             Logger.LogAnalyzer("Function: " + context.GetText());
-            return base.VisitFunction(context);
+            RandomFunction f = new RandomFunction();
+            return f;
+            //return base.VisitFunction(context);
         }
 
-        public override object VisitFunctionArgs(ExpressionParser.FunctionArgsContext context)
+        public override Expression VisitFunctionArgs(ExpressionParser.FunctionArgsContext context)
         {
             return base.VisitFunctionArgs(context);
         }
 
-        public override object VisitFunctionArg(ExpressionParser.FunctionArgContext context)
+        public override Expression VisitFunctionArg(ExpressionParser.FunctionArgContext context)
         {
             Logger.LogAnalyzer("Function Arg: " + context.GetText());
             return base.VisitFunctionArg(context);

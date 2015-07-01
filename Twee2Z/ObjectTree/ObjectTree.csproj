@@ -43,7 +43,7 @@
     <Compile Include="Expressions\Base\BaseExpression.cs" />
     <Compile Include="Expressions\Base\Ops\BaseOp.cs" />
     <Compile Include="Expressions\Base\Ops\LogicalOp.cs" />
-    <Compile Include="Expressions\Base\Ops\Op.cs" />
+    <Compile Include="Expressions\Base\Ops\NormalOp.cs" />
     <Compile Include="Expressions\Base\Values\FloatValue.cs" />
     <Compile Include="Expressions\Base\Values\Functions\AlertFunction.cs" />
     <Compile Include="Expressions\Base\Values\Functions\ConfirmFunction.cs" />

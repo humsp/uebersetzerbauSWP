@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree.Expressions.Base.Ops
 {
-    public class Op : BaseOp
+    public class NormalOp : BaseOp
     {
         public enum LocicalOpEnum
         {
@@ -19,9 +19,9 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
 
         private LocicalOpEnum _type;
 
-        public Op(LocicalOpEnum type)
-            : base(type == LocicalOpEnum.Add || type == LocicalOpEnum.Sub ?
-            BaseOp.OpTypeEnum.Both : BaseOp.OpTypeEnum.Binary)
+        public NormalOp(LocicalOpEnum type)
+            : base(OpTypeEnum.Normal, type == LocicalOpEnum.Add || type == LocicalOpEnum.Sub ?
+            BaseOp.OpArgTypeEnum.Both : BaseOp.OpArgTypeEnum.Binary)
         {
             _type = type;
         }

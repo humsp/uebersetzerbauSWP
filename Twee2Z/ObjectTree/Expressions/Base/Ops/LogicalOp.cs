@@ -25,7 +25,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
         private LocicalOpEnum _type;
 
         public LogicalOp(LocicalOpEnum type)
-            : base(type == LocicalOpEnum.Not ? BaseOp.OpTypeEnum.Unary : BaseOp.OpTypeEnum.Binary)
+            : base(OpTypeEnum.Logical, type == LocicalOpEnum.Not ? BaseOp.OpArgTypeEnum.Unary : BaseOp.OpArgTypeEnum.Binary)
         {
             _type = type;
         }

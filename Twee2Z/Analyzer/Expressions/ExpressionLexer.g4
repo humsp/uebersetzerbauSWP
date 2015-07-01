@@ -17,51 +17,49 @@ FCN_EITHER		: 'either';
 
 BRACKET_OPEN	: '(';
 BRACKET_CLOSE	: ')';
-SPACE			: ' ';
 COMMA			: ',';
 
-OP_LOG_AND	: 'and';
-OP_LOG_AND2	: '&' '&'?;
-OP_LOG_OR	: 'or';
-OP_LOG_OR2	: '|' '|'?;
-OP_LOG_XOR	: 'xor';
-OP_LOG_XOR2	: '^';
+OP_LOG_AND	: 'and' | '&' '&'?;
+OP_LOG_OR	: 'or' |  '|' '|'?;
+OP_LOG_XOR	: 'xor' | '^';
 
-OP_LOG_NOT	: 'not';
-OP_LOG_NOT2	: '!';
+OP_LOG_NOT	: 'not' | '!';
 
 
 OP_SUB	: '-';
 OP_ADD	: '+';
 OP_MUL	: '*';
 OP_DIV	: '/';
+OP_MOD	: '%';
 
+NEQ		: '!=' | 'neq';
+EQ		: '==' | 'is' | 'eq';
+GT		: '>' | 'gt';
+GE		: '>=' | 'gte';
+LT		: '<' | 'lt';
+LE		: '<=' | 'lte';
 
-EQ_IS	: 'is';
-GT		: '>';
-GE		: '>=';
-LT		: '<';
-LE		: '<=';
-
-ASSIGN_EQ	: '=';
+ASSIGN_EQ	: '=' | 'to';
 ASSIGN_SUB	: '-=';
 ASSIGN_ADD	: '+=';
 ASSIGN_MUL	: '*=';
 ASSIGN_DIV	: '/=';
-ASSIGN_TO	: 'to';	
+ASSIGN_MOD	: '%=';
 
+
+WS				: (' ' | '\t' | '\r' | '\n')+;
+VAR_NAME		: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
+NAME			: (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*; 
 
 DIGITS		: DIGIT+;
+DOT			: '.';
 
+// normal symbols
 fragment DOLLAR		: '$';
 fragment LETTER		: [a-zA-Z];
 fragment DIGIT		: [0-9];
 fragment LOW_LINE	: '_';
 fragment QUOTE		: '"';
-
-WS				: (' ' | '\t' | '\r' | '\n')+;
-VAR_NAME		: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
-NAME			: (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*; 
 
 STRING			: STRING_START STRING_BODY STRING_END;
 STRING_START	: QUOTE -> pushMode(SMode);

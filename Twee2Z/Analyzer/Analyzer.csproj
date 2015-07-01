@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\ExpressionAnalyzer.cs" />
     <Compile Include="Expressions\ExpressionParser.g4.cs">
       <DependentUpon>ExpressionParser.g4</DependentUpon>
     </Compile>

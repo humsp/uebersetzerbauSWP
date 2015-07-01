@@ -2,36 +2,21 @@ parser grammar ExpressionParser;
 options {   tokenVocab = ExpressionLexer; }
 
 expression
-	: NAME
-	| expr
+	//: WS* NAME TODO in link
+	: WS* expr
 	;
 
+/* base expression  */
 expr
 	: exprR
-	| VAR_NAME assign exprR
+	| VAR_NAME assign expr
 	;
 
-
-/* function */
-function
-	: NAME WS? BRACKET_OPEN functionArg? BRACKET_CLOSE
-	;
-
-functionArgs
-	: (WS? functionArg WS? COMMA)* WS? functionArg WS? 
-	;
-
-functionArg
-	: expr
-	;
-
-/* expression  */
 /* expression R (right from op) */
 exprR
 	: exprROpUnary
 	| exprRContent
 	;
-
 
 /* expression R (right from op) with op*/
 
@@ -43,20 +28,20 @@ exprROp
 	: op WS? (opUnary WS?)* exprRContent
 	;
 
-
 exprRContent
 	: value
-	| value WS? exprROp
-	| exprRBracket WS? exprROp
+	| value WS? exprR
+	| exprRBracket WS? exprR
 	;
 
 exprRBracket
-	: BRACKET_OPEN WS? exprR+ WS? BRACKET_CLOSE
+	: BRACKET_OPEN WS? expr WS? BRACKET_CLOSE
 	;
 
 value
 	: function
 	| DIGITS
+	| DIGITS DOT DIGITS
 	| VAR_NAME
 	| STRING
 	;
@@ -65,19 +50,17 @@ opUnary
 	: OP_SUB
 	| OP_ADD
 	| OP_LOG_NOT+
-	| OP_LOG_NOT2+
 	;
 
 op
 	: OP_LOG_AND
-	| OP_LOG_AND2
 	| OP_LOG_OR
-	| OP_LOG_OR2
 	| OP_LOG_XOR
-	| OP_LOG_XOR2
 	| OP_MUL
 	| OP_DIV
-	| EQ_IS
+	| OP_MOD
+	| NEQ
+	| EQ
 	| GT
 	| GE
 	| LT
@@ -92,6 +75,18 @@ assign
 	| ASSIGN_ADD
 	| ASSIGN_MUL
 	| ASSIGN_DIV
-	| ASSIGN_TO
-	| EQ_IS
+	| ASSIGN_MOD
+	;
+
+/* function */
+function
+	: NAME WS? BRACKET_OPEN functionArg? BRACKET_CLOSE
+	;
+
+functionArgs
+	: (WS? functionArg WS? COMMA)* WS? functionArg WS? 
+	;
+
+functionArg
+	: expr
 	;

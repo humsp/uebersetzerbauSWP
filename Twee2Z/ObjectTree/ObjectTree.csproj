@@ -39,7 +39,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expr\Expression.cs" />
+    <Compile Include="Expressions\Base\Assign.cs" />
+    <Compile Include="Expressions\Base\BaseExpression.cs" />
+    <Compile Include="Expressions\Base\Ops\BaseOp.cs" />
+    <Compile Include="Expressions\Base\Ops\LogicalOp.cs" />
+    <Compile Include="Expressions\Base\Ops\NormalOp.cs" />
+    <Compile Include="Expressions\Base\Values\BoolValue.cs" />
+    <Compile Include="Expressions\Base\Values\FloatValue.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\AlertFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\ConfirmFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\EitherFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\ParameterFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\PassageFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\PreviousFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\PromtFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\RandomFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\TurnsFunction.cs" />
+    <Compile Include="Expressions\Base\Values\Functions\VisitedFunction.cs" />
+    <Compile Include="Expressions\Base\Values\FunctionValue.cs" />
+    <Compile Include="Expressions\Base\Values\IntValue.cs" />
+    <Compile Include="Expressions\Base\Values\StringValue.cs" />
+    <Compile Include="Expressions\Base\Values\BaseValue.cs" />
+    <Compile Include="Expressions\Base\Values\VariableValue.cs" />
+    <Compile Include="Expressions\Expression.cs" />
+    <Compile Include="Expressions\ExpressionPassageName.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroBranchNode.cs" />
     <Compile Include="PassageContents\Macro\Branch\PassageMacroElseIf.cs" />
     <Compile Include="PassageContents\Macro\PassageMacroDisplay.cs" />

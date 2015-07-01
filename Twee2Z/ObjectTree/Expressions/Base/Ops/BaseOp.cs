@@ -23,9 +23,12 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
             Normal
         }
 
+        /// <summary>
+        /// if unary, left is null
+        /// </summary>
+        private BaseExpression _leftExpr;
+        private BaseExpression _rightExpr;
 
-
-        protected List<BaseExpression> _args = new List<BaseExpression>();
         private OpArgTypeEnum _opArgType;
         private OpTypeEnum _opType;
 
@@ -36,18 +39,23 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
             _opArgType = argType;
         }
 
-
-        public void AddArg(BaseExpression expr)
+        public BaseExpression LeftExpr
         {
-            if (OpArgType == OpArgTypeEnum.Unary && _args.Count == 0  ||
-                OpArgType != OpArgTypeEnum.Unary && _args.Count < 1)
+            get { return _leftExpr; }
+            set
             {
-                _args.Add(expr);
+                if (OpArgType == OpArgTypeEnum.Unary)
+                {
+                    throw new Exception("for unary op left expr is not used");
+                }
+                _leftExpr = value;
             }
-            else
-            {
-                throw new Exception("invalid arg count");
-            }
+        }
+
+        public BaseExpression RightExpr
+        {
+            get { return _rightExpr; }
+            set { _rightExpr = value; }
         }
 
         public OpArgTypeEnum OpArgType

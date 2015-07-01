@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.ObjectTree.Expressions;
+using Twee2Z.ObjectTree.Expr;
 
 namespace Twee2Z.ObjectTree.PassageContents.Macro
 {

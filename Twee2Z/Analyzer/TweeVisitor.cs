@@ -7,11 +7,10 @@ using System.Diagnostics;
 using Twee2Z.ObjectTree;
 using Twee2Z.Utils;
 using System.Collections;
+using Twee2Z.ObjectTree.Expr;
 using Twee2Z.ObjectTree.PassageContents;
 using Twee2Z.ObjectTree.PassageContents.Macro;
 using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
-using Twee2Z.ObjectTree.Expressions;
-using Twee2Z.Analyzer.Expressions;
 
 namespace Twee2Z.Analyzer
 {
@@ -313,8 +312,8 @@ namespace Twee2Z.Analyzer
 
         public Expression ParseExpression(Twee.ExpressionContext context)
         {
-            Expression expr = ExpressionAnalyzer.Parse(context.GetChild(0).GetText());
-            return expr;
+            // TODO
+            return new Expression(context.GetText());
         }
     }
 }

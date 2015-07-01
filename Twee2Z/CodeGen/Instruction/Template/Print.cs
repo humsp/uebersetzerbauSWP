@@ -20,6 +20,9 @@ namespace Twee2Z.CodeGen.Instruction.Template
         public Print(string output)
             : base("print", 0x02, OpcodeTypeKind.ZeroOP)
         {
+            if (string.IsNullOrEmpty(output))
+                throw new ArgumentException("The given output to print is null or empty.", "output");
+
             _text = new ZText(output);
             // Print is an unique case here
             // It is listed as ZeroOP but the string appended to the opcode

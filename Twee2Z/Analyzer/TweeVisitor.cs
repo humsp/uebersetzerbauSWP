@@ -11,7 +11,6 @@ using Twee2Z.ObjectTree.PassageContents;
 using Twee2Z.ObjectTree.PassageContents.Macro;
 using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 using Twee2Z.ObjectTree.Expressions;
-using Twee2Z.Analyzer.Expressions;
 
 namespace Twee2Z.Analyzer
 {

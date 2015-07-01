@@ -13,7 +13,7 @@ using Twee2Z.ObjectTree;
 using Twee2Z.ObjectTree.PassageContents;
 using Twee2Z.ObjectTree.PassageContents.Macro;
 using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
-using Twee2Z.ObjectTree.Expr;
+using Twee2Z.ObjectTree.Expressions;
 
 namespace Twee2Z.CodeGen
 {
@@ -243,7 +243,7 @@ namespace Twee2Z.CodeGen
 
             if (setMacro != null)
             {
-                string[] splitList = setMacro.Expression.ExpressionString.Split('=');
+                string[] splitList = setMacro.Expression.ToString().Split('=');
                 string name = splitList.First().Trim();
                 short value = Convert.ToInt16(splitList.Last().Trim());
 
@@ -253,7 +253,7 @@ namespace Twee2Z.CodeGen
 
             else if (printMacro != null)
             {
-                instructions.AddRange(StringToInstructions(printMacro.Expression.ExpressionString));
+                instructions.AddRange(StringToInstructions(printMacro.Expression.ToString()));
             }
 
             else if (displayMacro != null)
@@ -340,10 +340,10 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private void ConvertExpression(Expression expression, ref List<ZInstruction> instructions)
+        /*private void ConvertExpression(Expression expression, ref List<ZInstruction> instructions)
         {
             
-        }
+        }*/
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)
         {

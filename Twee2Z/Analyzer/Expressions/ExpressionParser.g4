@@ -80,11 +80,7 @@ assign
 
 /* function */
 function
-	: NAME WS? BRACKET_OPEN functionArg? BRACKET_CLOSE
-	;
-
-functionArgs
-	: (WS? functionArg WS? COMMA)* WS? functionArg WS? 
+	: NAME WS? BRACKET_OPEN ((WS? functionArg WS? COMMA)* WS? functionArg WS?)? BRACKET_CLOSE
 	;
 
 functionArg

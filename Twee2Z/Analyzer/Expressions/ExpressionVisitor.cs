@@ -7,6 +7,7 @@ using Twee2Z.ObjectTree.Expressions;
 using Twee2Z.ObjectTree.Expressions.Base;
 using Twee2Z.ObjectTree.Expressions.Base.Values;
 using Twee2Z.ObjectTree.Expressions.Base.Values.Functions;
+using Twee2Z.ObjectTree.Expressions.Base.Ops;
 using Twee2Z.Utils;
 
 namespace Twee2Z.Analyzer.Expressions
@@ -64,18 +65,50 @@ namespace Twee2Z.Analyzer.Expressions
 
         public override Expression VisitValue(ExpressionParser.ValueContext context)
         {
-            Logger.LogAnalyzer("Value: " + context.GetText());
-            Expression e = Visit(context.function());
-            //Expression expr = context.GetChild<ExpressionParser.FunctionContext>(0).Vis;
-            //if()
-            //Expression e = base.VisitValue(context);
-            return base.VisitValue(context);
+            string text = context.GetText();
+            Logger.LogAnalyzer("Value: " + text);
+            ExpressionParser.FunctionContext function = context.function();
+            if (function != null)
+            {
+                return VisitFunction(function);
+            }
+            else if (context.GetToken(ExpressionParser.DIGITS, 0) != null)
+            {
+                if (context.GetToken(ExpressionParser.DIGITS, 1) != null)
+                {
+                    // TODO float
+                    return new IntValue(Convert.ToInt32(context.GetToken(ExpressionParser.DIGITS, 0).GetText()));
+                }
+                return new IntValue(Convert.ToInt32(text));
+            }
+            else if (context.GetToken(ExpressionParser.VAR_NAME, 0) != null)
+            {
+                return new VariableValue(text.Substring(1));
+            }
+            else if (context.GetToken(ExpressionParser.STRING, 0) != null)
+            {
+                new StringValue(text);
+            }
+            Logger.LogWarning("Counlt not evaluate: " + text);
+            return null;
         }
 
         public override Expression VisitOpUnary(ExpressionParser.OpUnaryContext context)
         {
-            Logger.LogAnalyzer("OP Unary: " + context.GetText());
-            return base.VisitOpUnary(context);
+            if (context.GetToken(ExpressionParser.OP_ADD, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Add);
+            }
+            else if (context.GetToken(ExpressionParser.OP_SUB, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Sub);
+            }
+            else if (context.GetToken(ExpressionParser.OP_LOG_NOT, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Not);
+            }
+            Logger.LogWarning("Can not use operation " + context.GetText());
+            return null;
         }
 
         public override Expression VisitOp(ExpressionParser.OpContext context)
@@ -92,20 +125,31 @@ namespace Twee2Z.Analyzer.Expressions
 
         public override Expression VisitFunction(ExpressionParser.FunctionContext context)
         {
-            Logger.LogAnalyzer("Function: " + context.GetText());
-            RandomFunction f = new RandomFunction();
-            return f;
-            //return base.VisitFunction(context);
-        }
+            string name = context.GetChild(0).GetText();
+            Logger.LogAnalyzer("Function name: " + name);
 
-        public override Expression VisitFunctionArgs(ExpressionParser.FunctionArgsContext context)
-        {
-            return base.VisitFunctionArgs(context);
+            FunctionValue function;
+            switch (name.ToLower())
+            {
+                case "random":
+                    function = new RandomFunction();
+                    break;
+                default:
+                    Logger.LogWarning(name + " ist not supported");
+                    return null;
+            }
+
+
+            IReadOnlyList<ExpressionParser.FunctionArgContext> args = context.functionArg();
+            foreach (ExpressionParser.FunctionArgContext arg in args)
+            {
+                function.AddArg(VisitFunctionArg(arg));
+            }
+            return function;
         }
 
         public override Expression VisitFunctionArg(ExpressionParser.FunctionArgContext context)
         {
-            Logger.LogAnalyzer("Function Arg: " + context.GetText());
             return base.VisitFunctionArg(context);
         }
     }

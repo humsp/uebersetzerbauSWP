@@ -8,7 +8,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
 {
     public class NormalOp : BaseOp
     {
-        public enum LocicalOpEnum
+        public enum NormalOpEnum
         {
             Add,
             Sub,
@@ -17,10 +17,10 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
             Mod,
         }
 
-        private LocicalOpEnum _type;
+        private NormalOpEnum _type;
 
-        public NormalOp(LocicalOpEnum type)
-            : base(OpTypeEnum.Normal, type == LocicalOpEnum.Add || type == LocicalOpEnum.Sub ?
+        public NormalOp(NormalOpEnum type)
+            : base(OpTypeEnum.Normal, type == NormalOpEnum.Add || type == NormalOpEnum.Sub ?
             BaseOp.OpArgTypeEnum.Both : BaseOp.OpArgTypeEnum.Binary)
         {
             _type = type;

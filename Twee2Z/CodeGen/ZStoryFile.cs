@@ -44,17 +44,21 @@ namespace Twee2Z.CodeGen
                 throw new Exception("Start passage not found.", ex);
             }
 
+            string storyTitle = tree.StoryTitle.PassageContentList.First().PassageText.Text;
+            string storyAuthor = tree.StoryAuthor.PassageContentList.First().PassageText.Text;
+
+
             List<ZRoutine> routines = new List<ZRoutine>();
             
             routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
             
             try
             {
-                routines.Add(ConvertPassageToRoutine(startPassage));
+                routines.Add(ConvertPassageToRoutine(startPassage, storyTitle, storyAuthor));
 
                 foreach (Passage passage in passages)
                 {
-                    routines.Add(ConvertPassageToRoutine(passage));
+                    routines.Add(ConvertPassageToRoutine(passage, storyTitle, storyAuthor));
                 }
             }
             catch (Exception ex)
@@ -65,13 +69,30 @@ namespace Twee2Z.CodeGen
             _zMemory.SetRoutines(routines);
         }
 
-        private ZRoutine ConvertPassageToRoutine(Passage passage)
+        private ZRoutine ConvertPassageToRoutine(Passage passage, string storyTitle, string storyAuthor)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
             int currentLink = 0;
             var links = new List<Tuple<string, string>>();
 
             instructions.Add(new EraseWindow(0));
+
+            if (!String.IsNullOrWhiteSpace(storyTitle))
+            {
+                instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.Bold));
+
+                instructions.Add(new Print(storyTitle));
+                instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+
+                if (!String.IsNullOrWhiteSpace(storyAuthor))
+                {
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo));
+                    instructions.Add(new Print(" (" + storyAuthor + ")"));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                }
+                
+                instructions.Add(new NewLine());   
+            }
 
             instructions.AddRange(ConvertPassageContent(passage.PassageContentList, ref currentLink, links));
 

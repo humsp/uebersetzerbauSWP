@@ -46,7 +46,6 @@
     <Compile Include="Instruction\Opcode\OpcodeHelper.cs" />
     <Compile Include="Instruction\Opcode\OpcodeTypeKind.cs" />
     <Compile Include="Instruction\Operand\OperandTypeKind.cs" />
-    <Compile Include="Instruction\Template\Jz.cs" />
     <Compile Include="Instruction\Template\Je.cs" />
     <Compile Include="Instruction\Template\PrintChar.cs" />
     <Compile Include="Instruction\Template\PrintUnicode.cs" />

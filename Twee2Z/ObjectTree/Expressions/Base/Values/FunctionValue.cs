@@ -25,7 +25,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
      
         private FunctionTypeEnum _functionType;
 
-        protected List<BaseExpression> _args = new List<BaseExpression>();
+        protected List<Expression> _args = new List<Expression>();
 
         public FunctionValue(FunctionTypeEnum type)
             : base(BaseValue.ValueTypeEnum.Func)
@@ -33,7 +33,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
             _functionType = type;
         }
 
-        public virtual void AddArg(BaseExpression expr)
+        public virtual void AddArg(Expression expr)
         {
             if (_args.Count > MaxArgCount)
             {

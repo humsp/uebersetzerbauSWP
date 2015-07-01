@@ -14,8 +14,11 @@ namespace Twee2Z.CodeGen
 
         public void AddSymbol(string symbol)
         {
-            _variables.Add(symbol, new ZGlobalVariable(_variableCount));
-            _variableCount++;
+            if (!_variables.ContainsKey(symbol))
+            {
+                _variables.Add(symbol, new ZGlobalVariable(_variableCount));
+                _variableCount++;
+            }
         }
 
         public ZGlobalVariable GetSymbol(string symbol)

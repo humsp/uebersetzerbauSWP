@@ -69,7 +69,7 @@ namespace Twee2Z.CodeGen
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
             int currentLink = 0;
-            List<string> links = new List<string>();
+            var links = new List<Tuple<string, string>>();
 
             instructions.Add(new EraseWindow(0));
 
@@ -98,7 +98,17 @@ namespace Twee2Z.CodeGen
 
                 for (int i = 0; i < links.Count(); i++)
                 {
-                    instructions.Add(new Call1n(new ZRoutineLabel(links[i])) { Label = new ZLabel(links[i] + "Call") });
+                    if (!String.IsNullOrEmpty(links[i].Item2))
+                    {
+                        string[] splitList = links[i].Item2.Split('=');
+                        string name = splitList.First().Trim();
+                        short value = Convert.ToInt16(splitList.Last().Trim());
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                    }
+
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i] + "Call") });
                 }
             }
             else
@@ -110,7 +120,7 @@ namespace Twee2Z.CodeGen
             return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
         }
 
-        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<string> links)
+        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, string>> links)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -148,14 +158,14 @@ namespace Twee2Z.CodeGen
                     if (currentLink > 9)
                         throw new Exception("More than 9 links are not supported yet.");
 
-                    links.Add(content.PassageLink.Target);
-
                     instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText ?? content.PassageLink.Target));
 
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
                     instructions.Add(new Print(currentLink.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+
+                    links.Add(new Tuple<string, string>(content.PassageLink.Target, content.PassageLink.Expression));
                 }
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
@@ -172,7 +182,7 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<string> links)
+        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, string>> links)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 

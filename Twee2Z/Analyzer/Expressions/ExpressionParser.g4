@@ -8,24 +8,25 @@ expression
 
 /* base expression  */
 expr
-	: exprR
+	: exprRContent
+	| exprROpUnary
 	| VAR_NAME assign expr
 	;
 
 /* expression R (right from op) */
 exprR
 	: exprROpUnary
-	| exprRContent
+	| exprROp
 	;
 
 /* expression R (right from op) with op*/
 
 exprROpUnary
-	: (opUnary WS?)* exprRContent
+	: (opUnary WS?)+ exprRContent
 	;
 
 exprROp
-	: op WS? (opUnary WS?)* exprRContent
+	: op WS? exprROpUnary
 	;
 
 exprRContent
@@ -42,6 +43,7 @@ value
 	: function
 	| DIGITS
 	| DIGITS DOT DIGITS
+	| DOT DIGITS
 	| VAR_NAME
 	| STRING
 	;
@@ -49,14 +51,14 @@ value
 opUnary
 	: OP_SUB
 	| OP_ADD
-	| OP_LOG_NOT+
+	| OP_LOG_NOT
 	;
 
 op
 	: OP_LOG_AND
 	| OP_LOG_OR
 	| OP_LOG_XOR
-	| OP_MUL
+	| OP_MUL 
 	| OP_DIV
 	| OP_MOD
 	| NEQ
@@ -80,7 +82,21 @@ assign
 
 /* function */
 function
-	: NAME WS? BRACKET_OPEN ((WS? functionArg WS? COMMA)* WS? functionArg WS?)? BRACKET_CLOSE
+	: functionName WS? BRACKET_OPEN ((WS? functionArg WS? COMMA)* WS? functionArg WS?)? BRACKET_CLOSE
+	;
+
+functionName
+	: FCN_RANDOM
+	| FCN_PREVIOUS
+	| FCN_VISITED
+	| FCN_VISIT_TAG
+	| FCN_TURNS
+	| FCN_PASSAGE
+	| FCN_CONFIRM
+	| FCN_PROMT
+	| FCN_ALERT
+	| FCN_PARAMETER
+	| FCN_EITHER
 	;
 
 functionArg

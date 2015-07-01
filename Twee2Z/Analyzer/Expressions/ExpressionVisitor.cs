@@ -14,56 +14,136 @@ namespace Twee2Z.Analyzer.Expressions
 {
     class ExpressionVisitor : ExpressionParserBaseVisitor<Expression>
     {
-        private Expression _expression;
-
-        public Expression Expression
-        {
-            get { return _expression; }
-        }
-
 
         public override Expression VisitExpression(ExpressionParser.ExpressionContext context)
         {
-            Logger.LogAnalyzer("-----------------------");
             Logger.LogAnalyzer("Expression: " + context.GetText());
-            return base.VisitExpression(context);
+            return VisitExpr(context.expr());
         }
 
-        public override Expression VisitExpr(ExpressionParser.ExprContext context)
+        public BaseExpression VisitExpr(ExpressionParser.ExprContext context)
         {
-            if (context.ChildCount > 1)
+            ExpressionParser.ExprRContentContext exprRContentContext = context.exprRContent();
+
+            ExpressionParser.ExprROpUnaryContext exprROpUnaryContext = context.exprROpUnary();
+
+            var nameToken = context.GetToken(ExpressionParser.VAR_NAME, 0);
+            ExpressionParser.AssignContext assignContext = context.assign();
+            ExpressionParser.ExprContext exprContext = context.expr();
+
+
+
+            if (exprRContentContext != null)
+            {
+                return VisitExprRContent(exprRContentContext);
+            }
+            else if (exprROpUnaryContext != null)
+            {
+                return VisitExprROpUnary(exprROpUnaryContext);
+            }
+            else if (nameToken != null &&
+                 assignContext != null &&
+                 exprContext != null)
             {
                 Logger.LogAnalyzer("Variable: " + context.GetChild(0).GetText());
+
+                VariableValue variable = new VariableValue(nameToken.GetText().Substring(1));
+                Assign assign = VisitAssign(assignContext);
+                BaseExpression expr = VisitExpr(exprContext);
+
+                assign.Variable = variable;
+                assign.Expr = expr;
+                return assign;
             }
-            return base.VisitExpr(context);
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
         }
 
-        public override Expression VisitExprR(ExpressionParser.ExprRContext context)
+        public BaseOp VisitExprR(ExpressionParser.ExprRContext context)
         {
-            return base.VisitExprR(context);
+            if (context.exprROpUnary() != null)
+            {
+                return VisitExprROpUnary(context.exprROpUnary());
+            }
+            else if (context.exprROp() != null)
+            {
+                return VisitExprROp(context.exprROp());
+            }
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
         }
 
-        public override Expression VisitExprROpUnary(ExpressionParser.ExprROpUnaryContext context)
+        public BaseOp VisitExprROpUnary(ExpressionParser.ExprROpUnaryContext context)
         {
-            return base.VisitExprROpUnary(context);
+            IReadOnlyList<ExpressionParser.OpUnaryContext> opUnaries = context.opUnary();
+            BaseOp itarateOp = null;
+
+            foreach (ExpressionParser.OpUnaryContext opUnary in opUnaries)
+            {
+                if (itarateOp == null)
+                {
+                    itarateOp = VisitOpUnary(opUnary);
+                }
+                else
+                {
+                    BaseOp tempOp = VisitOpUnary(opUnary);
+                    itarateOp.RightExpr = tempOp;
+                    itarateOp = tempOp;
+                }
+            }
+
+            BaseExpression expr = VisitExprRContent(context.exprRContent());
+
+            if (itarateOp == null)
+            {
+                Logger.LogWarning("Can not parse " + context.GetText());
+                return null;
+            }
+
+            itarateOp.RightExpr = expr;
+            return itarateOp;
         }
 
-        public override Expression VisitExprROp(ExpressionParser.ExprROpContext context)
+        public BaseOp VisitExprROp(ExpressionParser.ExprROpContext context)
         {
-            return base.VisitExprROp(context);
+            BaseOp op = VisitOp(context.op());
+            BaseExpression expr = VisitExprROpUnary(context.exprROpUnary());
+
+            op.RightExpr = expr;
+
+            return op;
         }
 
-        public override Expression VisitExprRContent(ExpressionParser.ExprRContentContext context)
+        public BaseExpression VisitExprRContent(ExpressionParser.ExprRContentContext context)
         {
-            return base.VisitExprRContent(context);
+            if (context.exprRBracket() != null)
+            {
+                BaseOp op = VisitExprR(context.exprR());
+                BaseExpression expr = VisitExprRBracket(context.exprRBracket());
+                op.LeftExpr = expr;
+                return op;
+            }
+            else if (context.value() != null && context.exprR() != null)
+            {
+                BaseValue value = VisitValue(context.value());
+                BaseOp op = VisitExprR(context.exprR());
+                op.LeftExpr = value;
+                return op;
+            }
+            else if (context.value() != null)
+            {
+                return VisitValue(context.value());
+            }
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
         }
 
-        public override Expression VisitExprRBracket(ExpressionParser.ExprRBracketContext context)
+        public BaseExpression VisitExprRBracket(ExpressionParser.ExprRBracketContext context)
         {
-            return base.VisitExprRBracket(context);
+            return VisitExpr(context.expr());
         }
 
-        public override Expression VisitValue(ExpressionParser.ValueContext context)
+        public BaseValue VisitValue(ExpressionParser.ValueContext context)
         {
             string text = context.GetText();
             Logger.LogAnalyzer("Value: " + text);
@@ -81,6 +161,11 @@ namespace Twee2Z.Analyzer.Expressions
                 }
                 return new IntValue(Convert.ToInt32(text));
             }
+            else if (context.GetToken(ExpressionParser.DOT, 0) != null)
+            {
+                // TODO float
+                return new IntValue(0);
+            }
             else if (context.GetToken(ExpressionParser.VAR_NAME, 0) != null)
             {
                 return new VariableValue(text.Substring(1));
@@ -93,7 +178,7 @@ namespace Twee2Z.Analyzer.Expressions
             return null;
         }
 
-        public override Expression VisitOpUnary(ExpressionParser.OpUnaryContext context)
+        public BaseOp VisitOpUnary(ExpressionParser.OpUnaryContext context)
         {
             if (context.GetToken(ExpressionParser.OP_ADD, 0) != null)
             {
@@ -111,34 +196,100 @@ namespace Twee2Z.Analyzer.Expressions
             return null;
         }
 
-        public override Expression VisitOp(ExpressionParser.OpContext context)
+        public BaseOp VisitOp(ExpressionParser.OpContext context)
         {
             Logger.LogAnalyzer("OP: " + context.GetText());
-            return base.VisitOp(context);
+
+            if (context.GetToken(ExpressionParser.OP_LOG_AND, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.And);
+            }
+            else if (context.GetToken(ExpressionParser.OP_LOG_OR, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Or);
+            }
+            else if (context.GetToken(ExpressionParser.OP_LOG_XOR, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Xor);
+            }
+            else if (context.GetToken(ExpressionParser.NEQ, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Neq);
+            }
+            else if (context.GetToken(ExpressionParser.EQ, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Eq);
+            }
+            else if (context.GetToken(ExpressionParser.GT, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Gt);
+            }
+            else if (context.GetToken(ExpressionParser.GE, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Ge);
+            }
+            else if (context.GetToken(ExpressionParser.LT, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Lt);
+            }
+            else if (context.GetToken(ExpressionParser.LE, 0) != null)
+            {
+                return new LogicalOp(LogicalOp.LocicalOpEnum.Le);
+            }
+            else if (context.GetToken(ExpressionParser.OP_MUL, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Mul);
+            }
+            else if (context.GetToken(ExpressionParser.OP_DIV, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Div);
+            }
+            else if (context.GetToken(ExpressionParser.OP_MOD, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Mod);
+            }
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
         }
 
-        public override Expression VisitAssign(ExpressionParser.AssignContext context)
+        public Assign VisitAssign(ExpressionParser.AssignContext context)
         {
             Logger.LogAnalyzer("Assign: " + context.GetText());
-            return base.VisitAssign(context);
+
+            if (context.GetToken(ExpressionParser.ASSIGN_EQ, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignEq);
+            }
+            else if (context.GetToken(ExpressionParser.ASSIGN_SUB, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignSub);
+            }
+            else if (context.GetToken(ExpressionParser.ASSIGN_ADD, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignAdd);
+            }
+            else if (context.GetToken(ExpressionParser.ASSIGN_MUL, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignMul);
+            }
+            else if (context.GetToken(ExpressionParser.ASSIGN_DIV, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignDiv);
+            }
+            else if (context.GetToken(ExpressionParser.ASSIGN_MOD, 0) != null)
+            {
+                return new Assign(Assign.AssignTypeEnum.AssignMod);
+            }
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
         }
 
-        public override Expression VisitFunction(ExpressionParser.FunctionContext context)
+        public FunctionValue VisitFunction(ExpressionParser.FunctionContext context)
         {
             string name = context.GetChild(0).GetText();
             Logger.LogAnalyzer("Function name: " + name);
 
-            FunctionValue function;
-            switch (name.ToLower())
-            {
-                case "random":
-                    function = new RandomFunction();
-                    break;
-                default:
-                    Logger.LogWarning(name + " ist not supported");
-                    return null;
-            }
-
+            FunctionValue function = VisitFunctionName(context.functionName());
 
             IReadOnlyList<ExpressionParser.FunctionArgContext> args = context.functionArg();
             foreach (ExpressionParser.FunctionArgContext arg in args)
@@ -148,9 +299,20 @@ namespace Twee2Z.Analyzer.Expressions
             return function;
         }
 
-        public override Expression VisitFunctionArg(ExpressionParser.FunctionArgContext context)
+        public FunctionValue VisitFunctionName(ExpressionParser.FunctionNameContext context)
         {
-            return base.VisitFunctionArg(context);
+            if (context.GetToken(ExpressionParser.FCN_RANDOM, 0) != null)
+            {
+                return new RandomFunction();
+            }
+            Logger.LogWarning(context.GetText() + " ist not supported");
+
+            return null;
+        }
+
+        public BaseExpression VisitFunctionArg(ExpressionParser.FunctionArgContext context)
+        {
+            return VisitExpr(context.expr());
         }
     }
 }

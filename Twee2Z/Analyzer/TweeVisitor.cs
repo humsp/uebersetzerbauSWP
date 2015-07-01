@@ -313,7 +313,8 @@ namespace Twee2Z.Analyzer
 
         public Expression ParseExpression(Twee.ExpressionContext context)
         {
-            Expression expr = ExpressionAnalyzer.Parse(context.GetChild(0).GetText());
+            string text = context.GetChild(0).GetText();
+            Expression expr = ExpressionAnalyzer.Parse(text.Substring(0, text.Count() - 2));
             return expr;
         }
     }

@@ -1,7 +1,6 @@
 lexer grammar ExpressionLexer;
 
 // functions
-/*
 FCN_RANDOM		: 'random';
 FCN_PREVIOUS	: 'previous';
 FCN_VISITED		: 'visited';
@@ -13,7 +12,7 @@ FCN_PROMT		: 'prompt';
 FCN_ALERT		: 'alert';
 FCN_PARAMETER	: 'parameter';
 FCN_EITHER		: 'either';
-*/
+
 
 BRACKET_OPEN	: '(';
 BRACKET_CLOSE	: ')';

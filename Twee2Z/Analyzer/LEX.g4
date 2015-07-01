@@ -1,10 +1,15 @@
 lexer grammar LEX;
+options
+{
+  //turn on backtracking
+  backtrack=true;
+}
 
 INT					: DIGIT+;
 PASS				: NEW_LINE ':'(':')+ -> pushMode(PMode);
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
 LINK_START			: '[[' -> pushMode(LMode);
-FUNC_START			: FUNC_NAME -> pushMode(FMode);
+//FUNC_START			: FUNC_NAME -> pushMode(FMode);
 VAR_NAME			: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
 FORMAT				: ('\u0027\u0027'	
 					|'//'				
@@ -57,7 +62,7 @@ STRING_END2			: QUOTE2 -> popMode;
 
 // FUNCTION-MODE
 mode FMode;
-FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
+//FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
 FUNC_BRACKET_OPEN	: '('  -> pushMode(EMode);
 FUNC_BRACKET_CLOSE	: ')'  -> popMode; 
 
@@ -82,14 +87,21 @@ MACRO_END			: '>>' -> popMode;
 // EXPRESSION-MODE
 mode EMode;
 EXPRESSION
-	: EXPRESSION_BODY EXPR_END
+	: EXPRESSION_BODY   -> popMode, popMode
 	;
 
 EXPRESSION_BODY
 	: STRING EXPRESSION_BODY
-	| . EXPRESSION_BODY?
+	| ~'>' EXPRESSION_BODY
+	| . TEST
 	;
-EXPR_END : '>>' -> popMode, popMode;
+
+TEST
+	: ~'>' EXPRESSION_BODY
+	| .
+	;
+
+EXP_END_M : '>>'  -> popMode, popMode;
 
 
 // LINK-MODE

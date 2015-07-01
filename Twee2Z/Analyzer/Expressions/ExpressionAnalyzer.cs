@@ -24,8 +24,8 @@ namespace Twee2Z.Analyzer.Expressions
             ExpressionParser.ExpressionContext startContext = new ExpressionParser(input).expression();
 
             ExpressionVisitor visit = new ExpressionVisitor();
-            visit.Visit(startContext);
-            return visit.Expression;
+            Expression expr = visit.Visit(startContext);
+            return expr;
         }
 
         public static CommonTokenStream Lex(string input)

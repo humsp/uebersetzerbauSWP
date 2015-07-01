@@ -33,7 +33,7 @@ link
 /* macro */
 
 macro
-	: MACRO_START (DISPLAY|SET|PRINT) expression EXP_END_M
+	: MACRO_START (DISPLAY|SET|PRINT) expression
 	| MACRO_START  (ACTIONS text | CHOICE link?) MACRO_END 
 	| macroBranchIf macroBranchIfElse* macroBranchElse? macroBranchPop
 	| MACRO_START NOBR MACRO_END passageContent MACRO_START ENDNOBR MACRO_END
@@ -41,11 +41,11 @@ macro
 	;
 
 macroBranchIf
-	: MACRO_START IF expression EXP_END_M passageContent
+	: MACRO_START IF expression passageContent
 	;
 
 macroBranchIfElse
-	: MACRO_START ELSE_IF expression EXP_END_M passageContent
+	: MACRO_START ELSE_IF expression passageContent
 	;
 
 macroBranchElse

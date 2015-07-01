@@ -1,10 +1,15 @@
 lexer grammar LEX;
+options
+{
+  //turn on backtracking
+  backtrack=true;
+}
 
 INT					: DIGIT+;
 PASS				: NEW_LINE ':'(':')+ -> pushMode(PMode);
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
 LINK_START			: '[[' -> pushMode(LMode);
-FUNC_START			: FUNC_NAME -> pushMode(FMode);
+//FUNC_START			: FUNC_NAME -> pushMode(FMode);
 VAR_NAME			: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
 FORMAT				: ('\u0027\u0027'	
 					|'//'				
@@ -19,9 +24,11 @@ FORMAT				: ('\u0027\u0027'
 EXCLUDE				: (':'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%'|']'|'['|'\u0027');
 NEW_LINE			: ('\r' | '\n' | '\r\n');
 STRING_START		: QUOTE -> pushMode(SMode);
+STRING_START2		: QUOTE2 -> pushMode(SMode2);
 SPACE				: ' ';
 WORD				: ~(':'|'0'..'9'|'\r'|'\n'|'['|']'|' '|'"'|'/'|'_'|'='|'^'|'~'|'{'|'/'|'}'|'%'|'|'|'\u0027');
-STRING				: STRING_START STRING_BODY STRING_END;
+STRING				: STRING_START STRING_BODY STRING_END
+					| STRING_START2 STRING_BODY2 STRING_END2;
 
 // normal symbols
 fragment LETTER: [a-zA-Z];
@@ -33,6 +40,7 @@ fragment COMMA				: ',';
 fragment SEMICOLON			: ';';
 fragment LOW_LINE			: '_';
 fragment QUOTE				: '"';
+fragment QUOTE2				: '\'';
 fragment DOLLAR				: '$';
 
 // PASSAGE-MODE
@@ -48,9 +56,13 @@ mode SMode;
 STRING_BODY			: .*?;
 STRING_END			: QUOTE -> popMode;
 
+mode SMode2;
+STRING_BODY2		: .*?;
+STRING_END2			: QUOTE2 -> popMode;
+
 // FUNCTION-MODE
 mode FMode;
-FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
+//FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
 FUNC_BRACKET_OPEN	: '('  -> pushMode(EMode);
 FUNC_BRACKET_CLOSE	: ')'  -> popMode; 
 
@@ -58,40 +70,39 @@ FUNC_BRACKET_CLOSE	: ')'  -> popMode;
 mode MMode;
 IF					: 'if'   -> pushMode(EMode);
 ELSE_IF				: 'else if'   -> pushMode(EMode);
-ELSE				: 'else' SPACE*;
-ENDIF				: 'endif' SPACE*;
-NOBR				: 'nobr' SPACE*;
-ENDNOBR				: 'endnobr' SPACE*;
-SILENTLY			: 'silently' SPACE*;
-ENDSILENTLY			: 'endsilently' SPACE*;
-ACTIONS				: 'actions' SPACE*;
-CHOICE				: 'choice' SPACE* ;
-DISPLAY				: 'display' NEW_LINE*  -> pushMode(EMode);
-SET					: 'set' NEW_LINE*  -> pushMode(EMode);
-PRINT				: 'print' NEW_LINE*   -> pushMode(EMode);
-MACRO_BRACKET_OPEN	: '<<' SPACE*;
+ELSE				: 'else' (SPACE|NEW_LINE)*;
+ENDIF				: 'endif' (SPACE|NEW_LINE)*;
+NOBR				: 'nobr' (SPACE|NEW_LINE)*;
+ENDNOBR				: 'endnobr' (SPACE|NEW_LINE)*;
+SILENTLY			: 'silently' (SPACE|NEW_LINE)*;
+ENDSILENTLY			: 'endsilently' (SPACE|NEW_LINE)*;
+ACTIONS				: 'actions' (SPACE|NEW_LINE)*;
+CHOICE				: 'choice' (SPACE|NEW_LINE)*;
+DISPLAY				: 'display' -> pushMode(EMode);
+SET					: 'set' -> pushMode(EMode);
+PRINT				: 'print' -> pushMode(EMode);
+MACRO_BRACKET_OPEN	: '<<';
 MACRO_END			: '>>' -> popMode;
 
 // EXPRESSION-MODE
 mode EMode;
-EXPRESSION :	 ((NOT|ADD|SUB) EXPRESSION SPACE*)
-				|((VAR_NAME|STRING|INT+) SPACE* (LOG_OP|MOD|ADD|MUL|DIV|SUB|EQ_SIGN) EXPRESSION SPACE*)
-				|('('EXPRESSION ')')
-				|(SPACE EXPRESSION)
-				|(VAR_NAME|STRING|INT+)
-				;
-FUNC_PARAM		: COMMA EXPRESSION;
-MUL	: '*';
-DIV	: '/';
-ADD	: '+';
-SUB	: '-';
-LOG_OP : 'is' | 'eq'|'neq'| 'and'| 'or'| '<'| 'lt'|  '<='| 'lte'| '>'| 'gt'| '>='| 'gte';
-MOD	: '%';
-EQ_SIGN: '=';
-NOT	: 'not';
-EXP_END: ')' ->mode(DEFAULT_MODE);
-EXP_END_L: ']]' ->mode(DEFAULT_MODE);
-EXP_END_M: ('\n'|'\r')* '>>' ->mode(DEFAULT_MODE);
+EXPRESSION
+	: EXPRESSION_BODY   -> popMode, popMode
+	;
+
+EXPRESSION_BODY
+	: STRING EXPRESSION_BODY
+	| ~'>' EXPRESSION_BODY
+	| . TEST
+	;
+
+TEST
+	: ~'>' EXPRESSION_BODY
+	| .
+	;
+
+EXP_END_M : '>>'  -> popMode, popMode;
+
 
 // LINK-MODE
 

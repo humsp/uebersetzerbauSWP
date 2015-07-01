@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\David\Desktop\Twee\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
+// Generated from C:\Users\Rene\Documents\Git\uebersetzerbauSWP\Twee2Z\Analyzer\Twee.g4 by ANTLR 4.4.1-SNAPSHOT
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -29,16 +29,15 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 [System.CLSCompliant(false)]
 public partial class Twee : Parser {
 	public const int
-		PRINT=36, ADD=43, FORMAT=7, ENDNOBR=29, FUNC_START=5, LINK_START=4, PIPE=53, 
-		FUNC_BRACKET_CLOSE=23, LINK_END=57, ELSE_IF=25, STRING_BODY=19, ELSE=26, 
-		IF=24, SUB=44, WORD=12, VAR_NAME=6, MUL=41, ENDSILENTLY=31, SQ_BRACKET_OPEN=55, 
-		NEW_LINE=9, NOT=48, PASS=2, MACRO_START=3, MACRO_BRACKET_OPEN=37, EXP_END=49, 
-		EXCLUDE=8, STRING_END=20, SET=35, PMODE_END=18, FUNC_LINK=52, INT=1, SPACE=11, 
-		CHOICE=33, DISPLAY=34, PMODEWORD=14, ACTIONS=32, EQ_SIGN=47, TAG_BEGIN=16, 
-		MACRO_END=38, EXP_END_M=51, EXP_END_L=50, MOD=46, WORDS=56, ENDIF=27, 
-		SILENTLY=30, STRING_START=10, DIV=42, FUNC_NAME=21, NOBR=28, LOG_OP=45, 
-		SQ_BRACKET_CLOSE=54, STRING=13, TAG=15, FUNC_BRACKET_OPEN=22, TAG_END=17, 
-		EXPRESSION=39, FUNC_PARAM=40;
+		ENDNOBR=30, STRING_START=9, ELSE=27, STRING_START2=10, PMODEWORD=14, FUNC_BRACKET_OPEN=23, 
+		PMODE_END=18, STRING_BODY=19, EXP_END_M=43, SET=36, INT=1, SQ_BRACKET_OPEN=47, 
+		MACRO_BRACKET_OPEN=38, SPACE=11, VAR_NAME=5, FUNC_LINK=44, PRINT=37, IF=25, 
+		PASS=2, TAG=15, TAG_BEGIN=16, ACTIONS=33, SQ_BRACKET_CLOSE=46, SILENTLY=31, 
+		WORD=12, MACRO_END=39, TAG_END=17, DISPLAY=35, STRING_END=20, WORDS=48, 
+		NOBR=29, LINK_START=4, TEST=42, ENDIF=28, FUNC_BRACKET_CLOSE=24, PIPE=45, 
+		FORMAT=6, MACRO_START=3, EXPRESSION=40, CHOICE=34, ENDSILENTLY=32, STRING_BODY2=21, 
+		ELSE_IF=26, NEW_LINE=8, STRING_END2=22, EXPRESSION_BODY=41, EXCLUDE=7, 
+		STRING=13, LINK_END=49, EXP_END_L=50, FUNC_START=51, FUNC_PARAM=52, EXP_END=53;
 	public const int
 		RULE_start = 0, RULE_ignoreFirst = 1, RULE_passage = 2, RULE_passageContent = 3, 
 		RULE_link = 4, RULE_macro = 5, RULE_macroBranchIf = 6, RULE_macroBranchIfElse = 7, 
@@ -52,21 +51,21 @@ public partial class Twee : Parser {
 
 	private static readonly string[] _LiteralNames = {
 		null, null, null, null, "'[['", null, null, null, null, null, null, "' '", 
-		null, null, null, null, null, null, null, null, null, null, "'('", null, 
-		"'if'", "'else if'", null, null, null, null, null, null, null, null, null, 
-		null, null, null, "'>>'", null, null, "'*'", "'/'", "'+'", "'-'", null, 
-		"'%'", "'='", "'not'", null, null, null, null, "'|'"
+		null, null, null, null, null, null, null, null, null, null, null, "'('", 
+		"')'", "'if'", "'else if'", null, null, null, null, null, null, null, 
+		null, "'display'", "'set'", "'print'", "'<<'", null, null, null, null, 
+		null, null, "'|'", null, null, null, "']]'"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, "INT", "PASS", "MACRO_START", "LINK_START", "FUNC_START", "VAR_NAME", 
-		"FORMAT", "EXCLUDE", "NEW_LINE", "STRING_START", "SPACE", "WORD", "STRING", 
-		"PMODEWORD", "TAG", "TAG_BEGIN", "TAG_END", "PMODE_END", "STRING_BODY", 
-		"STRING_END", "FUNC_NAME", "FUNC_BRACKET_OPEN", "FUNC_BRACKET_CLOSE", 
+		null, "INT", "PASS", "MACRO_START", "LINK_START", "VAR_NAME", "FORMAT", 
+		"EXCLUDE", "NEW_LINE", "STRING_START", "STRING_START2", "SPACE", "WORD", 
+		"STRING", "PMODEWORD", "TAG", "TAG_BEGIN", "TAG_END", "PMODE_END", "STRING_BODY", 
+		"STRING_END", "STRING_BODY2", "STRING_END2", "FUNC_BRACKET_OPEN", "FUNC_BRACKET_CLOSE", 
 		"IF", "ELSE_IF", "ELSE", "ENDIF", "NOBR", "ENDNOBR", "SILENTLY", "ENDSILENTLY", 
 		"ACTIONS", "CHOICE", "DISPLAY", "SET", "PRINT", "MACRO_BRACKET_OPEN", 
-		"MACRO_END", "EXPRESSION", "FUNC_PARAM", "MUL", "DIV", "ADD", "SUB", "LOG_OP", 
-		"MOD", "EQ_SIGN", "NOT", "EXP_END", "EXP_END_L", "EXP_END_M", "FUNC_LINK", 
-		"PIPE", "SQ_BRACKET_CLOSE", "SQ_BRACKET_OPEN", "WORDS", "LINK_END"
+		"MACRO_END", "EXPRESSION", "EXPRESSION_BODY", "TEST", "EXP_END_M", "FUNC_LINK", 
+		"PIPE", "SQ_BRACKET_CLOSE", "SQ_BRACKET_OPEN", "WORDS", "LINK_END", "EXP_END_L", 
+		"FUNC_START", "FUNC_PARAM", "EXP_END"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -122,11 +121,11 @@ public partial class Twee : Parser {
 		public IReadOnlyList<PassageContext> passage() {
 			return GetRuleContexts<PassageContext>();
 		}
-		public PassageContext passage(int i) {
-			return GetRuleContext<PassageContext>(i);
-		}
 		public IgnoreFirstContext ignoreFirst() {
 			return GetRuleContext<IgnoreFirstContext>(0);
+		}
+		public PassageContext passage(int i) {
+			return GetRuleContext<PassageContext>(i);
 		}
 		public StartContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -184,12 +183,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class IgnoreFirstContext : ParserRuleContext {
-		public PassageContext passage() {
-			return GetRuleContext<PassageContext>(0);
-		}
 		public ITerminalNode PASS() { return GetToken(Twee.PASS, 0); }
 		public IgnoreFirstContext ignoreFirst() {
 			return GetRuleContext<IgnoreFirstContext>(0);
+		}
+		public PassageContext passage() {
+			return GetRuleContext<PassageContext>(0);
 		}
 		public IgnoreFirstContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -228,12 +227,12 @@ public partial class Twee : Parser {
 			case INT:
 			case MACRO_START:
 			case LINK_START:
-			case FUNC_START:
 			case VAR_NAME:
 			case FORMAT:
 			case EXCLUDE:
 			case NEW_LINE:
 			case STRING_START:
+			case STRING_START2:
 			case SPACE:
 			case WORD:
 			case STRING:
@@ -244,7 +243,8 @@ public partial class Twee : Parser {
 			case PMODE_END:
 			case STRING_BODY:
 			case STRING_END:
-			case FUNC_NAME:
+			case STRING_BODY2:
+			case STRING_END2:
 			case FUNC_BRACKET_OPEN:
 			case FUNC_BRACKET_CLOSE:
 			case IF:
@@ -263,17 +263,8 @@ public partial class Twee : Parser {
 			case MACRO_BRACKET_OPEN:
 			case MACRO_END:
 			case EXPRESSION:
-			case FUNC_PARAM:
-			case MUL:
-			case DIV:
-			case ADD:
-			case SUB:
-			case LOG_OP:
-			case MOD:
-			case EQ_SIGN:
-			case NOT:
-			case EXP_END:
-			case EXP_END_L:
+			case EXPRESSION_BODY:
+			case TEST:
 			case EXP_END_M:
 			case FUNC_LINK:
 			case PIPE:
@@ -281,6 +272,10 @@ public partial class Twee : Parser {
 			case SQ_BRACKET_OPEN:
 			case WORDS:
 			case LINK_END:
+			case EXP_END_L:
+			case FUNC_START:
+			case FUNC_PARAM:
+			case EXP_END:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 38;
@@ -308,16 +303,16 @@ public partial class Twee : Parser {
 	}
 
 	public partial class PassageContext : ParserRuleContext {
-		public ITerminalNode PMODE_END(int i) {
-			return GetToken(Twee.PMODE_END, i);
-		}
-		public ITerminalNode TAG() { return GetToken(Twee.TAG, 0); }
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
 		public ITerminalNode PASS() { return GetToken(Twee.PASS, 0); }
 		public ITerminalNode PMODEWORD() { return GetToken(Twee.PMODEWORD, 0); }
 		public IReadOnlyList<ITerminalNode> PMODE_END() { return GetTokens(Twee.PMODE_END); }
+		public ITerminalNode PMODE_END(int i) {
+			return GetToken(Twee.PMODE_END, i);
+		}
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode TAG() { return GetToken(Twee.TAG, 0); }
 		public PassageContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -359,7 +354,7 @@ public partial class Twee : Parser {
 			State = 50;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << PASS) | (1L << MACRO_START) | (1L << LINK_START) | (1L << FUNC_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << STRING_START) | (1L << SPACE) | (1L << WORD) | (1L << STRING) | (1L << PMODEWORD) | (1L << TAG) | (1L << TAG_BEGIN) | (1L << TAG_END) | (1L << STRING_BODY) | (1L << STRING_END) | (1L << FUNC_NAME) | (1L << FUNC_BRACKET_OPEN) | (1L << FUNC_BRACKET_CLOSE) | (1L << IF) | (1L << ELSE_IF) | (1L << ELSE) | (1L << ENDIF) | (1L << NOBR) | (1L << ENDNOBR) | (1L << SILENTLY) | (1L << ENDSILENTLY) | (1L << ACTIONS) | (1L << CHOICE) | (1L << DISPLAY) | (1L << SET) | (1L << PRINT) | (1L << MACRO_BRACKET_OPEN) | (1L << MACRO_END) | (1L << EXPRESSION) | (1L << FUNC_PARAM) | (1L << MUL) | (1L << DIV) | (1L << ADD) | (1L << SUB) | (1L << LOG_OP) | (1L << MOD) | (1L << EQ_SIGN) | (1L << NOT) | (1L << EXP_END) | (1L << EXP_END_L) | (1L << EXP_END_M) | (1L << FUNC_LINK) | (1L << PIPE) | (1L << SQ_BRACKET_CLOSE) | (1L << SQ_BRACKET_OPEN) | (1L << WORDS) | (1L << LINK_END))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << PASS) | (1L << MACRO_START) | (1L << LINK_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << STRING_START) | (1L << STRING_START2) | (1L << SPACE) | (1L << WORD) | (1L << STRING) | (1L << PMODEWORD) | (1L << TAG) | (1L << TAG_BEGIN) | (1L << TAG_END) | (1L << STRING_BODY) | (1L << STRING_END) | (1L << STRING_BODY2) | (1L << STRING_END2) | (1L << FUNC_BRACKET_OPEN) | (1L << FUNC_BRACKET_CLOSE) | (1L << IF) | (1L << ELSE_IF) | (1L << ELSE) | (1L << ENDIF) | (1L << NOBR) | (1L << ENDNOBR) | (1L << SILENTLY) | (1L << ENDSILENTLY) | (1L << ACTIONS) | (1L << CHOICE) | (1L << DISPLAY) | (1L << SET) | (1L << PRINT) | (1L << MACRO_BRACKET_OPEN) | (1L << MACRO_END) | (1L << EXPRESSION) | (1L << EXPRESSION_BODY) | (1L << TEST) | (1L << EXP_END_M) | (1L << FUNC_LINK) | (1L << PIPE) | (1L << SQ_BRACKET_CLOSE) | (1L << SQ_BRACKET_OPEN) | (1L << WORDS) | (1L << LINK_END) | (1L << EXP_END_L) | (1L << FUNC_START) | (1L << FUNC_PARAM) | (1L << EXP_END))) != 0)) {
 				{
 				{
 				State = 47;
@@ -377,7 +372,7 @@ public partial class Twee : Parser {
 			State = 53; Match(PMODE_END);
 			State = 55;
 			_la = _input.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << MACRO_START) | (1L << LINK_START) | (1L << FUNC_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << SPACE) | (1L << WORD) | (1L << STRING))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << MACRO_START) | (1L << LINK_START) | (1L << VAR_NAME) | (1L << FORMAT) | (1L << EXCLUDE) | (1L << NEW_LINE) | (1L << SPACE) | (1L << WORD) | (1L << STRING) | (1L << FUNC_START))) != 0)) {
 				{
 				State = 54; passageContent();
 				}
@@ -397,23 +392,23 @@ public partial class Twee : Parser {
 	}
 
 	public partial class PassageContentContext : ParserRuleContext {
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
 		public TextContext text() {
 			return GetRuleContext<TextContext>(0);
-		}
-		public LinkContext link() {
-			return GetRuleContext<LinkContext>(0);
 		}
 		public FunctionContext function() {
 			return GetRuleContext<FunctionContext>(0);
 		}
+		public MacroContext macro() {
+			return GetRuleContext<MacroContext>(0);
+		}
 		public VariableContext variable() {
 			return GetRuleContext<VariableContext>(0);
 		}
-		public MacroContext macro() {
-			return GetRuleContext<MacroContext>(0);
+		public LinkContext link() {
+			return GetRuleContext<LinkContext>(0);
+		}
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
 		}
 		public PassageContentContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -500,15 +495,15 @@ public partial class Twee : Parser {
 	}
 
 	public partial class LinkContext : ParserRuleContext {
-		public ITerminalNode SQ_BRACKET_OPEN() { return GetToken(Twee.SQ_BRACKET_OPEN, 0); }
 		public ITerminalNode EXP_END_L() { return GetToken(Twee.EXP_END_L, 0); }
+		public ITerminalNode PIPE() { return GetToken(Twee.PIPE, 0); }
+		public ITerminalNode FUNC_LINK() { return GetToken(Twee.FUNC_LINK, 0); }
+		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
 		public ITerminalNode LINK_START() { return GetToken(Twee.LINK_START, 0); }
 		public ITerminalNode SQ_BRACKET_CLOSE() { return GetToken(Twee.SQ_BRACKET_CLOSE, 0); }
-		public ITerminalNode FUNC_LINK() { return GetToken(Twee.FUNC_LINK, 0); }
-		public IReadOnlyList<ITerminalNode> WORDS() { return GetTokens(Twee.WORDS); }
-		public ITerminalNode PIPE() { return GetToken(Twee.PIPE, 0); }
-		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
 		public ITerminalNode LINK_END() { return GetToken(Twee.LINK_END, 0); }
+		public ITerminalNode SQ_BRACKET_OPEN() { return GetToken(Twee.SQ_BRACKET_OPEN, 0); }
+		public IReadOnlyList<ITerminalNode> WORDS() { return GetTokens(Twee.WORDS); }
 		public ITerminalNode WORDS(int i) {
 			return GetToken(Twee.WORDS, i);
 		}
@@ -590,51 +585,50 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroContext : ParserRuleContext {
+		public ITerminalNode MACRO_START(int i) {
+			return GetToken(Twee.MACRO_START, i);
+		}
+		public ITerminalNode SET() { return GetToken(Twee.SET, 0); }
+		public ITerminalNode NOBR() { return GetToken(Twee.NOBR, 0); }
+		public ITerminalNode PRINT() { return GetToken(Twee.PRINT, 0); }
+		public IReadOnlyList<ITerminalNode> MACRO_END() { return GetTokens(Twee.MACRO_END); }
 		public MacroBranchIfElseContext macroBranchIfElse(int i) {
 			return GetRuleContext<MacroBranchIfElseContext>(i);
-		}
-		public ITerminalNode PRINT() { return GetToken(Twee.PRINT, 0); }
-		public TextContext text() {
-			return GetRuleContext<TextContext>(0);
-		}
-		public MacroBranchElseContext macroBranchElse() {
-			return GetRuleContext<MacroBranchElseContext>(0);
-		}
-		public ITerminalNode DISPLAY() { return GetToken(Twee.DISPLAY, 0); }
-		public IReadOnlyList<ITerminalNode> MACRO_START() { return GetTokens(Twee.MACRO_START); }
-		public IReadOnlyList<ITerminalNode> MACRO_END() { return GetTokens(Twee.MACRO_END); }
-		public ITerminalNode MACRO_END(int i) {
-			return GetToken(Twee.MACRO_END, i);
 		}
 		public IReadOnlyList<MacroBranchIfElseContext> macroBranchIfElse() {
 			return GetRuleContexts<MacroBranchIfElseContext>();
 		}
-		public ITerminalNode CHOICE() { return GetToken(Twee.CHOICE, 0); }
-		public MacroBranchIfContext macroBranchIf() {
-			return GetRuleContext<MacroBranchIfContext>(0);
-		}
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
-		public ITerminalNode ENDSILENTLY() { return GetToken(Twee.ENDSILENTLY, 0); }
-		public ITerminalNode MACRO_START(int i) {
-			return GetToken(Twee.MACRO_START, i);
-		}
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
-		public ITerminalNode SILENTLY() { return GetToken(Twee.SILENTLY, 0); }
 		public LinkContext link() {
 			return GetRuleContext<LinkContext>(0);
 		}
-		public ITerminalNode ACTIONS() { return GetToken(Twee.ACTIONS, 0); }
 		public MacroBranchPopContext macroBranchPop() {
 			return GetRuleContext<MacroBranchPopContext>(0);
 		}
 		public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public ITerminalNode SET() { return GetToken(Twee.SET, 0); }
-		public ITerminalNode NOBR() { return GetToken(Twee.NOBR, 0); }
+		public MacroBranchElseContext macroBranchElse() {
+			return GetRuleContext<MacroBranchElseContext>(0);
+		}
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
+		}
+		public ITerminalNode ACTIONS() { return GetToken(Twee.ACTIONS, 0); }
+		public ITerminalNode SILENTLY() { return GetToken(Twee.SILENTLY, 0); }
+		public ITerminalNode MACRO_END(int i) {
+			return GetToken(Twee.MACRO_END, i);
+		}
+		public ITerminalNode ENDSILENTLY() { return GetToken(Twee.ENDSILENTLY, 0); }
+		public TextContext text() {
+			return GetRuleContext<TextContext>(0);
+		}
+		public ITerminalNode CHOICE() { return GetToken(Twee.CHOICE, 0); }
+		public ITerminalNode DISPLAY() { return GetToken(Twee.DISPLAY, 0); }
 		public ITerminalNode ENDNOBR() { return GetToken(Twee.ENDNOBR, 0); }
+		public MacroBranchIfContext macroBranchIf() {
+			return GetRuleContext<MacroBranchIfContext>(0);
+		}
+		public IReadOnlyList<ITerminalNode> MACRO_START() { return GetTokens(Twee.MACRO_START); }
 		public MacroContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -662,7 +656,7 @@ public partial class Twee : Parser {
 		int _la;
 		try {
 			int _alt;
-			State = 123;
+			State = 121;
 			switch ( Interpreter.AdaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
@@ -675,30 +669,29 @@ public partial class Twee : Parser {
 				}
 				Consume();
 				State = 82; expression();
-				State = 83; Match(EXP_END_M);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 85; Match(MACRO_START);
-				State = 92;
+				State = 83; Match(MACRO_START);
+				State = 90;
 				switch (_input.La(1)) {
 				case ACTIONS:
 					{
-					State = 86; Match(ACTIONS);
-					State = 87; text();
+					State = 84; Match(ACTIONS);
+					State = 85; text();
 					}
 					break;
 				case CHOICE:
 					{
-					State = 88; Match(CHOICE);
-					State = 90;
+					State = 86; Match(CHOICE);
+					State = 88;
 					_la = _input.La(1);
 					if (_la==LINK_START) {
 						{
-						State = 89; link();
+						State = 87; link();
 						}
 					}
 
@@ -707,64 +700,64 @@ public partial class Twee : Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 94; Match(MACRO_END);
+				State = 92; Match(MACRO_END);
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 95; macroBranchIf();
-				State = 99;
+				State = 93; macroBranchIf();
+				State = 97;
 				_errHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
 				while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 					if ( _alt==1 ) {
 						{
 						{
-						State = 96; macroBranchIfElse();
+						State = 94; macroBranchIfElse();
 						}
 						} 
 					}
-					State = 101;
+					State = 99;
 					_errHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
 				}
-				State = 103;
+				State = 101;
 				switch ( Interpreter.AdaptivePredict(_input,12,_ctx) ) {
 				case 1:
 					{
-					State = 102; macroBranchElse();
+					State = 100; macroBranchElse();
 					}
 					break;
 				}
-				State = 105; macroBranchPop();
+				State = 103; macroBranchPop();
 				}
 				break;
 
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 107; Match(MACRO_START);
-				State = 108; Match(NOBR);
-				State = 109; Match(MACRO_END);
-				State = 110; passageContent();
-				State = 111; Match(MACRO_START);
-				State = 112; Match(ENDNOBR);
-				State = 113; Match(MACRO_END);
+				State = 105; Match(MACRO_START);
+				State = 106; Match(NOBR);
+				State = 107; Match(MACRO_END);
+				State = 108; passageContent();
+				State = 109; Match(MACRO_START);
+				State = 110; Match(ENDNOBR);
+				State = 111; Match(MACRO_END);
 				}
 				break;
 
 			case 5:
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 115; Match(MACRO_START);
-				State = 116; Match(SILENTLY);
-				State = 117; Match(MACRO_END);
-				State = 118; passageContent();
-				State = 119; Match(MACRO_START);
-				State = 120; Match(ENDSILENTLY);
-				State = 121; Match(MACRO_END);
+				State = 113; Match(MACRO_START);
+				State = 114; Match(SILENTLY);
+				State = 115; Match(MACRO_END);
+				State = 116; passageContent();
+				State = 117; Match(MACRO_START);
+				State = 118; Match(ENDSILENTLY);
+				State = 119; Match(MACRO_END);
 				}
 				break;
 			}
@@ -781,13 +774,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchIfContext : ParserRuleContext {
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
 		public ITerminalNode IF() { return GetToken(Twee.IF, 0); }
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
 		public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
+		}
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
 		public MacroBranchIfContext(ParserRuleContext parent, int invokingState)
@@ -817,11 +809,10 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 125; Match(MACRO_START);
-			State = 126; Match(IF);
-			State = 127; expression();
-			State = 128; Match(EXP_END_M);
-			State = 129; passageContent();
+			State = 123; Match(MACRO_START);
+			State = 124; Match(IF);
+			State = 125; expression();
+			State = 126; passageContent();
 			}
 		}
 		catch (RecognitionException re) {
@@ -836,13 +827,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchIfElseContext : ParserRuleContext {
-		public PassageContentContext passageContent() {
-			return GetRuleContext<PassageContentContext>(0);
-		}
-		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
-		public ITerminalNode EXP_END_M() { return GetToken(Twee.EXP_END_M, 0); }
 		public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
+		}
+		public ITerminalNode ELSE_IF() { return GetToken(Twee.ELSE_IF, 0); }
+		public PassageContentContext passageContent() {
+			return GetRuleContext<PassageContentContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
 		public MacroBranchIfElseContext(ParserRuleContext parent, int invokingState)
@@ -872,11 +862,10 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 131; Match(MACRO_START);
-			State = 132; Match(ELSE_IF);
-			State = 133; expression();
-			State = 134; Match(EXP_END_M);
-			State = 135; passageContent();
+			State = 128; Match(MACRO_START);
+			State = 129; Match(ELSE_IF);
+			State = 130; expression();
+			State = 131; passageContent();
 			}
 		}
 		catch (RecognitionException re) {
@@ -891,12 +880,12 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchElseContext : ParserRuleContext {
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public ITerminalNode ELSE() { return GetToken(Twee.ELSE, 0); }
 		public PassageContentContext passageContent() {
 			return GetRuleContext<PassageContentContext>(0);
 		}
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
-		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public MacroBranchElseContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -924,10 +913,10 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 137; Match(MACRO_START);
-			State = 138; Match(ELSE);
-			State = 139; Match(MACRO_END);
-			State = 140; passageContent();
+			State = 133; Match(MACRO_START);
+			State = 134; Match(ELSE);
+			State = 135; Match(MACRO_END);
+			State = 136; passageContent();
 			}
 		}
 		catch (RecognitionException re) {
@@ -942,9 +931,9 @@ public partial class Twee : Parser {
 	}
 
 	public partial class MacroBranchPopContext : ParserRuleContext {
+		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public ITerminalNode ENDIF() { return GetToken(Twee.ENDIF, 0); }
 		public ITerminalNode MACRO_START() { return GetToken(Twee.MACRO_START, 0); }
-		public ITerminalNode MACRO_END() { return GetToken(Twee.MACRO_END, 0); }
 		public MacroBranchPopContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -972,9 +961,9 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 142; Match(MACRO_START);
-			State = 143; Match(ENDIF);
-			State = 144; Match(MACRO_END);
+			State = 138; Match(MACRO_START);
+			State = 139; Match(ENDIF);
+			State = 140; Match(MACRO_END);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1017,7 +1006,7 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 146; Match(EXPRESSION);
+			State = 142; Match(EXPRESSION);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1032,13 +1021,13 @@ public partial class Twee : Parser {
 	}
 
 	public partial class FunctionContext : ParserRuleContext {
-		public ITerminalNode FUNC_START() { return GetToken(Twee.FUNC_START, 0); }
-		public ITerminalNode FUNC_BRACKET_OPEN() { return GetToken(Twee.FUNC_BRACKET_OPEN, 0); }
 		public ITerminalNode FUNC_PARAM(int i) {
 			return GetToken(Twee.FUNC_PARAM, i);
 		}
-		public ITerminalNode EXP_END() { return GetToken(Twee.EXP_END, 0); }
+		public ITerminalNode FUNC_START() { return GetToken(Twee.FUNC_START, 0); }
 		public ITerminalNode EXPRESSION() { return GetToken(Twee.EXPRESSION, 0); }
+		public ITerminalNode FUNC_BRACKET_OPEN() { return GetToken(Twee.FUNC_BRACKET_OPEN, 0); }
+		public ITerminalNode EXP_END() { return GetToken(Twee.EXP_END, 0); }
 		public IReadOnlyList<ITerminalNode> FUNC_PARAM() { return GetTokens(Twee.FUNC_PARAM); }
 		public FunctionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1069,36 +1058,36 @@ public partial class Twee : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 148; Match(FUNC_START);
-			State = 149; Match(FUNC_BRACKET_OPEN);
-			State = 157;
+			State = 144; Match(FUNC_START);
+			State = 145; Match(FUNC_BRACKET_OPEN);
+			State = 153;
 			switch ( Interpreter.AdaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				{
-				State = 150; Match(EXPRESSION);
+				State = 146; Match(EXPRESSION);
 				}
 				break;
 
 			case 2:
 				{
-				State = 151; Match(EXPRESSION);
-				State = 153;
+				State = 147; Match(EXPRESSION);
+				State = 149;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 				do {
 					{
 					{
-					State = 152; Match(FUNC_PARAM);
+					State = 148; Match(FUNC_PARAM);
 					}
 					}
-					State = 155;
+					State = 151;
 					_errHandler.Sync(this);
 					_la = _input.La(1);
 				} while ( _la==FUNC_PARAM );
 				}
 				break;
 			}
-			State = 159; Match(EXP_END);
+			State = 155; Match(EXP_END);
 			}
 			}
 		}
@@ -1142,7 +1131,7 @@ public partial class Twee : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 161; Match(VAR_NAME);
+			State = 157; Match(VAR_NAME);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1189,7 +1178,7 @@ public partial class Twee : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 164;
+			State = 160;
 			_errHandler.Sync(this);
 			_alt = 1;
 			do {
@@ -1197,14 +1186,14 @@ public partial class Twee : Parser {
 				case 1:
 					{
 					{
-					State = 163; Match(WORD);
+					State = 159; Match(WORD);
 					}
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				State = 166;
+				State = 162;
 				_errHandler.Sync(this);
 				_alt = Interpreter.AdaptivePredict(_input,16,_ctx);
 			} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
@@ -1222,21 +1211,21 @@ public partial class Twee : Parser {
 	}
 
 	public partial class TextContext : ParserRuleContext {
-		public ITerminalNode SPACE(int i) {
-			return GetToken(Twee.SPACE, i);
-		}
-		public ITerminalNode FORMAT() { return GetToken(Twee.FORMAT, 0); }
 		public TextContext text() {
 			return GetRuleContext<TextContext>(0);
 		}
-		public ITerminalNode EXCLUDE() { return GetToken(Twee.EXCLUDE, 0); }
-		public ITerminalNode STRING() { return GetToken(Twee.STRING, 0); }
-		public IReadOnlyList<ITerminalNode> SPACE() { return GetTokens(Twee.SPACE); }
-		public ITerminalNode INT() { return GetToken(Twee.INT, 0); }
 		public ZeichenketteContext zeichenkette() {
 			return GetRuleContext<ZeichenketteContext>(0);
 		}
+		public ITerminalNode EXCLUDE() { return GetToken(Twee.EXCLUDE, 0); }
+		public ITerminalNode FORMAT() { return GetToken(Twee.FORMAT, 0); }
+		public ITerminalNode INT() { return GetToken(Twee.INT, 0); }
+		public IReadOnlyList<ITerminalNode> SPACE() { return GetTokens(Twee.SPACE); }
 		public ITerminalNode NEW_LINE() { return GetToken(Twee.NEW_LINE, 0); }
+		public ITerminalNode STRING() { return GetToken(Twee.STRING, 0); }
+		public ITerminalNode SPACE(int i) {
+			return GetToken(Twee.SPACE, i);
+		}
 		public TextContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1265,16 +1254,16 @@ public partial class Twee : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 179;
+			State = 175;
 			switch (_input.La(1)) {
 			case WORD:
 				{
-				State = 168; zeichenkette();
+				State = 164; zeichenkette();
 				}
 				break;
 			case SPACE:
 				{
-				State = 170;
+				State = 166;
 				_errHandler.Sync(this);
 				_alt = 1;
 				do {
@@ -1282,14 +1271,14 @@ public partial class Twee : Parser {
 					case 1:
 						{
 						{
-						State = 169; Match(SPACE);
+						State = 165; Match(SPACE);
 						}
 						}
 						break;
 					default:
 						throw new NoViableAltException(this);
 					}
-					State = 172;
+					State = 168;
 					_errHandler.Sync(this);
 					_alt = Interpreter.AdaptivePredict(_input,17,_ctx);
 				} while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber );
@@ -1297,37 +1286,37 @@ public partial class Twee : Parser {
 				break;
 			case NEW_LINE:
 				{
-				State = 174; Match(NEW_LINE);
+				State = 170; Match(NEW_LINE);
 				}
 				break;
 			case INT:
 				{
-				State = 175; Match(INT);
+				State = 171; Match(INT);
 				}
 				break;
 			case FORMAT:
 				{
-				State = 176; Match(FORMAT);
+				State = 172; Match(FORMAT);
 				}
 				break;
 			case EXCLUDE:
 				{
-				State = 177; Match(EXCLUDE);
+				State = 173; Match(EXCLUDE);
 				}
 				break;
 			case STRING:
 				{
-				State = 178; Match(STRING);
+				State = 174; Match(STRING);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
-			State = 182;
+			State = 178;
 			switch ( Interpreter.AdaptivePredict(_input,19,_ctx) ) {
 			case 1:
 				{
-				State = 181; text();
+				State = 177; text();
 				}
 				break;
 			}
@@ -1345,74 +1334,73 @@ public partial class Twee : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3;\xBB\x4\x2\t\x2"+
-		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
-		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10\t"+
-		"\x10\x3\x2\x3\x2\a\x2#\n\x2\f\x2\xE\x2&\v\x2\x3\x3\x3\x3\x3\x3\x5\x3+"+
-		"\n\x3\x3\x4\x3\x4\x3\x4\x5\x4\x30\n\x4\x3\x4\a\x4\x33\n\x4\f\x4\xE\x4"+
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x37\xB7\x4\x2\t"+
+		"\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t"+
+		"\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10"+
+		"\t\x10\x3\x2\x3\x2\a\x2#\n\x2\f\x2\xE\x2&\v\x2\x3\x3\x3\x3\x3\x3\x5\x3"+
+		"+\n\x3\x3\x4\x3\x4\x3\x4\x5\x4\x30\n\x4\x3\x4\a\x4\x33\n\x4\f\x4\xE\x4"+
 		"\x36\v\x4\x3\x4\x3\x4\x5\x4:\n\x4\x3\x5\x3\x5\x3\x5\x3\x5\x3\x5\x5\x5"+
 		"\x41\n\x5\x3\x5\x5\x5\x44\n\x5\x3\x6\x3\x6\x3\x6\x5\x6I\n\x6\x3\x6\x3"+
 		"\x6\x3\x6\x3\x6\x3\x6\x3\x6\x5\x6Q\n\x6\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a"+
-		"\x3\a\x3\a\x3\a\x3\a\x5\a]\n\a\x5\a_\n\a\x3\a\x3\a\x3\a\a\a\x64\n\a\f"+
-		"\a\xE\ag\v\a\x3\a\x5\aj\n\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3"+
-		"\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\a~\n\a\x3\b\x3\b\x3"+
-		"\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\x3\t\x3\n\x3\n\x3\n\x3\n\x3"+
-		"\n\x3\v\x3\v\x3\v\x3\v\x3\f\x3\f\x3\r\x3\r\x3\r\x3\r\x3\r\x6\r\x9C\n\r"+
-		"\r\r\xE\r\x9D\x5\r\xA0\n\r\x3\r\x3\r\x3\xE\x3\xE\x3\xF\x6\xF\xA7\n\xF"+
-		"\r\xF\xE\xF\xA8\x3\x10\x3\x10\x6\x10\xAD\n\x10\r\x10\xE\x10\xAE\x3\x10"+
-		"\x3\x10\x3\x10\x3\x10\x3\x10\x5\x10\xB6\n\x10\x3\x10\x5\x10\xB9\n\x10"+
-		"\x3\x10\x2\x2\x2\x11\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12"+
-		"\x2\x14\x2\x16\x2\x18\x2\x1A\x2\x1C\x2\x1E\x2\x2\x6\x3\x2\x4\x4\x3\x2"+
-		"\x14\x14\x4\x2\x36\x36::\x3\x2$&\xCB\x2 \x3\x2\x2\x2\x4*\x3\x2\x2\x2\x6"+
-		",\x3\x2\x2\x2\b@\x3\x2\x2\x2\n\x45\x3\x2\x2\x2\f}\x3\x2\x2\x2\xE\x7F\x3"+
-		"\x2\x2\x2\x10\x85\x3\x2\x2\x2\x12\x8B\x3\x2\x2\x2\x14\x90\x3\x2\x2\x2"+
-		"\x16\x94\x3\x2\x2\x2\x18\x96\x3\x2\x2\x2\x1A\xA3\x3\x2\x2\x2\x1C\xA6\x3"+
-		"\x2\x2\x2\x1E\xB5\x3\x2\x2\x2 $\x5\x4\x3\x2!#\x5\x6\x4\x2\"!\x3\x2\x2"+
-		"\x2#&\x3\x2\x2\x2$\"\x3\x2\x2\x2$%\x3\x2\x2\x2%\x3\x3\x2\x2\x2&$\x3\x2"+
-		"\x2\x2\'+\x5\x6\x4\x2()\n\x2\x2\x2)+\x5\x4\x3\x2*\'\x3\x2\x2\x2*(\x3\x2"+
-		"\x2\x2+\x5\x3\x2\x2\x2,-\a\x4\x2\x2-/\a\x10\x2\x2.\x30\a\x11\x2\x2/.\x3"+
-		"\x2\x2\x2/\x30\x3\x2\x2\x2\x30\x34\x3\x2\x2\x2\x31\x33\n\x3\x2\x2\x32"+
-		"\x31\x3\x2\x2\x2\x33\x36\x3\x2\x2\x2\x34\x32\x3\x2\x2\x2\x34\x35\x3\x2"+
-		"\x2\x2\x35\x37\x3\x2\x2\x2\x36\x34\x3\x2\x2\x2\x37\x39\a\x14\x2\x2\x38"+
-		":\x5\b\x5\x2\x39\x38\x3\x2\x2\x2\x39:\x3\x2\x2\x2:\a\x3\x2\x2\x2;\x41"+
-		"\x5\f\a\x2<\x41\x5\x18\r\x2=\x41\x5\x1E\x10\x2>\x41\x5\x1A\xE\x2?\x41"+
-		"\x5\n\x6\x2@;\x3\x2\x2\x2@<\x3\x2\x2\x2@=\x3\x2\x2\x2@>\x3\x2\x2\x2@?"+
-		"\x3\x2\x2\x2\x41\x43\x3\x2\x2\x2\x42\x44\x5\b\x5\x2\x43\x42\x3\x2\x2\x2"+
-		"\x43\x44\x3\x2\x2\x2\x44\t\x3\x2\x2\x2\x45H\a\x6\x2\x2\x46G\a:\x2\x2G"+
-		"I\a\x37\x2\x2H\x46\x3\x2\x2\x2HI\x3\x2\x2\x2IJ\x3\x2\x2\x2JP\t\x4\x2\x2"+
-		"KL\a\x38\x2\x2LM\a\x39\x2\x2MN\a)\x2\x2NQ\a\x34\x2\x2OQ\a;\x2\x2PK\x3"+
-		"\x2\x2\x2PO\x3\x2\x2\x2Q\v\x3\x2\x2\x2RS\a\x5\x2\x2ST\t\x5\x2\x2TU\x5"+
-		"\x16\f\x2UV\a\x35\x2\x2V~\x3\x2\x2\x2W^\a\x5\x2\x2XY\a\"\x2\x2Y_\x5\x1E"+
-		"\x10\x2Z\\\a#\x2\x2[]\x5\n\x6\x2\\[\x3\x2\x2\x2\\]\x3\x2\x2\x2]_\x3\x2"+
-		"\x2\x2^X\x3\x2\x2\x2^Z\x3\x2\x2\x2_`\x3\x2\x2\x2`~\a(\x2\x2\x61\x65\x5"+
-		"\xE\b\x2\x62\x64\x5\x10\t\x2\x63\x62\x3\x2\x2\x2\x64g\x3\x2\x2\x2\x65"+
-		"\x63\x3\x2\x2\x2\x65\x66\x3\x2\x2\x2\x66i\x3\x2\x2\x2g\x65\x3\x2\x2\x2"+
-		"hj\x5\x12\n\x2ih\x3\x2\x2\x2ij\x3\x2\x2\x2jk\x3\x2\x2\x2kl\x5\x14\v\x2"+
-		"l~\x3\x2\x2\x2mn\a\x5\x2\x2no\a\x1E\x2\x2op\a(\x2\x2pq\x5\b\x5\x2qr\a"+
-		"\x5\x2\x2rs\a\x1F\x2\x2st\a(\x2\x2t~\x3\x2\x2\x2uv\a\x5\x2\x2vw\a \x2"+
-		"\x2wx\a(\x2\x2xy\x5\b\x5\x2yz\a\x5\x2\x2z{\a!\x2\x2{|\a(\x2\x2|~\x3\x2"+
-		"\x2\x2}R\x3\x2\x2\x2}W\x3\x2\x2\x2}\x61\x3\x2\x2\x2}m\x3\x2\x2\x2}u\x3"+
-		"\x2\x2\x2~\r\x3\x2\x2\x2\x7F\x80\a\x5\x2\x2\x80\x81\a\x1A\x2\x2\x81\x82"+
-		"\x5\x16\f\x2\x82\x83\a\x35\x2\x2\x83\x84\x5\b\x5\x2\x84\xF\x3\x2\x2\x2"+
-		"\x85\x86\a\x5\x2\x2\x86\x87\a\x1B\x2\x2\x87\x88\x5\x16\f\x2\x88\x89\a"+
-		"\x35\x2\x2\x89\x8A\x5\b\x5\x2\x8A\x11\x3\x2\x2\x2\x8B\x8C\a\x5\x2\x2\x8C"+
-		"\x8D\a\x1C\x2\x2\x8D\x8E\a(\x2\x2\x8E\x8F\x5\b\x5\x2\x8F\x13\x3\x2\x2"+
-		"\x2\x90\x91\a\x5\x2\x2\x91\x92\a\x1D\x2\x2\x92\x93\a(\x2\x2\x93\x15\x3"+
-		"\x2\x2\x2\x94\x95\a)\x2\x2\x95\x17\x3\x2\x2\x2\x96\x97\a\a\x2\x2\x97\x9F"+
-		"\a\x18\x2\x2\x98\xA0\a)\x2\x2\x99\x9B\a)\x2\x2\x9A\x9C\a*\x2\x2\x9B\x9A"+
-		"\x3\x2\x2\x2\x9C\x9D\x3\x2\x2\x2\x9D\x9B\x3\x2\x2\x2\x9D\x9E\x3\x2\x2"+
-		"\x2\x9E\xA0\x3\x2\x2\x2\x9F\x98\x3\x2\x2\x2\x9F\x99\x3\x2\x2\x2\x9F\xA0"+
-		"\x3\x2\x2\x2\xA0\xA1\x3\x2\x2\x2\xA1\xA2\a\x33\x2\x2\xA2\x19\x3\x2\x2"+
-		"\x2\xA3\xA4\a\b\x2\x2\xA4\x1B\x3\x2\x2\x2\xA5\xA7\a\xE\x2\x2\xA6\xA5\x3"+
-		"\x2\x2\x2\xA7\xA8\x3\x2\x2\x2\xA8\xA6\x3\x2\x2\x2\xA8\xA9\x3\x2\x2\x2"+
-		"\xA9\x1D\x3\x2\x2\x2\xAA\xB6\x5\x1C\xF\x2\xAB\xAD\a\r\x2\x2\xAC\xAB\x3"+
-		"\x2\x2\x2\xAD\xAE\x3\x2\x2\x2\xAE\xAC\x3\x2\x2\x2\xAE\xAF\x3\x2\x2\x2"+
-		"\xAF\xB6\x3\x2\x2\x2\xB0\xB6\a\v\x2\x2\xB1\xB6\a\x3\x2\x2\xB2\xB6\a\t"+
-		"\x2\x2\xB3\xB6\a\n\x2\x2\xB4\xB6\a\xF\x2\x2\xB5\xAA\x3\x2\x2\x2\xB5\xAC"+
-		"\x3\x2\x2\x2\xB5\xB0\x3\x2\x2\x2\xB5\xB1\x3\x2\x2\x2\xB5\xB2\x3\x2\x2"+
-		"\x2\xB5\xB3\x3\x2\x2\x2\xB5\xB4\x3\x2\x2\x2\xB6\xB8\x3\x2\x2\x2\xB7\xB9"+
-		"\x5\x1E\x10\x2\xB8\xB7\x3\x2\x2\x2\xB8\xB9\x3\x2\x2\x2\xB9\x1F\x3\x2\x2"+
-		"\x2\x16$*/\x34\x39@\x43HP\\^\x65i}\x9D\x9F\xA8\xAE\xB5\xB8";
+		"\x3\a\x3\a\x5\a[\n\a\x5\a]\n\a\x3\a\x3\a\x3\a\a\a\x62\n\a\f\a\xE\a\x65"+
+		"\v\a\x3\a\x5\ah\n\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a"+
+		"\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x3\a\x5\a|\n\a\x3\b\x3\b\x3\b\x3\b"+
+		"\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\x3\n\x3\n\x3\n\x3\n\x3\n\x3\v\x3\v\x3\v"+
+		"\x3\v\x3\f\x3\f\x3\r\x3\r\x3\r\x3\r\x3\r\x6\r\x98\n\r\r\r\xE\r\x99\x5"+
+		"\r\x9C\n\r\x3\r\x3\r\x3\xE\x3\xE\x3\xF\x6\xF\xA3\n\xF\r\xF\xE\xF\xA4\x3"+
+		"\x10\x3\x10\x6\x10\xA9\n\x10\r\x10\xE\x10\xAA\x3\x10\x3\x10\x3\x10\x3"+
+		"\x10\x3\x10\x5\x10\xB2\n\x10\x3\x10\x5\x10\xB5\n\x10\x3\x10\x2\x2\x2\x11"+
+		"\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2\x16\x2\x18"+
+		"\x2\x1A\x2\x1C\x2\x1E\x2\x2\x6\x3\x2\x4\x4\x3\x2\x14\x14\x4\x2..\x32\x32"+
+		"\x3\x2%\'\xC7\x2 \x3\x2\x2\x2\x4*\x3\x2\x2\x2\x6,\x3\x2\x2\x2\b@\x3\x2"+
+		"\x2\x2\n\x45\x3\x2\x2\x2\f{\x3\x2\x2\x2\xE}\x3\x2\x2\x2\x10\x82\x3\x2"+
+		"\x2\x2\x12\x87\x3\x2\x2\x2\x14\x8C\x3\x2\x2\x2\x16\x90\x3\x2\x2\x2\x18"+
+		"\x92\x3\x2\x2\x2\x1A\x9F\x3\x2\x2\x2\x1C\xA2\x3\x2\x2\x2\x1E\xB1\x3\x2"+
+		"\x2\x2 $\x5\x4\x3\x2!#\x5\x6\x4\x2\"!\x3\x2\x2\x2#&\x3\x2\x2\x2$\"\x3"+
+		"\x2\x2\x2$%\x3\x2\x2\x2%\x3\x3\x2\x2\x2&$\x3\x2\x2\x2\'+\x5\x6\x4\x2("+
+		")\n\x2\x2\x2)+\x5\x4\x3\x2*\'\x3\x2\x2\x2*(\x3\x2\x2\x2+\x5\x3\x2\x2\x2"+
+		",-\a\x4\x2\x2-/\a\x10\x2\x2.\x30\a\x11\x2\x2/.\x3\x2\x2\x2/\x30\x3\x2"+
+		"\x2\x2\x30\x34\x3\x2\x2\x2\x31\x33\n\x3\x2\x2\x32\x31\x3\x2\x2\x2\x33"+
+		"\x36\x3\x2\x2\x2\x34\x32\x3\x2\x2\x2\x34\x35\x3\x2\x2\x2\x35\x37\x3\x2"+
+		"\x2\x2\x36\x34\x3\x2\x2\x2\x37\x39\a\x14\x2\x2\x38:\x5\b\x5\x2\x39\x38"+
+		"\x3\x2\x2\x2\x39:\x3\x2\x2\x2:\a\x3\x2\x2\x2;\x41\x5\f\a\x2<\x41\x5\x18"+
+		"\r\x2=\x41\x5\x1E\x10\x2>\x41\x5\x1A\xE\x2?\x41\x5\n\x6\x2@;\x3\x2\x2"+
+		"\x2@<\x3\x2\x2\x2@=\x3\x2\x2\x2@>\x3\x2\x2\x2@?\x3\x2\x2\x2\x41\x43\x3"+
+		"\x2\x2\x2\x42\x44\x5\b\x5\x2\x43\x42\x3\x2\x2\x2\x43\x44\x3\x2\x2\x2\x44"+
+		"\t\x3\x2\x2\x2\x45H\a\x6\x2\x2\x46G\a\x32\x2\x2GI\a/\x2\x2H\x46\x3\x2"+
+		"\x2\x2HI\x3\x2\x2\x2IJ\x3\x2\x2\x2JP\t\x4\x2\x2KL\a\x30\x2\x2LM\a\x31"+
+		"\x2\x2MN\a*\x2\x2NQ\a\x34\x2\x2OQ\a\x33\x2\x2PK\x3\x2\x2\x2PO\x3\x2\x2"+
+		"\x2Q\v\x3\x2\x2\x2RS\a\x5\x2\x2ST\t\x5\x2\x2T|\x5\x16\f\x2U\\\a\x5\x2"+
+		"\x2VW\a#\x2\x2W]\x5\x1E\x10\x2XZ\a$\x2\x2Y[\x5\n\x6\x2ZY\x3\x2\x2\x2Z"+
+		"[\x3\x2\x2\x2[]\x3\x2\x2\x2\\V\x3\x2\x2\x2\\X\x3\x2\x2\x2]^\x3\x2\x2\x2"+
+		"^|\a)\x2\x2_\x63\x5\xE\b\x2`\x62\x5\x10\t\x2\x61`\x3\x2\x2\x2\x62\x65"+
+		"\x3\x2\x2\x2\x63\x61\x3\x2\x2\x2\x63\x64\x3\x2\x2\x2\x64g\x3\x2\x2\x2"+
+		"\x65\x63\x3\x2\x2\x2\x66h\x5\x12\n\x2g\x66\x3\x2\x2\x2gh\x3\x2\x2\x2h"+
+		"i\x3\x2\x2\x2ij\x5\x14\v\x2j|\x3\x2\x2\x2kl\a\x5\x2\x2lm\a\x1F\x2\x2m"+
+		"n\a)\x2\x2no\x5\b\x5\x2op\a\x5\x2\x2pq\a \x2\x2qr\a)\x2\x2r|\x3\x2\x2"+
+		"\x2st\a\x5\x2\x2tu\a!\x2\x2uv\a)\x2\x2vw\x5\b\x5\x2wx\a\x5\x2\x2xy\a\""+
+		"\x2\x2yz\a)\x2\x2z|\x3\x2\x2\x2{R\x3\x2\x2\x2{U\x3\x2\x2\x2{_\x3\x2\x2"+
+		"\x2{k\x3\x2\x2\x2{s\x3\x2\x2\x2|\r\x3\x2\x2\x2}~\a\x5\x2\x2~\x7F\a\x1B"+
+		"\x2\x2\x7F\x80\x5\x16\f\x2\x80\x81\x5\b\x5\x2\x81\xF\x3\x2\x2\x2\x82\x83"+
+		"\a\x5\x2\x2\x83\x84\a\x1C\x2\x2\x84\x85\x5\x16\f\x2\x85\x86\x5\b\x5\x2"+
+		"\x86\x11\x3\x2\x2\x2\x87\x88\a\x5\x2\x2\x88\x89\a\x1D\x2\x2\x89\x8A\a"+
+		")\x2\x2\x8A\x8B\x5\b\x5\x2\x8B\x13\x3\x2\x2\x2\x8C\x8D\a\x5\x2\x2\x8D"+
+		"\x8E\a\x1E\x2\x2\x8E\x8F\a)\x2\x2\x8F\x15\x3\x2\x2\x2\x90\x91\a*\x2\x2"+
+		"\x91\x17\x3\x2\x2\x2\x92\x93\a\x35\x2\x2\x93\x9B\a\x19\x2\x2\x94\x9C\a"+
+		"*\x2\x2\x95\x97\a*\x2\x2\x96\x98\a\x36\x2\x2\x97\x96\x3\x2\x2\x2\x98\x99"+
+		"\x3\x2\x2\x2\x99\x97\x3\x2\x2\x2\x99\x9A\x3\x2\x2\x2\x9A\x9C\x3\x2\x2"+
+		"\x2\x9B\x94\x3\x2\x2\x2\x9B\x95\x3\x2\x2\x2\x9B\x9C\x3\x2\x2\x2\x9C\x9D"+
+		"\x3\x2\x2\x2\x9D\x9E\a\x37\x2\x2\x9E\x19\x3\x2\x2\x2\x9F\xA0\a\a\x2\x2"+
+		"\xA0\x1B\x3\x2\x2\x2\xA1\xA3\a\xE\x2\x2\xA2\xA1\x3\x2\x2\x2\xA3\xA4\x3"+
+		"\x2\x2\x2\xA4\xA2\x3\x2\x2\x2\xA4\xA5\x3\x2\x2\x2\xA5\x1D\x3\x2\x2\x2"+
+		"\xA6\xB2\x5\x1C\xF\x2\xA7\xA9\a\r\x2\x2\xA8\xA7\x3\x2\x2\x2\xA9\xAA\x3"+
+		"\x2\x2\x2\xAA\xA8\x3\x2\x2\x2\xAA\xAB\x3\x2\x2\x2\xAB\xB2\x3\x2\x2\x2"+
+		"\xAC\xB2\a\n\x2\x2\xAD\xB2\a\x3\x2\x2\xAE\xB2\a\b\x2\x2\xAF\xB2\a\t\x2"+
+		"\x2\xB0\xB2\a\xF\x2\x2\xB1\xA6\x3\x2\x2\x2\xB1\xA8\x3\x2\x2\x2\xB1\xAC"+
+		"\x3\x2\x2\x2\xB1\xAD\x3\x2\x2\x2\xB1\xAE\x3\x2\x2\x2\xB1\xAF\x3\x2\x2"+
+		"\x2\xB1\xB0\x3\x2\x2\x2\xB2\xB4\x3\x2\x2\x2\xB3\xB5\x5\x1E\x10\x2\xB4"+
+		"\xB3\x3\x2\x2\x2\xB4\xB5\x3\x2\x2\x2\xB5\x1F\x3\x2\x2\x2\x16$*/\x34\x39"+
+		"@\x43HPZ\\\x63g{\x99\x9B\xA4\xAA\xB1\xB4";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

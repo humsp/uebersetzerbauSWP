@@ -121,12 +121,13 @@ namespace Twee2Z.CodeGen
 
                     if (setMacro != null)
                     {
-                        string[] splitList = setMacro.Expression.ExpressionString.Split('=');
+                        /*string[] splitList = setMacro.Expression.ExpressionString.Split('=');
                         string name = splitList.First().Trim();
                         short value = Convert.ToInt16(splitList.Last().Trim());
 
                         _symbolTable.AddSymbol(name);
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                        */
                     }
                 }
                 else if (content.Type == PassageContent.ContentType.BranchContent)

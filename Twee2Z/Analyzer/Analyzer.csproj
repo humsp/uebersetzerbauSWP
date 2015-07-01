@@ -45,6 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\ExpressionAnalyzer.cs" />
+    <Compile Include="Expressions\ExpressionParser.g4.cs">
+      <DependentUpon>ExpressionParser.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions\ExpressionVisitor.cs" />
+    <Compile Include="Expressions\ExpressiosLexer.g4.cs">
+      <DependentUpon>ExpressionLexer.g4</DependentUpon>
+    </Compile>
     <Compile Include="obj\Release\LEX.cs" />
     <Compile Include="obj\Release\Twee.cs" />
     <Compile Include="obj\Release\TweeBaseListener.cs" />
@@ -60,6 +68,14 @@
     <Antlr4 Include="LEX.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="Expressions\ExpressionLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer.Expressions</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="Expressions\ExpressionParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer.Expressions</CustomToolNamespace>
     </Antlr4>
     <None Include="packages.config" />
     <Antlr4 Include="Twee.g4">

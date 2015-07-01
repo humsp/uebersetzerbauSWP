@@ -148,7 +148,16 @@ namespace Twee2Z.Analyzer.Expressions
             string text = context.GetText();
             Logger.LogAnalyzer("Value: " + text);
             ExpressionParser.FunctionContext function = context.function();
-            if (function != null)
+
+            if (context.GetToken(ExpressionParser.TRUE, 0) != null)
+            {
+                return new BoolValue(true);
+            }
+            else if (context.GetToken(ExpressionParser.FALSE, 0) != null)
+            {
+                return new BoolValue(false);
+            }
+            else if (function != null)
             {
                 return VisitFunction(function);
             }

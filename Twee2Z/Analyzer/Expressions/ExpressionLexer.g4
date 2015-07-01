@@ -52,6 +52,8 @@ NAME			: (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
 
 DIGITS		: DIGIT+;
 DOT			: '.';
+TRUE		: 'true';
+FALSE		: 'false';
 
 // normal symbols
 fragment DOLLAR		: '$';

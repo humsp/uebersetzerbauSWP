@@ -41,6 +41,8 @@ exprRBracket
 
 value
 	: function
+	| TRUE
+	| FALSE
 	| DIGITS
 	| DIGITS DOT DIGITS
 	| DOT DIGITS

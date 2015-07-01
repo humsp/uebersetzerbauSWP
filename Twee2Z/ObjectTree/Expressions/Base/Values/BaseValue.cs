@@ -15,7 +15,8 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
             Int,
             //          Float,
             String,
-            Func
+            Func,
+            Bool
         }
 
         private ValueTypeEnum _valueType;

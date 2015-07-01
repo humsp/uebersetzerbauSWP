@@ -44,7 +44,7 @@ namespace Twee2Z.CodeGen.Label
                     throw new ArgumentException("ZBranchLabels cannot jump backwards.", "absoluteAddr");
 
                 if (TargetAddress.Absolute - value.Position.Absolute - value.Size > 16383)
-                    throw new ArgumentException("The jump distance of ZBranchLabels has to be between 0 and 16383.", "absoluteAddr");
+                    throw new ArgumentException("The jump distance of ZBranchLabels has to be in range of 0 - 16383.", "absoluteAddr");
 
                 _sourceComponent = value;
             }

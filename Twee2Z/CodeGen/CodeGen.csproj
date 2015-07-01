@@ -59,6 +59,7 @@
     <Compile Include="Instruction\Template\Pull.cs" />
     <Compile Include="Instruction\Template\Pop.cs" />
     <Compile Include="Instruction\Template\Nop.cs" />
+    <Compile Include="Instruction\Template\Random.cs" />
     <Compile Include="Instruction\Template\Store.cs" />
     <Compile Include="Instruction\Template\ReadChar.cs" />
     <Compile Include="Instruction\Template\SetTextStyle.cs" />

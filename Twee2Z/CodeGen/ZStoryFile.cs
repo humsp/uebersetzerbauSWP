@@ -81,14 +81,28 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new PrintUnicode('>') { Label = new ZLabel("read" + passage.Name) });
                 instructions.Add(new ReadChar(new ZLocalVariable(0)));
 
+                List<Guid> callGuids = new List<Guid>();
+
                 for (int i = 0; i < links.Count(); i++)
                 {
+                    callGuids.Add(Guid.NewGuid());
+
                     // So this casting and converting looks aweful
                     // First get the number for this link: i + 1
                     // Then hard cast it into a string
                     // Now convert it into a char
                     // Finally hard cast it into short for the ZOperand
-                    instructions.Add(new Je(new ZLocalVariable(0), (short)Convert.ToChar((i + 1).ToString()), new ZBranchLabel(links[i] + "Call")));
+                    char charToWrite;
+                    if (i >= 0 && i < 10)
+                        charToWrite = Convert.ToChar('1' + i);
+                    else if (i >= 10 && i < 36)
+                        charToWrite = Convert.ToChar('a' + i - 10);
+                    else if (i >= 36 && i < 62)
+                        charToWrite = Convert.ToChar('A' + i - 36);
+                    else
+                        throw new Exception();
+
+                    instructions.Add(new Je(new ZLocalVariable(0), (short)charToWrite, new ZBranchLabel(links[i] + "Call_" + callGuids[i])));
                 }
 
                 instructions.Add(new NewLine());
@@ -108,7 +122,7 @@ namespace Twee2Z.CodeGen
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
                     }
 
-                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i] + "Call") });
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i] + "Call_" + callGuids[i]) });
                 }
             }
             else
@@ -155,14 +169,24 @@ namespace Twee2Z.CodeGen
                 {
                     currentLink++;
 
-                    if (currentLink > 9)
-                        throw new Exception("More than 9 links are not supported yet.");
+                    if (currentLink > 61)
+                        throw new Exception("More than 61 links are not supported yet.");
+
+                    char charToWrite;
+                    if (currentLink >= 1 && currentLink < 10)
+                        charToWrite = Convert.ToChar('1' + currentLink - 1);
+                    else if (currentLink >= 10 && currentLink < 36)
+                        charToWrite = Convert.ToChar('a' + currentLink - 10);
+                    else if (currentLink >= 36 && currentLink < 62)
+                        charToWrite = Convert.ToChar('A' + currentLink - 36);
+                    else
+                        throw new Exception();
 
                     instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText ?? content.PassageLink.Target));
 
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-                    instructions.Add(new Print(currentLink.ToString()));
+                    instructions.Add(new Print(charToWrite.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
 
                     links.Add(new Tuple<string, string>(content.PassageLink.Target, content.PassageLink.Expression));
@@ -171,6 +195,11 @@ namespace Twee2Z.CodeGen
                 else if (content.Type == PassageContent.ContentType.MacroContent)
                 {
                     instructions.AddRange(ConvertMacros(content, ref currentLink, links));
+                }
+
+                else if (content.Type == PassageContent.ContentType.FunctionContent)
+                {
+                    instructions.AddRange(ConvertFuntions(content, ref currentLink, links));
                 }
 
                 else
@@ -189,6 +218,7 @@ namespace Twee2Z.CodeGen
             PassageMacroSet setMacro = content as PassageMacroSet;
             PassageMacroBranch branchMacro = content as PassageMacroBranch;
             PassageMacroPrint printMacro = content as PassageMacroPrint;
+            PassageMacroDisplay displayMacro = content as PassageMacroDisplay;
 
             if (setMacro != null)
             {
@@ -203,6 +233,11 @@ namespace Twee2Z.CodeGen
             else if (printMacro != null)
             {
                 instructions.AddRange(StringToInstructions(printMacro.Expression.ExpressionString));
+            }
+
+            else if (displayMacro != null)
+            {
+                instructions.AddRange(ConvertPassageContent(null, ref currentLink, links));
             }
 
             else if (branchMacro != null)
@@ -270,10 +305,23 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
+        private List<ZInstruction> ConvertFuntions(PassageContent content, ref int currentLink, List<Tuple<string, string>> links)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+
+            PassageFunction function = content as PassageFunction;
+
+            if (function != null)
+            {
+
+            }
+
+            return instructions;
+        }
+
         private void ConvertExpression(Expression expression, ref List<ZInstruction> instructions)
         {
-            instructions.Add(new Je(_symbolTable.GetSymbol("$variable"), (byte)42, new ZBranchLabel("nop") { BranchOn = false }));
-            instructions.Add(new Nop() { Label = new ZLabel("nop") });
+            
         }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)

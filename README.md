@@ -38,6 +38,6 @@ The resulting Z-code can be executed with Z-machines like Frotz (http://frotz.so
     - display
     - if elsif else
 - expressions exclude string concatenation
-- 
+
 ##History
 Twee2Z was developed by students as part of the course "Softwareprojekt Übersetzerbau" in 2015

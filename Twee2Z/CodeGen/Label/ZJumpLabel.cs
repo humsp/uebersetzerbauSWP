@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Instruction;
 
 namespace Twee2Z.CodeGen.Label
 {
+    [DebuggerDisplay("Name = {_name}, SourceComponent = {_sourceComponent}, TargetAdress = {_targetAddress}")]
     class ZJumpLabel : ZLabel
     {
         IZComponent _sourceComponent;
@@ -18,7 +20,7 @@ namespace Twee2Z.CodeGen.Label
         }
 
         public ZJumpLabel(string name, ZAddress address)
-            : base(address, name)
+            : base(name, address)
         {
         }
 
@@ -34,17 +36,12 @@ namespace Twee2Z.CodeGen.Label
             }
         }
 
-        protected override void SetLabel(int absoluteAddr, string name)
-        {
-            base.SetLabel(absoluteAddr, name);
-        }
-
         public short Offset
         {
             get
             {
                 // Offset is the target address minus the address of this label
-                return (short)(TargetAddress.Absolute - SourceComponent.Label.TargetAddress.Absolute - SourceComponent.Size);
+                return (short)(TargetAddress.Absolute - SourceComponent.Position.Absolute - SourceComponent.Size);
             }
         }
 
@@ -56,8 +53,12 @@ namespace Twee2Z.CodeGen.Label
             byte[] byteArray = new byte[2];
 
             short value = (short)(Offset + 2);
-            byteArray[0] = (byte)(value >> 8);
-            byteArray[1] = (byte)value;
+
+            unchecked
+            {
+                byteArray[0] = (byte)(value >> 8);
+                byteArray[1] = (byte)value;
+            }
             
             return byteArray;
         }

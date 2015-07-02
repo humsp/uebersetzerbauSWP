@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,25 +10,74 @@ using Twee2Z.CodeGen.Label;
 
 namespace Twee2Z.CodeGen.Instruction
 {
-    [DebuggerDisplay("Name = {_componentLabel.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}", Name = "{_componentLabel.Name}")]
-    class ZRoutine : ZComponent
+    /// <summary>
+    /// Represents a routine in Z-Code. Must be labeled for jumping in Z-Code execution (you can omit to do so but an unlabeled routine cannot be called).
+    /// A routine consists of a local variable count and multiple instructions.
+    /// See also "5. How routines are encoded" on page 31 for reference.
+    /// </summary>
+    [DebuggerDisplay("LabelName = {_label.Name}, LocalVariableCount = {_localVariableCount}, InstructionCount = {_subComponents.Count}")]
+    class ZRoutine : ZLabeledComponent
     {
-        protected byte _localVariableCount;
+        protected byte _localVariableCount = 0;
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with no instructions.
+        /// </summary>
         public ZRoutine()
         {
         }
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with instructions.
+        /// </summary>
+        /// <param name="instructions">The instructions to add.</param>
         public ZRoutine(IEnumerable<ZInstruction> instructions)
         {
             _subComponents.AddRange(instructions);
         }
 
+        /// <summary>
+        /// Creates a new instance of a ZRoutine with instructions and a local variable count.
+        /// </summary>
+        /// <param name="instructions">The instructions to add.</param>
+        /// <param name="localVariableCount">The local variable count. Must be in range of 0 - 15.</param>
         public ZRoutine(IEnumerable<ZInstruction> instructions, byte localVariableCount)
             : this()
         {
+            if (localVariableCount > 15)
+                throw new ArgumentOutOfRangeException("localVariableCount", localVariableCount, "A routine has between 0 and 15 local variables.");
+
             _subComponents.AddRange(instructions);
             _localVariableCount = localVariableCount;
+        }
+
+        /// <summary>
+        /// Gets or sets the count of the local variables. Must be in range of 0 - 15.
+        /// </summary>
+        public byte LocalVariableCount
+        {
+            get
+            {
+                return _localVariableCount;
+            }
+            set
+            {
+                if (value > 15)
+                    throw new ArgumentOutOfRangeException("value", value, "A routine has between 0 and 15 local variables.");
+
+                _localVariableCount = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the instructions in this routine.
+        /// </summary>
+        public ReadOnlyCollection<ZInstruction> Instructions
+        {
+            get
+            {
+                return _subComponents.OfType<ZInstruction>().ToList().AsReadOnly();
+            }
         }
 
         public override Byte[] ToBytes()
@@ -58,25 +108,25 @@ namespace Twee2Z.CodeGen.Instruction
             }
         }
 
-        protected override void SetLabel(int absoluteAddr, string name)
+        public override void SetLabel(int absoluteAddr, string name)
         {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZPackedAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
+            if (_label == null)
+                _label = new ZLabel(name, new ZPackedAddress(absoluteAddr));
+            else if (_label.TargetAddress == null)
             {
-                _componentLabel.TargetAddress = new ZPackedAddress(absoluteAddr);
-                _componentLabel.Name = name;
+                _label.TargetAddress = new ZPackedAddress(absoluteAddr);
+                _label.Name = name;
             }
             else
             {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
+                _label.TargetAddress.Absolute = absoluteAddr;
+                _label.Name = name;
             }
         }
 
-        protected override void Setup(int currentAddress)
+        public override void Setup(int currentAddress)
         {
-            base.Setup(currentAddress + 1); // dont forget the single byte (local variables counter)
+            base.Setup(currentAddress + 1); // dont forget the first byte (local variables counter)
         }
     }
 }

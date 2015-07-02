@@ -3,55 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Twee2Z.CodeGen.Text;
 using System.Diagnostics;
+using Twee2Z.CodeGen.Text;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
-    /// Sets the text style to: Roman (if 0), Reverse Video (if 1), Bold (if 2), Italic (4), Fixed Pitch (8).
-    /// In some interpreters (though this is not required) a combination of styles is possible (such as reverse video and bold).
-    /// In these, changing to Roman should turn off all the other styles currently set.
+    /// Sets the text style to Reverse Video, Bold, Italic or Fixed Pitch. Or a combination of that (not all interpreters support this though).
+    /// Setting to <see cref="StyleFlags.None"/> will turn off all styles currently set.
+    /// <para>
+    /// See also "set_text_style" on page 100 for reference.
+    /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, Style = {_styleFlags}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Style = {Style}")]
     class SetTextStyle : ZInstruction
     {
-        private StyleFlags _styleFlags;
-
+        /// <summary>
+        /// Creates a new instance of a SetTextStyle instruction.
+        /// </summary>
         public SetTextStyle(StyleFlags styleFlags)
-            : base("set_text_style", 0x11, InstructionFormKind.Variable, OperandCountKind.Var)
+            : base("set_text_style", 0x11, OpcodeTypeKind.Var, new ZOperand((byte)styleFlags))
         {
-            _styleFlags = styleFlags;
         }
 
-        public StyleFlags Style { get { return _styleFlags; } }
-
-        public override int Size
+        /// <summary>
+        /// Gets or sets the current style.
+        /// </summary>
+        public StyleFlags Style
         {
             get
             {
-                return base.Size + 2;
+                return (StyleFlags)_operands[0].Value;
             }
-        }
-
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-            byteList.Add(127); //magic number?!
-            byteList.Add((byte)_styleFlags);
-
-            return byteList.ToArray();
+            set
+            {
+                _operands[0] = new ZOperand((byte)value);
+            }
         }
 
         [Flags]
         public enum StyleFlags
         {
             /// <summary>
-            /// Default (turns off all the other styles)
+            /// Default (turns off all the other styles). In the reference called "Roman".
             /// </summary>
-            Roman = 0,
+            None = 0,
             ReverseVideo = 1,
             Bold = 2,
             Italic = 4,

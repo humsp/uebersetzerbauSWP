@@ -11,8 +11,8 @@ namespace Twee2Z.CodeGen
     abstract class ZComponent : IZComponent
     {
         protected List<IZComponent> _subComponents = new List<IZComponent>();
-        protected ZLabel _componentLabel = null;
-
+        protected ZAddress _position = null;
+        
         public virtual List<IZComponent> SubComponents
         {
             get
@@ -21,15 +21,15 @@ namespace Twee2Z.CodeGen
             }
         }
 
-        public virtual ZLabel Label
+        public virtual ZAddress Position
         {
             get
             {
-                return _componentLabel;
+                return _position;
             }
             set
             {
-                _componentLabel = value;
+                _position = value;
             }
         }
 
@@ -38,45 +38,6 @@ namespace Twee2Z.CodeGen
             get
             {
                 return SubComponents.Sum(component => component.Size);
-            }
-        }
-
-        protected virtual void SetLabel(int absoluteAddr, string name)
-        {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
-            {
-                _componentLabel.TargetAddress = new ZAddress(absoluteAddr);
-                _componentLabel.Name = name;
-            }
-            else
-            {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
-            }
-        }
-
-        protected virtual void Setup(int currentAddress)
-        {
-            foreach (ZComponent component in _subComponents)
-            {
-                if (component.Label == null)
-                {
-                    component.SetLabel(currentAddress, null);
-                    currentAddress += component.Size;
-                }
-                else if (component.Label.Name != null)
-                {
-                    component.SetLabel(currentAddress, component.Label.Name);
-                    currentAddress += component.Size;
-                }
-                else
-                {
-                    currentAddress = component.Label.TargetAddress.Absolute;
-                    currentAddress += component.Size;
-                }
-                component.Setup(component.Label.TargetAddress.Absolute);
             }
         }
 
@@ -90,6 +51,25 @@ namespace Twee2Z.CodeGen
             }
 
             return byteList.ToArray();
+        }
+
+        public virtual void Setup(int currentAddress)
+        {
+            foreach (IZComponent component in _subComponents)
+            {
+                if (component.Position == null)
+                {
+                    component.Position = new ZAddress(currentAddress);
+                    currentAddress += component.Size;
+                }
+                else
+                {
+                    currentAddress = component.Position.Absolute;
+                    currentAddress += component.Size;
+                }
+
+                component.Setup(component.Position.Absolute);
+            }
         }
     }
 }

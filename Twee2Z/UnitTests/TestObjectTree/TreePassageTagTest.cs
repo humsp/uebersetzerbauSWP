@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Twee2Z.ObjectTree;
 
-namespace UnitTests.TestObjectTree
+namespace Twee2Z.UnitTests.TestObjectTree
 {
-    [TestClass]
+    [TestFixture]
     class TreePassageTagTest
     {
-        private const string _passageLinkPath = Const.untTestFolder + "passageLink.tw";
+        private const string _passageTag = Const.untTestFolder + "passageTag.tw";
 
-        [TestMethod]
+        [Test]
         public void TestTreePassageTag()
         {
-            Tree tree = TreeBuilder.createTree(_passageLinkPath);
-            Assert.AreEqual("start", tree.StartPassage.Name);
+            Tree tree = TreeBuilder.createTree(_passageTag);
+            Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual(4, tree.Passages.Count);
 
             Assert.AreEqual(3, tree.StartPassage.PassageContentList.Count);
@@ -26,9 +26,9 @@ namespace UnitTests.TestObjectTree
 
             Assert.AreEqual(3, tags.Count());
 
-            Assert.IsTrue(tags.Contains("tag1"));
-            Assert.IsTrue(tags.Contains("tag2"));
-            Assert.IsTrue(tags.Contains("tag3"));
+            Assert.IsTrue(tags.Contains("a"));
+            Assert.IsTrue(tags.Contains("b"));
+            Assert.IsTrue(tags.Contains("c"));
         }
     }
 }

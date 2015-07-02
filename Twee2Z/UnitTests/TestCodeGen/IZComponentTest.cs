@@ -1,57 +1,57 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Twee2Z.CodeGen;
 using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Memory;
+using NUnit.Framework;
 
-namespace UnitTests.TestCodeGen
+namespace Twee2Z.UnitTests.TestCodeGen
 {
-    [TestClass]
+    [TestFixture]
     public class IZComponentTest
     {
-        [TestMethod]
+        [Test]
         public void TestPrintSize()
         {
             innerTest(new Print("Hello Wolrd"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestQuitSize()
         {
             innerTest(new Quit());
         }
 
-        [TestMethod]
+        [Test]
         public void TestZDynamicMemoryize()
         {
             innerTest(new ZDynamicMemory());
         }
 
-        [TestMethod]
+        [Test]
         public void TestZHeaderSize()
         {
             innerTest(new ZHeader(0, 0, 0, 0, 0, 0, 0));
         }
 
-        [TestMethod]
+        [Test]
         public void TestZHeaderExtensionSize()
         {
             innerTest(new ZHeaderExtension());
         }
 
-        [TestMethod]
+        [Test]
         public void TestZHighMemorySize()
         {
             innerTest(new ZHighMemory());
         }
 
-        [TestMethod]
+        [Test]
         public void TestZMemorySize()
         {
             innerTest(new ZMemory());
         }
 
-        [TestMethod]
+        [Test]
         public void TestZStaticMemorySize()
         {
             innerTest(new ZStaticMemory());

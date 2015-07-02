@@ -1,4 +1,4 @@
-:: start
+:: Start
 random()
 either()
 visited()

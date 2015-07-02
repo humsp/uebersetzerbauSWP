@@ -70,6 +70,11 @@ namespace Twee2Z.CodeGen.Text
             controlCharDictionary.Add(ZControlCharKind.TenBitZCharacter, new ZControlChar() { kind = ZControlCharKind.TenBitZCharacter, number = 6, table = 2 });
         }
 
+        public static bool IsZSCII(char input)
+        {
+            return input == ' ' || tableA0.Contains(input) || tableA1.Contains(input) || tableA2.Contains(input);
+        }
+
         public static int Measure(String input)
         {
             int zCharCounter = 0;
@@ -81,10 +86,18 @@ namespace Twee2Z.CodeGen.Text
                 {
                     zCharCounter++;
                 }
+                else if (input[i].ToString() == System.Environment.NewLine)
+                {
+                    zCharCounter += 2;
+                }
                 else if (i + 1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
                 {
                     zCharCounter += 2;
                     i++;
+                }
+                else if (input[i] == '\r' || input[i] == '\n')
+                {
+                    zCharCounter += 2;
                 }
                 else
                 {
@@ -107,13 +120,21 @@ namespace Twee2Z.CodeGen.Text
         {
             IList<UInt16> output = new List<UInt16>();
             int i = 0;
-            byte zCharCount = 0;
+            short zCharCount = 0;
 
             while (i < input.Length)
             {
                 if (input[i] == ' ')
                 {                    
                     AddCharToArray(ref output, ZCharSpaceNumber, 0, ref zCharCount);
+                }
+                else if (input[i].ToString() == System.Environment.NewLine)
+                {
+                    ZControlChar zControlChar;
+                    if (!controlCharDictionary.TryGetValue(ZControlCharKind.NewLine, out zControlChar))
+                        throw new Exception("NewLine not found in dictionary");
+
+                    AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
                 }
                 else if (i+1 < input.Length && input.Substring(i, 2) == System.Environment.NewLine)
                 {
@@ -123,6 +144,14 @@ namespace Twee2Z.CodeGen.Text
 
                     AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
                     i++;
+                }
+                else if (input[i] == '\r' || input[i] == '\n')
+                {
+                    ZControlChar zControlChar;
+                    if (!controlCharDictionary.TryGetValue(ZControlCharKind.NewLine, out zControlChar))
+                        throw new Exception("NewLine not found in dictionary");
+
+                    AddCharToArray(ref output, zControlChar.number, zControlChar.table, ref zCharCount);
                 }
                 else
                 {
@@ -142,7 +171,7 @@ namespace Twee2Z.CodeGen.Text
             return output.ToArray();
         }
 
-        private static void AddCharToArray(ref IList<UInt16> zCharList, byte number, byte table, ref byte zCharCount)
+        private static void AddCharToArray(ref IList<UInt16> zCharList, byte number, byte table, ref short zCharCount)
         {
             if (number >= 32)
                 throw new ArgumentOutOfRangeException("number", "A ZChar must have a value between 0 and 31.");
@@ -181,7 +210,7 @@ namespace Twee2Z.CodeGen.Text
             }
         }
 
-        private static void AddCharToWord(ref UInt16 word, byte number, ref byte zCharCount)
+        private static void AddCharToWord(ref UInt16 word, byte number, ref short zCharCount)
         {
             switch (zCharCount % 3)
             {
@@ -199,7 +228,7 @@ namespace Twee2Z.CodeGen.Text
             zCharCount++;
         }
 
-        private static void FinishArray(ref IList<UInt16> zCharList, ref byte zCharCount)
+        private static void FinishArray(ref IList<UInt16> zCharList, ref short zCharCount)
         {
             UInt16 word = zCharList.Last();
 

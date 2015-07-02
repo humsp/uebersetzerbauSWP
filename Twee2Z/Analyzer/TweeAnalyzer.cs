@@ -13,7 +13,7 @@ namespace Twee2Z.Analyzer
 {
     public static class TweeAnalyzer
     {
-        
+    
         public static ObjectTree.Tree Parse(StreamReader input)
         {
             return Parse2(Lex(input));
@@ -36,5 +36,6 @@ namespace Twee2Z.Analyzer
             AntlrInputStream antlrStream = new AntlrInputStream(input.ReadToEnd());
             return new CommonTokenStream(new LEX(antlrStream));
         }
+
     }
 }

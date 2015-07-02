@@ -35,8 +35,11 @@ namespace Twee2Z.CodeGen.Address
         {
             byte[] byteArray = new byte[2];
 
-            byteArray[0] = (byte)((_address / 2) >> 8);
-            byteArray[1] = (byte)((_address / 2));
+            unchecked
+            {
+                byteArray[0] = (byte)((_address / 2) >> 8);
+                byteArray[1] = (byte)((_address / 2));
+            }
 
             return byteArray;
         }

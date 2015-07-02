@@ -7,8 +7,9 @@ using System.IO;
 using Twee2Z.Analyzer;
 using Twee2Z.ObjectTree;
 using Twee2Z.Console;
+using NUnit.Framework;
 
-namespace UnitTests.TestObjectTree
+namespace Twee2Z.UnitTests.TestObjectTree
 {
     class TreeBuilder
     {
@@ -16,7 +17,7 @@ namespace UnitTests.TestObjectTree
         {
             FileStream tweeFileStream = new FileStream(tweeFile, FileMode.Open, FileAccess.Read, FileShare.Read);
             Tree tree = Program.AnalyseFile(tweeFileStream);
-            Program.ValidateTree(tree);
+            Assert.IsTrue(new TreeValidator(tree).ValidateTree());
             return tree;
         }
     }

@@ -1,5 +1,5 @@
-﻿:: start
-Your story wilplay this passage first Edit it by double clicking it
+:: Start
+Your story will display this passage first Edit it by double clicking it
 [[HIERTEXT|myPassage]]
 
 :: StoryTitle
@@ -8,10 +8,7 @@ Untitled Story
 
 :: myPassage 
 you are done
-[[start]]
-
-:: myPassage
-otherText
+[[Start]]
 
 :: StoryAuthor
 Anonymous x

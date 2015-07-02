@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 
 namespace Twee2Z.CodeGen.Label
 {
+    [DebuggerDisplay("Name = {_name}, TargetAdress = {_targetAddress}")]
     class ZLabel : ZComponent
     {
         protected ZAddress _targetAddress = null;
-        protected string _name;
+        protected string _name = null;
+
+        public ZLabel()
+        {
+        }
 
         public ZLabel(ZAddress address)
         {
@@ -22,10 +28,10 @@ namespace Twee2Z.CodeGen.Label
             _name = name;
         }
 
-        public ZLabel(ZAddress address, string name)
-            : this(name)
+        public ZLabel(string name, ZAddress address)
         {
             _targetAddress = address;
+            _name = name;
         }
 
         public ZAddress TargetAddress
@@ -54,7 +60,7 @@ namespace Twee2Z.CodeGen.Label
 
         public override byte[] ToBytes()
         {
-            throw new Exception("Cannot convert a abstract ZLabel into Z-Code.");
+            throw new Exception("Cannot convert an abstract ZLabel into Z-Code.");
         }
 
         public override int Size

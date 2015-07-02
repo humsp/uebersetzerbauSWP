@@ -5,296 +5,478 @@ using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.CodeGen.Memory;
 using Twee2Z.CodeGen.Instruction;
+using Twee2Z.CodeGen.Instruction.Opcode;
 using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Label;
 using Twee2Z.CodeGen.Variable;
+using Twee2Z.ObjectTree;
+using Twee2Z.ObjectTree.PassageContents;
+using Twee2Z.ObjectTree.PassageContents.Macro;
+using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
+using Twee2Z.ObjectTree.Expressions;
+using Twee2Z.ObjectTree.Expressions.Base;
+using Twee2Z.ObjectTree.Expressions.Base.Values;
+using Twee2Z.ObjectTree.Expressions.Base.Values.Functions;
+using Twee2Z.ObjectTree.Expressions.Base.Ops;
 
 namespace Twee2Z.CodeGen
 {
     public class ZStoryFile
     {
+        private ZSymbolTable _symbolTable;
         private ZMemory _zMemory;
+        private IEnumerable<Passage> _passages;
 
         public ZStoryFile()
         {
             _zMemory = new ZMemory();
         }
 
-        public void SetupPassageNavigationDemo(ObjectTree.Tree tree)
+        public void ImportObjectTree(Tree tree)
         {
-            List<ZInstruction> _mainInstructions = new List<ZInstruction>();
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo));
-            _mainInstructions.Add(new Print("Twee2Z Meilenstein 3"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _mainInstructions.Add(new Print(" (Twee2Z-Team)"));
-            _mainInstructions.Add(new NewLine());
+            _symbolTable = new ZSymbolTable();
+            Passage startPassage = null;
+            IEnumerable<Passage> passages = null;
+            try
+            {
+                _passages = tree.Passages.Select(entry => entry.Value);
+                startPassage = tree.StartPassage;
+                passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start" &&
+                                               passage.Key.ToLower() != "storyauthor" &&
+                                               passage.Key.ToLower() != "storytitle").Select(entry => entry.Value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Start passage not found.", ex);
+            }
 
-            _mainInstructions.Add(new Print("Du pr"));
-            _mainInstructions.Add(new PrintUnicode('ä'));
-            _mainInstructions.Add(new Print("sentierst den Meilenstein 3 deines "));
-            _mainInstructions.Add(new PrintUnicode('Ü'));
-            _mainInstructions.Add(new Print("bersetzerbau-Projekts. Die anwesenden Teilnehmer sind skeptisch. Du wei"));
-            _mainInstructions.Add(new PrintUnicode('ß'));
-            _mainInstructions.Add(new Print("t, dass der Compiler noch nicht 100"));
-            _mainInstructions.Add(new PrintUnicode('%'));
-            _mainInstructions.Add(new Print("ig stabil ist."));
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new NewLine());
-
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _mainInstructions.Add(new Print("Halte dich genau an die einge"));
-            _mainInstructions.Add(new PrintUnicode('ü'));
-            _mainInstructions.Add(new Print("bte Pr"));
-            _mainInstructions.Add(new PrintUnicode('ä'));
-            _mainInstructions.Add(new Print("sentation"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-            _mainInstructions.Add(new Print("1"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _mainInstructions.Add(new NewLine());
-
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _mainInstructions.Add(new Print("Weiche vom Plan ab"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-            _mainInstructions.Add(new Print("2"));
-            _mainInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _mainInstructions.Add(new NewLine());
-
-            _mainInstructions.Add(new PrintUnicode('>'));
-            _mainInstructions.Add(new Print(" "));
-            _mainInstructions.Add(new ReadChar());
-            _mainInstructions.Add(new Je(new ZLocalVariable(0), '1', new ZBranchLabel("safeCall")));
-            _mainInstructions.Add(new Je(new ZLocalVariable(0), '2', new ZBranchLabel("unsafeCall")));
-
-            _mainInstructions.Add(new Quit());
-
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("safe")) { Label = new ZLabel("safeCall") });
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("unsafe")) { Label = new ZLabel("unsafeCall") });
-
-            List<ZInstruction> _unsafeInstructions = new List<ZInstruction>();
-            _unsafeInstructions.Add(new Print("2" + System.Environment.NewLine + System.Environment.NewLine));
-            _unsafeInstructions.Add(new Print("Du wirst "));
-            _unsafeInstructions.Add(new PrintUnicode('ü'));
-            _unsafeInstructions.Add(new Print("berm"));
-            _unsafeInstructions.Add(new PrintUnicode('ü'));
-            _unsafeInstructions.Add(new Print("tig und machst etwas, dass den Compiler zum Absturz bringt."));
-            _unsafeInstructions.Add(new NewLine());
-            _unsafeInstructions.Add(new NewLine());
-            _unsafeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
-            _unsafeInstructions.Add(new Print("Die Schande brennt tief in dir." + System.Environment.NewLine));
-            _unsafeInstructions.Add(new Quit());
-
-            List<ZInstruction> _safeInstructions = new List<ZInstruction>();
-            _safeInstructions.Add(new Print("1" + System.Environment.NewLine + System.Environment.NewLine));
-            _safeInstructions.Add(new Print("Alles l"));
-            _safeInstructions.Add(new PrintUnicode('ä'));
-            _safeInstructions.Add(new Print("uft nach Plan. Die Navigation funktioniert und die Menge tobt. (Anmerkung der Autors: "));
-            _safeInstructions.Add(new PrintUnicode('Ü'));
-            _safeInstructions.Add(new Print("bertreibung als Stilmittel)"));
-            _safeInstructions.Add(new NewLine());
-            _safeInstructions.Add(new NewLine());
-            _safeInstructions.Add(new Print("Auf den zweiten Blick gibt es aber diese Reaktion:"));
-            _safeInstructions.Add(new NewLine());
-            _safeInstructions.Add(new NewLine());
-
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _safeInstructions.Add(new Print("Toll"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-            _safeInstructions.Add(new Print("1"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new NewLine());
-
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _safeInstructions.Add(new Print("Ok"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-            _safeInstructions.Add(new Print("2"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new NewLine());
-
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _safeInstructions.Add(new Print("Meh"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
-            _safeInstructions.Add(new Print("3"));
-            _safeInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _safeInstructions.Add(new NewLine());
-
-            _safeInstructions.Add(new PrintUnicode('>'));
-            _safeInstructions.Add(new Print(" "));
-            _safeInstructions.Add(new ReadChar());
-            _safeInstructions.Add(new Je(new ZLocalVariable(0), '1', new ZBranchLabel("tollCall")));
-            _safeInstructions.Add(new Je(new ZLocalVariable(0), '2', new ZBranchLabel("okCall")));
-            _safeInstructions.Add(new Je(new ZLocalVariable(0), '3', new ZBranchLabel("mehCall")));
-
-            _safeInstructions.Add(new Call1n(new ZRoutineLabel("toll")) { Label = new ZLabel("tollCall") });
-            _safeInstructions.Add(new Call1n(new ZRoutineLabel("ok")) { Label = new ZLabel("okCall") });
-            _safeInstructions.Add(new Call1n(new ZRoutineLabel("meh")) { Label = new ZLabel("mehCall") });
-
-            _safeInstructions.Add(new Quit());
-
-            List<ZInstruction> _tollInstructions = new List<ZInstruction>();
-            _tollInstructions.Add(new Print("1" + System.Environment.NewLine + System.Environment.NewLine));
-            _tollInstructions.Add(new Print("Toll!"));
-            _tollInstructions.Add(new NewLine());
-            _tollInstructions.Add(new Quit());
-
-            List<ZInstruction> _okInstructions = new List<ZInstruction>();
-            _okInstructions.Add(new Print("2" + System.Environment.NewLine + System.Environment.NewLine));
-            _okInstructions.Add(new Print("Ok."));
-            _okInstructions.Add(new NewLine());
-            _okInstructions.Add(new Quit());
-
-            List<ZInstruction> _mehInstructions = new List<ZInstruction>();
-            _mehInstructions.Add(new Print("3" + System.Environment.NewLine + System.Environment.NewLine));
-            _mehInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
-            _mehInstructions.Add(new Print("Meh."));
-            _mehInstructions.Add(new NewLine());
-            _mehInstructions.Add(new Quit());
+            string storyTitle = tree.StoryTitle.PassageContentList.First().PassageText.Text.Trim();
+            string storyAuthor = tree.StoryAuthor.PassageContentList.First().PassageText.Text.Trim();
 
 
-            _zMemory.SetRoutines(new ZRoutine[] {
-                new ZRoutine(_mainInstructions, 1) { Label = new ZRoutineLabel("main") },
-                new ZRoutine(_unsafeInstructions, 1) { Label = new ZRoutineLabel("unsafe") },
-                new ZRoutine(_safeInstructions, 1) { Label = new ZRoutineLabel("safe") },
-                new ZRoutine(_tollInstructions, 0) { Label = new ZRoutineLabel("toll") },
-                new ZRoutine(_okInstructions, 0) { Label = new ZRoutineLabel("ok") },
-                new ZRoutine(_mehInstructions, 0) { Label = new ZRoutineLabel("meh") }
-            });
+            List<ZRoutine> routines = new List<ZRoutine>();
+            
+            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+            
+            try
+            {
+                routines.Add(ConvertPassageToRoutine(startPassage, storyTitle, storyAuthor));
+
+                foreach (Passage passage in passages)
+                {
+                    routines.Add(ConvertPassageToRoutine(passage, storyTitle, storyAuthor));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not convert passage into routine.", ex);
+            }
+
+            _zMemory.SetRoutines(routines);
         }
 
-        public void SetupHelloWorldDemo(string input)
+        private ZRoutine ConvertPassageToRoutine(Passage passage, string storyTitle, string storyAuthor)
         {
-            List<ZInstruction> _mainInstructions = new List<ZInstruction>();
-            _mainInstructions.Add(new Print("Startseite:"));
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new Print("Link A" + System.Environment.NewLine));
-            _mainInstructions.Add(new Print("Link B" + System.Environment.NewLine));
-            _mainInstructions.Add(new Print("Link C" + System.Environment.NewLine));
-            _mainInstructions.Add(new PrintUnicode('>'));
-            _mainInstructions.Add(new Print(" "));
-            _mainInstructions.Add(new ReadChar());
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new Je(new ZLocalVariable(0), 'A', new ZBranchLabel("callLinkA")));
-            _mainInstructions.Add(new Je(new ZLocalVariable(0), 'B', new ZBranchLabel("callLinkB")));
-            _mainInstructions.Add(new Je(new ZLocalVariable(0), 'C', new ZBranchLabel("callLinkC")));
+            List<ZInstruction> instructions = new List<ZInstruction>();
+            int currentLink = 0;
+            var links = new List<Tuple<string, PassageMacroSet>>();
 
-            _mainInstructions.Add(new Print("Unbekannte Eingabe!" + System.Environment.NewLine));
-            _mainInstructions.Add(new Quit());
+            instructions.Add(new EraseWindow(0));
 
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("linkA")) { Label = new ZLabel("callLinkA") });
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("linkB")) { Label = new ZLabel("callLinkB") });
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("linkC")) { Label = new ZLabel("callLinkC") });
-            _mainInstructions.Add(new Quit());
+            if (!String.IsNullOrWhiteSpace(storyTitle))
+            {
+                instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.Bold));
 
-            List<ZInstruction> _linkAInstructions = new List<ZInstruction>();
-            _linkAInstructions.Add(new Print("Link A:"));
-            _linkAInstructions.Add(new NewLine());
-            _linkAInstructions.Add(new Print("Sie haben Link A ausgewaehlt!" + System.Environment.NewLine));
-            _linkAInstructions.Add(new Quit());
+                instructions.Add(new Print(storyTitle));
+                instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
 
-            List<ZInstruction> _linkBInstructions = new List<ZInstruction>();
-            _linkBInstructions.Add(new Print("Link B:"));
-            _linkBInstructions.Add(new NewLine());
-            _linkBInstructions.Add(new Print("Sie haben Link B ausgewaehlt!" + System.Environment.NewLine));
-            _linkBInstructions.Add(new Quit());
+                if (!String.IsNullOrWhiteSpace(storyAuthor))
+                {
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo));
+                    instructions.Add(new Print(" (" + storyAuthor + ")"));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                }
+                
+                instructions.Add(new NewLine());   
+            }
 
-            List<ZInstruction> _linkCInstructions = new List<ZInstruction>();
-            _linkCInstructions.Add(new Print("Link C:"));
-            _linkCInstructions.Add(new NewLine());
-            _linkCInstructions.Add(new Print("Sie haben Link C ausgewaehlt!" + System.Environment.NewLine));
-            _linkCInstructions.Add(new Quit());
+            instructions.AddRange(ConvertPassageContent(passage.PassageContentList, ref currentLink, links));
 
-            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") },
-                new ZRoutine(_linkAInstructions, 1) { Label = new ZRoutineLabel("linkA") },
-                new ZRoutine(_linkBInstructions) { Label = new ZRoutineLabel("linkB") },
-                new ZRoutine(_linkCInstructions) { Label = new ZRoutineLabel("linkC") }});
+            if (currentLink > 0)
+            {
+                instructions.Add(new NewLine());
+                instructions.Add(new PrintUnicode('>') { Label = new ZLabel("read" + passage.Name) });
+                instructions.Add(new ReadChar(new ZLocalVariable(0)));
 
-            /*_mainInstructions.Add(new Print("Ist 1 gleich 2? "));
-            //_mainInstructions.Add(new Jump(new ZJumpLabel("ja")));
-            _mainInstructions.Add(new Je((ushort)1, (ushort)2, new ZBranchLabel("ja")));
+                List<Guid> callGuids = new List<Guid>();
 
-            _mainInstructions.Add(new Print("Nein!" + System.Environment.NewLine) { Label = new ZLabel("nein") });
-            _mainInstructions.Add(new Quit());
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    callGuids.Add(Guid.NewGuid());
 
-            _mainInstructions.Add(new Print("Ja!" + System.Environment.NewLine) { Label = new ZLabel("ja") });
-            _mainInstructions.Add(new Quit() { Label = new ZLabel("quit") });
+                    char charToWrite;
+                    if (i >= 0 && i < 10)
+                        charToWrite = Convert.ToChar('1' + i);
+                    else if (i >= 10 && i < 36)
+                        charToWrite = Convert.ToChar('a' + i - 10);
+                    else if (i >= 36 && i < 62)
+                        charToWrite = Convert.ToChar('A' + i - 36);
+                    else
+                        throw new Exception();
 
-            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") } });*/
+                    instructions.Add(new Je(new ZLocalVariable(0), (short)charToWrite, new ZBranchLabel(links[i] + "Call_" + callGuids[i])));
+                }
 
-            /*_mainInstructions.Add(new Print("main:" + System.Environment.NewLine));
-            _mainInstructions.Add(new Print("Teste neue Speicherverwaltung mit call_1n ..."));
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new NewLine());
-            _mainInstructions.Add(new Call1n(new ZRoutineLabel("2ndRoutine")));
+                instructions.Add(new NewLine());
+                instructions.Add(new Print("Unbekannte Eingabe!"));
+                instructions.Add(new NewLine());
+                instructions.Add(new Jump(new ZJumpLabel("read" + passage.Name)));
+
+                for (int i = 0; i < links.Count(); i++)
+                {
+                    if (links[i].Item2 != null)
+                    {
+                        string name = ((Assign)(links[i].Item2.Expression)).Variable.Name;
+                        short value = Convert.ToInt16(((IntValue)((((Assign)(links[i].Item2.Expression)).Expr).BaseValue)).Value);
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                    }
+
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i] + "Call_" + callGuids[i]) });
+                }
+            }
+            else
+            {
+                instructions.Add(new Print(" "));
+                instructions.Add(new Quit());
+            }
             
-            _mainInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
-            _mainInstructions.Add(new Quit());
+            return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
+        }
 
-            List<ZInstruction> _helloWorldInstructions = new List<ZInstruction>();
-            _helloWorldInstructions.Add(new Print("helloworldRoutine:" + System.Environment.NewLine));
+        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
 
+            foreach (PassageContent content in contentList)
+            {
+                if (content.Type == PassageContent.ContentType.TextContent)
+                {
+                    SetTextStyle.StyleFlags flags = SetTextStyle.StyleFlags.None;
 
+                    if (content.PassageText.ContentFormat.Bold)
+                        flags |= SetTextStyle.StyleFlags.Bold;
+
+                    if (content.PassageText.ContentFormat.Italic)
+                        flags |= SetTextStyle.StyleFlags.Italic;
+
+                    if (content.PassageText.ContentFormat.Monospace)
+                        flags |= SetTextStyle.StyleFlags.FixedPitch;
+
+                    if (flags != SetTextStyle.StyleFlags.None)
+                    {
+                        instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                        instructions.Add(new SetTextStyle(flags));
+                    }
+
+                    instructions.AddRange(StringToInstructions(content.PassageText.Text));
+
+                    if (flags != SetTextStyle.StyleFlags.None)
+                        instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                }
+
+                else if (content.Type == PassageContent.ContentType.LinkContent)
+                {
+                    currentLink++;
+
+                    if (currentLink > 61)
+                        throw new Exception("More than 61 links are not supported yet.");
+
+                    char charToWrite;
+                    if (currentLink >= 1 && currentLink < 10)
+                        charToWrite = Convert.ToChar('1' + currentLink - 1);
+                    else if (currentLink >= 10 && currentLink < 36)
+                        charToWrite = Convert.ToChar('a' + currentLink - 10);
+                    else if (currentLink >= 36 && currentLink < 62)
+                        charToWrite = Convert.ToChar('A' + currentLink - 36);
+                    else
+                        throw new Exception();
+
+                    instructions.AddRange(StringToInstructions(content.PassageLink.DisplayText ?? content.PassageLink.Target));
+
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.FixedPitch));
+                    instructions.Add(new Print(charToWrite.ToString()));
+                    instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
+
+                    links.Add(new Tuple<string, PassageMacroSet>(content.PassageLink.Target, (PassageMacroSet)content.PassageLink.PassageMacro));
+                }
+
+                else if (content.Type == PassageContent.ContentType.MacroContent)
+                {
+                    instructions.AddRange(ConvertMacros(content, ref currentLink, links));
+                }
+
+                else if (content.Type == PassageContent.ContentType.FunctionContent)
+                {
+                    instructions.AddRange(ConvertFuntions(content, ref currentLink, links));
+                }
+
+                else if (content.Type == PassageContent.ContentType.VariableContent)
+                {
+                    instructions.AddRange(StringToInstructions(((PassageVariable)content).Id));
+                }
+
+                else
+                {
+                    throw new Exception("Unknown ContentType: " + content.GetType().Name);
+                }
+            }
+
+            return instructions;
+        }
+
+        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+
+            PassageMacroSet setMacro = content as PassageMacroSet;
+            PassageMacroBranch branchMacro = content as PassageMacroBranch;
+            PassageMacroPrint printMacro = content as PassageMacroPrint;
+            PassageMacroDisplay displayMacro = content as PassageMacroDisplay;
+
+            if (setMacro != null)
+            {
+                string name = ((Assign)(setMacro.Expression)).Variable.Name;
+
+                _symbolTable.AddSymbol(name);
+
+                if (((Assign)setMacro.Expression).Expr.BaseValue is IntValue)
+                {
+                    short value = Convert.ToInt16(((IntValue)((((Assign)(setMacro.Expression)).Expr).BaseValue)).Value);
+
+                    instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                }
+
+                else if (((Assign)setMacro.Expression).Expr.BaseValue is RandomFunction)
+                {
+                    RandomFunction random = (RandomFunction)((Assign)setMacro.Expression).Expr.BaseValue;
+                    short min = (short)((IntValue)((((FunctionValue)random).Args[0]).BaseExpression)).Value;
+                    short max = (short)((IntValue)((((FunctionValue)random).Args[1]).BaseExpression)).Value;
+
+                    if (min < 1)
+                    {
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random((short)(max + (-1 * min) + 1), new ZGlobalVariable(200)));
+                        instructions.Add(new Sub(new ZGlobalVariable(200), (short)((-1 * min) + 1), _symbolTable.GetSymbol(name)));
+                    }
+                    else if (min > 1)
+                    {
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random((short)(max + (-1 * min) + 1), new ZGlobalVariable(200)));
+                        instructions.Add(new Sub(new ZGlobalVariable(200), (short)(min - 1), _symbolTable.GetSymbol(name)));
+                    }
+                    else
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random(max, _symbolTable.GetSymbol(name)));
+                }
+            }
+
+            else if (printMacro != null)
+            {
+                instructions.AddRange(StringToInstructions(((StringValue)(printMacro.Expression)).Value.Replace('\"', ' ').Trim()));
+            }
+
+            else if (displayMacro != null)
+            {
+                instructions.AddRange(ConvertPassageContent(_passages.Single(passage =>
+                    passage.Name == ((StringValue)(displayMacro.Expression)).Value.Replace('\"', ' ').Trim()).PassageContentList, ref currentLink, links));
+            }
+
+            else if (branchMacro != null)
+            {
+                Guid endIfGuid = Guid.NewGuid();
+
+                //if
+                PassageMacroIf ifMacro = (PassageMacroIf)branchMacro.BranchNodeList.First();
+                Guid ifGuid = Guid.NewGuid();
+
+                instructions.AddRange(ConvertBranchExpression(ifMacro.Expression, "if_" + ifGuid));
+                
+                // if expression is true
+                foreach (var instruction in ConvertPassageContent(ifMacro.PassageContentList, ref currentLink, links))
+                {
+                    instructions.Add(instruction);
+                }
+                instructions.Add(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
+
+                // if expression is false
+                instructions.Add(new Nop() { Label = new ZLabel("if_" + ifGuid) });
+                
+                //else if
+                foreach (PassageMacroElseIf elseIfMacro in branchMacro.BranchNodeList.OfType<PassageMacroElseIf>())
+                {
+                    Guid elseIfGuid = Guid.NewGuid();
+
+                    instructions.AddRange(ConvertBranchExpression(elseIfMacro.Expression, "elseIf_" + elseIfGuid));
+
+                    // if expression is true
+                    foreach (var instruction in ConvertPassageContent(elseIfMacro.PassageContentList, ref currentLink, links))
+                    {
+                        instructions.Add(instruction);
+                    }
+                    instructions.Add(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
+
+                    // if expression is false
+                    instructions.Add(new Nop() { Label = new ZLabel("elseIf_" + elseIfGuid) });
+                }
+
+                //else
+                PassageMacroElse elseMacro = branchMacro.BranchNodeList.Last() as PassageMacroElse;
+
+                if (elseMacro != null)
+                {
+                    foreach (var instruction in ConvertPassageContent(elseMacro.PassageContentList, ref currentLink, links))
+                    {
+                        instructions.Add(instruction);
+                    }
+                }
+
+                //endif
+                instructions.Add(new Nop() { Label = new ZLabel("endIf_" + endIfGuid) });
+            }
+
+            else
+            {
+                throw new NotSupportedException("This macro is not supported yet: " + content.GetType().Name);
+            }
+
+            return instructions;
+        }
+
+        private List<ZInstruction> ConvertFuntions(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+
+            PassageFunction function = content as PassageFunction;
+
+            if (function != null)
+            {
+
+            }
+
+            return instructions;
+        }
+
+        private List<ZInstruction> ConvertBranchExpression(Expression expression, string label)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+            LogicalOp log = (LogicalOp)expression;
+
+            short? leftShort = null;
+            string leftVar = null;
+
+            short? rightShort = null;
+            string rightVar = null;
+
+            if (log.LeftExpr is VariableValue)
+                leftVar = ((VariableValue)(log.LeftExpr.BaseValue)).Name;
+            else if (log.LeftExpr is IntValue)
+                leftShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+            else
+                instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label));
+
+            if (log.RightExpr is VariableValue)
+                rightVar = ((VariableValue)(log.RightExpr.BaseValue)).Name;
+            else if (log.RightExpr is IntValue)
+                rightShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+            else
+                instructions.AddRange(ConvertBranchExpression(log.RightExpr, label));
+
+            switch (log.Type)
+            {
+                case LogicalOp.LocicalOpEnum.And:
+                    break;
+                case LogicalOp.LocicalOpEnum.Or:
+                    break;
+                case LogicalOp.LocicalOpEnum.Xor:
+                    break;
+                case LogicalOp.LocicalOpEnum.Not:
+                    break;
+                case LogicalOp.LocicalOpEnum.Neq:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    break;
+                case LogicalOp.LocicalOpEnum.Eq:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                    break;
+                case LogicalOp.LocicalOpEnum.Gt:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Jg(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Jg(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    break;
+                case LogicalOp.LocicalOpEnum.Ge:
+                    break;
+                case LogicalOp.LocicalOpEnum.Lt:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Jl(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Jl(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    break;
+                case LogicalOp.LocicalOpEnum.Le:
+                    break;
+                default:
+                    break;
+            }
+
+            return instructions;
+        }
+
+        private IEnumerable<ZInstruction> StringToInstructions(string input)
+        {
+            List<ZInstruction> list = new List<ZInstruction>();
             StringBuilder splitInput = new StringBuilder();
             foreach (char c in input)
             {
-                if (c < 128)
+                if (Text.TextHelper.IsZSCII(c) || c == '\r' || c == '\n')
                     splitInput.Append(c);
                 else
                 {
-                    _helloWorldInstructions.Add(new Print(splitInput.ToString()));
-                    _helloWorldInstructions.Add(new PrintUnicode(c));
+                    if (splitInput.Length > 0)
+                        list.Add(new Print(splitInput.ToString()));
+                    list.Add(new PrintUnicode(c));
                     splitInput.Clear();
                 }
             }
-            _helloWorldInstructions.Add(new Print(splitInput.ToString()));
+            if (splitInput.Length > 0)
+                list.Add(new Print(splitInput.ToString()));
 
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold));
-            _helloWorldInstructions.Add(new Print("Fetter Text" + Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Italic));
-            _helloWorldInstructions.Add(new Print("Kursiver Text" + Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.FixedPitch));
-            _helloWorldInstructions.Add(new Print("Monospace Text" + Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Roman));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo));
-            _helloWorldInstructions.Add(new Print("ReverseVideo Text" + Environment.NewLine));
-            _helloWorldInstructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.Bold | SetTextStyle.StyleFlags.FixedPitch | SetTextStyle.StyleFlags.Italic | SetTextStyle.StyleFlags.ReverseVideo));
-            _helloWorldInstructions.Add(new Print("Alles zusammen Text" + Environment.NewLine));
-            _helloWorldInstructions.Add(new Quit());
-
-            List<ZInstruction> _2ndRoutineInstructions = new List<ZInstruction>();
-            _2ndRoutineInstructions.Add(new Print("2ndRoutine:" + System.Environment.NewLine));
-            _2ndRoutineInstructions.Add(new Print("Aufruf hat geklappt!" + System.Environment.NewLine));
-
-            _2ndRoutineInstructions.Add(new Print("Ist 1 gleich 2? "));
-            _2ndRoutineInstructions.Add(new Je(1, 2, new ZBranchLabel("printJa")));
-            _2ndRoutineInstructions.Add(new Print("Nein!" + System.Environment.NewLine));
-            _2ndRoutineInstructions.Add(new Jump(new ZJumpLabel("weiter")));
-            _2ndRoutineInstructions.Add(new Print("Ja!" + System.Environment.NewLine) { Label = new ZLabel("printJa") });
-
-            _2ndRoutineInstructions.Add(new Print("Rufe nun normale Hello World-Routine auf ...") { Label = new ZLabel("weiter") });
-            _2ndRoutineInstructions.Add(new NewLine());
-            _2ndRoutineInstructions.Add(new NewLine());
-            
-            _2ndRoutineInstructions.Add(new Jump(new ZJumpLabel("helloworldCall")));
-            _2ndRoutineInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
-            _2ndRoutineInstructions.Add(new Quit());
-
-            _2ndRoutineInstructions.Add(new Call1n(new ZRoutineLabel("helloworldRoutine")) { Label = new ZLabel("helloworldCall") });
-            
-            _2ndRoutineInstructions.Add(new Print("Fehler: Dieser Text duerfte nicht zu lesen sein!"));
-            _2ndRoutineInstructions.Add(new Quit());
-
-            _zMemory.SetRoutines(new ZRoutine[] { new ZRoutine(_mainInstructions) { Label = new ZRoutineLabel("main") },
-                new ZRoutine(_2ndRoutineInstructions) { Label = new ZRoutineLabel("2ndRoutine") },
-                new ZRoutine(_helloWorldInstructions) { Label = new ZRoutineLabel("helloworldRoutine") } });*/
+            return list;
         }
-
+        
         public Byte[] ToBytes()
         {
             List<byte> byteList = new List<byte>();

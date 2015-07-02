@@ -39,11 +39,11 @@ namespace Twee2Z.CodeGen.Memory
                 ZStaticMemory.DictionaryTableAddr,
                 ObjectTableAddr,
                 GlobalVariablesTableAddr,
-                HeaderExtensionTableAddr) { Label = new ZLabel(new ZByteAddress(HeaderTableAddr)) };
-            _headerExtension = new ZHeaderExtension() { Label = new ZLabel(new ZByteAddress(HeaderExtensionTableAddr)) };
-            _objectTable = new ZObjectTable() { Label = new ZLabel(new ZByteAddress(ObjectTableAddr)) };
-            _globalVariablesTable = new ZGlobalVariablesTable() { Label = new ZLabel(new ZByteAddress(GlobalVariablesTableAddr)) };
-            _mainRoutineCall = new Call1n(new ZRoutineLabel("main")) { Label = new ZLabel(new ZByteAddress(InitProgramCounterAddr)) };
+                HeaderExtensionTableAddr) { Position = new ZByteAddress(HeaderTableAddr) };
+            _headerExtension = new ZHeaderExtension() { Position = new ZByteAddress(HeaderExtensionTableAddr) };
+            _objectTable = new ZObjectTable() { Position = new ZByteAddress(ObjectTableAddr) };
+            _globalVariablesTable = new ZGlobalVariablesTable() { Position = new ZByteAddress(GlobalVariablesTableAddr) };
+            _mainRoutineCall = new Call1n(new ZRoutineLabel("main")) { Position = new ZByteAddress(InitProgramCounterAddr) };
 
             _subComponents.Add(_header);
             _subComponents.Add(_headerExtension);
@@ -56,34 +56,18 @@ namespace Twee2Z.CodeGen.Memory
         {
             Byte[] byteArray = new Byte[Size];
 
-            _header.ToBytes().CopyTo(byteArray, _header.Label.TargetAddress.Absolute);
-            _headerExtension.ToBytes().CopyTo(byteArray, _headerExtension.Label.TargetAddress.Absolute);
+            _header.ToBytes().CopyTo(byteArray, _header.Position.Absolute);
+            _headerExtension.ToBytes().CopyTo(byteArray, _headerExtension.Position.Absolute);
 
-            _objectTable.ToBytes().CopyTo(byteArray, _objectTable.Label.TargetAddress.Absolute);
-            _globalVariablesTable.ToBytes().CopyTo(byteArray, _globalVariablesTable.Label.TargetAddress.Absolute);
+            _objectTable.ToBytes().CopyTo(byteArray, _objectTable.Position.Absolute);
+            _globalVariablesTable.ToBytes().CopyTo(byteArray, _globalVariablesTable.Position.Absolute);
 
             // Jumps to the beginning of the high memory for the main routine.
-            _mainRoutineCall.ToBytes().CopyTo(byteArray, _mainRoutineCall.Label.TargetAddress.Absolute);
+            _mainRoutineCall.ToBytes().CopyTo(byteArray, _mainRoutineCall.Position.Absolute);
 
             return byteArray;
         }
 
         public override int Size { get { return DynamicMemorySize; } }
-
-        protected override void SetLabel(int absoluteAddr, string name)
-        {
-            if (_componentLabel == null)
-                _componentLabel = new ZLabel(new ZByteAddress(absoluteAddr), name);
-            else if (_componentLabel.TargetAddress == null)
-            {
-                _componentLabel.TargetAddress = new ZByteAddress(absoluteAddr);
-                _componentLabel.Name = name;
-            }
-            else
-            {
-                _componentLabel.TargetAddress.Absolute = absoluteAddr;
-                _componentLabel.Name = name;
-            }
-        }
     }
 }

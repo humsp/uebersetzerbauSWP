@@ -1,0 +1,15 @@
+:: Start
+Your story //will display// this passage
+
+:: StoryTitle
+//
+Your story wil::l di[s]]play ''this passage'' first Edit it by double clicking it
+[[HIERTEXT|myPassage]]//
+Untitled Story
+
+:: myPassage 
+you are //done
+[[start]]
+
+:: StoryAuthor
+Anonymous x

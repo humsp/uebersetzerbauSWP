@@ -20,9 +20,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -42,23 +43,42 @@
     <Compile Include="Address\ZByteAddress.cs" />
     <Compile Include="Address\ZPackedAddress.cs" />
     <Compile Include="Address\ZWordAddress.cs" />
-    <Compile Include="Instruction\InstructionFormKind.cs" />
-    <Compile Include="Instruction\OpcodeHelper.cs" />
-    <Compile Include="Instruction\OperandTypeKind.cs" />
+    <Compile Include="Instruction\Opcode\InstructionFormKind.cs" />
+    <Compile Include="Instruction\Opcode\OpcodeHelper.cs" />
+    <Compile Include="Instruction\Opcode\OpcodeTypeKind.cs" />
+    <Compile Include="Instruction\Operand\OperandTypeKind.cs" />
+    <Compile Include="Instruction\Template\Jl.cs" />
+    <Compile Include="Instruction\Template\Jg.cs" />
+    <Compile Include="Instruction\Template\Sub.cs" />
+    <Compile Include="Instruction\Template\Jz.cs" />
     <Compile Include="Instruction\Template\Je.cs" />
+    <Compile Include="Instruction\Template\Add.cs" />
+    <Compile Include="Instruction\Template\PrintChar.cs" />
     <Compile Include="Instruction\Template\PrintUnicode.cs" />
     <Compile Include="Instruction\Template\Jump.cs" />
     <Compile Include="Instruction\Template\Call1n.cs" />
     <Compile Include="Instruction\Template\NewLine.cs" />
-    <Compile Include="Instruction\Template\Read.cs" />
+    <Compile Include="Instruction\Template\EraseWindow.cs" />
+    <Compile Include="Instruction\Template\Load.cs" />
+    <Compile Include="Instruction\Template\Push.cs" />
+    <Compile Include="Instruction\Template\Pull.cs" />
+    <Compile Include="Instruction\Template\Pop.cs" />
+    <Compile Include="Instruction\Template\Nop.cs" />
+    <Compile Include="Instruction\Template\Random.cs" />
+    <Compile Include="Instruction\Template\Store.cs" />
     <Compile Include="Instruction\Template\ReadChar.cs" />
     <Compile Include="Instruction\Template\SetTextStyle.cs" />
     <Compile Include="Instruction\Template\Quit.cs" />
+    <Compile Include="Instruction\ZInstructionStBr.cs" />
+    <Compile Include="Instruction\ZInstructionBr.cs" />
+    <Compile Include="Instruction\ZInstructionSt.cs" />
+    <Compile Include="Instruction\Operand\ZOperand.cs" />
+    <Compile Include="IZLabeledComponent.cs" />
     <Compile Include="Label\ZBranchLabel.cs" />
     <Compile Include="Text\TextHelper.cs" />
     <Compile Include="Variable\VaribaleKind.cs" />
     <Compile Include="Instruction\ZInstruction.cs" />
-    <Compile Include="Instruction\ZOpcode.cs" />
+    <Compile Include="Instruction\Opcode\ZOpcode.cs" />
     <Compile Include="IZComponent.cs" />
     <Compile Include="Address\ZAddress.cs" />
     <Compile Include="Label\ZJumpLabel.cs" />
@@ -67,7 +87,7 @@
     <Compile Include="Memory\ZDynamicMemory.cs" />
     <Compile Include="Memory\ZHighMemory.cs" />
     <Compile Include="Memory\ZStaticMemory.cs" />
-    <Compile Include="Instruction\OperandCountKind.cs" />
+    <Compile Include="Instruction\Opcode\InstructionOperandCountKind.cs" />
     <Compile Include="Instruction\Template\Print.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Table\ZGlobalVariablesTable.cs" />
@@ -76,6 +96,7 @@
     <Compile Include="Variable\ZStackVariable.cs" />
     <Compile Include="Variable\ZVariable.cs" />
     <Compile Include="ZComponent.cs" />
+    <Compile Include="ZLabeledComponent.cs" />
     <Compile Include="ZStoryFile.cs" />
     <Compile Include="Memory\ZHeader.cs" />
     <Compile Include="Memory\ZHeaderExtension.cs" />
@@ -84,8 +105,8 @@
     <Compile Include="Table\ZDictionaryTable.cs" />
     <Compile Include="Table\ZObjectTable.cs" />
     <Compile Include="Instruction\ZRoutine.cs" />
-    <Compile Include="Text\ZSCII.cs" />
     <Compile Include="Text\ZText.cs" />
+    <Compile Include="ZSymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
@@ -96,9 +117,6 @@
       <Project>{49d2792c-80fc-4964-ae5f-6bc170928d50}</Project>
       <Name>Utils</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="z-spec10.pdf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

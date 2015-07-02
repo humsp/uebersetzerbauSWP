@@ -1,14 +1,11 @@
-:: start
+:: Start
 hallo welt
-<<3>>
 <<display "hallo">>
-<<if 5 eq 5>> Text
+<<if 5 eq 5>> TextA
 <<endif>>
-<<if 5 eq 5>> Text <<else>> Text <<endif>>
-<<if 5 eq 5>> Text <<else if 5 eq 5>> Text <<endif>>
-<<actions "Lift the lid of the white pot" 
-"asldjals" "ohsoa">>
-<<nobr>> <<print 
-"hallo">> <<endnobr>>
-<<silently>> <<print 
-"hallo">> <<endsilently>>
+<<if 5 eq 5>> TextB <<else>> TextC <<endif>>
+<<if 5 eq 5>> TextD <<else if 5 eq 5>> TextE <<endif>>
+<<set $s = 5>>
+<<if 5 eq 5>> Text1.1 
+<<if 5 eq 5>> Text2.1 <<else>> Text2.2 <<endif>> 
+<<else>> Text1.2 <<endif>>

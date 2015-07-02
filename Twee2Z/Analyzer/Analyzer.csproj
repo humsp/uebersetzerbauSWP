@@ -22,9 +22,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -45,15 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\ExpressionAnalyzer.cs" />
+    <Compile Include="Expressions\ExpressionParser.g4.cs">
+      <DependentUpon>ExpressionParser.g4</DependentUpon>
+    </Compile>
+    <Compile Include="Expressions\ExpressionVisitor.cs" />
+    <Compile Include="Expressions\ExpressiosLexer.g4.cs">
+      <DependentUpon>ExpressiosLexer.g4</DependentUpon>
+    </Compile>
     <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-   
+    <Compile Include="TweeBuilder.cs" />
     <Compile Include="TweeVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Antlr4 Include="LEX.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>Twee2Z.Analyzer</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="Expressions\ExpressionLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer.Expressions</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="Expressions\ExpressionParser.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Twee2Z.Analyzer.Expressions</CustomToolNamespace>
     </Antlr4>
     <None Include="packages.config" />
     <Antlr4 Include="Twee.g4">

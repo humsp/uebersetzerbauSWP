@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Twee2Z.Utils;
+using Twee2Z.ObjectTree.PassageContents;
 
 namespace Twee2Z.ObjectTree
 {
@@ -16,23 +17,10 @@ namespace Twee2Z.ObjectTree
 		public Passage(String name)
         {
             _name = name;
-        }
-    
+        }    
         public void AddPassageContent(PassageContent passageContent)
         {
-            int count = _passageContentList.Count;
-            if (passageContent.Type == PassageContent.ContentType.TextContent &&
-                count != 0 &&
-                _passageContentList.Last().Type == PassageContent.ContentType.TextContent)
-            {
-                String text = _passageContentList.Last().PassageText.Text + 
-                    passageContent.PassageText.Text;
-                _passageContentList[count - 1] = new PassageText(text);
-            }
-            else
-            {
-                _passageContentList.Add(passageContent);
-            }
+            _passageContentList.Add(passageContent);
         }
 
         public void AddTag(string tag)
@@ -43,7 +31,7 @@ namespace Twee2Z.ObjectTree
             }
             else
             {
-                Logger.LogWarning("ignoring tag: " + tag + " for passage:" + Name);
+                Logger.LogWarning("ignoring redundant tag: " + tag + " for passage:" + Name);
              }
         }
         public string Name

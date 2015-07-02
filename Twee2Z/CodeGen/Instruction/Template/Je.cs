@@ -8,158 +8,68 @@ using System.Diagnostics;
 using Twee2Z.CodeGen.Address;
 using Twee2Z.CodeGen.Label;
 using Twee2Z.CodeGen.Variable;
+using Twee2Z.CodeGen.Instruction.Opcode;
+using Twee2Z.CodeGen.Instruction.Operand;
 
 namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
-    /// Jump if a is equal to any of the subsequent operands.
+    /// Jump if the two operands equal.
+    /// <para>
+    /// See also "je" on page 86 for reference.
+    /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, BranchAddress = {_branchLabel.TargetAddress}")]
-    class Je : ZInstruction
+    [DebuggerDisplay("Name = {_opcode.Name}, A = {_operands[0].Value}, B = {_operands[1].Value}, Branch = {_branch}")]
+    class Je : ZInstructionBr
     {
-        private ZBranchLabel _branchLabel = null;
-
-        private byte? aAsByte = null;
-        private ushort? aAsUShort = null;
-        private ZVariable aAsVariable = null;
-
-        private byte? bAsByte = null;
-        private ushort? bAsUShort = null;
-        private ZVariable bAsVariable = null;
-
-        private Je(ZBranchLabel branchLabel, OperandTypeKind[] operandTypes)
-            : base("je", 0x01, InstructionFormKind.Variable, OperandCountKind.TwoOP, operandTypes)
+        private Je(ZBranchLabel branchLabel, params ZOperand[] operands)
+            : base("je", 0x01, OpcodeTypeKind.TwoOP, branchLabel, operands)
         {
-            _branchLabel = branchLabel;
-            _subComponents.Add(branchLabel);
         }
 
         public Je(byte a, byte b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.SmallConstant, OperandTypeKind.SmallConstant })
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsByte = a;
-            bAsByte = b;
         }
 
-        public Je(byte a, ushort b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.SmallConstant, OperandTypeKind.LargeConstant })
+        public Je(byte a, short b, ZBranchLabel branchLabel)
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsByte = a;
-            bAsUShort = b;
         }
 
         public Je(byte a, ZVariable b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.SmallConstant, OperandTypeKind.Variable })
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsByte = a;
-            bAsVariable = b;
         }
 
-        public Je(ushort a, byte b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.LargeConstant, OperandTypeKind.SmallConstant })
+        public Je(short a, byte b, ZBranchLabel branchLabel)
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsUShort = a;
-            bAsByte = b;
         }
 
-        public Je(ushort a, ushort b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.LargeConstant, OperandTypeKind.LargeConstant })
+        public Je(short a, short b, ZBranchLabel branchLabel)
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsUShort = a;
-            bAsUShort = b;
         }
 
-        public Je(ushort a, ZVariable b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.LargeConstant, OperandTypeKind.Variable })
+        public Je(short a, ZVariable b, ZBranchLabel branchLabel)
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsUShort = a;
-            bAsVariable = b;
         }
 
         public Je(ZVariable a, byte b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.Variable, OperandTypeKind.SmallConstant })
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsVariable = a;
-            bAsByte = b;
         }
 
-        public Je(ZVariable a, ushort b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.Variable, OperandTypeKind.LargeConstant })
+        public Je(ZVariable a, short b, ZBranchLabel branchLabel)
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsVariable = a;
-            bAsUShort = b;
         }
 
         public Je(ZVariable a, ZVariable b, ZBranchLabel branchLabel)
-            : this(branchLabel, new OperandTypeKind[] { OperandTypeKind.Variable, OperandTypeKind.Variable })
+            : this(branchLabel, new ZOperand(a), new ZOperand(b))
         {
-            aAsVariable = a;
-            bAsVariable = b;
-        }
-
-        public ZBranchLabel BranchAddress { get { return _branchLabel; } }
-
-        public override int Size
-        {
-            get
-            {
-                int size = base.Size;
-
-                if (aAsByte != null)
-                    size += 1;
-                else if (aAsUShort != null)
-                    size += 2;
-                else if (aAsVariable != null)
-                    size += aAsVariable.Size;
-
-                if (bAsByte != null)
-                    size += 1;
-                else if (bAsUShort != null)
-                    size += 2;
-                else if (bAsVariable != null)
-                    size += bAsVariable.Size;
-
-                return size;
-            }
-        }
-
-        public override Byte[] ToBytes()
-        {
-            List<Byte> byteList = new List<byte>();
-
-            byteList.AddRange(base.ToBytes());
-
-            if (aAsByte != null)
-            {
-                byteList.Add((byte)aAsByte);
-            }
-            else if (aAsUShort != null)
-            {
-                byteList.Add((byte)(aAsUShort >> 8));
-                byteList.Add((byte)aAsUShort);
-            }
-            else if (aAsVariable != null)
-            {
-                byteList.AddRange(aAsVariable.ToBytes());
-            }
-
-            if (bAsByte != null)
-            {
-                byteList.Add((byte)bAsByte);
-            }
-            else if (bAsUShort != null)
-            {
-                byteList.Add((byte)(bAsUShort >> 8));
-                byteList.Add((byte)bAsUShort);
-            }
-            else if (bAsVariable != null)
-            {
-                byteList.AddRange(bAsVariable.ToBytes());
-            }
-
-            byteList.AddRange(_branchLabel.ToBytes());
-
-            return byteList.ToArray();
         }
     }
 }

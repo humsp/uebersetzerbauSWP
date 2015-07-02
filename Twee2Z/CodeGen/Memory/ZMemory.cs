@@ -34,7 +34,7 @@ namespace Twee2Z.CodeGen.Memory
             _subComponents.Add(_staticMem);
             _subComponents.Add(_highMem);
 
-            _componentLabel = new ZLabel(new ZByteAddress(0x0000));
+            _position = new ZByteAddress(0x0000);
         }
 
         public void SetRoutines(IEnumerable<ZRoutine> routines)
@@ -45,7 +45,7 @@ namespace Twee2Z.CodeGen.Memory
             _highMem.Routines.AddRange(routines);
         }
 
-        protected override void Setup(int currentAddress)
+        public override void Setup(int currentAddress)
         {
             base.Setup(currentAddress);
             SetupLabels(this);
@@ -66,17 +66,17 @@ namespace Twee2Z.CodeGen.Memory
                     if (foundRoutine != null)
                         routineLabel.TargetAddress = new ZPackedAddress(foundRoutine.Label.TargetAddress.Absolute);
                     else
-                        throw new Exception(String.Format("The ZRoutineLabel targets a ZRoutine that does not exist. A routine named {0} has not been found.", routineLabel.Name));
+                        throw new Exception(String.Format("The ZRoutineLabel targets a ZRoutine that does not exist. A routine named '{0}' has not been found.", routineLabel.Name));
                 }
 
                 if (jumpLabel != null && (jumpLabel.TargetAddress == null || jumpLabel.SourceComponent == null))
                 {
-                    IZComponent foundComponent = SubComponentsToList().FirstOrDefault(c => c.Label.Name == jumpLabel.Name);
+                    IZLabeledComponent foundComponent = GetAllLabeledComponents().FirstOrDefault(c => c.Label.Name == jumpLabel.Name);
 
                     if (foundComponent != null)
                         jumpLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
                     else
-                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named {0} has not been found.", jumpLabel.Name));
+                        throw new Exception(String.Format("The ZJumpLabel targets a ZComponent that does not exist. A component named '{0}' has not been found.", jumpLabel.Name));
 
                     jumpLabel.SourceComponent = parent;
                 }
@@ -85,12 +85,12 @@ namespace Twee2Z.CodeGen.Memory
                 {
                     if (branchLabel.Name != null)
                     {
-                        IZComponent foundComponent = SubComponentsToList().FirstOrDefault(c => c.Label.Name == branchLabel.Name);
+                        IZLabeledComponent foundComponent = GetAllLabeledComponents().FirstOrDefault(c => c.Label.Name == branchLabel.Name);
 
                         if (foundComponent != null)
                             branchLabel.TargetAddress = new ZAddress(foundComponent.Label.TargetAddress.Absolute);
                         else
-                            throw new Exception(String.Format("The ZBranchLabel targets a ZComponent that does not exist. A component named {0} has not been found.", branchLabel.Name));
+                            throw new Exception(String.Format("The ZBranchLabel targets a ZComponent that does not exist. A component named '{0}' has not been found.", branchLabel.Name));
                     }
 
                     branchLabel.SourceComponent = parent;
@@ -100,25 +100,33 @@ namespace Twee2Z.CodeGen.Memory
             }
         }
 
-        private List<IZComponent> SubComponentsToList()
+        private List<IZLabeledComponent> GetAllLabeledComponents()
         {
-            List<IZComponent> list = new List<IZComponent>();
+            List<IZLabeledComponent> list = new List<IZLabeledComponent>();
 
             foreach (IZComponent component in _subComponents)
             {
-                list.Add(component);
-                SubComponentsToListRecursive(component.SubComponents, ref list);
+                IZLabeledComponent labeledComponent = component as IZLabeledComponent;
+
+                if (labeledComponent != null)
+                    list.Add(labeledComponent);
+
+                GetAllLabeledComponentsRecursive(component.SubComponents, ref list);
             }
 
             return list;
         }
 
-        private void SubComponentsToListRecursive(List<IZComponent> subComponents, ref List<IZComponent> list)
+        private void GetAllLabeledComponentsRecursive(List<IZComponent> subComponents, ref List<IZLabeledComponent> list)
         {
             foreach (IZComponent component in subComponents)
             {
-                list.Add(component);
-                SubComponentsToListRecursive(component.SubComponents, ref list);
+                IZLabeledComponent labeledComponent = component as IZLabeledComponent;
+
+                if (labeledComponent != null)
+                    list.Add(labeledComponent);
+
+                GetAllLabeledComponentsRecursive(component.SubComponents, ref list);
             }
         }
 
@@ -127,8 +135,8 @@ namespace Twee2Z.CodeGen.Memory
             Setup(0x0000);
 
             byte[] dynamicAndStaticByteArray = new byte[ZHighMemory.HighMemoryBase + 1];
-            _dynamicMem.ToBytes().CopyTo(dynamicAndStaticByteArray, _dynamicMem.Label.TargetAddress.Absolute);
-            _staticMem.ToBytes().CopyTo(dynamicAndStaticByteArray, _staticMem.Label.TargetAddress.Absolute);
+            _dynamicMem.ToBytes().CopyTo(dynamicAndStaticByteArray, _dynamicMem.Position.Absolute);
+            _staticMem.ToBytes().CopyTo(dynamicAndStaticByteArray, _staticMem.Position.Absolute);
 
             List<byte> allMemByteList = new List<byte>();
             allMemByteList.AddRange(dynamicAndStaticByteArray);

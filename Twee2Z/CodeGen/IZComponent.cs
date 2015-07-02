@@ -26,9 +26,8 @@ namespace Twee2Z.CodeGen
         /// </summary>
         int Size { get; }
 
-        /// <summary>
-        /// Gets the absolute address with an optional label name. The address is set right before the code generation.
-        /// </summary>
-        ZLabel Label { get; set; }
+        ZAddress Position { get; set; }
+
+        void Setup(int currentAddress);
     }
 }

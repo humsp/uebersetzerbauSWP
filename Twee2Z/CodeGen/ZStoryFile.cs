@@ -16,6 +16,7 @@ using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 using Twee2Z.ObjectTree.Expressions;
 using Twee2Z.ObjectTree.Expressions.Base;
 using Twee2Z.ObjectTree.Expressions.Base.Values;
+using Twee2Z.ObjectTree.Expressions.Base.Values.Functions;
 using Twee2Z.ObjectTree.Expressions.Base.Ops;
 
 namespace Twee2Z.CodeGen
@@ -225,6 +226,11 @@ namespace Twee2Z.CodeGen
                     instructions.AddRange(ConvertFuntions(content, ref currentLink, links));
                 }
 
+                else if (content.Type == PassageContent.ContentType.VariableContent)
+                {
+                    instructions.AddRange(StringToInstructions(((PassageVariable)content).Id));
+                }
+
                 else
                 {
                     throw new Exception("Unknown ContentType: " + content.GetType().Name);
@@ -246,10 +252,35 @@ namespace Twee2Z.CodeGen
             if (setMacro != null)
             {
                 string name = ((Assign)(setMacro.Expression)).Variable.Name;
-                short value = Convert.ToInt16(((IntValue)((((Assign)(setMacro.Expression)).Expr).BaseValue)).Value);
 
                 _symbolTable.AddSymbol(name);
-                instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+
+                if (((Assign)setMacro.Expression).Expr.BaseValue is IntValue)
+                {
+                    short value = Convert.ToInt16(((IntValue)((((Assign)(setMacro.Expression)).Expr).BaseValue)).Value);
+
+                    instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                }
+
+                else if (((Assign)setMacro.Expression).Expr.BaseValue is RandomFunction)
+                {
+                    RandomFunction random = (RandomFunction)((Assign)setMacro.Expression).Expr.BaseValue;
+                    short min = (short)((IntValue)((((FunctionValue)random).Args[0]).BaseExpression)).Value;
+                    short max = (short)((IntValue)((((FunctionValue)random).Args[1]).BaseExpression)).Value;
+
+                    if (min < 1)
+                    {
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random((short)(max + (-1 * min) + 1), new ZGlobalVariable(200)));
+                        instructions.Add(new Sub(new ZGlobalVariable(200), (short)((-1 * min) + 1), _symbolTable.GetSymbol(name)));
+                    }
+                    else if (min > 1)
+                    {
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random((short)(max + (-1 * min) + 1), new ZGlobalVariable(200)));
+                        instructions.Add(new Sub(new ZGlobalVariable(200), (short)(min - 1), _symbolTable.GetSymbol(name)));
+                    }
+                    else
+                        instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random(max, _symbolTable.GetSymbol(name)));
+                }
             }
 
             else if (printMacro != null)
@@ -374,6 +405,14 @@ namespace Twee2Z.CodeGen
                 case LogicalOp.LocicalOpEnum.Not:
                     break;
                 case LogicalOp.LocicalOpEnum.Neq:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
                     break;
                 case LogicalOp.LocicalOpEnum.Eq:
                     if (leftShort != null && rightShort != null)
@@ -386,10 +425,26 @@ namespace Twee2Z.CodeGen
                         instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
                     break;
                 case LogicalOp.LocicalOpEnum.Gt:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Jg(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Jg(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
                     break;
                 case LogicalOp.LocicalOpEnum.Ge:
                     break;
                 case LogicalOp.LocicalOpEnum.Lt:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Jl(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Jl(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
                     break;
                 case LogicalOp.LocicalOpEnum.Le:
                     break;

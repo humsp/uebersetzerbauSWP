@@ -24,6 +24,8 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
+            System.Console.WriteLine("Twee2Z - Milestone 4");
+
             // init logger. modify if needed
             Logger.AddLogEvent(Logger.LogEvent.UserOutput);
             Logger.AddLogEvent(Logger.LogEvent.Warning);
@@ -37,79 +39,70 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("See default log at: " + System.IO.Path.GetFullPath(logOutput));
             Logger.AddLogWriter(new LogWriter(new StreamWriter(logOutput)));
             // end init logger
-
-
+            
             int argCounter = 0;
             string arg0 = null;
             string arg1 = null;
             RunCase runCase = RunCase.Help;
-
-
-            if (args.Length == 0)
+            
+            while (argCounter < args.Length)
             {
-                PrintHelp();
-            }
-            else
-            {
-                while (argCounter < args.Length)
+                switch (args[argCounter++].ToLower())
                 {
-                    switch (args[argCounter++].ToLower())
-                    {
-                        case "-tw2z":
-                            if (argCounter + 2 > args.Length)
-                            {
-                                Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
-                                runCase = RunCase.Help;
-                            }
-                            else
-                            {
-                                runCase = RunCase.Tw2Z;
-                                arg0 = args[argCounter++];
-                                arg1 = args[argCounter++];
-                            }
-                            break;
-                        case "-help":
+                    case "-tw2z":
+                        if (argCounter + 2 > args.Length)
+                        {
+                            Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
                             runCase = RunCase.Help;
-                            break;
-                        case "-logall":
-                            Logger.LogAll();
-                            break;
-                        case "-log":
-                            while (argCounter < args.Length && args[argCounter].Substring(0, 1) != "-")
+                        }
+                        else
+                        {
+                            runCase = RunCase.Tw2Z;
+                            arg0 = args[argCounter++];
+                            arg1 = args[argCounter++];
+                        }
+                        break;
+                    case "-help":
+                        runCase = RunCase.Help;
+                        break;
+                    case "-logall":
+                        Logger.LogAll();
+                        break;
+                    case "-log":
+                        while (argCounter < args.Length && args[argCounter].Substring(0, 1) != "-")
+                        {
+                            switch (args[argCounter++].ToLower())
                             {
-                                switch (args[argCounter++].ToLower())
-                                {
-                                    case "all":
-                                        Logger.LogAll();
-                                        break;
-                                    case "analyzer":
-                                        Logger.AddLogEvent(Logger.LogEvent.Analyzer);
-                                        break;
-                                    case "codegen":
-                                        Logger.AddLogEvent(Logger.LogEvent.CodeGen);
-                                        break;
-                                    case "debug":
-                                        Logger.AddLogEvent(Logger.LogEvent.Debug);
-                                        break;
-                                    case "objecttree":
-                                        Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
-                                        break;
-                                    case "validation":
-                                        Logger.AddLogEvent(Logger.LogEvent.Validation);
-                                        break;
-                                    default:
-                                        PrintHelp();
-                                        argCounter = args.Length;
-                                        break;
-                                }
+                                case "all":
+                                    Logger.LogAll();
+                                    break;
+                                case "analyzer":
+                                    Logger.AddLogEvent(Logger.LogEvent.Analyzer);
+                                    break;
+                                case "codegen":
+                                    Logger.AddLogEvent(Logger.LogEvent.CodeGen);
+                                    break;
+                                case "debug":
+                                    Logger.AddLogEvent(Logger.LogEvent.Debug);
+                                    break;
+                                case "objecttree":
+                                    Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
+                                    break;
+                                case "validation":
+                                    Logger.AddLogEvent(Logger.LogEvent.Validation);
+                                    break;
+                                default:
+                                    PrintHelp();
+                                    argCounter = args.Length;
+                                    break;
                             }
-                            break;
-                        default:
-                            Logger.LogError("Invalid argument: " + args[argCounter - 1]);
-                            runCase = RunCase.Help;
-                            argCounter = args.Length;
-                            break;
-                    }
+                        }
+                        break;
+                    default:
+                        Logger.LogError("Invalid argument: " + args[argCounter - 1]);
+                        runCase = RunCase.Help;
+                        argCounter = args.Length;
+                        break;
                 }
             }
             

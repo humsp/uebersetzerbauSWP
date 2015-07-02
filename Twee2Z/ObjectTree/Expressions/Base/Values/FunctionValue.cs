@@ -46,5 +46,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
         }
 
         public abstract int MaxArgCount {get;}
+
+        public List<Expression> Args { get { return _args; } }
     }
 }

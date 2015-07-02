@@ -14,6 +14,9 @@ using Twee2Z.ObjectTree.PassageContents;
 using Twee2Z.ObjectTree.PassageContents.Macro;
 using Twee2Z.ObjectTree.PassageContents.Macro.Branch;
 using Twee2Z.ObjectTree.Expressions;
+using Twee2Z.ObjectTree.Expressions.Base;
+using Twee2Z.ObjectTree.Expressions.Base.Values;
+using Twee2Z.ObjectTree.Expressions.Base.Ops;
 
 namespace Twee2Z.CodeGen
 {
@@ -21,6 +24,7 @@ namespace Twee2Z.CodeGen
     {
         private ZSymbolTable _symbolTable;
         private ZMemory _zMemory;
+        private IEnumerable<Passage> _passages;
 
         public ZStoryFile()
         {
@@ -34,6 +38,7 @@ namespace Twee2Z.CodeGen
             IEnumerable<Passage> passages = null;
             try
             {
+                _passages = tree.Passages.Select(entry => entry.Value);
                 startPassage = tree.StartPassage;
                 passages = tree.Passages.Where(passage => passage.Key.ToLower() != "start" &&
                                                passage.Key.ToLower() != "storyauthor" &&
@@ -44,8 +49,8 @@ namespace Twee2Z.CodeGen
                 throw new Exception("Start passage not found.", ex);
             }
 
-            string storyTitle = tree.StoryTitle.PassageContentList.First().PassageText.Text;
-            string storyAuthor = tree.StoryAuthor.PassageContentList.First().PassageText.Text;
+            string storyTitle = tree.StoryTitle.PassageContentList.First().PassageText.Text.Trim();
+            string storyAuthor = tree.StoryAuthor.PassageContentList.First().PassageText.Text.Trim();
 
 
             List<ZRoutine> routines = new List<ZRoutine>();
@@ -73,7 +78,7 @@ namespace Twee2Z.CodeGen
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
             int currentLink = 0;
-            var links = new List<Tuple<string, string>>();
+            var links = new List<Tuple<string, PassageMacroSet>>();
 
             instructions.Add(new EraseWindow(0));
 
@@ -108,11 +113,6 @@ namespace Twee2Z.CodeGen
                 {
                     callGuids.Add(Guid.NewGuid());
 
-                    // So this casting and converting looks aweful
-                    // First get the number for this link: i + 1
-                    // Then hard cast it into a string
-                    // Now convert it into a char
-                    // Finally hard cast it into short for the ZOperand
                     char charToWrite;
                     if (i >= 0 && i < 10)
                         charToWrite = Convert.ToChar('1' + i);
@@ -133,11 +133,13 @@ namespace Twee2Z.CodeGen
 
                 for (int i = 0; i < links.Count(); i++)
                 {
-                    if (!String.IsNullOrEmpty(links[i].Item2))
+                    if (links[i].Item2 != null)
                     {
-                        string[] splitList = links[i].Item2.Split('=');
-                        string name = splitList.First().Trim();
-                        short value = Convert.ToInt16(splitList.Last().Trim());
+                        string name = ((Assign)(links[i].Item2.Expression)).Variable.Name;
+                        short value = Convert.ToInt16(((IntValue)((((Assign)(links[i].Item2.Expression)).Expr).BaseValue)).Value);
+
+                        _symbolTable.AddSymbol(name);
+                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
 
                         _symbolTable.AddSymbol(name);
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
@@ -155,7 +157,7 @@ namespace Twee2Z.CodeGen
             return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
         }
 
-        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, string>> links)
+        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -210,7 +212,7 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Print(charToWrite.ToString()));
                     instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.None));
 
-                    links.Add(new Tuple<string, string>(content.PassageLink.Target, content.PassageLink.Expression));
+                    links.Add(new Tuple<string, PassageMacroSet>(content.PassageLink.Target, (PassageMacroSet)content.PassageLink.PassageMacro));
                 }
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
@@ -232,7 +234,7 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, string>> links)
+        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -243,9 +245,8 @@ namespace Twee2Z.CodeGen
 
             if (setMacro != null)
             {
-                string[] splitList = setMacro.Expression.ToString().Split('=');
-                string name = splitList.First().Trim();
-                short value = Convert.ToInt16(splitList.Last().Trim());
+                string name = ((Assign)(setMacro.Expression)).Variable.Name;
+                short value = Convert.ToInt16(((IntValue)((((Assign)(setMacro.Expression)).Expr).BaseValue)).Value);
 
                 _symbolTable.AddSymbol(name);
                 instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
@@ -253,52 +254,51 @@ namespace Twee2Z.CodeGen
 
             else if (printMacro != null)
             {
-                instructions.AddRange(StringToInstructions(printMacro.Expression.ToString()));
+                instructions.AddRange(StringToInstructions(((StringValue)(printMacro.Expression)).Value.Replace('\"', ' ').Trim()));
             }
 
             else if (displayMacro != null)
             {
-                instructions.AddRange(ConvertPassageContent(null, ref currentLink, links));
+                instructions.AddRange(ConvertPassageContent(_passages.Single(passage =>
+                    passage.Name == ((StringValue)(displayMacro.Expression)).Value.Replace('\"', ' ').Trim()).PassageContentList, ref currentLink, links));
             }
 
             else if (branchMacro != null)
             {
-                LinkedList<ZInstruction> branchInstructions = new LinkedList<ZInstruction>();
-
                 Guid endIfGuid = Guid.NewGuid();
 
                 //if
                 PassageMacroIf ifMacro = (PassageMacroIf)branchMacro.BranchNodeList.First();
                 Guid ifGuid = Guid.NewGuid();
 
-                branchInstructions.AddLast(new Jz(0, new ZBranchLabel("if_" + ifGuid) { BranchOn = false }));
+                instructions.AddRange(ConvertBranchExpression(ifMacro.Expression, "if_" + ifGuid));
                 
                 // if expression is true
                 foreach (var instruction in ConvertPassageContent(ifMacro.PassageContentList, ref currentLink, links))
                 {
-                    branchInstructions.AddLast(instruction);
+                    instructions.Add(instruction);
                 }
-                branchInstructions.AddLast(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
+                instructions.Add(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
 
                 // if expression is false
-                branchInstructions.AddLast(new Nop() { Label = new ZLabel("if_" + ifGuid) });
+                instructions.Add(new Nop() { Label = new ZLabel("if_" + ifGuid) });
                 
                 //else if
                 foreach (PassageMacroElseIf elseIfMacro in branchMacro.BranchNodeList.OfType<PassageMacroElseIf>())
                 {
                     Guid elseIfGuid = Guid.NewGuid();
 
-                    branchInstructions.AddLast(new Jz(0, new ZBranchLabel("elseIf_" + elseIfGuid) { BranchOn = false }));
+                    instructions.AddRange(ConvertBranchExpression(elseIfMacro.Expression, "elseIf_" + elseIfGuid));
 
                     // if expression is true
                     foreach (var instruction in ConvertPassageContent(elseIfMacro.PassageContentList, ref currentLink, links))
                     {
-                        branchInstructions.AddLast(instruction);
+                        instructions.Add(instruction);
                     }
-                    branchInstructions.AddLast(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
+                    instructions.Add(new Jump(new ZJumpLabel("endIf_" + endIfGuid)));
 
                     // if expression is false
-                    branchInstructions.AddLast(new Nop() { Label = new ZLabel("elseIf_" + elseIfGuid) });
+                    instructions.Add(new Nop() { Label = new ZLabel("elseIf_" + elseIfGuid) });
                 }
 
                 //else
@@ -308,14 +308,12 @@ namespace Twee2Z.CodeGen
                 {
                     foreach (var instruction in ConvertPassageContent(elseMacro.PassageContentList, ref currentLink, links))
                     {
-                        branchInstructions.AddLast(instruction);
+                        instructions.Add(instruction);
                     }
                 }
 
                 //endif
-                branchInstructions.AddLast(new Nop() { Label = new ZLabel("endIf_" + endIfGuid) });
-
-                instructions.AddRange(branchInstructions);
+                instructions.Add(new Nop() { Label = new ZLabel("endIf_" + endIfGuid) });
             }
 
             else
@@ -326,7 +324,7 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private List<ZInstruction> ConvertFuntions(PassageContent content, ref int currentLink, List<Tuple<string, string>> links)
+        private List<ZInstruction> ConvertFuntions(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -340,10 +338,67 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        /*private void ConvertExpression(Expression expression, ref List<ZInstruction> instructions)
+        private List<ZInstruction> ConvertBranchExpression(Expression expression, string label)
         {
-            
-        }*/
+            List<ZInstruction> instructions = new List<ZInstruction>();
+            LogicalOp log = (LogicalOp)expression;
+
+            short? leftShort = null;
+            string leftVar = null;
+
+            short? rightShort = null;
+            string rightVar = null;
+
+            if (log.LeftExpr is VariableValue)
+                leftVar = ((VariableValue)(log.LeftExpr.BaseValue)).Name;
+            else if (log.LeftExpr is IntValue)
+                leftShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+            else
+                instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label));
+
+            if (log.RightExpr is VariableValue)
+                rightVar = ((VariableValue)(log.RightExpr.BaseValue)).Name;
+            else if (log.RightExpr is IntValue)
+                rightShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+            else
+                instructions.AddRange(ConvertBranchExpression(log.RightExpr, label));
+
+            switch (log.Type)
+            {
+                case LogicalOp.LocicalOpEnum.And:
+                    break;
+                case LogicalOp.LocicalOpEnum.Or:
+                    break;
+                case LogicalOp.LocicalOpEnum.Xor:
+                    break;
+                case LogicalOp.LocicalOpEnum.Not:
+                    break;
+                case LogicalOp.LocicalOpEnum.Neq:
+                    break;
+                case LogicalOp.LocicalOpEnum.Eq:
+                    if (leftShort != null && rightShort != null)
+                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftShort != null && rightVar != null)
+                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftVar != null && rightShort != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                    else if (leftVar != null && rightVar != null)
+                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                    break;
+                case LogicalOp.LocicalOpEnum.Gt:
+                    break;
+                case LogicalOp.LocicalOpEnum.Ge:
+                    break;
+                case LogicalOp.LocicalOpEnum.Lt:
+                    break;
+                case LogicalOp.LocicalOpEnum.Le:
+                    break;
+                default:
+                    break;
+            }
+
+            return instructions;
+        }
 
         private IEnumerable<ZInstruction> StringToInstructions(string input)
         {

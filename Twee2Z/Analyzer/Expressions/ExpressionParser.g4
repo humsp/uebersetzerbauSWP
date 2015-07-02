@@ -10,7 +10,8 @@ expression
 expr
 	: exprRContent
 	| exprROpUnary
-	| VAR_NAME assign expr
+	| VAR_NAME WS* assign WS* expr
+	| expr WS* op WS* expr
 	;
 
 /* expression R (right from op) */

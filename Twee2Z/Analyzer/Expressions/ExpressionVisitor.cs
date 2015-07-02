@@ -29,9 +29,8 @@ namespace Twee2Z.Analyzer.Expressions
 
             var nameToken = context.GetToken(ExpressionParser.VAR_NAME, 0);
             ExpressionParser.AssignContext assignContext = context.assign();
-            ExpressionParser.ExprContext exprContext = context.expr();
-
-
+            ExpressionParser.OpContext opContext = context.op();
+            IEnumerable<ExpressionParser.ExprContext> exprContext = context.expr();
 
             if (exprRContentContext != null)
             {
@@ -49,11 +48,24 @@ namespace Twee2Z.Analyzer.Expressions
 
                 VariableValue variable = new VariableValue(nameToken.GetText().Substring(1));
                 Assign assign = VisitAssign(assignContext);
-                BaseExpression expr = VisitExpr(exprContext);
+                BaseExpression expr = VisitExpr(exprContext.Last());
 
                 assign.Variable = variable;
                 assign.Expr = expr;
                 return assign;
+            }
+            else if (opContext != null &&
+                     exprContext != null)
+            {
+                Logger.LogAnalyzer("Branch: " + context.GetText());
+
+                BaseOp op = VisitOp(opContext);
+                BaseExpression leftExpr = VisitExpr(exprContext.First());
+                BaseExpression rightExpr = VisitExpr(exprContext.Last());
+
+                op.LeftExpr = leftExpr;
+                op.RightExpr = rightExpr;
+                return op;
             }
             Logger.LogWarning("Can not parse " + context.GetText());
             return null;
@@ -181,7 +193,7 @@ namespace Twee2Z.Analyzer.Expressions
             }
             else if (context.GetToken(ExpressionParser.STRING, 0) != null)
             {
-                new StringValue(text);
+                return new StringValue(text);
             }
             Logger.LogWarning("Counlt not evaluate: " + text);
             return null;

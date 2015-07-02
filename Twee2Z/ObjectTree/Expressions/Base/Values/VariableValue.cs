@@ -8,13 +8,12 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
 {
     public class VariableValue : BaseValue
     {
-        private string _name;
-
         public VariableValue(string name)
             : base(ValueTypeEnum.Var)
         {
-
+            Name = name;
         }
 
+        public string Name { get; set; }
     }
 }

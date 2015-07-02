@@ -9,7 +9,7 @@ INT					: DIGIT+;
 PASS				: NEW_LINE ':'(':')+ -> pushMode(PMode);
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
 LINK_START			: '[[' -> pushMode(LMode);
-//FUNC_START			: FUNC_NAME -> pushMode(FMode);
+FUNC_START			: FUNC_NAME -> pushMode(FMode);
 VAR_NAME			: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
 FORMAT				: ('\u0027\u0027'	
 					|'//'				
@@ -62,7 +62,7 @@ STRING_END2			: QUOTE2 -> popMode;
 
 // FUNCTION-MODE
 mode FMode;
-//FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
+FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
 FUNC_BRACKET_OPEN	: '('  -> pushMode(EMode);
 FUNC_BRACKET_CLOSE	: ')'  -> popMode; 
 

@@ -216,23 +216,27 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("");
             Logger.LogUserOutput("                            **** Help ****");
             Logger.LogUserOutput("");
+            Logger.LogUserOutput("-tw2z     The code from the source language Twee will be translated to Z8 code.");
+            Logger.LogUserOutput("          Input   : -tw2z <source> <destination>");
+            Logger.LogUserOutput("          Example : -tw2z myTwee.tw zfile.z8");
             Logger.LogUserOutput("");
-            Logger.LogUserOutput("-tw2z     Der Code in der Quellsprache Twee wird zu Z Code übersetzt,");
-            Logger.LogUserOutput("          und in der entsprechende Path gespeichert.");
-            Logger.LogUserOutput("          Bsp Eingabe :  -tw2z bsp.tw zfile.z1");
-            Logger.LogUserOutput("");
+            /*
             Logger.LogUserOutput("-runZ     Als Eingabe wird ein ZCode eingegeben und über Z-Maschine ausgeführt.");
             Logger.LogUserOutput("          Bsp Eingabe :  -runZ zfile.z1");
             Logger.LogUserOutput("");
             Logger.LogUserOutput("-runTw    Ein Twee Code wird compiliert und über Z Machine ausgeführt");
             Logger.LogUserOutput("          Bsp Eingabe :  -runTw txtadv.tw");
             Logger.LogUserOutput("");
-            Logger.LogUserOutput("-logAll   Um alle Logs zu aktivieren");
-            Logger.LogUserOutput("-log      Um spezielle Logs zu aktivieren.");
-            Logger.LogUserOutput("          Hierzu beliebige weiteren Argumente anhängen:");
+             */
+            Logger.LogUserOutput("-logAll   Activate all logs.");
+            Logger.LogUserOutput("-log      Activate specific logs");
+            Logger.LogUserOutput("          Possible arguments:");
             Logger.LogUserOutput("          all, analyzer, codegen, debug, objecttree, validation");
+            Logger.LogUserOutput("          Input   : -log <arg1> <arg2> ... ");
+            Logger.LogUserOutput("          Example : -log analyzer debug");
             Logger.LogUserOutput("");
-            Logger.LogUserOutput("-help     Beschreibung der Funktionen ");
+            Logger.LogUserOutput("-help     Display help message.");
+            Logger.LogUserOutput("          Example usage: -tw2z myTwee.tw zfile.z8 -logAll");
         }
 
         public static bool checkPath(string path)

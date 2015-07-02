@@ -1,6 +1,6 @@
 # Twee2Z
-A compiler for converting **Twee source code** (http://twinery.org/) into **Z-code**(Version 8) (https://en.wikipedia.org/wiki/Z-machine).
-The resulting Z-code can be executed with Z-machines like Frotz (http://frotz.sourceforge.net/).
+A compiler for converting [Twee source code](http://twinery.org/) into [Z-code](https://en.wikipedia.org/wiki/Z-machine) (version 8) .
+The resulting Z-code can be executed with Z-machines like [Frotz](http://frotz.sourceforge.net/).
 
 ### Usage
 
@@ -20,11 +20,11 @@ The resulting Z-code can be executed with Z-machines like Frotz (http://frotz.so
 ##Release location 
     TODO
 ##Libs
-    ANTLR4  : http://www.antlr.org/
-    Mono    : http://www.mono-project.com/
+- ANTLR4  : http://www.antlr.org/
+- Mono    : http://www.mono-project.com/
 
 ##Example test files
-    https://github.com/humsp/uebersetzerbauSWP/tree/develop/Twee2Z/TestFiles/UnitTestFiles
+https://github.com/humsp/uebersetzerbauSWP/tree/develop/Twee2Z/TestFiles/UnitTestFiles
 
 ##Features
 - passages
@@ -40,4 +40,4 @@ The resulting Z-code can be executed with Z-machines like Frotz (http://frotz.so
 - expressions exclude string concatenation
 
 ##History
-Twee2Z was developed by students as part of the course "Softwareprojekt Übersetzerbau" in 2015
+Twee2Z was developed by 8 students as part of the computer science course "SWP Compiler Engineering 2015" at FU-Berlin.

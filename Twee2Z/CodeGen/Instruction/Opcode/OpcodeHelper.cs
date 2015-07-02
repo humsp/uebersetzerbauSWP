@@ -228,11 +228,14 @@ namespace Twee2Z.CodeGen.Instruction.Opcode
                 }
             }
 
-            if (instructionForm == InstructionFormKind.Extended)
+            unchecked
             {
-                byteList.Add((byte)(opcodeHead >> 8));
+                if (instructionForm == InstructionFormKind.Extended)
+                {
+                    byteList.Add((byte)(opcodeHead >> 8));
+                }
+                byteList.Add((byte)opcodeHead);
             }
-            byteList.Add((byte)opcodeHead);
 
             if (opcodeOperands != null)
                 byteList.Add((byte)opcodeOperands);

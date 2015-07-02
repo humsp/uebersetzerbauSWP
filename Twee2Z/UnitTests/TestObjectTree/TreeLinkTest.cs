@@ -9,7 +9,7 @@ using System.Linq;
 using Twee2Z.ObjectTree.PassageContents;
 
 
-namespace UnitTests.TestObjectTree
+namespace Twee2Z.UnitTests.TestObjectTree
 {
     [TestFixture]
     public class TreeLinkTest

@@ -33,17 +33,20 @@ namespace Twee2Z.CodeGen.Memory
         {
             Byte[] byteArray = new Byte[HeaderExtensionSize];
 
-            byteArray[0x00] = (Byte)(_wordCount >> 8);
-            byteArray[0x01] = (Byte)_wordCount;
+            unchecked
+            {
+                byteArray[0x00] = (Byte)(_wordCount >> 8);
+                byteArray[0x01] = (Byte)_wordCount;
 
-            byteArray[0x02] = (Byte)(_mouseX >> 8);
-            byteArray[0x03] = (Byte)_mouseX;
+                byteArray[0x02] = (Byte)(_mouseX >> 8);
+                byteArray[0x03] = (Byte)_mouseX;
 
-            byteArray[0x04] = (Byte)(_mouseY >> 8);
-            byteArray[0x05] = (Byte)_mouseY;
+                byteArray[0x04] = (Byte)(_mouseY >> 8);
+                byteArray[0x05] = (Byte)_mouseY;
 
-            byteArray[0x06] = (Byte)(_unicodeTableAddr >> 8);
-            byteArray[0x07] = (Byte)_unicodeTableAddr;
+                byteArray[0x06] = (Byte)(_unicodeTableAddr >> 8);
+                byteArray[0x07] = (Byte)_unicodeTableAddr;
+            }
 
             return byteArray;
         }

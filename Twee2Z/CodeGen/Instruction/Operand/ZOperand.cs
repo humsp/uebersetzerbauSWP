@@ -95,8 +95,11 @@ namespace Twee2Z.CodeGen.Instruction.Operand
                 byteList.Add((byte)_value);
             else if (_value is short)
             {
-                byteList.Add((byte)(((short)_value) >> 8));
-                byteList.Add((byte)(short)_value);
+                unchecked
+                {
+                    byteList.Add((byte)(((short)_value) >> 8));
+                    byteList.Add((byte)(short)_value);
+                }
             }
             else if (_value is ZLabel || _value is ZVariable)
                 byteList.AddRange(((IZComponent)_value).ToBytes());

@@ -53,8 +53,12 @@ namespace Twee2Z.CodeGen.Label
             byte[] byteArray = new byte[2];
 
             short value = (short)(Offset + 2);
-            byteArray[0] = (byte)(value >> 8);
-            byteArray[1] = (byte)value;
+
+            unchecked
+            {
+                byteArray[0] = (byte)(value >> 8);
+                byteArray[1] = (byte)value;
+            }
             
             return byteArray;
         }

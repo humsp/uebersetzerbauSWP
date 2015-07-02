@@ -4,7 +4,7 @@ using Twee2Z.CodeGen.Instruction.Template;
 using Twee2Z.CodeGen.Memory;
 using NUnit.Framework;
 
-namespace UnitTests.TestCodeGen
+namespace Twee2Z.UnitTests.TestCodeGen
 {
     [TestFixture]
     public class IZComponentTest

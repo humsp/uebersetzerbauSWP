@@ -6,7 +6,7 @@
     <ProjectGuid>{78DE8F6E-BB8A-42A3-9525-18037FABECA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
+    <RootNamespace>Twee2Z.UnitTests</RootNamespace>
     <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -25,9 +25,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -94,10 +95,6 @@
     <ProjectReference Include="..\ObjectTree\ObjectTree.csproj">
       <Project>{c62b4606-623d-49a3-ad14-c3047cf59a6b}</Project>
       <Name>ObjectTree</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZCodeInterpreter\ZCodeInterpreter.csproj">
-      <Project>{d40225e3-5b97-4029-876a-db14e60cc714}</Project>
-      <Name>ZCodeInterpreter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

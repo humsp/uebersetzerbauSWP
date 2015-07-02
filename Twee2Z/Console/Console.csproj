@@ -37,10 +37,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -80,10 +81,6 @@
     <ProjectReference Include="..\Utils\Utils.csproj">
       <Project>{49d2792c-80fc-4964-ae5f-6bc170928d50}</Project>
       <Name>Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ZCodeInterpreter\ZCodeInterpreter.csproj">
-      <Project>{d40225e3-5b97-4029-876a-db14e60cc714}</Project>
-      <Name>ZCodeInterpreter</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

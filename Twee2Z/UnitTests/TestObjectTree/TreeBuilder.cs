@@ -9,7 +9,7 @@ using Twee2Z.ObjectTree;
 using Twee2Z.Console;
 using NUnit.Framework;
 
-namespace UnitTests.TestObjectTree
+namespace Twee2Z.UnitTests.TestObjectTree
 {
     class TreeBuilder
     {

@@ -163,34 +163,37 @@ namespace Twee2Z.CodeGen.Memory
 
             byteArray[0x00] = _versionNumber;
 
-            byteArray[0x01] = (byte)_interpreterFlags;
+            unchecked
+            {
+                byteArray[0x01] = (byte)_interpreterFlags;
 
-            byteArray[0x02] = (byte)(_releaseNumber >> 8);
-            byteArray[0x03] = (byte)_releaseNumber;
+                byteArray[0x02] = (byte)(_releaseNumber >> 8);
+                byteArray[0x03] = (byte)_releaseNumber;
 
-            byteArray[0x04] = (byte)(_highMemoryAddr >> 8);
-            byteArray[0x05] = (byte)_highMemoryAddr;
+                byteArray[0x04] = (byte)(_highMemoryAddr >> 8);
+                byteArray[0x05] = (byte)_highMemoryAddr;
 
-            byteArray[0x06] = (byte)(_initProgramCounterAddr >> 8);
-            byteArray[0x07] = (byte)_initProgramCounterAddr;
+                byteArray[0x06] = (byte)(_initProgramCounterAddr >> 8);
+                byteArray[0x07] = (byte)_initProgramCounterAddr;
 
-            byteArray[0x08] = (byte)(_dictionaryAddr >> 8);
-            byteArray[0x09] = (byte)_dictionaryAddr;
+                byteArray[0x08] = (byte)(_dictionaryAddr >> 8);
+                byteArray[0x09] = (byte)_dictionaryAddr;
 
-            byteArray[0x0A] = (byte)(_objectTableAddr >> 8);
-            byteArray[0x0B] = (byte)_objectTableAddr;
+                byteArray[0x0A] = (byte)(_objectTableAddr >> 8);
+                byteArray[0x0B] = (byte)_objectTableAddr;
 
-            byteArray[0x0C] = (byte)(_globalVariablesTableAddr >> 8);
-            byteArray[0x0D] = (byte)_globalVariablesTableAddr;
+                byteArray[0x0C] = (byte)(_globalVariablesTableAddr >> 8);
+                byteArray[0x0D] = (byte)_globalVariablesTableAddr;
 
-            byteArray[0x0E] = (byte)(_staticMemoryAddr >> 8);
-            byteArray[0x0F] = (byte)_staticMemoryAddr;
+                byteArray[0x0E] = (byte)(_staticMemoryAddr >> 8);
+                byteArray[0x0F] = (byte)_staticMemoryAddr;
 
-            byteArray[0x34] = (byte)(_alphabetTableAddr >> 8);
-            byteArray[0x35] = (byte)_alphabetTableAddr;
+                byteArray[0x34] = (byte)(_alphabetTableAddr >> 8);
+                byteArray[0x35] = (byte)_alphabetTableAddr;
 
-            byteArray[0x36] = (byte)(_headerExtensionTableAddr >> 8);
-            byteArray[0x37] = (byte)_headerExtensionTableAddr;
+                byteArray[0x36] = (byte)(_headerExtensionTableAddr >> 8);
+                byteArray[0x37] = (byte)_headerExtensionTableAddr;
+            }
 
             return byteArray;
         }

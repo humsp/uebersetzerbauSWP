@@ -120,14 +120,17 @@ namespace Twee2Z.CodeGen.Label
             }
             else
             {
-                byte byteVal1 = (byte)(value >> 8);
-                byte byteVal2 = (byte)value;
+                unchecked
+                {
+                    byte byteVal1 = (byte)(value >> 8);
+                    byte byteVal2 = (byte)value;
 
-                if (BranchOn == true)
-                    byteVal1 |= 0x80;
-                
-                byteList.Add(byteVal1);
-                byteList.Add(byteVal2);
+                    if (BranchOn == true)
+                        byteVal1 |= 0x80;
+
+                    byteList.Add(byteVal1);
+                    byteList.Add(byteVal2);
+                }
             }
 
             return byteList.ToArray();

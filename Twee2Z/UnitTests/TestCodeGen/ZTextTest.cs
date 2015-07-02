@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Twee2Z.CodeGen.Text;
 
-namespace UnitTests.TestCodeGen
+namespace Twee2Z.UnitTests.TestCodeGen
 {
     [TestFixture]
     public class ZTextTest

@@ -25,8 +25,11 @@ namespace Twee2Z.CodeGen.Text
 
             foreach (UInt16 chars in TextHelper.Convert(_text))
             {
-                byteList.Add((Byte)(chars >> 8));
-                byteList.Add((Byte)chars);
+                unchecked
+                {
+                    byteList.Add((Byte)(chars >> 8));
+                    byteList.Add((Byte)chars);
+                }
             }
 
             return byteList.ToArray();

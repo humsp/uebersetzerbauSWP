@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Twee2Z.ObjectTree;
 using Twee2Z.ObjectTree.PassageContents;
 
-namespace UnitTests.TestObjectTree
+namespace Twee2Z.UnitTests.TestObjectTree
 {
     [TestFixture]
     public class TreeTextFormatTest

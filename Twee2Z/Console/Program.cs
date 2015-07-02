@@ -19,8 +19,6 @@ namespace Twee2Z.Console
         enum RunCase
         {
             Tw2Z,
-            RunZ,
-            RunTw,
             Help
         }
 
@@ -69,21 +67,6 @@ namespace Twee2Z.Console
                                 arg0 = args[argCounter++];
                                 arg1 = args[argCounter++];
                             }
-                            break;
-                        case "-runz":
-                            if (argCounter + 1 > args.Length)
-                            {
-                                Logger.LogError("Invalid arguments. '-run' needs 1 argement.");
-                                runCase = RunCase.Help;
-                            }
-                            else
-                            {
-                                runCase = RunCase.RunZ;
-                                arg0 = args[argCounter++];
-                            }
-                            break;
-                        case "-runtw":
-                            runCase = RunCase.RunTw;
                             break;
                         case "-help":
                             runCase = RunCase.Help;
@@ -134,13 +117,6 @@ namespace Twee2Z.Console
             {
                 case RunCase.Tw2Z:
                     Compile(arg0, arg1);
-                    break;
-                case RunCase.RunTw:
-                    //System.Console.WriteLine("Run twee-code");
-                    break;
-                case RunCase.RunZ:
-                    //System.Console.WriteLine("Run ZCode");
-                    ZCodeInterpreter.Interpreter.Run(arg0);
                     break;
                 case RunCase.Help:
                     PrintHelp();
@@ -202,12 +178,6 @@ namespace Twee2Z.Console
             return storyFile;
         }
 
-        static void WriteStoryFile(CodeGen.ZStoryFile storyFile, string output)
-        {
-            Logger.LogUserOutput("Save story file in:\n" + System.IO.Path.GetFullPath(zStroyFile));
-            File.WriteAllBytes(output, storyFile.ToBytes());
-        }
-
         public static void PrintHelp()
         {
 
@@ -220,14 +190,6 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("          Input   : -tw2z <source> <destination>");
             Logger.LogUserOutput("          Example : -tw2z myTwee.tw zfile.z8");
             Logger.LogUserOutput("");
-            /*
-            Logger.LogUserOutput("-runZ     Als Eingabe wird ein ZCode eingegeben und über Z-Maschine ausgeführt.");
-            Logger.LogUserOutput("          Bsp Eingabe :  -runZ zfile.z1");
-            Logger.LogUserOutput("");
-            Logger.LogUserOutput("-runTw    Ein Twee Code wird compiliert und über Z Machine ausgeführt");
-            Logger.LogUserOutput("          Bsp Eingabe :  -runTw txtadv.tw");
-            Logger.LogUserOutput("");
-             */
             Logger.LogUserOutput("-logAll   Activate all logs.");
             Logger.LogUserOutput("-log      Activate specific logs");
             Logger.LogUserOutput("          Possible arguments:");
@@ -237,17 +199,6 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("");
             Logger.LogUserOutput("-help     Display help message.");
             Logger.LogUserOutput("          Example usage: -tw2z myTwee.tw zfile.z8 -logAll");
-        }
-
-        public static bool checkPath(string path)
-        {
-
-            if (Directory.Exists(path))
-            {
-                return true;
-            }
-            Logger.LogUserOutput("Der Path " + path + "existiert nicht, Prüfen Sie es nochmal");
-            return false;
         }
     }
 }

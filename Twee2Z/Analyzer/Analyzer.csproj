@@ -22,9 +22,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -53,12 +54,6 @@
     <Compile Include="Expressions\ExpressiosLexer.g4.cs">
       <DependentUpon>ExpressiosLexer.g4</DependentUpon>
     </Compile>
-    <Compile Include="obj\Release\LEX.cs" />
-    <Compile Include="obj\Release\Twee.cs" />
-    <Compile Include="obj\Release\TweeBaseListener.cs" />
-    <Compile Include="obj\Release\TweeBaseVisitor.cs" />
-    <Compile Include="obj\Release\TweeListener.cs" />
-    <Compile Include="obj\Release\TweeVisitor.cs" />
     <Compile Include="TweeAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TweeBuilder.cs" />

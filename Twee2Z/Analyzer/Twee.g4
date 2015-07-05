@@ -9,7 +9,7 @@ start
 /* Everything is ignored if no '::' appears */
 ignoreFirst
 	: passage
-	| ~PASS ignoreFirst
+	| ~PASS ignoreFirst 
 	;
 
 /* A passage consists of : 

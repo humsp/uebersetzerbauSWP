@@ -18,7 +18,7 @@ namespace Twee2Z.Analyzer
     class TweeVisitor : TweeBaseVisitor<object>
     {
         private TweeBuilder _builder;
-
+        
         public Tree Tree
         {
             get { return _builder.Tree; }
@@ -27,6 +27,8 @@ namespace Twee2Z.Analyzer
         public override object VisitStart(Twee.StartContext context)
         {
             _builder = new TweeBuilder();
+            if (context.GetText().TrimStart('\n', '\r', ':', ' ').Substring(0, 5) != "Start")
+                Logger.LogWarning("Content before the start passage is ignored");
             Logger.LogAnalyzer("[Start]");
             return base.VisitStart(context);
         }

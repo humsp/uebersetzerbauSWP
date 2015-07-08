@@ -1,36 +1,26 @@
 parser grammar Twee;
 options {   tokenVocab = LEX; }
 
-/* Every twee file must begin with a passage Name and everything before discarded*/
 start
 	: ignoreFirst passage*
 	; 
 
-/* Everything is ignored if no '::' appears */
 ignoreFirst
 	: passage
 	| ~PASS ignoreFirst 
 	;
 
-/* A passage consists of : 
-	::* Name [tags]*´WORDS*
-	passageContent?
-*/
 passage
 	: PASS PMODEWORD TAG? ~PMODE_END* PMODE_END passageContent?
 	;
 
-/* The passage Content consists of plain text (can be formatted), macros, functions, variables and links */
 passageContent
-	:  (macro|function|text|variable|link) passageContent?
+	:  (macro|text|link) passageContent?
 	;
 
 link
-	: LINK_START (WORDS PIPE)? (FUNC_LINK|WORDS) ((SQ_BRACKET_CLOSE SQ_BRACKET_OPEN EXPRESSION LINK_END)|LINK_END)
+	: LINK_START ((LTARGET|LEXCLUDE)+ PIPE)? (FUNC_LINK|LTARGET) ((SQ_BRACKET_CLOSE SQ_BRACKET_OPEN expression)|LINK_END)
 	;
-
-
-/* macro */
 
 macro
 	: MACRO_START (DISPLAY|SET|PRINT) expression
@@ -60,19 +50,18 @@ expression
 	: EXPRESSION
 	;
 
-
-function
+/*function
 	: (FUNC_START FUNC_BRACKET_OPEN (EXPRESSION|EXPRESSION FUNC_PARAM+)? FUNC_BRACKET_CLOSE)
 	;
 
 variable
 	: VAR_NAME
 	;
-
+*/
 zeichenkette
 	: WORD+
 	;
 
 text
-	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE|STRING) text?
+	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE) text?
 	; 

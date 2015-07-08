@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Twee2Z.ObjectTree.Expressions;
 
 namespace Twee2Z.ObjectTree.PassageContents
 {
@@ -10,7 +11,7 @@ namespace Twee2Z.ObjectTree.PassageContents
     {
         private Passage _targetPassage;
         private string _target;
-        private string _expression;
+        private Expression _expression;
         private string _displayText;
 
         public PassageLink(string link)
@@ -18,20 +19,19 @@ namespace Twee2Z.ObjectTree.PassageContents
         {
             _target = link;
         }
-        public PassageLink(string link, string displayTextorExp, bool isexp)
+        public PassageLink(string link, string Text)
             : base(ContentType.LinkContent)
         {
             _target = link;
-            if (isexp)
-            {
-                _expression = displayTextorExp;
-            }
-            else
-            {
-                _displayText = displayTextorExp;
-            }
+            _displayText = Text;
         }
-        public PassageLink(string link, string displayText, string expression)
+        public PassageLink(string link, Expression exp)
+            : base(ContentType.LinkContent)
+        {
+            _target = link;
+            _expression = exp;
+        }
+        public PassageLink(string link, string displayText, Expression expression)
             : base(ContentType.LinkContent)
         {
             _target = link;
@@ -63,7 +63,7 @@ namespace Twee2Z.ObjectTree.PassageContents
             }
         }
 
-        public string Expression
+        public Expression Expression
         {
             get
             {

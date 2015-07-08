@@ -87,23 +87,47 @@ namespace Twee2Z.Analyzer
             string Ziel = "";
             string Text = "";
             string Expression = "";
-
-            // case: [[text|target]]
-            if (context.ChildCount == 5)
-            {
-                Ziel = context.GetChild(3).GetText();
-                Text = context.GetChild(1).GetText();
+            Expression expr;
+            
+            if (context.PIPE() != null)
+            {   // case: [[text|target]]   
+                if(context.expression()==null){
+                    Ziel = context.GetChild(context.ChildCount - 2).GetText();
+                    for (int i = 1; i < (context.ChildCount - 3); i++)
+                    {
+                        Text = Text + context.GetChild(i).GetText();
+                    }
+                    Logger.LogAnalyzer("Ziel: " + Ziel);
+                    Logger.LogAnalyzer("DisplayText: " + Text);
+                    if (Ziel == "")
+                    {
+                        throw new Exception("passage text empty:" + Ziel);
+                    }
+                    _builder.AddPassageContent(new PassageLink(Ziel, Text));
+                }
+                // case: [[text|target][expression]]
+                else
+                {
+                Ziel = context.GetChild(context.ChildCount - 4).GetText();
+                for (int i = 1; i < (context.ChildCount - 5); i++)
+                {
+                    Text = Text + context.GetChild(i).GetText();
+                }
+                Expression = context.GetChild<Twee.ExpressionContext>(0).GetText();
                 Logger.LogAnalyzer("Ziel: " + Ziel);
-                Logger.LogAnalyzer("Text: " + Text);
-                if (Ziel == "")
+                Logger.LogAnalyzer("DisplayText: " + Text);
+                Logger.LogAnalyzer("Expression: " + Expression);
+                if (context.GetChild(2).GetText() == "")
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.AddPassageContent(new PassageLink(Ziel, Text, false));
+                expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                _builder.AddPassageContent(new PassageLink(Ziel, Text, expr));
+                }
+                
             }
-
             // case: [[target][expression]]
-            else if (context.ChildCount == 6)
+            else if (context.ChildCount == 5 && context.GetChild(3).GetText().Equals("["))
             {
                 Ziel = context.GetChild(1).GetText();
                 Expression = context.GetChild(4).GetText();
@@ -113,25 +137,9 @@ namespace Twee2Z.Analyzer
                 {
                     throw new Exception("passage text empty:" + Ziel);
                 }
-                _builder.AddPassageContent(new PassageLink(Ziel, Expression, true));
+                expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                _builder.AddPassageContent(new PassageLink(Ziel, expr));
             }
-
-            // case: [[text|target][expression]]
-            else if (context.ChildCount == 8)
-            {
-                Ziel = context.GetChild(3).GetText();
-                Text = context.GetChild(1).GetText();
-                Expression = context.GetChild(6).GetText();
-                Logger.LogAnalyzer("Ziel: " + Ziel);
-                Logger.LogAnalyzer("Text: " + Text);
-                Logger.LogAnalyzer("Expression: " + Expression);
-                if (context.GetChild(2).GetText() == "")
-                {
-                    throw new Exception("passage text empty:" + Ziel);
-                }
-                _builder.AddPassageContent(new PassageLink(Ziel, Text, Expression));
-            }
-
             // case: [[target]]
             else
             {
@@ -216,13 +224,13 @@ namespace Twee2Z.Analyzer
          * @Value            : value of variable. Currently only Integer, String or Boolean
          * 
          **/
-        public override object VisitVariable(Twee.VariableContext context)
+        /*public override object VisitVariable(Twee.VariableContext context)
         {
             String VarName = context.GetText();
             Logger.LogAnalyzer("\nVariable: " + VarName);
             _builder.AddPassageContent(new PassageVariable(VarName, 0));
             return base.VisitVariable(context);
-        }
+        }*/
 
         /**
          * This function is called if a function is read inside a twee file
@@ -233,24 +241,22 @@ namespace Twee2Z.Analyzer
          * @function name
          * @parameterlist
          **/
-        public override object VisitFunction(Twee.FunctionContext context)
+        /*public override object VisitFunction(Twee.FunctionContext context)
         {
             String functionName = context.GetChild(0).GetText();
             String paramList = context.GetChild(2).GetText().Trim();
 
             PassageFunction objectF = new PassageFunction(functionName);
-
-            Logger.LogAnalyzer("Function: " + functionName);
-
-            /*
-            if (!(_paramList.Equals(')')))
+        
+               if (!(_paramList.Equals(')')))
             {
                 for (int i = 0; i < _paramList.Length; i++)
                     objectF.addArg(_paramList[i]);
             }
-            */
+        
+            Logger.LogAnalyzer("Function: " + functionName);    
             return base.VisitFunction(context);
-        }
+        }*/
 
         /**
          * This function is called if a macro is read inside a twee file

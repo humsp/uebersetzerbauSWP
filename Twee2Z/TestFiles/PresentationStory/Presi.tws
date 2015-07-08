@@ -5,7 +5,7 @@ S''
 p2
 sS'saveDestination'
 p3
-VC:\u005cUsers\u005cDarky\u005cDesktop\u005cPresi.tws
+S'C:\\Users\\Ryuu\\Projects\\SWP_UB\\uebersetzerbauSWP\\Twee2Z\\TestFiles\\PresentationStory\\Presi.tws'
 p4
 sS'metadata'
 p5
@@ -23,7 +23,7 @@ p11
 (dp13
 S'selected'
 p14
-I00
+I01
 sS'pos'
 p15
 (lp16
@@ -37,7 +37,7 @@ p18
 (dp20
 S'text'
 p21
-VSeit gegrüßt tapferer Held, seid Ihr bereit für das Abenteuer eures Lebens?\u000a\u000a[[Ja|Jeder Anfang ist schwer]]\u000a[[Nein|Spazieren]]
+VSeit gegrüßt tapferer Held, seid Ihr bereit für das Abenteuer eures Lebens? \u000a\u000a[[Ja|Jeder Anfang ist schwer]]\u000a[[Nein|Spazieren]]\u000a\u000a<<if 1>>x<<else if 1>>y<<endif>>
 p22
 sS'title'
 p23
@@ -50,12 +50,12 @@ struct_time
 p26
 ((I2015
 I7
-I5
-I14
-I28
-I31
-I6
-I186
+I8
+I17
+I18
+I4
+I2
+I189
 I1
 tp27
 (dp28
@@ -902,12 +902,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I15
-I51
-I26
-I6
-I186
+I8
+I13
+I21
+I12
+I2
+I189
 I1
 tp284
 (dp285
@@ -993,7 +993,7 @@ Tiddler
 p310
 (dp311
 g21
-V<<set $Gold = $Gold-10>>\u000aGratuliere Sie haben jetzt eine Waffe.\u000a\u000a[[Weiter|Schmiede]]
+V<<$Gold = $Gold-10>>\u000aGratuliere Sie haben jetzt eine Waffe.\u000a\u000a[[Weiter|Schmiede]]
 p312
 sg23
 VWaffeOK
@@ -1002,12 +1002,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I15
-I41
-I35
-I6
-I186
+I8
+I13
+I19
+I58
+I2
+I189
 I1
 tp314
 (dp315
@@ -1252,12 +1252,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I16
-I20
-I29
-I6
-I186
+I8
+I13
+I26
+I3
+I2
+I189
 I1
 tp389
 (dp390

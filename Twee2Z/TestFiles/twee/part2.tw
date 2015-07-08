@@ -1,0 +1,114 @@
+::Start
+The Abyss
+A story of within and without.
+
+//"He who fights with monsters should look to it that he himself does not become a monster. And when you gaze long into an abyss, the abyss also gazes into you."// --Friedrich Nietzsche, "Beyond Good and Evil"
+
+[[Begin|newstart]]
+
+[[About]]
+
+[[FAQ]]
+
+
+
+
+
+Want to read more interactive fiction? Have interactive fiction of your own to promote? Check out Inky Path, my literary magazine dedicated to promoting interactive fiction. 
+
+:: you do not have to listen to it
+You stand there stubbornly. You're not going to be at its beck and call any longer. Suddenly you hear a small ping, and before you can move a muscle a long, thin stalactite has fallen from the ceiling and buried itself in your shoulder. You let out a scream of pain that reverberates through the whole cave, yanking out the stalactite and throwing it the ground, then nestling your wounded shoulder. You still grip the stalagmite-weapon in the other hand. 
+
+missing passge?: you should have watched out. you can't say I didn't warn you.
+
+"I told you to shut up."
+
+missing passge?: maybe you should start listening for once. that way you won't get hurt.
+
+[[Next>>|consequences]]
+
+
+
+
+:: About
+This story was originally intended to be a short piece about a person's conflict with his 'soul.' It quickly grew to become a surrealistic romp through the wilderness of the mind. 
+
+It has been in the making for several years now. I hope you enjoy playing it as much as I enjoyed making it. 
+
+This game was created with Twine (http://www.gimcrackd.com/etc/src/). The mobile version was created with Tin Cans (http://gritfish.net/blog/tin-cans.html). Art by Maya Acharya.
+
+To visit the saveable version, visit here: http://chooseyourownnovel.webs.com/abyss_final2.html
+You can save by bookmarking the page at your location. 
+
+To make your own interactive fiction, check out my site here: 
+http://dacharya64.wix.com/inkypath
+
+Feel free to contact me at dacharya64[AT]gmail.com
+
+[[<<Back|Start2]]
+
+
+:: FAQ
+I wrote up a small FAQ to explain some points of game-making, as well as answer some questions that might still be unanswered.
+
+NOTE: Clicking some hyperlinks will take you to (potentially) unexplored sections of the game. The game is much more exciting and effective if you try to find these path for yourself.
+
+
+''Who/what is ‘it?’ What does it want?''
+
+It does [[explain at one point|question]] who it is, though whether you choose to believe that is another question. The fight between the narrator and //it// is not intended to be something alien to the reader. Instead, this conflict is a personification and intensification of the struggle to satisfy the tumultuous recommendations the mind might give. 
+
+As far was what it wants, that is a far more complicated question. Its intentions are quite similar to the player’s—when it is threatened, it wants peace; when it thinks it has an advantage, it is willing to kill the reader. Mostly, though, it wants acknowledgement and acceptance by the player. By provoking the narrator, though, it gets a chance to fight and claim the man’s body for its own.  
+
+
+''Who is this other, familiar person wandering around in my mind?''
+
+That is you. 
+
+One fascinating thing about choose-your-own-adventure games is the fact that once the player chooses one path, all other paths are closed off forever—much like life. To me, there is always some regret and remorse that accompanies choosing a certain path. Still, I wanted to see what I could do to stretch the genre beyond these limits. What would happen, for instance, if every choice was fulfilled? I wanted the actions of the player to be similar to this other person when the player chooses a different path. The player might wonder why this other person does a certain action. On the next play, the player might find himself exactly where this other person was before, performing all the same actions. 
+
+
+''Is there a “good” ending?''
+It was intended that the “best” ending is the one where the player ends up killing //it// and freeing himself from its confines altogether. If a [[sequel]] is written, it will be a continuation of this ending. 
+
+Still, the ‘Ultimate Being’ ending probably resolves the most issues.
+
+
+''Why did that choice make me do that?''
+
+It depends. 
+
+A particular pet peeve of mine is choose-your-own-adventure stories that give you arbitrary choices that might have drastic effects. For instance, letting the player choose between going left and going right, making it unclear which choice is better, and then killing the player if he goes left. While it can be humorous, it does not make for a very engaging story.
+
+I wanted the responses to be heavily based on the player’s choice. If the player tries to get a weapon, he goes to a place of [[violence|consequences]], or gets options based on the fact that he is [[bold|Well I know you're here. And you'll be the first I kill.]]. 
+
+
+''What’s up with the Pirsig and Hobbes quotes?''
+
+These quotes were found sometime in the process of making the game. They seemed to fit so well with both the vibe and the intentions of the story that they were necessary additions. Besides, this was intended to be more than a cheesy, short-lived action tale. It is a tad more philosophical.
+
+The Pirsig quotes in particular were intended to set the player up as an unreliable narrator. One of my favorite scenes is when the player is in the abandoned [[kingdom]], and sees the words on the wall. 
+
+To me, the unreliable narrator is one of the most powerful tropes that exist in the literary world. The ability to use this for second person point-of-view is completely underutilized, barely present save in game production (as emphasized by the Ludum Dare’s most recent topic, “You are the Villain.”) I wanted the player to question at all points if he is doing the right thing, and even whether he deserves to survive. 
+
+
+''What was the most difficult part of making this?''
+
+Definitely keeping track of everything. Overall, the map of the game ended up looking something like this:
+
+
+Every box there represents a passage. Some link to others, some have multiple branches, some loop around to other sections of the game. 
+
+
+''I want to make a choose-your-own-adventure game!''
+
+That's what this site's for! Here's a link to the homepage: dacharya64.wix.com/inkypath
+
+[[<<Back|Start2]]
+
+:: your whole life
+It seems like everything has been leading up to this moment, this one question, this one time. Finally, the truth can come out. Finally you won't have to live in fear, live alone, plagued by doubt and longing for normalcy. 
+
+[[<<Back|Try to question it instead.]]
+
+

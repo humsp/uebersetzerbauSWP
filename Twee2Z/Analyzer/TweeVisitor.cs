@@ -215,53 +215,7 @@ namespace Twee2Z.Analyzer
             return base.VisitText(context);
         }
 
-        /**
-         * This function is called if a variable is read inside a twee file.
-         * It displays the read variable and passes the name and value to the objecttree
-         * 
-         * Parameter which is passed to the ObjectTree:
-         * @context.GetText(): Name of the Variable
-         * @Value            : value of variable. Currently only Integer, String or Boolean
-         * 
-         **/
-        /*public override object VisitVariable(Twee.VariableContext context)
-        {
-            String VarName = context.GetText();
-            Logger.LogAnalyzer("\nVariable: " + VarName);
-            _builder.AddPassageContent(new PassageVariable(VarName, 0));
-            return base.VisitVariable(context);
-        }*/
 
-        /**
-         * This function is called if a function is read inside a twee file
-         * It displays the read function in the console and passes name and parameter 
-         * to the objecttree
-         * 
-         * Parameter which are passed to the Objecttree
-         * @function name
-         * @parameterlist
-         **/
-        /*public override object VisitFunction(Twee.FunctionContext context)
-        {
-            String functionName = context.GetChild(0).GetText();
-            String paramList = context.GetChild(2).GetText().Trim();
-
-            PassageFunction objectF = new PassageFunction(functionName);
-        
-               if (!(_paramList.Equals(')')))
-            {
-                for (int i = 0; i < _paramList.Length; i++)
-                    objectF.addArg(_paramList[i]);
-            }
-        
-            Logger.LogAnalyzer("Function: " + functionName);    
-            return base.VisitFunction(context);
-        }*/
-
-        /**
-         * This function is called if a macro is read inside a twee file
-         * It displays the read macro in the console.
-         **/
         public override object VisitMacro(Twee.MacroContext context)
         {
             String macro = context.GetText();

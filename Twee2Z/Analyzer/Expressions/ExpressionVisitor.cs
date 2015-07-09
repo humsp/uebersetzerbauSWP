@@ -49,6 +49,8 @@ namespace Twee2Z.Analyzer.Expressions
             return null;
         }
 
+ 
+
         public BaseExpression VisitS1(ExpressionParser.S1Context context)
         {
             ExpressionParser.S1Context s1 = context.s1();
@@ -58,8 +60,8 @@ namespace Twee2Z.Analyzer.Expressions
             {
                 BaseExpression exprS2 = VisitS2(s2);
                 BaseExpression exprS1 = VisitS1(s1);
-                BaseOp op = VisitOpCompare(context.opCompare());
-                
+                BaseOp op = VisitOpAnd(context.opAnd());
+
                 op.LeftExpr = exprS2;
                 op.RightExpr = exprS1;
                 return op;
@@ -82,7 +84,7 @@ namespace Twee2Z.Analyzer.Expressions
             {
                 BaseExpression exprS3 = VisitS3(s3);
                 BaseExpression exprS2 = VisitS2(s2);
-                BaseOp op = VisitOpAnd(context.opAnd());
+                BaseOp op = VisitOpOr(context.opOr());
 
                 op.LeftExpr = exprS3;
                 op.RightExpr = exprS2;
@@ -106,7 +108,7 @@ namespace Twee2Z.Analyzer.Expressions
             {
                 BaseExpression exprS4 = VisitS4(s4);
                 BaseExpression exprS3 = VisitS3(s3);
-                BaseOp op = VisitOpOr(context.opOr());
+                BaseOp op = VisitOpXor(context.opXor());
 
                 op.LeftExpr = exprS4;
                 op.RightExpr = exprS3;
@@ -130,7 +132,7 @@ namespace Twee2Z.Analyzer.Expressions
             {
                 BaseExpression exprS5 = VisitS5(s5);
                 BaseExpression exprS4 = VisitS4(s4);
-                BaseOp op = VisitOpXor(context.opXor());
+                BaseOp op = VisitOpCompare(context.opCompare());
 
                 op.LeftExpr = exprS5;
                 op.RightExpr = exprS4;

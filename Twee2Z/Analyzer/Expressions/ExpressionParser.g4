@@ -2,31 +2,31 @@ parser grammar ExpressionParser;
 options {   tokenVocab = ExpressionLexer; }
 
 expression
-	: WS* s0 WS*
+	: WS* s0
 	;
 
 s0
-	: VAR_NAME WS* assign WS* s0
+	: VAR_NAME WS* assign s0
 	| s1
 	;
 
 s1
-	: s2 WS* opCompare s1
+	: (s2 WS* opAnd s1)
 	| s2
 	;
 
 s2
-	: s3 WS* opAnd s2
+	: s3 WS* opOr s2
 	| s3
 	;
 
-s3
-	: s4 WS* opOr s3
+s3 
+	: s4 WS* opXor s3
 	| s4
 	;
 
-s4 
-	: s5 WS* opXor s4
+s4
+	: s5 WS* opCompare s4
 	| s5
 	;
 
@@ -47,51 +47,13 @@ s7
 
 s8 
 	: WS* opPrio8Not s9
-	| s9
+	| WS* s9
 	;
 
 s9
 	: BRACKET_OPEN WS? s0 WS? BRACKET_CLOSE
 	| value
 	;
-
-
-/* base expression  
-expr
-	: exprRContent
-	| exprROpUnary
-	| VAR_NAME WS* assign WS* expr
-	| expr WS* op WS* expr
-	;
-
- expression R (right from op) 
-exprR
-	: exprROpUnary
-	| exprROp
-	;
-
-*/
-
-
-/* expression R (right from op) with op
-
-exprROpUnary
-	: (opUnary WS?)+ exprRContent
-	;
-
-exprROp
-	: op WS? exprROpUnary
-	;
-
-exprRContent
-	: value
-	| value WS? exprR
-	| exprRBracket WS? exprR
-	;
-
-*/
-
-
 
 
 value

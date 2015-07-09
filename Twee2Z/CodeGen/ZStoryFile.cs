@@ -124,7 +124,7 @@ namespace Twee2Z.CodeGen
                     else
                         throw new Exception();
 
-                    instructions.Add(new Je(new ZLocalVariable(0), (short)charToWrite, new ZBranchLabel(links[i] + "Call_" + callGuids[i])));
+                    instructions.Add(new Je(new ZLocalVariable(0), (short)charToWrite, new ZBranchLabel(links[i].Item1 + "Call_" + callGuids[i])));
                 }
 
                 instructions.Add(new NewLine());
@@ -146,7 +146,7 @@ namespace Twee2Z.CodeGen
                         instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
                     }
 
-                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i] + "Call_" + callGuids[i]) });
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i].Item1 + "Call_" + callGuids[i]) });
                 }
             }
             else
@@ -262,6 +262,13 @@ namespace Twee2Z.CodeGen
                     instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
                 }
 
+                else if (((Assign)setMacro.Expression).Expr.BaseValue is BoolValue)
+                {
+                    short value = ((BoolValue)((((Assign)(setMacro.Expression)).Expr).BaseValue)).Value ? (short)1 : (short)0;
+
+                    instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
+                }
+
                 else if (((Assign)setMacro.Expression).Expr.BaseValue is RandomFunction)
                 {
                     RandomFunction random = (RandomFunction)((Assign)setMacro.Expression).Expr.BaseValue;
@@ -285,7 +292,10 @@ namespace Twee2Z.CodeGen
 
             else if (printMacro != null)
             {
-                instructions.AddRange(StringToInstructions(((StringValue)(printMacro.Expression)).Value.Replace('\"', ' ').Trim()));
+                if (printMacro.Expression is StringValue)
+                    instructions.AddRange(StringToInstructions(((StringValue)(printMacro.Expression)).Value.Replace('\"', ' ').Trim()));
+                else if (printMacro.Expression is VariableValue)
+                    instructions.Add(new PrintNum(_symbolTable.GetSymbol(((VariableValue)printMacro.Expression).Name)));
             }
 
             else if (displayMacro != null)
@@ -372,84 +382,119 @@ namespace Twee2Z.CodeGen
         private List<ZInstruction> ConvertBranchExpression(Expression expression, string label)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
-            LogicalOp log = (LogicalOp)expression;
 
-            short? leftShort = null;
-            string leftVar = null;
-
-            short? rightShort = null;
-            string rightVar = null;
-
-            if (log.LeftExpr is VariableValue)
-                leftVar = ((VariableValue)(log.LeftExpr.BaseValue)).Name;
-            else if (log.LeftExpr is IntValue)
-                leftShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
-            else
-                instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label));
-
-            if (log.RightExpr is VariableValue)
-                rightVar = ((VariableValue)(log.RightExpr.BaseValue)).Name;
-            else if (log.RightExpr is IntValue)
-                rightShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
-            else
-                instructions.AddRange(ConvertBranchExpression(log.RightExpr, label));
-
-            switch (log.Type)
+            if (expression is LogicalOp)
             {
-                case LogicalOp.LocicalOpEnum.And:
-                    break;
-                case LogicalOp.LocicalOpEnum.Or:
-                    break;
-                case LogicalOp.LocicalOpEnum.Xor:
-                    break;
-                case LogicalOp.LocicalOpEnum.Not:
-                    break;
-                case LogicalOp.LocicalOpEnum.Neq:
-                    if (leftShort != null && rightShort != null)
-                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftShort != null && rightVar != null)
-                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightShort != null)
-                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightVar != null)
-                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    break;
-                case LogicalOp.LocicalOpEnum.Eq:
-                    if (leftShort != null && rightShort != null)
-                        instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
-                    else if (leftShort != null && rightVar != null)
-                        instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
-                    else if (leftVar != null && rightShort != null)
-                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
-                    else if (leftVar != null && rightVar != null)
-                        instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
-                    break;
-                case LogicalOp.LocicalOpEnum.Gt:
-                    if (leftShort != null && rightShort != null)
-                        instructions.Add(new Jg(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftShort != null && rightVar != null)
-                        instructions.Add(new Jg(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightShort != null)
-                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightVar != null)
-                        instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    break;
-                case LogicalOp.LocicalOpEnum.Ge:
-                    break;
-                case LogicalOp.LocicalOpEnum.Lt:
-                    if (leftShort != null && rightShort != null)
-                        instructions.Add(new Jl(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftShort != null && rightVar != null)
-                        instructions.Add(new Jl(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightShort != null)
-                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
-                    else if (leftVar != null && rightVar != null)
-                        instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
-                    break;
-                case LogicalOp.LocicalOpEnum.Le:
-                    break;
-                default:
-                    break;
+                LogicalOp log = (LogicalOp)expression;
+
+                short? leftShort = null;
+                string leftVar = null;
+
+                short? rightShort = null;
+                string rightVar = null;
+
+                if (log.LeftExpr is VariableValue)
+                    leftVar = ((VariableValue)(log.LeftExpr.BaseValue)).Name;
+                else if (log.LeftExpr is IntValue)
+                    leftShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+                else if (log.LeftExpr is BoolValue)
+                    leftShort = Convert.ToInt16(((BoolValue)(log.RightExpr.BaseValue)).Value);
+                else
+                    instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label));
+
+                if (log.RightExpr is VariableValue)
+                    rightVar = ((VariableValue)(log.RightExpr.BaseValue)).Name;
+                else if (log.RightExpr is IntValue)
+                    rightShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
+                else if (log.RightExpr is BoolValue)
+                    rightShort = Convert.ToInt16(((BoolValue)(log.RightExpr.BaseValue)).Value);
+                else
+                    instructions.AddRange(ConvertBranchExpression(log.RightExpr, label));
+
+                switch (log.Type)
+                {
+                    case LogicalOp.LocicalOpEnum.And:
+                        if (leftShort != null && rightShort != null)
+                        {
+                            instructions.Add(new Jg(leftShort.Value, 0, new ZBranchLabel(label) { BranchOn = false }));
+                            instructions.Add(new Jg(rightShort.Value, 0, new ZBranchLabel(label) { BranchOn = false }));
+                        }
+                        else if (leftShort != null && rightVar != null)
+                        {
+                            instructions.Add(new Jg(leftShort.Value, 0, new ZBranchLabel(label) { BranchOn = false }));
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(rightVar), 0, new ZBranchLabel(label) { BranchOn = false }));
+                        }
+                        else if (leftVar != null && rightShort != null)
+                        {
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), 0, new ZBranchLabel(label) { BranchOn = false }));
+                            instructions.Add(new Jg(rightShort.Value, 0, new ZBranchLabel(label) { BranchOn = false }));
+                        }
+                        else if (leftVar != null && rightVar != null)
+                        {
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), 0, new ZBranchLabel(label) { BranchOn = false }));
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(rightVar), 0, new ZBranchLabel(label) { BranchOn = false }));
+                        }
+                        break;
+                    case LogicalOp.LocicalOpEnum.Or:
+                        break;
+                    case LogicalOp.LocicalOpEnum.Xor:
+                        break;
+                    case LogicalOp.LocicalOpEnum.Not:
+                        break;
+                    case LogicalOp.LocicalOpEnum.Neq:
+                        if (leftShort != null && rightShort != null)
+                            instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftShort != null && rightVar != null)
+                            instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightShort != null)
+                            instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightVar != null)
+                            instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        break;
+                    case LogicalOp.LocicalOpEnum.Eq:
+                        if (leftShort != null && rightShort != null)
+                            instructions.Add(new Je(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                        else if (leftShort != null && rightVar != null)
+                            instructions.Add(new Je(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                        else if (leftVar != null && rightShort != null)
+                            instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = false }));
+                        else if (leftVar != null && rightVar != null)
+                            instructions.Add(new Je(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = false }));
+                        break;
+                    case LogicalOp.LocicalOpEnum.Gt:
+                        if (leftShort != null && rightShort != null)
+                            instructions.Add(new Jg(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftShort != null && rightVar != null)
+                            instructions.Add(new Jg(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightShort != null)
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightVar != null)
+                            instructions.Add(new Jg(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        break;
+                    case LogicalOp.LocicalOpEnum.Ge:
+                        break;
+                    case LogicalOp.LocicalOpEnum.Lt:
+                        if (leftShort != null && rightShort != null)
+                            instructions.Add(new Jl(leftShort.Value, rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftShort != null && rightVar != null)
+                            instructions.Add(new Jl(leftShort.Value, _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightShort != null)
+                            instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), rightShort.Value, new ZBranchLabel(label) { BranchOn = true }));
+                        else if (leftVar != null && rightVar != null)
+                            instructions.Add(new Jl(_symbolTable.GetSymbol(leftVar), _symbolTable.GetSymbol(rightVar), new ZBranchLabel(label) { BranchOn = true }));
+                        break;
+                    case LogicalOp.LocicalOpEnum.Le:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            else if (expression is BoolValue)
+            {
+                BoolValue boolean = (BoolValue)expression;
+
+                instructions.Add(new Je(1, Convert.ToInt16(boolean.Value), new ZBranchLabel(label) { BranchOn = true }));
             }
 
             return instructions;

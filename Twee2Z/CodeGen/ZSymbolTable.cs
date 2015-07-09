@@ -25,6 +25,13 @@ namespace Twee2Z.CodeGen
         {
             ZGlobalVariable foundValue = null;
             _variables.TryGetValue(symbol, out foundValue);
+
+            if (foundValue == null)
+            {
+                AddSymbol(symbol);
+                _variables.TryGetValue(symbol, out foundValue);
+            }
+
             return foundValue;
         }
     }

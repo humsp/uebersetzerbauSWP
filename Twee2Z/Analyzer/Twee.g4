@@ -15,7 +15,11 @@ passage
 	;
 
 passageContent
-	:  (macro|text|link) passageContent?
+	:  innerPassageContent+
+	;
+
+innerPassageContent
+	: (macro|text|link) 
 	;
 
 link

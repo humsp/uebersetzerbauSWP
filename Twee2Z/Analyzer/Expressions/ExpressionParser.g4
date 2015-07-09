@@ -46,7 +46,7 @@ s7
 	;
 
 s8 
-	: WS* opPrio8Not s9
+	: WS* opPrio8Not s8
 	| WS* s9
 	;
 

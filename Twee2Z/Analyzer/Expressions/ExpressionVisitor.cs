@@ -219,12 +219,13 @@ namespace Twee2Z.Analyzer.Expressions
 
         public BaseExpression VisitS8(ExpressionParser.S8Context context)
         {
+            ExpressionParser.S8Context s8 = context.s8();
             ExpressionParser.S9Context s9 = context.s9();
-            if (context.opPrio8Not() != null && context.s9() != null)
+            if (s8 != null)
             {
                 BaseOp op = VisitOpPrio8Not(context.opPrio8Not());
-                BaseExpression s9Expr = VisitS9(s9);
-                op.RightExpr = s9Expr;
+                BaseExpression s8Expr = VisitS8(s8);
+                op.RightExpr = s8Expr;
                 return op;
                     
             }

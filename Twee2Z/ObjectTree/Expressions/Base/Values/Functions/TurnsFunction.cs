@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree.Expressions.Base.Values.Functions
 {
-    class TurnsFunction : FunctionValue
+    public class TurnsFunction : FunctionValue
     {
         public TurnsFunction()
             : base(FunctionTypeEnum.Turns)

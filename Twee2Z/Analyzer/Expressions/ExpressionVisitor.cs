@@ -326,6 +326,22 @@ namespace Twee2Z.Analyzer.Expressions
             {
                 return new RandomFunction();
             }
+            else if (context.GetToken(ExpressionParser.FCN_TURNS, 0) != null)
+            {
+                return new TurnsFunction();
+            }
+            else if (context.GetToken(ExpressionParser.FCN_PREVIOUS, 0) != null)
+            {
+                return new PreviousFunction();
+            }
+            else if (context.GetToken(ExpressionParser.FCN_VISITED, 0) != null)
+            {
+                return new VisitedFunction();
+            }
+            else if (context.GetToken(ExpressionParser.FCN_CONFIRM, 0) != null)
+            {
+                return new ConfirmFunction();
+            }
             Logger.LogWarning(context.GetText() + " ist not supported");
 
             return null;

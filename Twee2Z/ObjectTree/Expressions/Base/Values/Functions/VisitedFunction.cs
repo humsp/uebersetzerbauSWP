@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree.Expressions.Base.Values.Functions
 {
-    class VisitedFunction
+    public class VisitedFunction : FunctionValue
     {
-        //TODO
+        public VisitedFunction()
+            : base(FunctionTypeEnum.Visited)
+        { }
+
+        public override int MaxArgCount
+        {
+            get { return 0; }
+        }
     }
 }

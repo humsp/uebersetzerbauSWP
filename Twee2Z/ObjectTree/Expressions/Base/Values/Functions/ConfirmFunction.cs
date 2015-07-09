@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree.Expressions.Base.Values.Functions
 {
-    class ConfirmFunction
+    public class ConfirmFunction : FunctionValue
     {
-        //TODO
+        public ConfirmFunction()
+            : base(FunctionTypeEnum.Confirm)
+        { }
+
+        public override int MaxArgCount
+        {
+            get { return 1; }
+        }
     }
 }

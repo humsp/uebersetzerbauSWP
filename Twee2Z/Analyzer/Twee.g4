@@ -63,5 +63,5 @@ zeichenkette
 	;
 
 text
-	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE) text?
+	: (zeichenkette|SPACE+|NEW_LINE|INT|FORMAT|EXCLUDE)
 	; 

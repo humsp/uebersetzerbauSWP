@@ -1,9 +1,5 @@
 lexer grammar LEX;
-options
-{
-  //turn on backtracking
-  backtrack=true;
-}
+
 
 INT					: DIGIT+;
 PASS				: NEW_LINE ':'(':')+ -> pushMode(PMode);

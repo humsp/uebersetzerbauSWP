@@ -1,8 +1,9 @@
-# ~~~~~~~~~~~~~~~~ ![](http://s017.radikal.ru/i406/1507/a6/a9331afb85ba.gif) ~~~~~~~~~~~~~~~~
-# Twee2Z 
+# Twee2Z ![](http://s017.radikal.ru/i406/1507/a6/a9331afb85ba.gif)
 
 A compiler for converting [Twee source code](http://twinery.org/) into [Z-code](https://en.wikipedia.org/wiki/Z-machine) (version 8) .
 The resulting Z-code can be executed with Z-machines like [Frotz](http://frotz.sourceforge.net/).
+
+
 
 ### Usage
 

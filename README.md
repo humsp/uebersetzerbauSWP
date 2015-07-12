@@ -20,7 +20,7 @@ The resulting Z-code can be executed with Z-machines like [Frotz](http://frotz.s
 ##Release location 
     TODO
 ##Libs
-- ANTLR4  : http://www.antlr.org/
+- ANTLR  : http://www.antlr.org/ (Version 4.4 Runtime 4.0)
 - Mono    : http://www.mono-project.com/
 
 ##Example test files
@@ -30,6 +30,8 @@ https://github.com/humsp/uebersetzerbauSWP/tree/develop/Twee2Z/TestFiles/UnitTes
 - passages
 - functions:    
     - random
+    - visited
+    - turns
 - links
 - variables: short, boolean
 - macro

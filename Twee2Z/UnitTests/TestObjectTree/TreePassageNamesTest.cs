@@ -35,7 +35,7 @@ namespace Twee2Z.UnitTests.TestObjectTree
         public void TestTreePassageNameWithComment()
         {
             Tree tree = TreeBuilder.createTree(_passageNamesComment);
-            Assert.AreEqual(2, tree.Passages.Count);
+            Assert.AreEqual(4, tree.Passages.Count);
             
             Assert.AreEqual("Start", tree.StartPassage.Name);
             Assert.AreEqual("Your story will display this passage first Edit it by double clicking it", tree.StartPassage.PassageContentList[0].PassageText.Text);
@@ -87,41 +87,41 @@ namespace Twee2Z.UnitTests.TestObjectTree
         [Test]
         public void TestTreePassageNamesInvalidToken1()
         {
-            TestInvalidToken(_passageNamesInvalidToken1, "toke|n", "token");
+            TestInvalidToken(_passageNamesInvalidToken1, "toke", "toke|n");
         }
 
         [Test]
         public void TestTreePassageNamesInvalidToken2()
         {
-            TestInvalidToken(_passageNamesInvalidToken2, "toke$n", "token");
+            TestInvalidToken(_passageNamesInvalidToken2, "toke", "toke$n");
         }
 
         [Test]
         public void TestTreePassageNamesInvalidToken3()
         {
-            TestInvalidToken(_passageNamesInvalidToken3, "toke<n", "token");
+            TestInvalidToken(_passageNamesInvalidToken3, "toke", "tok<en");
         }
 
         [Test]
         public void TestTreePassageNamesInvalidToken4()
         {
-            TestInvalidToken(_passageNamesInvalidToken4, "toke>n", "token");
+            TestInvalidToken(_passageNamesInvalidToken4, "toke", "toke>n");
         }
 
         [Test]
         public void TestTreePassageNamesInvalidToken5()
         {
-            TestInvalidToken(_passageNamesInvalidToken5, "toke[n", "token");
+            TestInvalidToken(_passageNamesInvalidToken5, "toke", "toke[n");
         }
 
         [Test]
         public void TestTreePassageNamesInvalidToken6()
         {
-            TestInvalidToken(_passageNamesInvalidToken6, "toke]n", "token");
+            TestInvalidToken(_passageNamesInvalidToken6, "toke", "toke]n");
         }
 
 
-        private void TestInvalidToken(string file, string falseName, string rightName)
+        private void TestInvalidToken(string file, string rightName, string falseName)
         {
             Tree tree = TreeBuilder.createTree(file);
             Assert.AreEqual(4, tree.Passages.Count);

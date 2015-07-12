@@ -113,7 +113,7 @@ namespace Twee2Z.Analyzer
                 {
                     Text = Text + context.GetChild(i).GetText();
                 }
-                Expression = context.GetChild<Twee.ExpressionContext>(0).GetText();
+                Expression = context.GetChild<Twee.ExpressionContext>(0).GetText().TrimEnd(']');
                 Logger.LogAnalyzer("Ziel: " + Ziel);
                 Logger.LogAnalyzer("DisplayText: " + Text);
                 Logger.LogAnalyzer("Expression: " + Expression);

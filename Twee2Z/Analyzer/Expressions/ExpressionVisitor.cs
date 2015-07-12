@@ -322,20 +322,6 @@ namespace Twee2Z.Analyzer.Expressions
 
         public BaseOp VisitOpPrio6(ExpressionParser.OpPrio6Context context)
         {
-            if (context.GetToken(ExpressionParser.OP_MUL, 0) != null)
-            {
-                return new NormalOp(NormalOp.NormalOpEnum.Mul);
-            }
-            else if (context.GetToken(ExpressionParser.OP_DIV, 0) != null)
-            {
-                return new NormalOp(NormalOp.NormalOpEnum.Div);
-            }
-            Logger.LogWarning("Can not parse " + context.GetText());
-            return null;
-        }
-
-        public BaseOp VisitOpPrio7(ExpressionParser.OpPrio7Context context)
-        {
             if (context.GetToken(ExpressionParser.OP_ADD, 0) != null)
             {
                 return new NormalOp(NormalOp.NormalOpEnum.Add);
@@ -343,6 +329,20 @@ namespace Twee2Z.Analyzer.Expressions
             else if (context.GetToken(ExpressionParser.OP_SUB, 0) != null)
             {
                 return new NormalOp(NormalOp.NormalOpEnum.Sub);
+            }
+            Logger.LogWarning("Can not parse " + context.GetText());
+            return null;
+        }
+
+        public BaseOp VisitOpPrio7(ExpressionParser.OpPrio7Context context)
+        {
+            if (context.GetToken(ExpressionParser.OP_MUL, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Mul);
+            }
+            else if (context.GetToken(ExpressionParser.OP_DIV, 0) != null)
+            {
+                return new NormalOp(NormalOp.NormalOpEnum.Div);
             }
             Logger.LogWarning("Can not parse " + context.GetText());
             return null;

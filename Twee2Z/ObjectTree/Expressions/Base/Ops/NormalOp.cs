@@ -25,5 +25,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Ops
         {
             _type = type;
         }
+
+        public NormalOpEnum Type { get { return _type; } }
     }
 }

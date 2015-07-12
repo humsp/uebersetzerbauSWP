@@ -75,5 +75,20 @@ namespace Twee2Z.CodeGen.Instruction.Template
             _variable = variable;
             _value = value;
         }
+
+        /// <summary>
+        /// Creates a new instance of a Store instruction with a variable as value.
+        /// </summary>
+        /// <param name="variable">The referenced variable.</param>
+        /// <param name="value">The value to set.</param>
+        public Store(ZVariable variable, ZVariable value)
+            : base("store", 0x0D, OpcodeTypeKind.TwoOP, new ZOperand(variable.VariableNumber), new ZOperand(value))
+        {
+            // While this instruction requires a variable
+            // We have to convert it into a byte constant
+            // Thus "new ZOperand(variable.VariableNumber)"
+            _variable = variable;
+            _value = value;
+        }
     }
 }

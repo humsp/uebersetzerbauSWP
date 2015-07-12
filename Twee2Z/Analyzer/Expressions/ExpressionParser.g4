@@ -109,14 +109,14 @@ opMod
 
 // op prio 6
 opPrio6
-	: OP_MUL 
-	| OP_DIV
+	: OP_SUB
+	| OP_ADD
 	;
 
 // op prio 7
 opPrio7
-	: OP_SUB
-	| OP_ADD
+	: OP_MUL 
+	| OP_DIV
 	;
 
 // op prio 8

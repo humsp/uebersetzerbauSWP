@@ -16,7 +16,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "push" on page 93 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, Value = {_operand[0].Value}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Value = {_operands[0].Value}")]
     class Push : ZInstruction
     {
         /// <summary>

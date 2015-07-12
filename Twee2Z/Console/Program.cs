@@ -123,7 +123,7 @@ namespace Twee2Z.Console
         static void Compile(string from, string output)
         {
             Logger.LogUserOutput("Open twee file: " + from);
-            FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream tweeFileStream = new FileStream(from, FileMode.Open);
 
             Tree tree = AnalyseFile(tweeFileStream);
             if(ValidateTree(tree))

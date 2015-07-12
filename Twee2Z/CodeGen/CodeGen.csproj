@@ -50,6 +50,7 @@
     <Compile Include="Instruction\Template\Jl.cs" />
     <Compile Include="Instruction\Template\Jg.cs" />
     <Compile Include="Instruction\Template\PrintNum.cs" />
+    <Compile Include="Instruction\Template\Inc.cs" />
     <Compile Include="Instruction\Template\Sub.cs" />
     <Compile Include="Instruction\Template\Jz.cs" />
     <Compile Include="Instruction\Template\Je.cs" />

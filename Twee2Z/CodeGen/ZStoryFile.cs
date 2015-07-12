@@ -56,7 +56,10 @@ namespace Twee2Z.CodeGen
 
             List<ZRoutine> routines = new List<ZRoutine>();
             
-            routines.Add(new ZRoutine(new ZInstruction[] { new Call1n(new ZRoutineLabel(startPassage.Name)) }) { Label = new ZRoutineLabel("main") });
+            routines.Add(new ZRoutine(new ZInstruction[] {
+                new Store (_symbolTable.GetSymbol("%turns%"), -1), // sets the turns counter to -1
+                new Call1n(new ZRoutineLabel(startPassage.Name))
+            }) { Label = new ZRoutineLabel("main") });
             
             try
             {
@@ -82,6 +85,9 @@ namespace Twee2Z.CodeGen
             var links = new List<Tuple<string, PassageMacroSet>>();
 
             instructions.Add(new EraseWindow(0));
+            instructions.Add(new Add(_symbolTable.GetSymbol("%turns%"), 1, _symbolTable.GetSymbol("%turns%")));
+            instructions.Add(new Store(_symbolTable.GetSymbol("%passage:" + passage.Name + "%"), 1));
+
 
             if (!String.IsNullOrWhiteSpace(storyTitle))
             {
@@ -100,7 +106,7 @@ namespace Twee2Z.CodeGen
                 instructions.Add(new NewLine());   
             }
 
-            instructions.AddRange(ConvertPassageContent(passage.PassageContentList, ref currentLink, links));
+            instructions.AddRange(ConvertPassageContent(passage.PassageContentList, ref currentLink, links, passage.Name));
 
             if (currentLink > 0)
             {
@@ -158,7 +164,7 @@ namespace Twee2Z.CodeGen
             return new ZRoutine(instructions, 1) { Label = new ZRoutineLabel(passage.Name) };
         }
 
-        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
+        private List<ZInstruction> ConvertPassageContent(IEnumerable<PassageContent> contentList, ref int currentLink, List<Tuple<string, PassageMacroSet>> links, string currentPassage)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -218,7 +224,7 @@ namespace Twee2Z.CodeGen
 
                 else if (content.Type == PassageContent.ContentType.MacroContent)
                 {
-                    instructions.AddRange(ConvertMacros(content, ref currentLink, links));
+                    instructions.AddRange(ConvertMacros(content, ref currentLink, links, currentPassage));
                 }
 
                 else if (content.Type == PassageContent.ContentType.FunctionContent)
@@ -240,7 +246,7 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links)
+        private List<ZInstruction> ConvertMacros(PassageContent content, ref int currentLink, List<Tuple<string, PassageMacroSet>> links, string currentPassage)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -296,12 +302,14 @@ namespace Twee2Z.CodeGen
                     instructions.AddRange(StringToInstructions(((StringValue)(printMacro.Expression)).Value.Replace('\"', ' ').Trim()));
                 else if (printMacro.Expression is VariableValue)
                     instructions.Add(new PrintNum(_symbolTable.GetSymbol(((VariableValue)printMacro.Expression).Name)));
+                else if (printMacro.Expression is TurnsFunction)
+                    instructions.Add(new PrintNum(_symbolTable.GetSymbol("%turns%")));
             }
 
             else if (displayMacro != null)
             {
                 instructions.AddRange(ConvertPassageContent(_passages.Single(passage =>
-                    passage.Name == ((StringValue)(displayMacro.Expression)).Value.Replace('\"', ' ').Trim()).PassageContentList, ref currentLink, links));
+                    passage.Name == ((StringValue)(displayMacro.Expression)).Value.Replace('\"', ' ').Trim()).PassageContentList, ref currentLink, links, currentPassage));
             }
 
             else if (branchMacro != null)
@@ -312,10 +320,10 @@ namespace Twee2Z.CodeGen
                 PassageMacroIf ifMacro = (PassageMacroIf)branchMacro.BranchNodeList.First();
                 Guid ifGuid = Guid.NewGuid();
 
-                instructions.AddRange(ConvertBranchExpression(ifMacro.Expression, "if_" + ifGuid));
+                instructions.AddRange(ConvertBranchExpression(ifMacro.Expression, "if_" + ifGuid, currentPassage));
                 
                 // if expression is true
-                foreach (var instruction in ConvertPassageContent(ifMacro.PassageContentList, ref currentLink, links))
+                foreach (var instruction in ConvertPassageContent(ifMacro.PassageContentList, ref currentLink, links, currentPassage))
                 {
                     instructions.Add(instruction);
                 }
@@ -329,10 +337,10 @@ namespace Twee2Z.CodeGen
                 {
                     Guid elseIfGuid = Guid.NewGuid();
 
-                    instructions.AddRange(ConvertBranchExpression(elseIfMacro.Expression, "elseIf_" + elseIfGuid));
+                    instructions.AddRange(ConvertBranchExpression(elseIfMacro.Expression, "elseIf_" + elseIfGuid, currentPassage));
 
                     // if expression is true
-                    foreach (var instruction in ConvertPassageContent(elseIfMacro.PassageContentList, ref currentLink, links))
+                    foreach (var instruction in ConvertPassageContent(elseIfMacro.PassageContentList, ref currentLink, links, currentPassage))
                     {
                         instructions.Add(instruction);
                     }
@@ -347,7 +355,7 @@ namespace Twee2Z.CodeGen
 
                 if (elseMacro != null)
                 {
-                    foreach (var instruction in ConvertPassageContent(elseMacro.PassageContentList, ref currentLink, links))
+                    foreach (var instruction in ConvertPassageContent(elseMacro.PassageContentList, ref currentLink, links, currentPassage))
                     {
                         instructions.Add(instruction);
                     }
@@ -379,7 +387,7 @@ namespace Twee2Z.CodeGen
             return instructions;
         }
 
-        private List<ZInstruction> ConvertBranchExpression(Expression expression, string label)
+        private List<ZInstruction> ConvertBranchExpression(Expression expression, string label, string currentPassage)
         {
             List<ZInstruction> instructions = new List<ZInstruction>();
 
@@ -399,8 +407,13 @@ namespace Twee2Z.CodeGen
                     leftShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
                 else if (log.LeftExpr is BoolValue)
                     leftShort = Convert.ToInt16(((BoolValue)(log.RightExpr.BaseValue)).Value);
+                else if (log.LeftExpr is FunctionValue)
+                {
+                    instructions.AddRange(ConvertFunctionValue((FunctionValue)log.LeftExpr, currentPassage));
+                    leftVar = "%turns%";
+                }
                 else
-                    instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label));
+                    instructions.AddRange(ConvertBranchExpression(log.LeftExpr, label, currentPassage));
 
                 if (log.RightExpr is VariableValue)
                     rightVar = ((VariableValue)(log.RightExpr.BaseValue)).Name;
@@ -408,8 +421,13 @@ namespace Twee2Z.CodeGen
                     rightShort = Convert.ToInt16(((IntValue)(log.RightExpr.BaseValue)).Value);
                 else if (log.RightExpr is BoolValue)
                     rightShort = Convert.ToInt16(((BoolValue)(log.RightExpr.BaseValue)).Value);
+                else if (log.RightExpr is FunctionValue)
+                {
+                    instructions.AddRange(ConvertFunctionValue((FunctionValue)log.RightExpr, currentPassage));
+                    rightVar = "%turns%";
+                }
                 else
-                    instructions.AddRange(ConvertBranchExpression(log.RightExpr, label));
+                    instructions.AddRange(ConvertBranchExpression(log.RightExpr, label, currentPassage));
 
                 switch (log.Type)
                 {
@@ -495,6 +513,42 @@ namespace Twee2Z.CodeGen
                 BoolValue boolean = (BoolValue)expression;
 
                 instructions.Add(new Je(1, Convert.ToInt16(boolean.Value), new ZBranchLabel(label) { BranchOn = true }));
+            }
+
+            else if (expression is FunctionValue)
+            {
+                instructions.AddRange(ConvertFunctionValue(expression, currentPassage));
+            }
+
+            return instructions;
+        }
+
+        private List<ZInstruction> ConvertFunctionValue(Expression function, string currentPassage)
+        {
+            List<ZInstruction> instructions = new List<ZInstruction>();
+
+            TurnsFunction turns = function as TurnsFunction;
+            VisitedFunction visited = function as VisitedFunction;
+            ConfirmFunction confirm = function as ConfirmFunction;
+
+            if (turns != null)
+            {
+                instructions.Add(new Push(_symbolTable.GetSymbol("%turns%")));
+            }
+            else if (visited != null)
+            {
+                instructions.Add(new Push(_symbolTable.GetSymbol("%passage:" + currentPassage + "%")));
+            }
+            else if (confirm != null)
+            {
+                string text = ((StringValue)confirm.Args.First()).Value;
+
+                instructions.AddRange(StringToInstructions(text));
+                instructions.Add(new Print("Yes No"));
+                instructions.Add(new ReadChar(new ZStackVariable()));
+                instructions.Add(new Je(new ZStackVariable(), (short)'y', new ZBranchLabel("yes")));
+                instructions.Add(new Push(0));
+                instructions.Add(new Push(1) { Label = new ZLabel("yes") });
             }
 
             return instructions;

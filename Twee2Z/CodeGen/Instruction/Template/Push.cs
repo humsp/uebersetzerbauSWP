@@ -16,11 +16,9 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "push" on page 93 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, Value = {_value}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, Value = {_operand[0].Value}")]
     class Push : ZInstruction
     {
-        object _value;
-
         /// <summary>
         /// Creates a new instance of a Push instruction with a byte as value.
         /// </summary>
@@ -28,7 +26,6 @@ namespace Twee2Z.CodeGen.Instruction.Template
         public Push(byte value)
             : base("push", 0x08, OpcodeTypeKind.Var, new ZOperand(value))
         {
-            _value = value;
         }
 
         /// <summary>
@@ -38,7 +35,15 @@ namespace Twee2Z.CodeGen.Instruction.Template
         public Push(short value)
             : base("push", 0x08, OpcodeTypeKind.Var, new ZOperand(value))
         {
-            _value = value;
+        }
+
+        /// <summary>
+        /// Creates a new instance of a Push instruction with a variable as value.
+        /// </summary>
+        /// <param name="variable">The variable to push.</param>
+        public Push(ZVariable variable)
+            : base("push", 0x08, OpcodeTypeKind.Var, new ZOperand(variable))
+        {
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values.Functions
 
         public override int MaxArgCount
         {
-            get { return 0; }
+            get { return int.MaxValue; }
         }
     }
 }

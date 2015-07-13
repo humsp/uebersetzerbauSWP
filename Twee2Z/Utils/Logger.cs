@@ -141,7 +141,7 @@ namespace Twee2Z.Utils
             {
                 foreach (LogWriter writer in _logWriter)
                 {
-                    writer.Log(logEvent + ": " + text + " - Exception: " + exception.StackTrace);
+                    writer.Log(logEvent + ": " + text + " - Exception: " + exception.Message);
                 }
             }
         }

@@ -24,6 +24,7 @@ namespace Twee2Z.CodeGen
     public class ZStoryFile
     {
         private ZSymbolTable _symbolTable;
+        private ZRoutineTable _routineTable;
         private ZMemory _zMemory;
         private IEnumerable<Passage> _passages;
 
@@ -35,6 +36,8 @@ namespace Twee2Z.CodeGen
         public void ImportObjectTree(Tree tree)
         {
             _symbolTable = new ZSymbolTable();
+            _routineTable = new ZRoutineTable();
+
             Passage startPassage = null;
             IEnumerable<Passage> passages = null;
             try
@@ -58,21 +61,45 @@ namespace Twee2Z.CodeGen
             
             routines.Add(new ZRoutine(new ZInstruction[] {
                 new Store (_symbolTable.GetSymbol("%turns%"), -1), // sets the turns counter to -1
+                new Store(_symbolTable.GetSymbol("%previous%"), _routineTable.GetRoutine(startPassage.Name)),
                 new Call1n(new ZRoutineLabel(startPassage.Name))
             }) { Label = new ZRoutineLabel("main") });
             
             try
             {
+                _routineTable.AddRoutine(startPassage.Name);
                 routines.Add(ConvertPassageToRoutine(startPassage, storyTitle, storyAuthor));
 
                 foreach (Passage passage in passages)
                 {
+                    _routineTable.AddRoutine(passage.Name);
                     routines.Add(ConvertPassageToRoutine(passage, storyTitle, storyAuthor));
                 }
+
+                List<ZInstruction> instructions = new List<ZInstruction>();
+                ZLocalVariable local = new ZLocalVariable(0);
+                instructions.Add(new Store(local, _symbolTable.GetSymbol("%previous%")));
+                instructions.Add(new Store(_symbolTable.GetSymbol("%previous%"), _symbolTable.GetSymbol("%nextprevious%")));
+
+                foreach (var keyValuePair in _routineTable._routines)
+                {
+                    Guid nextCheck = Guid.NewGuid();
+                    instructions.Add(new Je(local, keyValuePair.Value, new ZBranchLabel(nextCheck.ToString()) { BranchOn = false }));
+                    instructions.Add(new Call1n(new ZRoutineLabel(keyValuePair.Key)));
+                    instructions.Add(new Nop() { Label = new ZLabel(nextCheck.ToString()) });
+                }
+                
+                instructions.Add(new Print("(ERROR) The given routine id "));
+                instructions.Add(new PrintNum(local));
+                instructions.Add(new Print(" has not been found. Terminating game." + System.Environment.NewLine));
+                instructions.Add(new Quit());
+                routines.Add(new ZRoutine(instructions, 1) { Label = new ZRoutineLabel("routineCallTable") });
             }
             catch (Exception ex)
             {
-                throw new Exception("Could not convert passage into routine.", ex);
+                Twee2Z.Utils.Logger.LogError("Could not convert passage into routine.");
+                Twee2Z.Utils.Logger.LogError(ex.Message);
+                throw ex;
             }
 
             _zMemory.SetRoutines(routines);
@@ -86,9 +113,9 @@ namespace Twee2Z.CodeGen
 
             instructions.Add(new EraseWindow(0));
             instructions.Add(new Add(_symbolTable.GetSymbol("%turns%"), 1, _symbolTable.GetSymbol("%turns%")));
-            instructions.Add(new Store(_symbolTable.GetSymbol("%passage:" + passage.Name + "%"), 1));
-
-
+            ZGlobalVariable visited = _symbolTable.GetSymbol("%visited:" + _routineTable.GetRoutine(passage.Name) + "%");
+            instructions.Add(new Add(visited, 1, visited));
+            
             if (!String.IsNullOrWhiteSpace(storyTitle))
             {
                 instructions.Add(new SetTextStyle(SetTextStyle.StyleFlags.ReverseVideo | SetTextStyle.StyleFlags.Bold));
@@ -141,13 +168,22 @@ namespace Twee2Z.CodeGen
                 for (int i = 0; i < links.Count(); i++)
                 {
                     instructions.Add(new Nop() { Label = new ZLabel(links[i].Item1 + "Call_" + callGuids[i]) });
-
+                    
                     if (links[i].Item2 != null)
                     {
                         instructions.AddRange(ConvertAssignExpression(links[i].Item2, passage.Name));
                     }
 
-                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)));
+                    if (links[i].Item1 == "previous()")
+                    {
+                        instructions.Add(new Store(_symbolTable.GetSymbol("%nextprevious%"), _routineTable.GetRoutine(passage.Name)));
+                        instructions.Add(new Call1n(new ZRoutineLabel("routineCallTable")));
+                    }
+                    else
+                    {
+                        instructions.Add(new Store(_symbolTable.GetSymbol("%previous%"), _routineTable.GetRoutine(passage.Name)));
+                        instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)));
+                    }
                 }
             }
             else
@@ -224,7 +260,7 @@ namespace Twee2Z.CodeGen
 
                 else if (content.Type == PassageContent.ContentType.FunctionContent)
                 {
-                    instructions.AddRange(ConvertFuntions(content, ref currentLink, links));
+                    throw new Exception("Functions are not supposed to be used outside of expressions.");
                 }
 
                 else if (content.Type == PassageContent.ContentType.VariableContent)
@@ -335,20 +371,6 @@ namespace Twee2Z.CodeGen
             else
             {
                 throw new NotSupportedException("This macro is not supported yet: " + content.GetType().Name);
-            }
-
-            return instructions;
-        }
-
-        private List<ZInstruction> ConvertFuntions(PassageContent content, ref int currentLink, List<Tuple<string, Assign>> links)
-        {
-            List<ZInstruction> instructions = new List<ZInstruction>();
-
-            PassageFunction function = content as PassageFunction;
-
-            if (function != null)
-            {
-
             }
 
             return instructions;
@@ -717,6 +739,7 @@ namespace Twee2Z.CodeGen
             VisitedFunction visited = function as VisitedFunction;
             ConfirmFunction confirm = function as ConfirmFunction;
             RandomFunction random = function as RandomFunction;
+            PreviousFunction previous = function as PreviousFunction;
 
             if (turns != null)
             {
@@ -724,7 +747,18 @@ namespace Twee2Z.CodeGen
             }
             else if (visited != null)
             {
-                instructions.Add(new Push(_symbolTable.GetSymbol("%passage:" + currentPassage + "%")));
+                if (visited.Args.Count == 0)
+                    instructions.Add(new Push(_symbolTable.GetSymbol("%visited:" + _routineTable.GetRoutine(currentPassage) + "%")));
+                else if (visited.Args.Count == 1)
+                {
+                    StringValue stringValue = (StringValue)visited.Args.Single();
+                    string passageName = stringValue.Value.Trim('"');
+                    instructions.Add(new Push(_symbolTable.GetSymbol("%visited:" + _routineTable.GetRoutine(passageName) + "%")));
+                }
+                else
+                {
+                    throw new NotImplementedException("More than one argument for the visited function is not supported yet.");
+                }
             }
             else if (confirm != null)
             {
@@ -754,6 +788,10 @@ namespace Twee2Z.CodeGen
                 }
                 else
                     instructions.Add(new Twee2Z.CodeGen.Instruction.Template.Random(max, new ZStackVariable()));
+            }
+            else if (previous != null)
+            {
+                instructions.Add(new Push(_symbolTable.GetSymbol("%previous%")));
             }
             else
                 throw new NotImplementedException("The given function " + function.GetType().Name + " is not implemented yet.");

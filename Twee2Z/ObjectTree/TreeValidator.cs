@@ -80,6 +80,9 @@ namespace Twee2Z.ObjectTree
                         {
                             link.TargetPassage = targetPassage;
                         }
+                        else if (link.Target == "previous()")
+                        {
+                        }
                         else
                         {
                             Logger.LogWarning("Ignore Link to: " + link.Target);

@@ -111,6 +111,7 @@
     <Compile Include="Table\ZObjectTable.cs" />
     <Compile Include="Instruction\ZRoutine.cs" />
     <Compile Include="Text\ZText.cs" />
+    <Compile Include="ZRoutineTable.cs" />
     <Compile Include="ZSymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>

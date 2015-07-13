@@ -140,20 +140,14 @@ namespace Twee2Z.CodeGen
 
                 for (int i = 0; i < links.Count(); i++)
                 {
+                    instructions.Add(new Nop() { Label = new ZLabel(links[i].Item1 + "Call_" + callGuids[i]) });
+
                     if (links[i].Item2 != null)
                     {
                         instructions.AddRange(ConvertAssignExpression(links[i].Item2, passage.Name));
-                        /*string name = ((Assign)(links[i].Item2.Expression)).Variable.Name;
-                        short value = Convert.ToInt16(((IntValue)((((Assign)(links[i].Item2.Expression)).Expr).BaseValue)).Value);
-
-                        _symbolTable.AddSymbol(name);
-                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));
-
-                        _symbolTable.AddSymbol(name);
-                        instructions.Add(new Store(_symbolTable.GetSymbol(name), value));*/
                     }
 
-                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)) { Label = new ZLabel(links[i].Item1 + "Call_" + callGuids[i]) });
+                    instructions.Add(new Call1n(new ZRoutineLabel(links[i].Item1)));
                 }
             }
             else

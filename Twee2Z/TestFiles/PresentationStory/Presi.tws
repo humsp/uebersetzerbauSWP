@@ -1182,7 +1182,7 @@ tp366
 Rp367
 sbsa(dp368
 g14
-I00
+I01
 sg15
 (lp369
 F1317.0
@@ -1193,7 +1193,7 @@ Tiddler
 p370
 (dp371
 g21
-V<<if $W is 3>>Ihr holt Euer magisches Schwert heraus. Es leuchtet rot. Ihr spührt die Kraft, die durch den Schwert fließt. Ein Hieb und alle drei Köpfe der Hydra rollen auf dem Boden.\u000a<<set $Erfolg = true>>\u000a\u000a<<elseif $W is 2 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die leichte Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und zerteil ihren Körper in zwei. //"Na, was nützt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//\u000a<<set $Erfolg = true>>\u000a\u000a<<elseif $W is 1 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die schwere Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab. //"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//\u000a\u000a[[Nach dem Schatz suchen|Schatz]]\u000a<<elseif $W is 1 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000aDer Kampf dauert zu lange. Ihr werdet immer langsamen, das Gewicht der Rüstung ist immer bemerbarer. Alles oder nichts, Ihr springt auf die Hydra zu und schlagt wild mit dem Schwert um euch, durch einen glücklichen Zufall erwischt ihr alle Köpfe...Ihr fällt von Müdigkeit ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<elseif $W is 2 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid nicht schnell genug, weil eure Axt so schwer ist und könnt nicht allen Angriffen ausweichen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000a\u000aIhr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlußendlich springt auf die Hydra zu und zerteil ihren Körper in zwei. Ihr fällt ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else>>\u000aIhr seid nicht genügend ausgerüstet.\u000a<<set $Erfolg = false>>\u000a\u000a<<endif>>\u000a\u000a[[Weiter|Schatz]]
+V<<if $W is 3>>Ihr holt Euer magisches Schwert heraus. Es leuchtet rot. Ihr spührt die Kraft, die durch den Schwert fließt. Ein Hieb und alle drei Köpfe der Hydra rollen auf dem Boden.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die leichte Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und zerteil ihren Körper in zwei. //"Na, was nützt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 1 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die schwere Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab. //"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//\u000a\u000a[[Nach dem Schatz suchen|Schatz]]\u000a<<else if $W is 1 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000aDer Kampf dauert zu lange. Ihr werdet immer langsamen, das Gewicht der Rüstung ist immer bemerbarer. Alles oder nichts, Ihr springt auf die Hydra zu und schlagt wild mit dem Schwert um euch, durch einen glücklichen Zufall erwischt ihr alle Köpfe...Ihr fällt von Müdigkeit ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid nicht schnell genug, weil eure Axt so schwer ist und könnt nicht allen Angriffen ausweichen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000a\u000aIhr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlußendlich springt auf die Hydra zu und zerteil ihren Körper in zwei. Ihr fällt ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else>>\u000aIhr seid nicht genügend ausgerüstet.\u000a<<set $Erfolg = false>>\u000a\u000a<<endif>>\u000a\u000a[[Weiter|Schatz]]
 p372
 sg23
 VKampf
@@ -1203,9 +1203,9 @@ g26
 ((I2015
 I7
 I14
-I19
-I51
-I12
+I20
+I0
+I35
 I1
 I195
 I1

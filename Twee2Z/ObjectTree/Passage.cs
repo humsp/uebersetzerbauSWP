@@ -12,12 +12,12 @@ namespace Twee2Z.ObjectTree
     {
         private string _name;
         private HashSet<string> _tags = new HashSet<string>();
-		private List<PassageContent> _passageContentList = new List<PassageContent>();
+        private List<PassageContent> _passageContentList = new List<PassageContent>();
 
-		public Passage(String name)
+        public Passage(String name)
         {
             _name = name;
-        }    
+        }
         public void AddPassageContent(PassageContent passageContent)
         {
             _passageContentList.Add(passageContent);
@@ -32,7 +32,7 @@ namespace Twee2Z.ObjectTree
             else
             {
                 Logger.LogWarning("ignoring redundant tag: " + tag + " for passage:" + Name);
-             }
+            }
         }
         public string Name
         {

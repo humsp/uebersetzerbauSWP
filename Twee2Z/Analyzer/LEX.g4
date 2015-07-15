@@ -1,12 +1,9 @@
 lexer grammar LEX;
 
-
 INT					: DIGIT+;
 PASS				: NEW_LINE ':'(':')+ -> pushMode(PMode);
 MACRO_START			: MACRO_BRACKET_OPEN -> pushMode(MMode); 
 LINK_START			: '[[' -> pushMode(LMode);
-//FUNC_START			: FUNC_NAME -> pushMode(FMode);
-//VAR_NAME			: DOLLAR (LETTER|LOW_LINE) (LETTER|DIGIT|LOW_LINE)*;
 FORMAT				: ('\u0027\u0027'	
 					|'//'				
 					|'__'				
@@ -36,7 +33,6 @@ fragment DOLLAR				: '$';
 
 // PASSAGENAME-MODE
 mode PMode;
-//PMODEWORD				: SPACE* ((WORD|INT|'/%'|'%/')+ SPACE*)+;
 PMODEWORD				: SPACE* ((~('$'|'|'|'['|']'|'<'|'>'|'\n'|'\r'))+ SPACE*)+;
 TAG						: TAG_BEGIN ('.'|'_'|(SPACE* ((WORD|INT)+ SPACE*)))* TAG_END;
 TAG_BEGIN				: '[';
@@ -51,14 +47,6 @@ STRING_END			: QUOTE -> popMode;
 mode SMode2;
 STRING_BODY2		: .*?;
 STRING_END2			: QUOTE2 -> popMode;
-
-// FUNCTION-MODE
-/*
-mode FMode;
-FUNC_NAME			: 'random' | 'either' | 'visited' | 'visitedTag' | 'turns' | 'confirm' | 'prompt';
-FUNC_BRACKET_OPEN	: '('  -> pushMode(EMode);
-FUNC_BRACKET_CLOSE	: ')'  -> popMode; 
-*/
 
 // MAKRO-MODE 
 mode MMode;
@@ -80,7 +68,6 @@ MACRO_END			: '>>' -> popMode;
 
 // EXPRESSION-MODE
 mode EMode;
-
 STRING				: STRING_START STRING_BODY STRING_END
 					| STRING_START2 STRING_BODY2 STRING_END2;
 STRING_START		: QUOTE -> pushMode(SMode);
@@ -100,9 +87,6 @@ TEST
 	: ~('>'|']') EXPRESSION_BODY
 	| .
 	;
-
-//EXP_END_M : '>>'  -> popMode, popMode;
-//EXP_END_L : ']]'  -> popMode, popMode;
 
 // LINK-MODE
 mode LMode;

@@ -1,5 +1,5 @@
 parser grammar Twee;
-options {   tokenVocab = LEX; }
+options { tokenVocab = LEX; }
 
 start
 	: ignoreFirst passage*
@@ -54,14 +54,6 @@ expression
 	: EXPRESSION
 	;
 
-/*function
-	: (FUNC_START FUNC_BRACKET_OPEN (EXPRESSION|EXPRESSION FUNC_PARAM+)? FUNC_BRACKET_CLOSE)
-	;
-
-variable
-	: VAR_NAME
-	;
-*/
 zeichenkette
 	: WORD+
 	;

@@ -28,7 +28,7 @@ sS'pos'
 p15
 (lp16
 I10
-aI9
+aI8
 asS'passage'
 p17
 (itiddlywiki
@@ -37,7 +37,7 @@ p18
 (dp20
 S'text'
 p21
-VSeit gegrüßt tapferer Held, seid Ihr bereit für das Abenteuer eures Lebens? \u000a\u000a[[Ja|Jeder Anfang ist schwer]]\u000a[[Nein|Spazieren]]
+VSeid gegrüßt tapferer Held, seid Ihr bereit für das Abenteuer eures Lebens? \u000a\u000a[[Ja.   |Jeder Anfang ist schwer]]\u000a[[Nein.   |Spazieren]]
 p22
 sS'title'
 p23
@@ -50,12 +50,12 @@ struct_time
 p26
 ((I2015
 I7
-I14
-I19
-I7
-I22
-I1
-I195
+I15
+I20
+I32
+I9
+I2
+I196
 I1
 tp27
 (dp28
@@ -193,7 +193,7 @@ Tiddler
 p70
 (dp71
 g21
-VIhr kommt zu der Stadtsguilde der Abenteuerer. Hier findet jeder Neulig einen Rat und vielleicht auch Arbeit. Der Sekräter der Guilde kommt Euch entgehen. \u000a//"Seid gegrüßt, ich habe schon von einem neuen Helden in der Stadt gehört. Seid Ihr es?"//\u000a\u000a[[Ja|Ratschlaege]]\u000a[[Nein, ich gehe weiter Spazieren.|Spazieren]]
+VIhr kommt zu der Stadtsguilde der Abenteuerer. Hier findet jeder Neulig einen Rat und vielleicht auch Arbeit. Der Sekräter der Guilde kommt Euch entgehen. \u000a//"Seid gegrüßt, ich habe schon von einem neuen Helden in der Stadt gehört. Seid Ihr es?"//\u000a\u000a[[Ja.   |Ratschlaege]]\u000a[[Nein, ich gehe weiter Spazieren.   |Spazieren]]
 p72
 sg23
 VJeder Anfang ist schwer
@@ -202,12 +202,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I14
-I45
-I9
-I6
-I186
+I15
+I20
+I32
+I15
+I2
+I196
 I1
 tp74
 (dp75
@@ -235,7 +235,7 @@ g14
 I00
 sg15
 (lp84
-F262.0
+F265.0
 aF150.0
 asg17
 (itiddlywiki
@@ -243,7 +243,7 @@ Tiddler
 p85
 (dp86
 g21
-VIhr habt Euch entschieden erst ein wenig Spazieren zu gehen. Die Stadt Dion in der Ihr Euch befindet liegt an der Grenze zum nördlichen Ödland. Ihr bleibt auf der Mauer der Stadt stehen, vor euch liegen wilde und ungezähmte Ländereien, voller schrecklicher Monster und unglaublicher Schätze...\u000a\u000aEs wird Zeit Euch in die Abenteuer zu stürtzen!\u000a\u000a[[Zurück zum Abenteuer|Jeder Anfang ist schwer]]
+VIhr habt Euch entschieden erst ein wenig Spazieren zu gehen. Die Stadt Dion in der Ihr Euch befindet liegt an der Grenze zum nördlichen Ödland. Ihr bleibt auf der Mauer der Stadt stehen, vor euch liegen wilde und ungezähmte Ländereien, voller schrecklicher Monster und unglaublicher Schätze...\u000a\u000aEs wird Zeit Euch in die Abenteuer zu stürtzen!\u000a\u000a[[Zurück zum Abenteuer.   |Jeder Anfang ist schwer]]
 p87
 sg23
 VSpazieren
@@ -252,12 +252,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I14
-I29
-I28
-I6
-I186
+I15
+I20
+I32
+I19
+I2
+I196
 I1
 tp89
 (dp90
@@ -293,7 +293,7 @@ Tiddler
 p100
 (dp101
 g21
-V<<set $W = 0>> <<set $R = 0>> <<set $Magic = false>> <<set $Gold = 25>> //"Dann heiße ich Euch hier willkommen. Bevor Ihr zu Eurem Abenteuer aufbrecht, braucht Ihr eine Waffe und Rüstung. Versucht es doch in der Schmiede, vielleicht findet sich was für Euch. Ich hoffe Ihr habt ein wenig Gold?"//\u000a\u000aIhr zählt euer Gold, es sind <<print $Gold>> Goldmünzen.\u000a\u000a//"Sehr gut! Das wird bestimmt reichen."//\u000a\u000a[[Dem Ratschlag folgen.|Ueberfall]]\u000a[[Ratschlag nicht folgen.|Vor dem Stadttor]]
+V<<set $W = 0>> <<set $R = 0>> <<set $Magic = false>> <<set $Gold = 25>> //"Dann heiße ich Euch hier willkommen. Bevor Ihr zu Eurem Abenteuer aufbrecht, braucht Ihr eine Waffe und Rüstung. Versucht es doch in der Schmiede, vielleicht findet sich was für Euch. Ich hoffe Ihr habt ein wenig Gold?"//\u000a\u000aIhr zählt euer Gold, es sind <<print $Gold>> Goldmünzen.\u000a\u000a//"Sehr gut! Das wird bestimmt reichen."//\u000a\u000a[[Dem Ratschlag folgen.   |Ueberfall]]\u000a[[Ratschlag nicht folgen.   |Vor dem Stadttor]]
 p102
 sg23
 VRatschlaege
@@ -302,12 +302,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I47
-I59
-I1
-I195
+I15
+I20
+I32
+I23
+I2
+I196
 I1
 tp104
 (dp105
@@ -343,7 +343,7 @@ Tiddler
 p115
 (dp116
 g21
-VIhr seid wieder vor der Schmiede. Vor der Tür sitzt ein Bettler. //"Mylord bitte, meine Famielie, bitte, Ihr müsst mir helfen. Wenn ich bis heute Abend keine 20 Gold zusammen habe, kann ich für die Heilung meiner kleinen Tochter nicht zahlen. Ihr würdet das Gold auch zurückkriegen, bitte."//\u000a\u000a[[Dem Bettler 20 Gold geben|Eine gute Tat][$Gold = $Gold - 20]]\u000a[[Weitergehen|Schmiede]]\u000a
+VIhr seid wieder vor der Schmiede. Vor der Tür sitzt ein Bettler. //"Mylord bitte, meine Famielie, bitte, Ihr müsst mir helfen. Wenn ich bis heute Abend keine 20 Gold zusammen habe, kann ich für die Heilung meiner kleinen Tochter nicht zahlen. Ihr würdet das Gold auch zurückkriegen, bitte."//\u000a\u000a[[Dem Bettler 20 Gold geben.   |Eine gute Tat][$Gold = $Gold - 20]]\u000a[[Weitergehen.   |Schmiede]]\u000a
 p117
 sg23
 VVor der Schmide
@@ -352,12 +352,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I10
-I48
-I1
-I195
+I15
+I20
+I34
+I12
+I2
+I196
 I1
 tp119
 (dp120
@@ -385,7 +385,7 @@ g14
 I00
 sg15
 (lp129
-F856.0
+F857.0
 aF17.0
 asg17
 (itiddlywiki
@@ -393,7 +393,7 @@ Tiddler
 p130
 (dp131
 g21
-VGleich fangen die Abenteuer an. Eine Stadtwache macht die Tore vor euch auf. \u000a//"Seid ihr auch gut genug ausgerüstet um euch den Gefahren hinter diesem Tor entgegenzustellen?"//\u000a\u000a[[Ja|Los gehts]]\u000a[[Nein, zur Schmiede|Schmiede]]
+VGleich fangen die Abenteuer an. Eine Stadtwache macht die Tore vor Euch auf. \u000a//"Seid ihr auch gut genug ausgerüstet um euch den Gefahren hinter diesem Tor entgegenzustellen?"//\u000a\u000a[[Ja.   |Los gehts]]\u000a[[Nein, zur Schmiede.   |Schmiede]]
 p132
 sg23
 VVor dem Stadttor
@@ -402,12 +402,12 @@ sg25
 g26
 ((I2015
 I7
-I5
 I15
-I52
-I36
-I6
-I186
+I20
+I33
+I10
+I2
+I196
 I1
 tp134
 (dp135
@@ -435,7 +435,7 @@ g14
 I00
 sg15
 (lp144
-F342.0
+F340.0
 aF302.0
 asg17
 (itiddlywiki
@@ -443,7 +443,7 @@ Tiddler
 p145
 (dp146
 g21
-V<<set $Dieb = true>>Ihr rennt dem Dieb hinterher und habt ihn schnell eingeholt und in die Enge getrieben. <<set $Boom = 0>> Was wollt Ihr jetzt tun?\u000a\u000a[[Zu Reden versuchen|Diplomat]]\u000a[[Den Dieb verprügeln|Kaempfer]]
+V<<set $Dieb = true>>Ihr rennt dem Dieb hinterher und habt ihn schnell eingeholt und in die Enge getrieben. <<set $Boom = 0>> Was wollt Ihr jetzt tun?\u000a\u000a[[Zu Reden versuchen.   |Diplomat]]\u000a[[Den Dieb verprügeln.   |Kaempfer]]
 p147
 sg23
 VDieb
@@ -452,12 +452,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I31
-I42
-I1
-I195
+I15
+I20
+I32
+I32
+I2
+I196
 I1
 tp149
 (dp150
@@ -486,14 +486,14 @@ I00
 sg15
 (lp159
 F749.0
-aF308.0
+aF309.0
 asg17
 (itiddlywiki
 Tiddler
 p160
 (dp161
 g21
-VIhr kommt in die Schmiede, unzählige Rüstungen, Schwerter und Äxte glänzen in den Vitrienen.\u000a\u000a<<if $Gold < 10>>Ihr habt nur <<print $Gold>> Goldmünzen, das ist leider nicht genug um etwas in der Schmiede zu kaufen.<<endif>>\u000a\u000a[[Waffe aussuchen|Waffe]]\u000a[[Zum Stadttor|Vor dem Stadttor]]\u000a[[Zurück|previous()]]\u000a\u000a
+VIhr kommt in die Schmiede, unzählige Rüstungen, Schwerter und Äxte glänzen in den Vitrienen.\u000a\u000a<<if $Gold < 10>>Ihr habt nur <<print $Gold>> Goldmünzen, das ist leider nicht genug um etwas in der Schmiede zu kaufen.<<endif>>\u000a\u000a[[Waffe aussuchen.   |Waffe]]\u000a[[Zum Stadttor.   |Vor dem Stadttor]]\u000a[[Zurück.   |previous()]]\u000a\u000a
 p162
 sg23
 VSchmiede
@@ -502,12 +502,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I25
-I43
-I1
-I195
+I15
+I20
+I33
+I5
+I2
+I196
 I1
 tp164
 (dp165
@@ -543,7 +543,7 @@ Tiddler
 p175
 (dp176
 g21
-V//"...oh...ah...nein...ah...uaueuue.."//\u000a\u000aDer Goblin rückt Euer Gold raus. <<set $Gold = 25>>\u000a\u000a[[Weiter verprügeln|Wache]]\u000a[[Loslassen|Vor der Schmide]]
+V//"...oh...ah...nein...ah...uaueuue.."//\u000a\u000aDer Goblin rückt Euer Gold raus. <<set $Gold = 25>>\u000a\u000a[[Weiter verprügeln.   |Wache]]\u000a[[Loslassen.   |Vor der Schmide]]
 p177
 sg23
 VKaempfer
@@ -552,12 +552,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I16
-I21
 I15
-I6
-I186
+I20
+I32
+I38
+I2
+I196
 I1
 tp179
 (dp180
@@ -593,7 +593,7 @@ Tiddler
 p190
 (dp191
 g21
-V//"Rück mein Gold raus!"//\u000a\u000a//"Ha ha ha ha"//, der Goblin lacht Euch ins Gesicht, //"Zwing mich doch!"//\u000a\u000aTja das war wohl nichts mit der Diplomatie.\u000a\u000a[[Den Dieb verprügeln|Kaempfer]]
+V//"Rück mein Gold raus!"//\u000a\u000a//"Ha ha ha ha"//, der Goblin lacht Euch ins Gesicht, //"Zwing mich doch!"//\u000a\u000aTja das war wohl nichts mit der Diplomatie.\u000a\u000a[[Den Dieb verprügeln.   |Kaempfer]]
 p192
 sg23
 VDiplomat
@@ -602,12 +602,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I44
-I21
-I1
-I195
+I15
+I20
+I32
+I34
+I2
+I196
 I1
 tp194
 (dp195
@@ -643,7 +643,7 @@ Tiddler
 p205
 (dp206
 g21
-VIhr prügelt weiter auf den Dieb ein. Plötzlich kommt die Stadtswache angerannt. Sie umzingeln Euch. Ihr versucht ihnen zu erklären, dass der Goblin Euch bestollen hat, doch sie wollen nichts hören.\u000a\u000a//"Was seid Ihr für ein grausamer Mensch. Ihr Prügelt den Goblin ja zu Tode ein. In dieser Stadt haben auch Goblins rechte."//\u000a<<print $Gold>>\u000a\u000a[[Die Stafe von 5 Gold Zahlen|Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Mit der Wache mitkommen|Knast]]\u000a[[Versuchen zu käpfen|Tod]]
+VIhr prügelt weiter auf den Dieb ein. Plötzlich kommt die Stadtswache angerannt. Sie umzingeln Euch. Ihr versucht ihnen zu erklären, dass der Goblin Euch bestollen hat, doch sie wollen nichts hören.\u000a\u000a//"Was seid Ihr für ein grausamer Mensch. Ihr Prügelt den Goblin ja zu Tode ein. In dieser Stadt haben auch Goblins Rechte."//\u000a\u000a[[Die Strafe von 5 Gold Zahlen.   |Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Mit der Wache mitkommen.   |Knast]]\u000a[[Versuchen zu käpfen.   |Tod]]
 p207
 sg23
 VWache
@@ -652,12 +652,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I45
-I50
-I1
-I195
+I15
+I20
+I32
+I44
+I2
+I196
 I1
 tp209
 (dp210
@@ -693,7 +693,7 @@ Tiddler
 p220
 (dp221
 g21
-VIhr würdet euch auf die Gnade der Wachen verlassen. Aber keiner würde euch aus dem Knast rausholen, keiner kennt euch doch. Wollt Ihr es anders versuchen?\u000a\u000a[[Die Stafe von 5 Gold Zahlen|Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Versuchen zu käpfen|Tod]]\u000a[[Nein|GameOver]]\u000a\u000a
+VIhr würdet euch auf die Gnade der Wachen verlassen. Aber keiner würde euch aus dem Knast rausholen, keiner kennt euch doch. Wollt Ihr es anders versuchen?\u000a\u000a[[Die Strafe von 5 Gold Zahlen.   |Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Versuchen zu käpfen.   |Tod]]\u000a[[Nein, Euch dennoch verhaften lassen.   |GameOver]]\u000a\u000a
 p222
 sg23
 VKnast
@@ -702,12 +702,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I42
-I12
-I1
-I195
+I15
+I20
+I32
+I59
+I2
+I196
 I1
 tp224
 (dp225
@@ -743,7 +743,7 @@ Tiddler
 p235
 (dp236
 g21
-VIhr habt weder eine Waffe noch Rüstung. Das wäre zu töricht, Euch mehreren Wachen entgegenzustellen. Ihr würdet sterben und keiner wird sich jemals an Euch erinnern. Wollt Ihr es anders versuchen?\u000a\u000a[[Die Stafe von 5 Gold Zahlen|Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Mit der Wache mitkommen|Knast]]\u000a[[Nein|GameOver]]
+VIhr habt weder eine Waffe noch Rüstung. Das wäre zu töricht, Euch mehreren Wachen entgegenzustellen. Ihr würdet sterben und keiner wird sich jemals an Euch erinnern. Wollt Ihr es anders versuchen?\u000a\u000a[[Die Strafe von 5 Gold Zahlen.   |Vor der Schmide][$Gold = $Gold - 5]]\u000a[[Mit der Wache mitkommen.   |Knast]]\u000a[[Nein, dennoch kämpfen.   |GameOver]]
 p237
 sg23
 VTod
@@ -752,12 +752,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
+I15
+I20
+I32
 I51
-I57
-I1
-I195
+I2
+I196
 I1
 tp239
 (dp240
@@ -793,7 +793,7 @@ Tiddler
 p250
 (dp251
 g21
-V//''it's over...''//\u000a\u000a[[Replay|Start]]
+V\u000a//''it's over...''//\u000a\u000a[[Replay?   |Start]]
 p252
 sg23
 VGameOver
@@ -802,12 +802,12 @@ sg25
 g26
 ((I2015
 I7
-I5
-I16
-I22
-I22
-I6
-I186
+I15
+I20
+I33
+I51
+I2
+I196
 I1
 tp254
 (dp255
@@ -835,15 +835,15 @@ g14
 I00
 sg15
 (lp264
-F690.0
-aF114.0
+F686.0
+aF117.0
 asg17
 (itiddlywiki
 Tiddler
 p265
 (dp266
 g21
-V<<if $W is 0>>\u000aIhr holt Euer Gold heraus und gebt es dem Bettler. Der Bettler steht auf, er schaut euch wertend an. Plötlich lacht er. \u000a//"Ihr seid wahrlich der Richtige!"//\u000aDer Bettler wirft seinen alten Mantel weg. Darunter seht ihr eine unglaubliche Mithrilrüstung glänzen. Ihr schaut nochmals auf ihn und erkennt. Vor Euch steht Beot, ein Held dessen Beispiel alle junge Abenteuer folgen. Er bekämpft die Monster im Ödland schon seit Jahrzehnten.\u000a//"Es kommt euch bestimmt seltsam vor, doch ihr bin schon alt, habe eine Famielie und so viel Gold, dass ich es nie im Leben  ausgeben könnte. Deswegen suche ich seit langem nach einem Helden, dem ich meinen magischen Schwerdt vermachen könnte. Nehmt es, diese Schwert wird euch helfen, einst meine Leistungen in den Schatten zu stellen."//\u000aIhr nehmt solch ein Großzügiges geschenk an<<set $W = 3>>.\u000a<<set $Magic = true>>\u000a<<else>>\u000aIhr stehe vor der Schmiede. Niemand ist hier.\u000a<<endif>>\u000a[[Zum Stadtor|Vor dem Stadttor]]\u000a[[Weiter zur Schmiede|Schmiede]]
+V<<if $W is 0>>\u000aIhr holt Euer Gold heraus und gebt es dem Bettler. Der Bettler steht auf, er schaut euch wertend an. Plötlich lacht er. \u000a//"Ihr seid wahrlich der Richtige!"//\u000aDer Bettler wirft seinen alten Mantel weg. Darunter seht ihr eine unglaubliche Mithrilrüstung glänzen. Ihr schaut nochmals auf ihn und erkennt. Vor Euch steht Beot, ein Held dessen Beispiel alle junge Abenteuer folgen. Er bekämpft die Monster im Ödland schon seit Jahrzehnten.\u000a//"Es kommt euch bestimmt seltsam vor, doch ihr bin schon alt, habe eine Famielie und so viel Gold, dass ich es nie im Leben  ausgeben könnte. Deswegen suche ich seit langem nach einem Helden, dem ich meinen magischen Schwerdt vermachen könnte. Nehmt es, diese Schwert wird euch helfen, einst meine Leistungen in den Schatten zu stellen."//\u000aIhr nehmt solch ein Großzügiges geschenk an<<set $W = 3>>.\u000a<<set $Magic = true>>\u000a<<else>>\u000aIhr stehe vor der Schmiede. Niemand ist hier.\u000a<<endif>>\u000a[[Zum Stadtor.   |Vor dem Stadttor]]\u000a[[Weiter zur Schmiede.   |Schmiede]]
 p267
 sg23
 VEine gute Tat
@@ -852,12 +852,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I38
-I43
-I1
-I195
+I15
+I20
+I34
+I4
+I2
+I196
 I1
 tp269
 (dp270
@@ -885,15 +885,15 @@ g14
 I00
 sg15
 (lp279
-F901.0
-aF376.0
+F900.0
+aF379.0
 asg17
 (itiddlywiki
 Tiddler
 p280
 (dp281
 g21
-V<<if $W is 0>>\u000aLeichte Schwerter ist eine gute Wahl, sie passen am besten zur Leichten Rüstung, damit könntet ihr euch sehr schnell bewegen und eure Gegner buchstäblich auseinander nehmen.\u000aEine schwere Axt ist aber auch nicht schlecht, ein Treffer und kein Gegner erholt sich so schnell davon. Sie passt am besten zur schwerer Rüstung, da Ihr euch bei dem Gewicht nicht wirklich schnell bewegen könnt.\u000a<<else>>\u000aIhr habt schon eine Waffe und braucht keine andere.\u000a<<endif>>\u000a\u000a[[Zwei leichte Schwerter für 10 Gold kaufen.|WaffeOK][$W = 1]]\u000a[[Eine schwere Axt für 10 Gold kaufen.|WaffeOK][$W = 2]]\u000a[[Nichts kaufen|Schmiede]]
+V<<if $W is 0>>\u000aLeichte Schwerter ist eine gute Wahl, sie passen am besten zur Leichten Rüstung, damit könntet ihr euch sehr schnell bewegen und eure Gegner buchstäblich auseinander nehmen.\u000aEine schwere Axt ist aber auch nicht schlecht, ein Treffer und kein Gegner erholt sich so schnell davon. Sie passt am besten zur schwerer Rüstung, da Ihr euch bei dem Gewicht nicht wirklich schnell bewegen könnt. \u000a<<else>>\u000aIhr habt schon eine Waffe und braucht keine andere.\u000a<<endif>>\u000a\u000a[[Zwei leichte Schwerter für 10 Gold kaufen.   |WaffeOK][$W = 1]]\u000a[[Eine schwere Axt für 10 Gold kaufen.   |WaffeOK][$W = 2]]\u000a[[Nichts kaufen.   |Schmiede]]
 p282
 sg23
 VWaffe
@@ -902,12 +902,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I47
-I1
-I1
-I195
+I15
+I20
+I33
+I22
+I2
+I196
 I1
 tp284
 (dp285
@@ -935,15 +935,15 @@ g14
 I00
 sg15
 (lp294
-F902.0
-aF209.0
+F897.0
+aF212.0
 asg17
 (itiddlywiki
 Tiddler
 p295
 (dp296
 g21
-V<<if $R is 0>>\u000aLeichte Rüstung ist eine gute Wahl, sie passt am besten zur leichten Waffen, damit könntet ihr euch sehr schnell bewegen und den gegnerischen Angriffen ausweichen.\u000aEine Schwere Rüstung ist aber auch nicht schlecht. Sie passt am besten zur schweren Waffe, da Ihr euch bei dem Gewicht nicht wirklich schnell bewegen könnt, braucht Ihr eine Rüstung die auch mal paar Schläge aushält.\u000a<<else>>\u000aIhr habt schon eine Rüstung und braucht keine andere.\u000a<<endif>>\u000a\u000a[[Leichte Rüstung für 10 Gold kaufen.|RuestungOK][$R = 1]]\u000a[[Schwere Rüstung für 10 Gold kaufen|RuestungOK][$R = 2]]\u000a[[Zum Stadtstor|Vor dem Stadttor]]
+V<<if $R is 0>>\u000aLeichte Rüstung ist eine gute Wahl, sie passt am besten zur leichten Waffen, damit könntet Ihr Euch sehr schnell bewegen und den gegnerischen Angriffen ausweichen.\u000aEine Schwere Rüstung ist aber auch nicht schlecht. Sie passt am besten zur schweren Waffe, da Ihr Euch bei dem Gewicht nicht wirklich schnell bewegen könnt, braucht Ihr eine Rüstung die auch mal paar Schläge aushält.\u000a<<else>>\u000aIhr habt schon eine Rüstung und braucht keine andere.\u000a<<endif>>\u000a\u000a[[Leichte Rüstung für 10 Gold kaufen.   |RuestungOK][$R = 1]]\u000a[[Schwere Rüstung für 10 Gold kaufen.   |RuestungOK][$R = 2]]\u000a[[Zum Stadtstor.   |Vor dem Stadttor]]
 p297
 sg23
 VRuestung
@@ -952,12 +952,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I46
-I48
-I1
-I195
+I15
+I20
+I33
+I17
+I2
+I196
 I1
 tp299
 (dp300
@@ -985,15 +985,15 @@ g14
 I00
 sg15
 (lp309
-F1054.0
-aF371.0
+F1050.0
+aF369.0
 asg17
 (itiddlywiki
 Tiddler
 p310
 (dp311
 g21
-V<<if $Gold > 10>>\u000a<<set $Gold = $Gold - 10>>\u000aGratuliere Ihr habt jetzt eine Waffe.\u000a<<else>>\u000a<<set $W = 0>>\u000a<<if $Magic>><<set $W = 3>><<endif>>\u000aIhr habt nicht genug Gold.\u000a<<endif>>\u000a\u000a[[Rüstung aussuchen|Ruestung]]\u000a[[Zum Stadttor|Vor dem Stadttor]]
+V<<if $Gold > 9>>\u000a<<set $Gold = $Gold - 10>>\u000aGratuliere Ihr habt jetzt eine Waffe.\u000a<<else>>\u000a<<set $W = 0>>\u000a<<if $Magic>><<set $W = 3>><<endif>>\u000aIhr habt nicht genug Gold.\u000a<<endif>>\u000a\u000a[[Rüstung aussuchen.   |Ruestung]]\u000a[[Zum Stadttor.   |Vor dem Stadttor]]
 p312
 sg23
 VWaffeOK
@@ -1002,12 +1002,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I49
-I1
-I1
-I195
+I15
+I20
+I33
+I27
+I2
+I196
 I1
 tp314
 (dp315
@@ -1035,7 +1035,7 @@ g14
 I00
 sg15
 (lp324
-F1056.0
+F1057.0
 aF213.0
 asg17
 (itiddlywiki
@@ -1043,7 +1043,7 @@ Tiddler
 p325
 (dp326
 g21
-V<<if $Gold > 10>>\u000a<<set $Gold = $Gold - 10>>\u000aGratuliere Ihr habt jetzt eine Rüstung.\u000a<<else>>\u000a<<set $R = 3>>\u000aIhr habt nicht genug Gold.\u000a<<endif>>\u000a\u000a[[Zum Stadtstor|Vor dem Stadttor]]
+V<<if $Gold > 9>>\u000a<<set $Gold = $Gold - 10>>\u000aGratuliere Ihr habt jetzt eine Rüstung.\u000a<<else>>\u000a<<set $R = 0>>\u000aIhr habt nicht genug Gold.\u000a<<endif>>\u000a\u000a[[Zum Stadtstor.   |Vor dem Stadttor]]
 p327
 sg23
 VRuestungOK
@@ -1052,12 +1052,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I49
-I7
-I1
-I195
+I15
+I20
+I33
+I29
+I2
+I196
 I1
 tp329
 (dp330
@@ -1093,7 +1093,7 @@ Tiddler
 p340
 (dp341
 g21
-VIn der Stadt habt Ihr gehört, dass es in der Nähe auf den Sümpfen viele Hydranester gibt. Die Hydras verschleppen ihre Opfer in ihre Nester bevor sie diese aufessen. Daher sammelt sich in dem Nast über Jahre ein Schatz ein, durch all die Wertsachen, die die Verstorbenen mithatten.\u000a\u000aNicht lange und Ihr findet eins. Doch plötlich taucht eine riesige Hydra mit 3 Köpfen vor euch auf.\u000a\u000a[[Käpfen|Kampf]]\u000a[[Wegrennen|Feigling]]
+VIn der Stadt habt Ihr gehört, dass es in der Nähe auf den Sümpfen viele Hydranester gibt. Die Hydras verschleppen ihre Opfer in ihre Nester bevor sie diese auffressen. Daher sammelt sich in dem Nast über Jahre ein Schatz, durch all die Wertsachen, die die Verstorbenen mithatten.\u000a\u000aNicht lange und Ihr findet eins von den Nesten. Doch plötlich taucht eine riesige Hydra mit 3 Köpfen vor Euch auf.\u000a\u000a[[Käpfen.   |Kampf]]\u000a[[Wegrennen.   |Feigling]]
 p342
 sg23
 VLos gehts
@@ -1102,12 +1102,12 @@ sg25
 g26
 ((I2015
 I7
-I5
 I15
-I57
-I54
-I6
-I186
+I20
+I33
+I33
+I2
+I196
 I1
 tp344
 (dp345
@@ -1143,7 +1143,7 @@ Tiddler
 p355
 (dp356
 g21
-VIhr wollt einer Hydra auf dem Sumpf entkommen? Ihr wisst anscheinend nichts über Hydras. Auf den Sümpfen können sie sich sehr schnell bewegen.\u000a\u000a[[Es dennoch versuchen|GameOver]]\u000a[[Kämpfen|Kampf]]
+VIhr wollt einer Hydra auf dem Sumpf entkommen? Ihr wisst anscheinend nichts über Hydras. Auf den Sümpfen können sie sich sehr schnell bewegen.\u000a\u000a[[Es dennoch versuchen.   |GameOver]]\u000a[[Kämpfen.   |Kampf]]
 p357
 sg23
 VFeigling
@@ -1152,12 +1152,12 @@ sg25
 g26
 ((I2015
 I7
-I5
 I15
-I59
-I10
-I6
-I186
+I20
+I33
+I38
+I2
+I196
 I1
 tp359
 (dp360
@@ -1182,7 +1182,7 @@ tp366
 Rp367
 sbsa(dp368
 g14
-I01
+I00
 sg15
 (lp369
 F1317.0
@@ -1193,7 +1193,7 @@ Tiddler
 p370
 (dp371
 g21
-V<<if $W is 3>>Ihr holt Euer magisches Schwert heraus. Es leuchtet rot. Ihr spührt die Kraft, die durch den Schwert fließt. Ein Hieb und alle drei Köpfe der Hydra rollen auf dem Boden.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die leichte Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und zerteil ihren Körper in zwei. //"Na, was nützt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 1 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die schwere Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab. //"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//\u000a\u000a[[Nach dem Schatz suchen|Schatz]]\u000a<<else if $W is 1 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000aDer Kampf dauert zu lange. Ihr werdet immer langsamen, das Gewicht der Rüstung ist immer bemerbarer. Alles oder nichts, Ihr springt auf die Hydra zu und schlagt wild mit dem Schwert um euch, durch einen glücklichen Zufall erwischt ihr alle Köpfe...Ihr fällt von Müdigkeit ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid nicht schnell genug, weil eure Axt so schwer ist und könnt nicht allen Angriffen ausweichen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000a\u000aIhr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlußendlich springt auf die Hydra zu und zerteil ihren Körper in zwei. Ihr fällt ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else>>\u000aIhr seid nicht genügend ausgerüstet.\u000a<<set $Erfolg = false>>\u000a\u000a<<endif>>\u000a\u000a[[Weiter|Schatz]]
+V<<if $W is 3>>Ihr holt Euer magisches Schwert heraus. Es leuchtet rot. Ihr spührt die Kraft, die durch das Schwert fließt. Ein Hieb und alle drei Köpfe der Hydra rollen auf dem Boden.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die leichte Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und zerteil ihren Körper in zwei. //"Na, was nützt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 1 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ein Gedanke kommt in euch auf, vielleich hättet Ihr euch doch für die schwere Ausrüstung entscheiden sollen. Doch Ihr verband den Gedanken aus eurem Kopf, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab. //"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 1 and $R is 2>>\u000aDie Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht ein Kopf der Hydra zu erwischen und schaft es, doch es wächst ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000aDer Kampf dauert zu lange. Ihr werdet immer langsamen, das Gewicht der Rüstung ist immer bemerbarer. Alles oder nichts, Ihr springt auf die Hydra zu und schlagt wild mit dem Schwert um euch, durch einen glücklichen Zufall erwischt ihr alle Köpfe...Ihr fällt von Müdigkeit ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else if $W is 2 and $R is 1>>\u000aDie Hydra greift euch an. Ihr seid nicht schnell genug, weil eure Axt so schwer ist und könnt nicht allen Angriffen ausweichen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine Passende Rüstung zu Waffe kaufen sollen.\u000a\u000aIhr versucht ein Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlussendlich springt Ihr auf die Hydra zu und zerteil ihren Körper in zwei. Ihr fällt ohnmächtig um...nach einiger Zeit wacht Ihr wieder auf.\u000a<<set $Erfolg = true>>\u000a\u000a<<else>>\u000aIhr seid nicht genügend ausgerüstet. Wie kommt Ihr überhaupt dazu ohne entsprechende Rüsstung und Waffe Euch aus der Stadt zu wagen?\u000a<<set $Erfolg = false>>\u000a\u000a<<endif>>\u000a\u000a[[Weiter.   |Schatz]]
 p372
 sg23
 VKampf
@@ -1202,12 +1202,12 @@ sg25
 g26
 ((I2015
 I7
-I14
+I15
 I20
-I0
-I35
-I1
-I195
+I37
+I16
+I2
+I196
 I1
 tp374
 (dp375
@@ -1243,7 +1243,7 @@ Tiddler
 p385
 (dp386
 g21
-V<<if $Erfolg>>\u000aDa ist er, der Schatz der Hydra, einige Edelsteine, Gold...ja so habt Ihr es Euch vorgestellt. \u000a<<else>>\u000aIhr kämpf tapfer, doch sterbt. Aber die Menschen dieses Landes, werden eure Tapferheit nicht vergessen!\u000a<<endif>>\u000a\u000a[[Das Abenteuer hat begonnen...|GameOver]]
+V<<if $Erfolg>>\u000aDa ist er, der Schatz der Hydra, einige Edelsteine, Gold...ja so habt Ihr es Euch vorgestellt. \u000a<<else>>\u000aIhr kämpf tapfer, doch sterbt. Aber die Menschen dieses Landes, werden eure Tapferheit nicht vergessen!\u000a\u000a<<endif>>\u000a\u000a[[Das Abenteuer hat begonnen...   |GameOver]]
 p387
 sg23
 VSchatz
@@ -1252,12 +1252,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I6
-I53
-I1
-I195
+I15
+I20
+I33
+I48
+I2
+I196
 I1
 tp389
 (dp390
@@ -1293,7 +1293,7 @@ Tiddler
 p400
 (dp401
 g21
-VIhr folgt dem Rat des Guildensäkreters und geht zu der Schmiede. Schon fast vor der Tür der Schmiede werdet Ihr plötzlich von einem kleinem Goblin umgerannt. Er reißt Euer Goldsäckchen vom Gürtel und rennt weg. <<set $Gold = 0>>\u000a\u000a[[Den Dieb verfolgen|Dieb]]\u000a[[Weiter zur Schmiede|Schmiede]]
+VIhr folgt dem Rat des Guildensäkreters und geht zu der Schmiede. Schon fast vor der Tür der Schmiede werdet Ihr plötzlich von einem kleinem Goblin umgerannt. Er reißt Euer Geldbeutel vom Gürtel und rennt weg. <<set $Gold = 0>>\u000a\u000a[[Den Dieb verfolgen.   |Dieb]]\u000a[[Weiter zur Schmiede.   |Schmiede]]
 p402
 sg23
 VUeberfall
@@ -1302,12 +1302,12 @@ sg25
 g26
 ((I2015
 I7
-I14
-I19
-I43
-I12
-I1
-I195
+I15
+I20
+I32
+I26
+I2
+I196
 I1
 tp404
 (dp405

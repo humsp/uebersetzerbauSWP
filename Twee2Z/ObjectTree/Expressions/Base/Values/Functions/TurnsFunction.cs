@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Twee2Z.ObjectTree.Expressions.Base.Values.Functions
 {
-    class TurnsFunction
+    public class TurnsFunction : FunctionValue
     {
-        //TODO
+        public TurnsFunction()
+            : base(FunctionTypeEnum.Turns)
+        { }
+
+        public override int MaxArgCount
+        {
+            get { return 0; }
+        }
     }
 }

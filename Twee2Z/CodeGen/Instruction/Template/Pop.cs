@@ -9,10 +9,9 @@ using Twee2Z.CodeGen.Instruction.Opcode;
 namespace Twee2Z.CodeGen.Instruction.Template
 {
     /// <summary>
-    /// Exit the game immediately. (Any "Are you sure?" question must be asked by the game, not the interpreter.)
-    /// It is not legal to return from the main routine (that is, from where execution first begins) and this must be used instead.
+    /// Throws away the top item on the stack.
     /// <para>
-    /// See also "quit" on page 94 for reference.
+    /// See also "pop" on page 91 for reference.
     /// </para>
     /// </summary>
     [DebuggerDisplay("Name = {_opcode.Name}")]

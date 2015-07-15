@@ -24,111 +24,123 @@ namespace Twee2Z.Console
 
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Twee2Z - Milestone 4");
+            System.Console.WriteLine("Twee2Z 1.0");
+            System.Console.WriteLine("");
 
             // init logger. modify if needed
             Logger.AddLogEvent(Logger.LogEvent.UserOutput);
             Logger.AddLogEvent(Logger.LogEvent.Warning);
             Logger.AddLogEvent(Logger.LogEvent.Error);
             Logger.UseConsoleLogWriter();
-            string logOutput = "defaultLog.txt";
+            string logOutput = "log.txt";
             if (File.Exists(logOutput))
             {
                 File.Delete(logOutput);
             }
-            Logger.LogUserOutput("See default log at: " + System.IO.Path.GetFullPath(logOutput));
+            //Logger.LogUserOutput("See log at: " + System.IO.Path.GetFullPath(logOutput));
             Logger.AddLogWriter(new LogWriter(new StreamWriter(logOutput)));
             // end init logger
             
             int argCounter = 0;
-            string arg0 = null;
-            string arg1 = null;
-            RunCase runCase = RunCase.Help;
-            
-            while (argCounter < args.Length)
+            string arg = null;
+            string tweeFile = null;
+            string storyFile = null;
+            RunCase runCase = RunCase.Tw2Z;
+
+            try
             {
-                switch (args[argCounter++].ToLower())
+                tweeFile = args[0];
+                storyFile = args[1];
+                argCounter = 2;
+
+                while (argCounter < args.Length)
                 {
-                    case "-tw2z":
-                        if (argCounter + 2 > args.Length)
-                        {
-                            Logger.LogError("Invalid arguments. '-tw2z' needs 2 argements.");
+                    switch (args[argCounter++].ToLower())
+                    {
+                        case "-help":
                             runCase = RunCase.Help;
-                        }
-                        else
-                        {
-                            runCase = RunCase.Tw2Z;
-                            arg0 = args[argCounter++];
-                            arg1 = args[argCounter++];
-                        }
-                        break;
-                    case "-help":
-                        runCase = RunCase.Help;
-                        break;
-                    case "-logall":
-                        Logger.LogAll();
-                        break;
-                    case "-log":
-                        while (argCounter < args.Length && args[argCounter].Substring(0, 1) != "-")
-                        {
-                            switch (args[argCounter++].ToLower())
+                            break;
+                        case "-logall":
+                            Logger.LogAll();
+                            break;
+                        case "-log":
+                            while (argCounter < args.Length && args[argCounter].Substring(0, 1) != "-")
                             {
-                                case "all":
-                                    Logger.LogAll();
-                                    break;
-                                case "analyzer":
-                                    Logger.AddLogEvent(Logger.LogEvent.Analyzer);
-                                    break;
-                                case "codegen":
-                                    Logger.AddLogEvent(Logger.LogEvent.CodeGen);
-                                    break;
-                                case "debug":
-                                    Logger.AddLogEvent(Logger.LogEvent.Debug);
-                                    break;
-                                case "objecttree":
-                                    Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
-                                    break;
-                                case "validation":
-                                    Logger.AddLogEvent(Logger.LogEvent.Validation);
-                                    break;
-                                default:
-                                    PrintHelp();
-                                    argCounter = args.Length;
-                                    break;
+                                switch (args[argCounter++].ToLower())
+                                {
+                                    case "all":
+                                        Logger.LogAll();
+                                        break;
+                                    case "analyzer":
+                                        Logger.AddLogEvent(Logger.LogEvent.Analyzer);
+                                        break;
+                                    case "codegen":
+                                        Logger.AddLogEvent(Logger.LogEvent.CodeGen);
+                                        break;
+                                    case "debug":
+                                        Logger.AddLogEvent(Logger.LogEvent.Debug);
+                                        break;
+                                    case "objecttree":
+                                        Logger.AddLogEvent(Logger.LogEvent.ObjectTree);
+                                        break;
+                                    case "validation":
+                                        Logger.AddLogEvent(Logger.LogEvent.Validation);
+                                        break;
+                                    default:
+                                        PrintHelp();
+                                        argCounter = args.Length;
+                                        break;
+                                }
                             }
-                        }
-                        break;
-                    default:
-                        Logger.LogError("Invalid argument: " + args[argCounter - 1]);
-                        runCase = RunCase.Help;
-                        argCounter = args.Length;
-                        break;
+                            break;
+                        default:
+                            Logger.LogError("Invalid argument: " + args[argCounter - 1]);
+                            runCase = RunCase.Help;
+                            argCounter = args.Length;
+                            break;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                runCase = RunCase.Help;
             }
             
             switch (runCase)
             {
                 case RunCase.Tw2Z:
-                    Compile(arg0, arg1);
+                    Compile(tweeFile, storyFile);
                     break;
                 case RunCase.Help:
                     PrintHelp();
                     break;
             }
-            Logger.LogUserOutput("Press any key to contiune");
-            System.Console.ReadKey(true);
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            { 
+                Logger.LogUserOutput("Press any key to continue ...");
+                System.Console.ReadKey(true);
+            }
         }
 
 
         static void Compile(string from, string output)
         {
             Logger.LogUserOutput("Open twee file: " + from);
-            FileStream tweeFileStream = new FileStream(from, FileMode.Open, FileAccess.Read, FileShare.Read);
+            FileStream tweeFileStream = new FileStream(from, FileMode.Open);
 
             Tree tree = AnalyseFile(tweeFileStream);
             if(ValidateTree(tree))
             {
-                File.WriteAllBytes(output, GenStoryFile(tree).ToBytes());
+                try
+                {
+                    byte[] storyfile = GenStoryFile(tree).ToBytes();
+                    Logger.LogUserOutput("Save story file: " + from);
+                    File.WriteAllBytes(output, storyfile);
+                }
+                catch (Exception)
+                {
+                }
             }
             else
             {
@@ -167,7 +179,7 @@ namespace Twee2Z.Console
 
             Logger.LogUserOutput("Add instructions to story file ...");
             storyFile.ImportObjectTree(tree);
-
+            
             return storyFile;
         }
 
@@ -179,11 +191,8 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("");
             Logger.LogUserOutput("                            **** Help ****");
             Logger.LogUserOutput("");
-            Logger.LogUserOutput("-tw2z     The code from the source language Twee will be translated to Z8 code.");
-            Logger.LogUserOutput("          Input   : -tw2z <source> <destination>");
-            Logger.LogUserOutput("          Example : -tw2z myTwee.tw zfile.z8");
-            Logger.LogUserOutput("");
             Logger.LogUserOutput("-logAll   Activate all logs.");
+            Logger.LogUserOutput("");
             Logger.LogUserOutput("-log      Activate specific logs");
             Logger.LogUserOutput("          Possible arguments:");
             Logger.LogUserOutput("          all, analyzer, codegen, debug, objecttree, validation");

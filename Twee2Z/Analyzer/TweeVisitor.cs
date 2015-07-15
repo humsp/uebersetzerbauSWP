@@ -15,6 +15,10 @@ using Twee2Z.Analyzer.Expressions;
 
 namespace Twee2Z.Analyzer
 {
+    /// <summary>
+    /// Visitor Class for all twee content
+    /// Each visitor method is called if the grammar has reached the appropriated structure in the twee file
+    /// </summary>
     class TweeVisitor : TweeBaseVisitor<object>
     {
         private TweeBuilder _builder;
@@ -24,39 +28,55 @@ namespace Twee2Z.Analyzer
             get { return _builder.Tree; }
         }
 
+        /// <summary>
+        /// Initialize Objecttree and displays [Start] to mark the beginning of content of the twee file.
+        /// Additionally it displays a console warning, if content before "::Start" is existing
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitStart(Twee.StartContext context)
         {
             _builder = new TweeBuilder();
+
+            // Remove leading new lines, spaces and colons and check if beginning is "Start"
+            if (context.GetText().TrimStart('\n', '\r', ':', ' ').Substring(0, 5) != "Start")
+                Logger.LogWarning("Content before the start passage is ignored");
+
             Logger.LogAnalyzer("[Start]");
             return base.VisitStart(context);
         }
 
+        /// <summary>
+        /// Each time a passage is visited, it is marked with [Passage] and the passage name as well
+        /// possible existing tags are displayed
+        /// The tags are each stored in the objecttree
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitPassage(Twee.PassageContext context)
         {
             Logger.LogAnalyzer("[Passage]");
-            string[] tags;
+            string[] _tags;
+            String _name = context.GetChild(1).GetText().Trim();
 
-            // Remove Spaces after PassageName
-            String name = context.GetChild(1).GetText().Trim();
-
-            Logger.LogAnalyzer("Name: " + name);
-            _builder.AddPassage(new Passage(name));
+            Logger.LogAnalyzer("Name: " + _name);
+            _builder.AddPassage(new Passage(_name));
 
             if (context.TAG() != null)
             {
-                // Get each tag and pass & print it
-                string tagString = context.TAG().GetText();
-                if (tagString.Length != 0)
+                // Get each tag and display & store it
+                string _tagString = context.TAG().GetText();
+                if (_tagString.Length != 0)
                 {
-                    tagString = tagString.Substring(1, tagString.Length - 2);
-                    tags = tagString.Replace("\t", " ").Split(' ');
-                    for (int i = 0; i < tags.Length; i++)
+                    _tagString = _tagString.Substring(1, _tagString.Length - 2);
+                    _tags = _tagString.Replace("\t", " ").Split(' ');
+                    for (int i = 0; i < _tags.Length; i++)
                     {
-                        tags[i].Trim();
-                        if (!tags[i].Equals(""))
+                        _tags[i].Trim();
+                        if (!_tags[i].Equals(""))
                         {
-                            Logger.LogAnalyzer("[PassageTag] = " + tags[i]);
-                            _builder.AddTag(tags[i]);
+                            Logger.LogAnalyzer("[PassageTag] = " + _tags[i]);
+                            _builder.AddTag(_tags[i]);
                         }
                     }
                 }
@@ -64,102 +84,105 @@ namespace Twee2Z.Analyzer
             return base.VisitPassage(context);
         }
 
+        /// <summary>
+        /// Depending on the content, this function calls the other visiter methods.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitPassageContent(Twee.PassageContentContext context)
         {
             return base.VisitPassageContent(context);
         }
 
-        /**
-         * This function is called if a link is read inside a twee file.
-         * The function displays the target, displayed text and the expression
-         * Possible Link structures: [[target]] ; [[text|target]] ; [[text|target][expression]]
-         * 
-         * Parameters which are passed to the ObjectTree:
-         * @Ziel       : The 'ziel' is a valid passage Name where the link is referencing. [[target]]
-         * @Text       : displayed text of the link [[text|target]]
-         * @Expression : expression which is executed when Link is clicked
-         **/
+        /// <summary>
+        /// A link is marked with [Link] and depending on the Link's content,
+        /// target, displayedText or Expression are displayed 
+        /// Additionally depending on the case, the link is stored in the
+        /// objecttree
+        /// If a expression exists, it will be evaluated with ParseExpression(ExpreContext)
+        /// </summary>
+        /// <remarks>Logger displays the mark "[Link]" and the target, displayedText and Expression if existing</remarks>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitLink(Twee.LinkContext context)
         {
             Logger.LogAnalyzer("[Link]");
-            string Ziel = "";
-            string Text = "";
-            string Expression = "";
+            string _target = "";
+            string _displayText = "";
+            string _expression = "";
+            Expression _expr;
 
-            // case: [[text|target]]
-            if (context.ChildCount == 5)
+            if (context.PIPE() != null)
             {
-                Ziel = context.GetChild(3).GetText();
-                Text = context.GetChild(1).GetText();
-                Logger.LogAnalyzer("Ziel: " + Ziel);
-                Logger.LogAnalyzer("Text: " + Text);
-                if (Ziel == "")
+                // case: [[text|target]]   
+                if (context.expression() == null)
                 {
-                    throw new Exception("passage text empty:" + Ziel);
+                    _target = context.GetChild(context.ChildCount - 2).GetText();
+                    for (int i = 1; i < (context.ChildCount - 3); i++)
+                    {
+                        _displayText = _displayText + context.GetChild(i).GetText();
+                    }
+                    Logger.LogAnalyzer("_target: " + _target);
+                    Logger.LogAnalyzer("DisplayText: " + _displayText);
+                    _builder.AddPassageContent(new PassageLink(_target, _displayText));
                 }
-                _builder.AddPassageContent(new PassageLink(Ziel, Text, false));
+
+                // case: [[text|target][expression]]
+                else
+                {
+                    _target = context.GetChild(context.ChildCount - 4).GetText();
+                    for (int i = 1; i < (context.ChildCount - 5); i++)
+                    {
+                        _displayText = _displayText + context.GetChild(i).GetText();
+                    }
+                    _expression = context.GetChild<Twee.ExpressionContext>(0).GetText().TrimEnd(']');
+                    Logger.LogAnalyzer("Target: " + _target);
+                    Logger.LogAnalyzer("DisplayText: " + _displayText);
+                    Logger.LogAnalyzer("Expression: " + _expression);
+                    _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageLink(_target, _displayText, _expr));
+                }
+
             }
 
             // case: [[target][expression]]
-            else if (context.ChildCount == 6)
+            else if (context.ChildCount == 5 && context.GetChild(3).GetText().Equals("["))
             {
-                Ziel = context.GetChild(1).GetText();
-                Expression = context.GetChild(4).GetText();
-                Logger.LogAnalyzer("Ziel: " + Ziel);
-                Logger.LogAnalyzer("Expression: " + Expression);
-                if (Ziel == "")
-                {
-                    throw new Exception("passage text empty:" + Ziel);
-                }
-                _builder.AddPassageContent(new PassageLink(Ziel, Expression, true));
-            }
-
-            // case: [[text|target][expression]]
-            else if (context.ChildCount == 8)
-            {
-                Ziel = context.GetChild(3).GetText();
-                Text = context.GetChild(1).GetText();
-                Expression = context.GetChild(6).GetText();
-                Logger.LogAnalyzer("Ziel: " + Ziel);
-                Logger.LogAnalyzer("Text: " + Text);
-                Logger.LogAnalyzer("Expression: " + Expression);
-                if (context.GetChild(2).GetText() == "")
-                {
-                    throw new Exception("passage text empty:" + Ziel);
-                }
-                _builder.AddPassageContent(new PassageLink(Ziel, Text, Expression));
+                _target = context.GetChild(1).GetText();
+                _expression = context.GetChild(4).GetText();
+                Logger.LogAnalyzer("Target: " + _target);
+                Logger.LogAnalyzer("Expression: " + _expression);
+                _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                _builder.AddPassageContent(new PassageLink(_target, _expr));
             }
 
             // case: [[target]]
             else
             {
-                Ziel = context.GetChild(1).GetText();
-                Logger.LogAnalyzer("Ziel: " + Ziel);
-                _builder.AddPassageContent(new PassageLink(Ziel));
+                _target = context.GetChild(1).GetText();
+                Logger.LogAnalyzer("Target: " + _target);
+                _builder.AddPassageContent(new PassageLink(_target));
             }
             return base.VisitLink(context);
         }
 
-        /**
-         * This function is called if a plain text is read inside a twee file.
-         * Plain text is everything except for macros, functions, variables, links,
-         * tags, format
-         * It displays the          
-         * 
-         * Parameter which is passed to the ObjectTree:
-         * @context.GetText() : Whole plain text
-         **/
+        /// <summary>
+        /// Display plain text and sets the flags for possible formats such as bold, italic, ...
+        /// Additionally the text is stored in the objecttree alongside the formats to mark the text as bold, italic, ...
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitText(Twee.TextContext context)
         {
-            String Text = context.GetChild(0).GetText();
-            if (!Text.Equals(""))  /*Solange nicht leer*/
+            String _text = context.GetChild(0).GetText();
+            if (!_text.Equals(""))  
             {
-                if (!(Text.Equals("\r\n")  /*Solange nicht NL oder Space, wirds geprintet*/
-                    || Text.Equals("\n")
-                    || Text.Equals("\r")
-                    || Text.Equals(" ")))
+                if (!(_text.Equals("\r\n") 
+                    || _text.Equals("\n")
+                    || _text.Equals("\r")
+                    || _text.Equals(" ")))
                 {
-                    switch (Text)
+                    switch (_text)
                     {
                         case "{{{":
                             _builder.CurrentFormat.Monospace = true;
@@ -192,87 +215,45 @@ namespace Twee2Z.Analyzer
                             _builder.CurrentFormat.Comment = false;
                             break;
                         default:
-                            Logger.LogAnalyzer("Text: " + Text);
-                            _builder.AddPassageContent(new PassageText(Text));
+                            Logger.LogAnalyzer("Text: " + _text);
+                            _builder.AddPassageContent(new PassageText(_text));
                             break;
                     }
                 }
                 else
                 {
-                    _builder.AddPassageContent(new PassageText(Text));
+                    _builder.AddPassageContent(new PassageText(_text));
                 }
             }
             return base.VisitText(context);
         }
 
-        /**
-         * This function is called if a variable is read inside a twee file.
-         * It displays the read variable and passes the name and value to the objecttree
-         * 
-         * Parameter which is passed to the ObjectTree:
-         * @context.GetText(): Name of the Variable
-         * @Value            : value of variable. Currently only Integer, String or Boolean
-         * 
-         **/
-        public override object VisitVariable(Twee.VariableContext context)
-        {
-            String VarName = context.GetText();
-            Logger.LogAnalyzer("\nVariable: " + VarName);
-            _builder.AddPassageContent(new PassageVariable(VarName, 0));
-            return base.VisitVariable(context);
-        }
-
-        /**
-         * This function is called if a function is read inside a twee file
-         * It displays the read function in the console and passes name and parameter 
-         * to the objecttree
-         * 
-         * Parameter which are passed to the Objecttree
-         * @function name
-         * @parameterlist
-         **/
-        public override object VisitFunction(Twee.FunctionContext context)
-        {
-            String functionName = context.GetChild(0).GetText();
-            String paramList = context.GetChild(2).GetText().Trim();
-
-            PassageFunction objectF = new PassageFunction(functionName);
-
-            Logger.LogAnalyzer("Function: " + functionName);
-
-            /*
-            if (!(_paramList.Equals(')')))
-            {
-                for (int i = 0; i < _paramList.Length; i++)
-                    objectF.addArg(_paramList[i]);
-            }
-            */
-            return base.VisitFunction(context);
-        }
-
-        /**
-         * This function is called if a macro is read inside a twee file
-         * It displays the read macro in the console.
-         **/
+        /// <summary>
+        /// Display the macro alongside the expression in the macro.
+        /// The expression is passed to ParseExpression() and
+        /// the macro is stored inside the objecttree
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override object VisitMacro(Twee.MacroContext context)
         {
             String macro = context.GetText();
             Logger.LogAnalyzer("Macro: " + macro);
 
-            Expression expr;
+            Expression _expr;
             switch (context.GetChild(1).GetText().ToLower())
             {
                 case "display":
-                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
-                    _builder.AddPassageContent(new PassageMacroDisplay(expr));
+                    _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroDisplay(_expr));
                     break;
                 case "set":
-                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
-                    _builder.AddPassageContent(new PassageMacroSet(expr));
+                    _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroSet(_expr));
                     break;
                 case "print":
-                    expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
-                    _builder.AddPassageContent(new PassageMacroPrint(expr));
+                    _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+                    _builder.AddPassageContent(new PassageMacroPrint(_expr));
                     break;
                 case "if":
                 case "endif":
@@ -286,15 +267,15 @@ namespace Twee2Z.Analyzer
         {
             _builder.AddPassageContent(new PassageMacroBranch());
 
-            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
-            _builder.AddPassageContent(new PassageMacroIf(expr));
+            Expression _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroIf(_expr));
             return base.VisitMacroBranchIf(context);
         }
 
         public override object VisitMacroBranchIfElse(Twee.MacroBranchIfElseContext context)
         {
-            Expression expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
-            _builder.AddPassageContent(new PassageMacroElseIf(expr));
+            Expression _expr = ParseExpression(context.GetChild<Twee.ExpressionContext>(0));
+            _builder.AddPassageContent(new PassageMacroElseIf(_expr));
             return base.VisitMacroBranchIfElse(context);
         }
 
@@ -304,18 +285,22 @@ namespace Twee2Z.Analyzer
             return base.VisitMacroBranchElse(context);
         }
 
-
         public override object VisitMacroBranchPop(Twee.MacroBranchPopContext context)
         {
             _builder.FinishBranch();
             return base.VisitMacroBranchPop(context);
         }
 
+        /// <summary>
+        /// Evaluate the given expression
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>value of expression</returns>
         public Expression ParseExpression(Twee.ExpressionContext context)
         {
             string text = context.GetChild(0).GetText();
-            Expression expr = ExpressionAnalyzer.Parse(text.Substring(0, text.Count() - 2));
-            return expr;
+            Expression _expr = ExpressionAnalyzer.Parse(text.Substring(0, text.Count() - 2));
+            return _expr;
         }
     }
 }

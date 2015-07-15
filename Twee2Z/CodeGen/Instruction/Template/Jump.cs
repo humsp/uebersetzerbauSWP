@@ -19,7 +19,7 @@ namespace Twee2Z.CodeGen.Instruction.Template
     /// See also "jump" on page 87 for reference.
     /// </para>
     /// </summary>
-    [DebuggerDisplay("Name = {_opcode.Name}, JumpAddress = {_jumpLabel.TargetAddress}")]
+    [DebuggerDisplay("Name = {_opcode.Name}, JumpLabelName = {_jumpLabel.Name}")]
     class Jump : ZInstruction
     {
         private ZJumpLabel _jumpLabel = null;

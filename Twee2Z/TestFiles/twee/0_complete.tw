@@ -2,34 +2,28 @@
 Your story will if display this passage first Edit it by double clicking it
 :: p1   hallo
 blablabla
-::: plinks
+::: plink's
+
+<<if 1+1>> fsad <<endif>>
+<<print true>>
 [[Link]]
 [[Text|Link]]
 [[Text|Link][3]]
+
 :::pmacros
 <<display "E">>
 <<if 5>> Text
 <<endif>>
-<<if 5eq5>> Text <<else>> Text <<endif>>
-<<if 5eq5>> Text <<else if 5eq5>> Text <<endif>>
+<<if 5 eq 5>> Text <<else>> Text <<endif>>
+<<if 5 eq 5>> Text <<else if 5 eq 5>> Text <<endif>>
 
 :: pvariable[t1  t2 t3 t4]as
 asdsdassdd
-$housesDestroyed
-$_my_favorite_color
-$AN_EXTREMELY_IMPORTANT_NUMBER
-$street8
-$i
 :: pfunctions [  t1  t2 t3   ]
-random()
-either()
-visited()
-visitedTag()
-turns()
-confirm()
-prompt()
-either()
-random($p)
-:: p6 [  .  t2 t3   ] bluub bluub
 
+:: p6 [  .  t2 t3   ] bluub bluub
+<<set $s=10>>
+[[Text|Link][$s = 10 - 5]]
+[[Text|Link][$s = 10-5]]
+[[Text|Link][$s = 10 + 5]]
 :: p7 [  . _ 1 hallo  ]

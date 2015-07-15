@@ -41,5 +41,6 @@ namespace Twee2Z.ObjectTree.Expressions.Base
             set { _expr = value; }
         }
 
+        public AssignTypeEnum AssignType { get { return _assignType; } }
     }
 }

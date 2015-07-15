@@ -22,7 +22,7 @@ namespace Twee2Z.ObjectTree.PassageContents
             get { return _subscript; }
             set { _subscript = value; }
         }
-        private bool _comment = false; // TODO extract comment
+        private bool _comment = false; 
 
         public bool Comment
         {
@@ -64,7 +64,6 @@ namespace Twee2Z.ObjectTree.PassageContents
             get { return _bold; }
             set { _bold = value; }
         }
-
 
         public PassageContentFormat Copy()
         {

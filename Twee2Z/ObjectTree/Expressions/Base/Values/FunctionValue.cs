@@ -35,7 +35,7 @@ namespace Twee2Z.ObjectTree.Expressions.Base.Values
 
         public virtual void AddArg(Expression expr)
         {
-            if (_args.Count > MaxArgCount)
+            if (_args.Count >= MaxArgCount)
             {
                 Logger.LogWarning(_functionType  + "-function can only have " + MaxArgCount + " arguments");
             }

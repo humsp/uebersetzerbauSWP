@@ -47,8 +47,14 @@
     <Compile Include="Instruction\Opcode\OpcodeHelper.cs" />
     <Compile Include="Instruction\Opcode\OpcodeTypeKind.cs" />
     <Compile Include="Instruction\Operand\OperandTypeKind.cs" />
+    <Compile Include="Instruction\Template\Mod.cs" />
+    <Compile Include="Instruction\Template\Div.cs" />
+    <Compile Include="Instruction\Template\Mul.cs" />
     <Compile Include="Instruction\Template\Jl.cs" />
     <Compile Include="Instruction\Template\Jg.cs" />
+    <Compile Include="Instruction\Template\PrintNum.cs" />
+    <Compile Include="Instruction\Template\Inc.cs" />
+    <Compile Include="Instruction\Template\Pop.cs" />
     <Compile Include="Instruction\Template\Sub.cs" />
     <Compile Include="Instruction\Template\Jz.cs" />
     <Compile Include="Instruction\Template\Je.cs" />
@@ -62,7 +68,6 @@
     <Compile Include="Instruction\Template\Load.cs" />
     <Compile Include="Instruction\Template\Push.cs" />
     <Compile Include="Instruction\Template\Pull.cs" />
-    <Compile Include="Instruction\Template\Pop.cs" />
     <Compile Include="Instruction\Template\Nop.cs" />
     <Compile Include="Instruction\Template\Random.cs" />
     <Compile Include="Instruction\Template\Store.cs" />
@@ -106,6 +111,7 @@
     <Compile Include="Table\ZObjectTable.cs" />
     <Compile Include="Instruction\ZRoutine.cs" />
     <Compile Include="Text\ZText.cs" />
+    <Compile Include="ZRoutineTable.cs" />
     <Compile Include="ZSymbolTable.cs" />
   </ItemGroup>
   <ItemGroup>

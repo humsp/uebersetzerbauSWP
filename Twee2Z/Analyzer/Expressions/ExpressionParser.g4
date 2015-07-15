@@ -2,43 +2,59 @@ parser grammar ExpressionParser;
 options {   tokenVocab = ExpressionLexer; }
 
 expression
-	//: WS* NAME TODO in link
-	: WS* expr
+	: WS* s0
 	;
 
-/* base expression  */
-expr
-	: exprRContent
-	| exprROpUnary
-	| VAR_NAME WS* assign WS* expr
-	| expr WS* op WS* expr
+s0
+	: VAR_NAME WS* assign s0
+	| s1
 	;
 
-/* expression R (right from op) */
-exprR
-	: exprROpUnary
-	| exprROp
+s1
+	: (s2 WS* opAnd s1)
+	| s2
 	;
 
-/* expression R (right from op) with op*/
-
-exprROpUnary
-	: (opUnary WS?)+ exprRContent
+s2
+	: s3 WS* opOr s2
+	| s3
 	;
 
-exprROp
-	: op WS? exprROpUnary
+s3 
+	: s4 WS* opXor s3
+	| s4
 	;
 
-exprRContent
-	: value
-	| value WS? exprR
-	| exprRBracket WS? exprR
+s4
+	: s5 WS* opCompare s4
+	| s5
 	;
 
-exprRBracket
-	: BRACKET_OPEN WS? expr WS? BRACKET_CLOSE
+s5
+	: s6 WS* opMod s5
+	| s6
 	;
+
+s6
+	: s7 WS* opPrio6 s6
+	| s7
+	;
+
+s7
+	: s8 WS* opPrio7 s7
+	| s8
+	;
+
+s8 
+	: WS* opPrio8Not s8
+	| WS* s9
+	;
+
+s9
+	: BRACKET_OPEN WS? s0 WS? BRACKET_CLOSE
+	| value
+	;
+
 
 value
 	: function
@@ -51,29 +67,7 @@ value
 	| STRING
 	;
 
-opUnary
-	: OP_SUB
-	| OP_ADD
-	| OP_LOG_NOT
-	;
-
-op
-	: OP_LOG_AND
-	| OP_LOG_OR
-	| OP_LOG_XOR
-	| OP_MUL 
-	| OP_DIV
-	| OP_MOD
-	| NEQ
-	| EQ
-	| GT
-	| GE
-	| LT
-	| LE
-	;
-
-
-/* assign */
+/* assign op prio 0*/
 assign
 	: ASSIGN_EQ
 	| ASSIGN_SUB
@@ -82,6 +76,54 @@ assign
 	| ASSIGN_DIV
 	| ASSIGN_MOD
 	;
+
+// op prio 1
+opCompare
+	: NEQ
+	| EQ
+	| GT
+	| GE
+	| LT
+	| LE
+	;
+
+// op prio 2
+opAnd
+	: OP_LOG_AND
+	;
+
+// op prio 3
+opOr
+	: OP_LOG_OR
+	;
+	
+// op prio 4
+opXor
+	: OP_LOG_XOR
+	;
+
+// op prio 5
+opMod
+	: OP_MOD
+	;
+
+// op prio 6
+opPrio6
+	: OP_SUB
+	| OP_ADD
+	;
+
+// op prio 7
+opPrio7
+	: OP_MUL 
+	| OP_DIV
+	;
+
+// op prio 8
+opPrio8Not
+	: OP_LOG_NOT
+	;
+	
 
 /* function */
 function
@@ -103,5 +145,5 @@ functionName
 	;
 
 functionArg
-	: expr
+	: s0
 	;

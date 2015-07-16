@@ -116,6 +116,8 @@ namespace Twee2Z.Console
                     break;
             }
 
+            Logger.LogUserOutput("");
+
             if (System.Diagnostics.Debugger.IsAttached)
             { 
                 Logger.LogUserOutput("Press any key to continue ...");
@@ -127,9 +129,13 @@ namespace Twee2Z.Console
         static void Compile(string from, string output)
         {
             Logger.LogUserOutput("Open twee file: " + from);
-            FileStream tweeFileStream = new FileStream(from, FileMode.Open);
+            Tree tree = null;
 
-            Tree tree = AnalyseFile(tweeFileStream);
+            using (FileStream tweeFileStream = new FileStream(from, FileMode.Open))
+            {
+                tree = AnalyseFile(tweeFileStream);
+            }
+
             if(ValidateTree(tree))
             {
                 try
@@ -137,6 +143,7 @@ namespace Twee2Z.Console
                     byte[] storyfile = GenStoryFile(tree).ToBytes();
                     Logger.LogUserOutput("Save story file: " + from);
                     File.WriteAllBytes(output, storyfile);
+                    Logger.LogUserOutput("Done!");
                 }
                 catch (Exception)
                 {

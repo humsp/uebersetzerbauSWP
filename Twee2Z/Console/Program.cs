@@ -200,7 +200,7 @@ namespace Twee2Z.Console
             Logger.LogUserOutput("          Example : -log analyzer debug");
             Logger.LogUserOutput("");
             Logger.LogUserOutput("-help     Display help message.");
-            Logger.LogUserOutput("          Example usage: -tw2z myTwee.tw zfile.z8 -logAll");
+            Logger.LogUserOutput("          Example usage: myTwee.tw zfile.z8 -logAll");
         }
     }
 }

@@ -1,133 +1,134 @@
 ﻿:: Start
-Seid gegrüßt, tapferer Held. Bereit für das Abenteuer eures Lebens? 
+Seid gegrüßt, tapferer Held. Bereit für das Abenteuer Eures Lebens? 
 
-[[Ja|Aller Anfang ist schwer]]
-[[Nein|Spazieren]]
+[[Ja.   |Aller Anfang ist schwer]]
+[[Nein.   |Spazieren]]
 :: Aller Anfang ist schwer
-Ihr kommt zur Stadtsgilde der Abenteurer. Hier findet jeder Neuling einen Rat und vielleicht auch Arbeit. Der Sekretär der Gilde kommt euch entgehen. 
-//"Seid gegrüßt, ich habe schon von einem neuen Helden in der Stadt gehört. Seid ihr es?"//
+Ihr kommt zur Stadtsgilde der Abenteurer. Hier findet jeder Neuling einen Rat und vielleicht auch Arbeit. Der Sekretär der Gilde kommt Euch entgehen. 
+//"Seid gegrüßt, ich habe schon von einem neuen Helden in der Stadt gehört. Seid Ihr es?"//
 
-[[Ja|Ratschlaege]]
-[[Nein, ich gehe jetzt weiter spazieren|Spazieren]]
+[[Ja.   |Ratschlaege]]
+[[Nein, ich gehe jetzt weiter spazieren.   |Spazieren]]
 :: Ratschlaege
-<<set $W = 0>><<set $R = 0>><<set $Magic = false>><<set $Gold = 25>>//"Dann heiße ich euch hier willkommen. Bevor ihr zu eurem Abenteuer aufbrecht, braucht ihr eine Waffe und Rüstung. Versucht es doch in der Schmiede, vielleicht findet sich dort etwas für euch. Ich hoffe ihr habt ein wenig Gold?"//
+<<set $W = 0>><<set $R = 0>><<set $T = 0>><<set $Magic = false>><<set $Gold = 25>>//"Dann heiße ich Euch hier willkommen. Bevor Ihr zu eurem Abenteuer aufbrecht, braucht Ihr eine Waffe und Rüstung. Versucht es doch in der Schmiede, vielleicht findet sich dort etwas für Euch. Ich hoffe Ihr habt ein wenig Gold?"//
 
-Ihr zählt euer Gold, es sind genau <<print $Gold>> Goldmünzen.
+Ihr zählt Euer Gold, es sind genau <<print $Gold>> Goldmünzen.
 
 //"Sehr gut! Das wird bestimmt reichen."//
 
-[[Dem Ratschlag folgen|Ueberfall]]
-[[Ratschlag nicht folgen|Vor dem Stadttor]]
+[[Dem Ratschlag folgen.   |Ueberfall]]
+[[Ratschlag nicht folgen.   |Vor dem Stadttor]]
 :: Vor dem Stadttor
-Gleich beginnt euer Abenteuer! Eine Stadtwache macht die Tore vor euch auf. 
-//"Seid ihr auch gut genug ausgerüstet, um den Gefahren hinter diesem Tor gewappnet zu sein?"//
+Gleich beginnt Euer Abenteuer! Eine Stadtwache macht die Tore vor Euch auf. 
+//"Seid Ihr auch gut genug ausgerüstet, um den Gefahren hinter diesem Tor gewappnet zu sein?"//
 
-[[Ja|Los gehts]]
-[[Nein, ich gehe zur Schmiede|Schmiede]]
+[[Ja.   |Los gehts]]
+[[Nein, ich gehe zur Schmiede.   |Schmiede]]
 :: Los gehts
-In der Stadt habt ihr gehört, dass es in der Nähe in den Sümpfen viele Hydra-Nester gibt. Die Hydras verschleppen ihre Opfer in ihre Nester, bevor sie diese auffressen. Dadurch sammelten sich in den Nestern Schätze an, welche von den Opfern in den Jahren hinterlassen wurden.
+In der Stadt habt Ihr gehört, dass es in der Nähe in den Sümpfen viele Hydra-Nester gibt. Die Hydras verschleppen ihre Opfer in ihre Nester, bevor sie diese auffressen. Dadurch sammelten sich in den Nestern Schätze an, welche von den Opfern in den Jahren hinterlassen wurden.
 
-Nicht lange und Ihr findet eins. Doch plötzlich taucht eine riesige Hydra mit 3 Köpfen vor euch auf.
+Nicht lange und Ihr findet eins. Doch plötzlich taucht eine riesige Hydra mit 3 Köpfen vor Euch auf.
 
-[[Kämpfen|Kampf]]
-[[Wegrennen|Feigling]]
+[[Kämpfen.   |Kampf]]
+[[Wegrennen.   |Feigling]]
 :: Kampf
-<<if $W is 3>>Ihr holt euer magisches Schwert heraus. Es leuchtet rot. Ihr spührt die Kraft, die durch das Schwert fließt. Ein Hieb reicht aus und alle drei Köpfe der Hydra rollen.<<set $Erfolg = true>><<else if $W is 2 and $R is 2>>Die Hydra greift euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht einen Kopf der Hydra zu erwischen, doch seid zu langsam. Euch kommt ein Gedanke: Vielleicht hättet ihr euch doch für die leichte Ausrüstung entscheiden sollen. Doch ihr verdrängt den Gedanken schnell, springt auf die Hydra zu und zerteilt deren Körper in zwei.
+<<if $W is 3>>Ihr holt Euer magisches Schwert heraus. Es leuchtet rot. Ihr spürt die Kraft, die durch das Schwert fließt. Ein Hieb reicht aus und alle drei Köpfe der Hydra rollen.<<set $Erfolg = true>><<else if $W is 2 and $R is 2>>Die Hydra greift Euch an. Ihr seid zu langsam um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht einen Kopf der Hydra zu erwischen, doch seid zu langsam. Euch kommt ein Gedanke: Vielleicht hättet Ihr Euch doch für die leichte Ausrüstung entscheiden sollen. Doch Ihr verdrängt den Gedanken schnell, springt auf die Hydra zu und zerteilt deren Körper in zwei.
 
-//"Na?! Was bringt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//<<set $Erfolg = true>><<else if $W is 1 and $R is 1>>Die Hydra greift euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht einen Kopf der Hydra zu erwischen und schafft es, doch es wächst sofort ein weiterer nach. Euch kommt ein Gedanke: Vielleicht hättet ihr euch doch für die schwere Ausrüstung entscheiden sollen.Doch ihr verdrängt den Gedanken schnell, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab.
+//"Na?! Was bringt dir jetzt, dass deine Köpfe nachwachsen können, du Monster?"//<<set $Erfolg = true>><<else if $W is 1 and $R is 1>>Die Hydra greift Euch an. Ihr seid zu schnell und weicht allen Angriffen aus. Ihr versucht einen Kopf der Hydra zu erwischen und schafft es, doch es wächst sofort ein weiterer nach. Euch kommt ein Gedanke: Vielleicht hättet Ihr Euch doch für die schwere Ausrüstung entscheiden sollen. Doch Ihr verdrängt den Gedanken schnell, springt auf die Hydra zu und schneidet in einem Ruck alle Köpfe ab.
 
-//"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//
+//"Tja, ganz ohne Kopf wächst wohl auch keiner nach!"//<<set $Erfolg = true>>
 
-[[Nach dem Schatz suchen|Schatz]]<<else if $W is 1 and $R is 2>>Die Hydra greift euch an. Ihr seid zu langsam, um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht einen Kopf der Hydra zu erwischen und schaft es, doch es wächst sofort ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine passende Rüstung zur Waffe kaufen sollen.
+<<else if $W is 1 and $R is 2>>Die Hydra greift Euch an. Ihr seid zu langsam, um auszuweichen, doch die schwere Rüstung hält stand. Ihr versucht einen Kopf der Hydra zu erwischen und schafft es, doch es wächst sofort ein neuer nach. Ihr schaft es nicht alle Köpfe abzuschlagen, bevor die anderen nachwachsen. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine passende Rüstung zur Waffe kaufen sollen.
 
 Der Kampf dauert zu lange. Ihr werdet immer langsamer, das Gewicht der Rüstung immer bemerkbarer.
-Alles oder nichts! Ihr springt auf die Hydra zu und fuchtelt wild mit dem Schwert um euch herum. Durch einen glücklichen Zufall erwischt ihr alle Köpfe. Ihr fallt vor Müdigkeit ohnmächtig um ... nach einiger Zeit wacht ihr wieder auf.<<set $Erfolg = true>><<else if $W is 2 and $R is 1>>Die Hydra greift euch an. Ihr seid nicht schnell genug, da eure Axt viel zu schwer ist und ihr so nicht allen Angriffen ausweichen könnt. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine passende Rüstung zur Waffe kaufen sollen.
+Alles oder nichts! Ihr springt auf die Hydra zu und fuchtelt wild mit dem Schwert um Euch herum. Durch einen glücklichen Zufall erwischt Ihr alle Köpfe. Ihr fallt vor Müdigkeit ohnmächtig um ... nach einiger Zeit wacht Ihr wieder auf.<<set $Erfolg = true>><<else if $W is 2 and $R is 1>>Die Hydra greift Euch an. Ihr seid nicht schnell genug, da eure Axt viel zu schwer ist und Ihr so nicht allen Angriffen ausweichen könnt. Ihr hättet doch dem Rat des Schmieds folgen sollen und eine passende Rüstung zur Waffe kaufen sollen.
 
-Ihr versucht einen Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlussendlich springt ihr auf die Hydra zu und zerteilt deren Körper in zwei. Ihr fallt ohnmächtig um ... nach einiger Zeit wacht Ihr wieder auf.<<set $Erfolg = true>><<else>>Ihr seid nicht genügend ausgerüstet.<<set $Erfolg = false>><<endif>>
+Ihr versucht einen Kopf der Hydra zu erwischen, doch seid zu langsam. Der Kampf dauert lange, doch schlussendlich springt Ihr auf die Hydra zu und zerteilt deren Körper in zwei. Ihr fallt ohnmächtig um ... nach einiger Zeit wacht Ihr wieder auf.<<set $Erfolg = true>><<else>>Ihr seid nicht genügend ausgerüstet.<<set $Erfolg = false>><<endif>>
 
-[[Weiter|Schatz]]
+[[Weiter.   |Schatz]]
 :: Eine gute Tat
-<<if $W is 0>>Ihr holt euer Gold heraus und gebt es dem Bettler. Der Bettler steht auf und schaut euch beurteilend an. Plötlich lacht er. 
+<<if $W is 0>>Ihr holt Euer Gold heraus und gebt es dem Bettler. Der Bettler steht auf und schaut Euch beurteilend an. Plötzlich lacht er. 
 
 //"Ihr seid wahrlich der Richtige!"//
 
-Der Bettler wirft seinen alten Mantel weg. Darunter seht ihr eine unglaubliche Mithrilrüstung glänzen. Ihr schaut nochmals auf ihn und erkennt die Person.
+Der Bettler wirft seinen alten Mantel weg. Darunter seht Ihr eine unglaubliche Mithrilrüstung glänzen. Ihr schaut nochmals auf ihn und erkennt die Person.
 Vor Euch steht Beot, ein Held, dessen Beispiel alle jungen Abenteurer folgen. Er bekämpft die Monster im Ödland schon seit Jahrzehnten.
 
-//"Es kommt euch bestimmt seltsam vor, doch ich bin schon alt, habe eine Familie und so viel Gold, dass ich es nie im Leben ausgeben könnte. Deswegen suche ich seit langem nach einem Helden, dem ich mein magisches Schwert vermachen kann. Nehmt es, dieses Schwert wird euch helfen, meine einstigen Leistungen in den Schatten zu stellen."//
+//"Es kommt Euch bestimmt seltsam vor, doch ich bin schon alt, habe eine Familie und so viel Gold, dass ich es nie im Leben ausgeben könnte. Deswegen suche ich seit langem nach einem Helden, dem ich mein magisches Schwert vermachen kann. Nehmt es, dieses Schwert wird Euch helfen, meine einstigen Leistungen in den Schatten zu stellen."//
 
 Ihr nehmt dieses großzügige Geschenk an.<<set $W = 3>><<set $Magic = true>><<else>>Ihr steht vor der Schmiede. Niemand ist hier.<<endif>>
-[[Zum Stadtor|Vor dem Stadttor]]
-[[Weiter zur Schmiede|Schmiede]]
+[[Zum Stadtor.   |Vor dem Stadttor]]
+[[Weiter zur Schmiede.   |Schmiede]]
 :: StoryTitle
 Das Hydra-Abenteuer
 :: Spazieren
-Ihr habt Euch entschieden, erst ein wenig spazieren zu gehen. Die Stadt Dion, in der ihr euch befindet, liegt an der Grenze zum nördlichen Ödland. Ihr bleibt auf der Stadtmauer stehen. Vor euch liegen wilde und ungezähmte Ländereien, voller schrecklicher Monster und unglaublicher Schätze ...
+Ihr habt Euch entschieden, erst ein wenig spazieren zu gehen. Die Stadt Dion, in der Ihr Euch befindet, liegt an der Grenze zum nördlichen Ödland. Ihr bleibt auf der Stadtmauer stehen. Vor Euch liegen wilde und ungezähmte Ländereien, voller schrecklicher Monster und unglaublicher Schätze ...
 
 Es wird Zeit, sich in das Abenteuer zu stürzen!
 
-[[Zurück zum Abenteuer|Aller Anfang ist schwer]]
+[[Zurück zum Abenteuer.   |Aller Anfang ist schwer]]
 :: Ueberfall
-Ihr folgt dem Rat des Gildensekretärs und geht zur Schmiede. Fast schon vor der Tür der Schmiede werdet Ihr plötzlich von einem kleinem Goblin überrannt. Er reißt euer Goldsäckchen vom Gürtel und rennt davon.<<set $Gold = 0>>
+Ihr folgt dem Rat des Gildensekretärs und geht zur Schmiede. Fast schon vor der Tür der Schmiede werdet Ihr plötzlich von einem kleinen Goblin überrannt. Er reißt Euer Geldbeutel vom Gürtel und rennt davon.<<set $Gold = 0>>
 
-[[Den Dieb verfolgen|Dieb]]
-[[Weiter zur Schmiede|Schmiede]]
+[[Den Dieb verfolgen.   |Dieb]]
+[[Weiter zur Schmiede.   |Schmiede]]
 :: Feigling
 Ihr wollt einer Hydra im Sumpf entkommen? Ihr wisst anscheinend nichts über Hydras. In den Sümpfen können sie sich sehr schnell bewegen.
 
-[[Es dennoch versuchen|GameOver]]
-[[Kämpfen|Kampf]]
+[[Es dennoch versuchen.   |GameOver]]
+[[Kämpfen.   |Kampf]]
 :: Schatz
-<<if $Erfolg>>Da ist er, der Schatz der Hydra! Einige Edelsteine, Gold ... ja, so habt ihr es euch vorgestellt.<<else>>Ihr kämpft tapfer, doch sterbt. Aber die Menschen dieses Landes werden eure Tapferheit nicht vergessen!<<endif>>
+<<if $Erfolg>>Da ist er, der Schatz der Hydra! Einige Edelsteine, Gold ... ja, so habt Ihr es Euch vorgestellt.<<else>>Ihr kämpft tapfer, doch sterbt. Aber die Menschen dieses Landes werden Eure Tapferheit nicht vergessen!<<endif>>
 
 [[Das Abenteuer hat begonnen ...|GameOver]]
 :: Ruestung
-<<if $R is 0>>Leichte Rüstung ist eine gute Wahl. Sie passt am besten zur leichten Waffen, damit könntet ihr euch sehr schnell bewegen und den gegnerischen Angriffen ausweichen.
+<<if $R is 0>>Leichte Rüstung ist eine gute Wahl. Sie passt am besten zur leichten Waffen, damit könntet Ihr Euch sehr schnell bewegen und den gegnerischen Angriffen ausweichen.
 
-Eine Schwere Rüstung ist aber auch nicht schlecht. Sie passt am besten zur schweren Waffe. Da ihr euch bei dem Gewicht nicht wirklich schnell bewegen könnt, braucht Ihr eine Rüstung die auch mal paar Schläge aushält.<<else>>Ihr habt schon eine Rüstung und braucht keine andere.<<endif>>
+Eine Schwere Rüstung ist aber auch nicht schlecht. Sie passt am besten zur schweren Waffe. Da Ihr Euch bei dem Gewicht nicht wirklich schnell bewegen könnt, braucht Ihr eine Rüstung die auch mal paar Schläge aushält.<<else>>Ihr habt schon eine Rüstung und braucht keine andere.<<endif>>
 
-[[Leichte Rüstung für 10 Gold kaufen|RuestungOK][$R = 1]]
-[[Schwere Rüstung für 10 Gold kaufen|RuestungOK][$R = 2]]
-[[Zum Stadtstor|Vor dem Stadttor]]
+[[Leichte Rüstung für 10 Gold kaufen.   |RuestungOK][$T = 1]]
+[[Schwere Rüstung für 10 Gold kaufen.   |RuestungOK][$T = 2]]
+[[Zum Stadtstor.   |Vor dem Stadttor]]
 :: RuestungOK
-<<if $Gold > 10>><<set $Gold = $Gold - 10>>Gratuliere, ihr habt jetzt eine Rüstung!<<else>><<set $R = 3>>Ihr habt nicht genug Gold.<<endif>>
+<<if $Gold > 9>><<set $Gold = $Gold - 10>>Gratuliere, Ihr habt jetzt eine Rüstung!<<set $R = $T>><<else>>Ihr habt nicht genug Gold.<<endif>>
 
-[[Zum Stadtstor|Vor dem Stadttor]]
+[[Zum Stadtstor.   |Vor dem Stadttor]]
 :: StoryAuthor
 Twee2Z-Team
-:: Vor der Schmide
+:: Vor der Schmiede
 Ihr seid wieder vor der Schmiede. Vor der Tür sitzt ein Bettler.
 
-//"Mylord, bitte, meine Familie, bitte ... ihr müsst mir helfen. Wenn ich bis heute Abend keine 20 Gold zusammen habe, kann ich für die Heilung meiner kleinen Tochter nicht zahlen. Ihr würdet das Gold auch zurückkriegen, ich flehe euch an!"//
+//"Mylord, bitte, meine Familie, bitte ... Ihr müsst mir helfen. Wenn ich bis heute Abend keine 20 Gold zusammen habe, kann ich für die Heilung meiner kleinen Tochter nicht zahlen. Ihr würdet das Gold auch zurückkriegen, ich flehe Euch an!"//
 
-[[Dem Bettler 20 Gold geben|Eine gute Tat][$Gold = $Gold - 20]]
-[[Weitergehen|Schmiede]]
+[[Dem Bettler 20 Gold geben.   |Eine gute Tat][$Gold = $Gold - 20]]
+[[Weitergehen.   |Schmiede]]
 :: Dieb
 <<set $Dieb = true>>Ihr rennt dem Dieb hinterher, habt ihn schnell eingeholt und in die Enge getrieben.<<set $Boom = 0>> Was wollt Ihr jetzt tun?
 
-[[Zu Reden versuchen|Diplomat]]
-[[Den Dieb verprügeln|Kaempfer]]
+[[Zu Reden versuchen.   |Diplomat]]
+[[Den Dieb verprügeln.   |Kaempfer]]
 :: Schmiede
 Ihr kommt in die Schmiede. Unzählige Rüstungen, Schwerter und Äxte glänzen in den Vitrinen.
 
 <<if $Gold < 10>>Ihr habt nur <<print $Gold>> Goldmünzen, das ist leider nicht genug um etwas in der Schmiede zu kaufen.<<endif>>
 
-[[Waffe aussuchen|Waffe]]
-[[Zum Stadttor|Vor dem Stadttor]]
-[[Zurück|previous()]]
+[[Die Waren anschauen.   |Waffe]]
+[[Zum Stadttor.   |Vor dem Stadttor]]
+[[Zurück.   |previous()]]
 :: Waffe
-<<if $W is 0>>Leichte Schwerter sind eine gute Wahl. Sie passen am besten zur leichten Rüstung, denn damit könntet ihr euch sehr schnell bewegen und eure Gegner buchstäblich auseinander nehmen.
+<<if $W is 0>>Leichte Schwerter sind eine gute Wahl. Sie passen am besten zur leichten Rüstung, denn damit könntet Ihr Euch sehr schnell bewegen und Eure Gegner buchstäblich auseinander nehmen.
 
-Eine schwere Axt ist aber auch nicht schlecht. Ein Treffer davon und der Gegner erholt sich nicht so schnell davon. Sie passt am besten zur schwerer Rüstung, da Ihr euch bei dem Gewicht nicht wirklich schnell bewegen könnt.<<else>>Ihr habt schon eine Waffe und braucht keine andere.<<endif>>
+Eine schwere Axt ist aber auch nicht schlecht. Ein Treffer und der Gegner erholt sich nicht so schnell davon. Sie passt am besten zur schwerer Rüstung, da Ihr Euch bei dem Gewicht nicht wirklich schnell bewegen könnt.<<else>>Ihr habt schon eine Waffe und braucht keine andere.<<endif>>
 
-[[Zwei leichte Schwerter für 10 Gold kaufen.|WaffeOK][$W = 1]]
-[[Eine schwere Axt für 10 Gold kaufen.|WaffeOK][$W = 2]]
-[[Nichts kaufen|Schmiede]]
+[[Zwei leichte Schwerter für 10 Gold kaufen.   |WaffeOK][$T = 1]]
+[[Eine schwere Axt für 10 Gold kaufen.   |WaffeOK][$T = 2]]
+[[Nichts kaufen.   |Schmiede]]
+<<if $W is 0>>[[Rüstung aussuchen.   |Ruestung]]<<endif>>
 :: WaffeOK
-<<if $Gold > 10>><<set $Gold = $Gold - 10>>Gratuliere! Ihr habt jetzt eine Waffe!<<else>><<set $W = 0>><<if $Magic>><<set $W = 3>><<endif>>Ihr habt nicht genug Gold.<<endif>>
+<<if $Gold > 9>><<set $Gold = $Gold - 10>>Gratuliere! Ihr habt jetzt eine Waffe!<<set $W = $T>><<else>><<if $Magic>><<set $W = 3>><<endif>>Ihr habt nicht genug Gold.<<endif>>
 
-[[Rüstung aussuchen|Ruestung]]
-[[Zum Stadttor|Vor dem Stadttor]]
+[[Rüstung aussuchen.   |Ruestung]]
+[[Zum Stadttor.   |Vor dem Stadttor]]
 :: Diplomat
 //"Rück mein Gold raus!"//
 
@@ -135,41 +136,41 @@ Eine schwere Axt ist aber auch nicht schlecht. Ein Treffer davon und der Gegner 
 
 Tja das war wohl nichts mit der Diplomatie.
 
-[[Den Dieb verprügeln|Kaempfer]]
+[[Den Dieb verprügeln.   |Kaempfer]]
 :: Kaempfer
 //"...oh...ah...nein...ah...uaueuue.."//
 
-Der Goblin rückt euer Gold raus.<<set $Gold = 25>>
+Der Goblin rückt Euer Gold raus.<<set $Gold = 25>>
 
-[[Weiter verprügeln|Wache]]
-[[Loslassen|Vor der Schmide]]
+[[Weiter verprügeln.   |Wache]]
+[[Loslassen.   |Vor der Schmiede]]
 :: GameOver
 //"It's over ... the game is over ... Game Over."//
 
-[[Replay|Start]]
+[[Replay?   |Start]]
 :: Wache
-Ihr prügelt weiter auf den Dieb ein. Plötzlich kommt die Stadtswache angerannt. Sie umzingeln euch. Ihr versucht ihnen zu erklären, dass der Goblin euch bestollen hat, doch sie wollen nichts hören.
+Ihr prügelt weiter auf den Dieb ein. Plötzlich kommt die Stadtswache angerannt. Sie umzingeln Euch. Ihr versucht ihnen zu erklären, dass der Goblin Euch bestohlen hat, doch sie wollen nichts hören.
 
 //"Was seid Ihr für ein grausamer Mensch?! Ihr prügelt den Goblin ja zu Tode! In dieser Stadt haben auch Goblins Rechte."//
 
-Ihr besitzt zurzeit <<print $Gold>> Gold
+Ihr besitzt zurzeit <<print $Gold>> Gold.
 
-[[Die Stafe von 5 Gold zahlen|Vor der Schmide][$Gold = $Gold - 5]]
-[[In den Knast gehen|Knast]]
-[[Versuchen zu kämpfen|Tod]]
+[[Die Stafe von 5 Gold zahlen.   |Vor der Schmiede][$Gold = $Gold - 5]]
+[[In den Knast gehen.   |Knast]]
+[[Versuchen zu kämpfen.   |Tod]]
 :: Tod
-Ihr habt weder eine Waffe, noch eine Rüstung. Das wäre zu töricht, euch mehreren Wachen entgegenzustellen. Ihr würdet sterben und keiner wird sich jemals an Euch erinnern. Wollt ihr es euch anders überlegen?
+Ihr habt weder eine Waffe, noch eine Rüstung. Das wäre zu töricht, Euch mehreren Wachen entgegenzustellen. Ihr würdet sterben und keiner wird sich jemals an Euch erinnern. Wollt Ihr es Euch anders überlegen?
 
-Ihr besitzt zurzeit <<print $Gold>> Gold
+Ihr besitzt zurzeit <<print $Gold>> Gold.
 
-[[Die Stafe von 5 Gold zahlen|Vor der Schmide][$Gold = $Gold - 5]]
-[[In den Knast gehen|Knast]]
-[[Nein|GameOver]]
+[[Die Stafe von 5 Gold zahlen.   |Vor der Schmiede][$Gold = $Gold - 5]]
+[[In den Knast gehen.   |Knast]]
+[[Nein.   |GameOver]]
 :: Knast
-Ihr würdet euch auf die Gnade der Wachen verlassen. Aber keiner würde euch aus dem Knast rausholen, es kennt euch doch keiner. Wollt ihr es euch anders überlegen?
+Ihr würdet Euch auf die Gnade der Wachen verlassen. Aber keiner würde Euch aus dem Knast rausholen, es kennt Euch doch keiner. Wollt Ihr es Euch anders überlegen?
 
-Ihr besitzt zurzeit <<print $Gold>> Gold
+Ihr besitzt zurzeit <<print $Gold>> Gold.
 
-[[Die Stafe von 5 Gold zahlen|Vor der Schmide][$Gold = $Gold - 5]]
-[[Versuchen zu kämpfen|Tod]]
-[[Nein|GameOver]]
+[[Die Stafe von 5 Gold zahlen.   |Vor der Schmiede][$Gold = $Gold - 5]]
+[[Versuchen zu kämpfen.   |Tod]]
+[[Nein.   |GameOver]]

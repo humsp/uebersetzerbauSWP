@@ -8,7 +8,7 @@ The resulting Z-code can be executed with Z-machines like [Frotz](http://frotz.s
 
 ### Usage
 
-    Usage: -tw2z  <source> <destination> -log <arg1> <arg2>
+    Usage:  <source> <destination> -log <arg1> <arg2>
     
      -logAll    Activate all logs.
      -log       Activate specific logs. Possible arguments:

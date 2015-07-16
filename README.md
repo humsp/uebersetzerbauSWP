@@ -16,7 +16,7 @@ The resulting Z-code can be executed with Z-machines like [Frotz](http://frotz.s
                 Input   : -log <arg1> <arg2> ...
                 Example : -log analyzer debug
      -help      Display help message.
-                Example usage: -tw2z myTwee.tw zfile.z8 -logAll
+                Example usage: myTwee.tw zfile.z8 -logAll
 
 ##Release location 
     TODO
